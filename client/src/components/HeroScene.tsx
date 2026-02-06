@@ -206,7 +206,7 @@ function Connector({
 }
 
 // ─── PARTICLE FIELD: Tiny floating dots ───
-function ParticleField({ count = 120 }) {
+function ParticleField({ count = 90 }) {
   const ref = useRef<THREE.Points>(null);
 
   const positions = useMemo(() => {
@@ -214,7 +214,7 @@ function ParticleField({ count = 120 }) {
     for (let i = 0; i < count; i++) {
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(2 * Math.random() - 1);
-      const r = 3 + Math.random() * 3;
+      const r = 2.4 + Math.random() * 2.4;
       pos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
       pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
       pos[i * 3 + 2] = r * Math.cos(phi);
@@ -238,7 +238,7 @@ function ParticleField({ count = 120 }) {
       </bufferGeometry>
       <pointsMaterial
         color={EMERALD}
-        size={0.015}
+        size={0.012}
         transparent
         opacity={0.4}
         sizeAttenuation
@@ -257,7 +257,7 @@ function Mechanism() {
     const count = 8;
     for (let i = 0; i < count; i++) {
       const angle = (i / count) * Math.PI * 2;
-      const r = 2.2;
+      const r = 1.8;
       const yOffset = (i % 2 === 0 ? 0.3 : -0.3) + Math.sin(angle) * 0.2;
       const baseSize = 0.25 + Math.random() * 0.15;
       items.push({
@@ -292,13 +292,13 @@ function Mechanism() {
   });
 
   return (
-    <group ref={groupRef}>
+    <group ref={groupRef} scale={0.9}>
       <Core />
 
       {/* Orbital rings at different tilts */}
-      <OrbitalRing radius={1.8} tube={0.015} tilt={0.3} rotationSpeed={0.05} />
-      <OrbitalRing radius={2.6} tube={0.01} tilt={-0.5} rotationSpeed={-0.03} />
-      <OrbitalRing radius={3.2} tube={0.008} tilt={0.8} rotationSpeed={0.02} />
+      <OrbitalRing radius={1.35} tube={0.012} tilt={0.3} rotationSpeed={0.05} />
+      <OrbitalRing radius={2.0} tube={0.01} tilt={-0.5} rotationSpeed={-0.03} />
+      <OrbitalRing radius={2.45} tube={0.008} tilt={0.8} rotationSpeed={0.02} />
 
       {/* Floating modules */}
       {modules.map((m, i) => (
@@ -330,8 +330,8 @@ function CameraRig() {
   useFrame((state) => {
     const t = state.clock.elapsedTime;
     // Gentle camera breathing
-    camera.position.x = Math.sin(t * 0.1) * 0.3;
-    camera.position.y = Math.cos(t * 0.08) * 0.2 + 0.5;
+    camera.position.x = Math.sin(t * 0.1) * 0.25;
+    camera.position.y = Math.cos(t * 0.08) * 0.18 + 0.45;
     camera.lookAt(0, 0, 0);
   });
 
@@ -343,7 +343,7 @@ export function HeroScene() {
   return (
     <div className="w-full h-full" style={{ minHeight: '100%' }}>
       <Canvas
-        camera={{ position: [0, 0.5, 6], fov: 40 }}
+        camera={{ position: [0, 0.45, 7.2], fov: 42 }}
         dpr={[1, 2]}
         gl={{
           antialias: true,
@@ -377,12 +377,7 @@ export function HeroScene() {
           <Bloom
             luminanceThreshold={0.3}
             luminanceSmoothing={0.9}
-            intensity={0.8}
-          />
-          <ChromaticAberration
-            offset={new THREE.Vector2(0.0005, 0.0005)}
-            radialModulation={false}
-            modulationOffset={0}
+            intensity={0.6}
           />
           <Vignette eskil={false} offset={0.15} darkness={0.6} />
         </EffectComposer>
