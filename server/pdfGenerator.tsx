@@ -59,31 +59,23 @@ export async function generateAndEmailPDF(data: CalculatorData) {
     </p>
     
     <p style="font-size: 16px; color: #0a0a0f; line-height: 1.6; margin: 0 0 30px 0;">
-      <strong style="color: #ef4444;">$${annualWaste.toLocaleString()} wasted this year</strong> on work your team shouldn't be doing.
-    </p>
-    
-    <p style="font-size: 16px; color: #0a0a0f; line-height: 1.6; margin: 0 0 10px 0;">
-      Here's what happens next:
+      Your team is spending <strong style="color: #059669;">$${annualWaste.toLocaleString()}/year</strong> on work that a system should handle.
     </p>
     
     <p style="font-size: 16px; color: #0a0a0f; line-height: 1.6; margin: 0 0 30px 0;">
-      You keep paying. The work stays the same. Your competitors figure it out first.
+      Your full breakdown is attached — it shows exactly where the hours go and what it would look like to get them back.
     </p>
     
     <p style="font-size: 16px; color: #0a0a0f; line-height: 1.6; margin: 0 0 30px 0;">
-      <strong>Or</strong> - you let us find what's wasting the time. Takes 15 minutes. We will show you the exact fixes.
-    </p>
-    
-    <p style="font-size: 16px; color: #0a0a0f; line-height: 1.6; margin: 0 0 30px 0;">
-      Your breakdown is attached.
+      If you want to see which 2–3 workflows are burning the most time and what the fix looks like, we can walk through it in 15 minutes.
     </p>
     
     <p style="margin: 0 0 40px 0;">
       <a href="${calendlyUrl}" 
-         style="display: inline-block; background: #3b82f6; color: #ffffff; 
+         style="display: inline-block; background: #059669; color: #ffffff; 
                 padding: 14px 32px; text-decoration: none; border-radius: 6px; 
                 font-weight: 600; font-size: 15px;">
-        Book here →
+        Book a 15-min walkthrough →
       </a>
     </p>
     

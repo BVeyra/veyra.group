@@ -1,26 +1,30 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 
+// ─────────────────────────────────────────────
+// ALL HEX — @react-pdf does NOT support rgba()
+// Values pre-blended on #0A0F0A background
+// ─────────────────────────────────────────────
 const C = {
   bg: '#0A0F0A',
   green: '#059669',
-  greenSoft: 'rgba(5, 150, 105, 0.5)',
-  greenFaint: 'rgba(5, 150, 105, 0.15)',
-  greenGhost: 'rgba(5, 150, 105, 0.08)',
-  greenCTA: 'rgba(5, 150, 105, 0.12)',
+  greenSoft: '#08533A',
+  greenFaint: '#092318',
+  greenGhost: '#0A1A12',
+  greenCTA: '#091F15',
   white: '#FFFFFF',
-  text90: 'rgba(255, 255, 255, 0.92)',
-  text70: 'rgba(255, 255, 255, 0.7)',
-  text50: 'rgba(255, 255, 255, 0.5)',
-  text30: 'rgba(255, 255, 255, 0.3)',
-  text15: 'rgba(255, 255, 255, 0.15)',
-  text08: 'rgba(255, 255, 255, 0.08)',
-  text04: 'rgba(255, 255, 255, 0.04)',
+  text90: '#EBEBEB',
+  text70: '#B6B9B6',
+  text50: '#848884',
+  text30: '#545754',
+  text15: '#2F322F',
+  text08: '#1E201E',
+  text04: '#141614',
 };
 
 const s = StyleSheet.create({
   page: {
-    padding: 48,
+    padding: 40,
     backgroundColor: C.bg,
     color: C.white,
     fontFamily: 'Helvetica',
@@ -28,96 +32,90 @@ const s = StyleSheet.create({
     flexDirection: 'column',
     height: '100%',
   },
-  logo: { flexDirection: 'row', marginBottom: 32 },
-  logoW: { fontSize: 16, fontWeight: 'bold', color: C.white, letterSpacing: -0.3 },
-  logoG: { fontSize: 16, fontWeight: 'bold', color: C.green, letterSpacing: -0.3 },
-  h1: { fontSize: 26, fontWeight: 'bold', color: C.white, lineHeight: 1.2, marginBottom: 6 },
+  logo: { flexDirection: 'row', marginBottom: 24 },
+  logoW: { fontSize: 14, fontWeight: 'bold', color: C.white, letterSpacing: -0.3 },
+  logoG: { fontSize: 14, fontWeight: 'bold', color: C.green, letterSpacing: -0.3 },
+  h1: { fontSize: 24, fontWeight: 'bold', color: C.white, lineHeight: 1.2, marginBottom: 4 },
   h1Green: { color: C.green },
-  subtitle: { fontSize: 10, color: C.text50, lineHeight: 1.6, marginBottom: 28 },
-  metaLabel: { fontSize: 7, color: C.text30, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 3 },
-  metaValue: { fontSize: 12, fontWeight: 'bold', color: C.text90, marginBottom: 24 },
-  card: { borderWidth: 1, borderColor: C.greenFaint, borderRadius: 16, padding: 22, marginBottom: 14 },
-  statRow: { flexDirection: 'row', marginBottom: 16 },
+  subtitle: { fontSize: 9.5, color: C.text50, lineHeight: 1.6, marginBottom: 20 },
+  metaLabel: { fontSize: 6.5, color: C.text30, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 2 },
+  metaValue: { fontSize: 11, fontWeight: 'bold', color: C.text90, marginBottom: 16 },
+  card: { borderWidth: 1, borderColor: C.greenFaint, borderRadius: 14, padding: 16, marginBottom: 10 },
+  statRow: { flexDirection: 'row', marginBottom: 12 },
   statBox: {
-    flex: 1, borderWidth: 1, borderColor: C.greenFaint, borderRadius: 12,
-    padding: 16, alignItems: 'center', marginHorizontal: 3,
+    flex: 1, borderWidth: 1, borderColor: C.greenFaint, borderRadius: 10,
+    padding: 12, alignItems: 'center', marginHorizontal: 3,
   },
-  statLabel: { fontSize: 6.5, color: C.text30, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6 },
-  statNum: { fontSize: 28, fontWeight: 'bold', color: C.green },
-  statUnit: { fontSize: 7, color: C.text30, marginTop: 3 },
-  label: { fontSize: 7, color: C.green, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 10 },
+  statLabel: { fontSize: 6, color: C.text30, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4 },
+  statNum: { fontSize: 24, fontWeight: 'bold', color: C.green },
+  statUnit: { fontSize: 6.5, color: C.text30, marginTop: 2 },
+  label: { fontSize: 6.5, color: C.green, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 8 },
   row: {
     flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
-    paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: C.text08,
+    paddingVertical: 6, borderBottomWidth: 1, borderBottomColor: C.text08,
   },
   rowLast: {
-    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 8,
+    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 6,
   },
-  rowLabel: { fontSize: 10, color: C.text50 },
-  rowVal: { fontSize: 10, fontWeight: 'bold', color: C.text90 },
-  rowValGreen: { fontSize: 12, fontWeight: 'bold', color: C.green },
+  rowLabel: { fontSize: 9.5, color: C.text50 },
+  rowVal: { fontSize: 9.5, fontWeight: 'bold', color: C.text90 },
+  rowValGreen: { fontSize: 11, fontWeight: 'bold', color: C.green },
   accentBox: {
     backgroundColor: C.greenCTA, borderWidth: 1.5, borderColor: C.greenSoft,
-    borderRadius: 14, padding: 16, alignItems: 'center', marginBottom: 14,
+    borderRadius: 12, padding: 14, alignItems: 'center', marginBottom: 10,
   },
-  accentLabel: { fontSize: 7, color: C.green, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4 },
-  accentValue: { fontSize: 26, fontWeight: 'bold', color: C.green },
-  table: { borderWidth: 1, borderColor: C.greenFaint, borderRadius: 14, overflow: 'hidden', marginBottom: 16 },
+  accentLabel: { fontSize: 6.5, color: C.green, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 3 },
+  accentValue: { fontSize: 24, fontWeight: 'bold', color: C.green },
+  table: { borderWidth: 1, borderColor: C.greenFaint, borderRadius: 12, overflow: 'hidden', marginBottom: 10 },
   tHead: { flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: C.text08 },
-  tHeadLabel: { flex: 1.5, padding: 12 },
-  tHeadCell: { flex: 1, padding: 12, alignItems: 'center' },
-  tHeadText: { fontSize: 6.5, color: C.text30, textTransform: 'uppercase', letterSpacing: 1, fontWeight: 'bold' },
+  tHeadLabel: { flex: 1.5, padding: 10 },
+  tHeadCell: { flex: 1, padding: 10, alignItems: 'center' },
+  tHeadText: { fontSize: 6, color: C.text30, textTransform: 'uppercase', letterSpacing: 1, fontWeight: 'bold' },
   tRow: { flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: C.text08 },
   tRowLast: { flexDirection: 'row' },
-  tCellLabel: { flex: 1.5, padding: 12, justifyContent: 'center' },
-  tCell: { flex: 1, padding: 12, alignItems: 'center', justifyContent: 'center' },
+  tCellLabel: { flex: 1.5, padding: 10, justifyContent: 'center' },
+  tCell: { flex: 1, padding: 10, alignItems: 'center', justifyContent: 'center' },
   tCellDim: { backgroundColor: C.text04 },
   tCellGreen: { backgroundColor: C.greenGhost },
-  tLabelText: { fontSize: 9, color: C.text50 },
-  tValDim: { fontSize: 13, fontWeight: 'bold', color: C.text50 },
-  tValGreen: { fontSize: 13, fontWeight: 'bold', color: C.green },
+  tLabelText: { fontSize: 8.5, color: C.text50 },
+  tValDim: { fontSize: 12, fontWeight: 'bold', color: C.text50 },
+  tValGreen: { fontSize: 12, fontWeight: 'bold', color: C.green },
   numItem: {
     flexDirection: 'row', alignItems: 'flex-start', borderWidth: 1, borderColor: C.text08,
-    borderRadius: 12, padding: 14, marginBottom: 6,
+    borderRadius: 10, padding: 12, marginBottom: 5,
   },
   numCircle: {
-    width: 22, height: 22, borderRadius: 11, borderWidth: 1, borderColor: C.greenFaint,
-    alignItems: 'center', justifyContent: 'center', marginRight: 12, marginTop: 1,
+    width: 20, height: 20, borderRadius: 10, borderWidth: 1, borderColor: C.greenFaint,
+    alignItems: 'center', justifyContent: 'center', marginRight: 10, marginTop: 1,
   },
-  numText: { fontSize: 8, color: C.green, fontWeight: 'bold' },
+  numText: { fontSize: 7.5, color: C.green, fontWeight: 'bold' },
   numContent: { flex: 1 },
-  numTitle: { fontSize: 10, fontWeight: 'bold', color: C.text90, marginBottom: 2 },
-  numDesc: { fontSize: 8.5, color: C.text50, lineHeight: 1.5 },
+  numTitle: { fontSize: 9.5, fontWeight: 'bold', color: C.text90, marginBottom: 2 },
+  numDesc: { fontSize: 8, color: C.text50, lineHeight: 1.5 },
   step: {
     backgroundColor: C.greenGhost, borderWidth: 1, borderColor: C.greenFaint,
-    borderRadius: 12, padding: 14, marginBottom: 6,
+    borderRadius: 10, padding: 12, marginBottom: 5,
   },
-  stepLabel: { fontSize: 7, color: C.green, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4 },
-  stepTitle: { fontSize: 10, fontWeight: 'bold', color: C.white, marginBottom: 2 },
-  stepDesc: { fontSize: 8.5, color: C.text50, lineHeight: 1.5 },
-  tlItem: { flexDirection: 'row', alignItems: 'flex-start', marginBottom: 12 },
-  tlDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: C.green, marginTop: 4, marginRight: 12 },
-  tlTitle: { fontSize: 10, fontWeight: 'bold', color: C.text90, marginBottom: 1 },
-  tlDesc: { fontSize: 8.5, color: C.text50 },
-  // Agitation block
+  stepLabel: { fontSize: 6.5, color: C.green, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 3 },
+  stepTitle: { fontSize: 9.5, fontWeight: 'bold', color: C.white, marginBottom: 2 },
+  stepDesc: { fontSize: 8, color: C.text50, lineHeight: 1.5 },
   agBlock: {
-    borderWidth: 1, borderColor: C.text08, borderRadius: 14,
-    padding: 20, marginBottom: 14,
+    borderWidth: 1, borderColor: C.text08, borderRadius: 12,
+    padding: 16, marginBottom: 10,
   },
-  agText: { fontSize: 9.5, color: C.text70, lineHeight: 1.7, marginBottom: 6 },
-  agTextLast: { fontSize: 9.5, color: C.text70, lineHeight: 1.7 },
+  agText: { fontSize: 9, color: C.text70, lineHeight: 1.7, marginBottom: 5 },
+  agTextLast: { fontSize: 9, color: C.text70, lineHeight: 1.7 },
   agBold: { color: C.text90, fontWeight: 'bold' },
-  // Pullquote
   pullquote: {
-    borderLeftWidth: 2, borderLeftColor: C.green, paddingLeft: 16,
-    marginBottom: 14, marginTop: 4,
+    borderLeftWidth: 2, borderLeftColor: C.green, paddingLeft: 14,
+    marginBottom: 10, marginTop: 2,
   },
-  pullText: { fontSize: 11, color: C.text90, fontStyle: 'italic', lineHeight: 1.5 },
+  pullText: { fontSize: 10, color: C.text90, fontStyle: 'italic', lineHeight: 1.5 },
   footer: {
-    marginTop: 'auto', paddingTop: 16, borderTopWidth: 1, borderTopColor: C.text08,
+    marginTop: 'auto', paddingTop: 12, borderTopWidth: 1, borderTopColor: C.text08,
     flexDirection: 'row', justifyContent: 'space-between',
   },
-  footerText: { fontSize: 7, color: C.text30, letterSpacing: 0.3 },
+  footerText: { fontSize: 6.5, color: C.text30, letterSpacing: 0.3 },
 });
 
 const fmt = (n: number) => '$' + Math.abs(n).toLocaleString();
@@ -172,7 +170,7 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
       {/* ══════════════════════════════════════
           PAGE 1 — PROBLEM + AGITATE
           ══════════════════════════════════════ */}
-      <Page size="A4" style={s.page}>
+      <Page size="A4" style={s.page} wrap={false}>
         <Logo />
 
         <Text style={s.h1}>
@@ -187,7 +185,6 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
         <Text style={s.metaLabel}>Prepared for</Text>
         <Text style={s.metaValue}>{data.name || data.email}</Text>
 
-        {/* Input summary */}
         <View style={s.statRow}>
           <View style={s.statBox}>
             <Text style={s.statLabel}>Team Size</Text>
@@ -206,7 +203,6 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
           </View>
         </View>
 
-        {/* Cost breakdown */}
         <View style={s.card}>
           <Text style={s.label}>Where the Money Goes</Text>
           <View style={s.row}>
@@ -227,13 +223,11 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
           </View>
         </View>
 
-        {/* Annual total */}
         <View style={s.accentBox}>
           <Text style={s.accentLabel}>What You'll Spend This Year on Work Nobody Should Be Doing</Text>
           <Text style={s.accentValue}>{fmt(annualCost)}</Text>
         </View>
 
-        {/* AGITATION — the Joanna part */}
         <View style={s.agBlock}>
           <Text style={s.label}>Here's What That Actually Looks Like</Text>
           <Text style={s.agText}>
@@ -253,7 +247,7 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
       {/* ══════════════════════════════════════
           PAGE 2 — THE GAP + PROOF
           ══════════════════════════════════════ */}
-      <Page size="A4" style={s.page}>
+      <Page size="A4" style={s.page} wrap={false}>
         <Logo />
 
         <Text style={s.h1}>
@@ -265,7 +259,6 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
           Here's the difference that makes.
         </Text>
 
-        {/* Comparison table */}
         <View style={s.table}>
           <View style={s.tHead}>
             <View style={s.tHeadLabel}><Text style={s.tHeadText}></Text></View>
@@ -294,29 +287,26 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
           </View>
         </View>
 
-        {/* What you get back */}
         <View style={s.accentBox}>
           <Text style={s.accentLabel}>What Your Team Gets Back</Text>
-          <View style={{ flexDirection: 'row', marginTop: 4 }}>
+          <View style={{ flexDirection: 'row', marginTop: 3 }}>
             <View style={{ flex: 1, alignItems: 'center' }}>
-              <Text style={{ fontSize: 24, fontWeight: 'bold', color: C.green }}>{hrsSavedMonthly}</Text>
-              <Text style={{ fontSize: 7, color: C.text30, marginTop: 2 }}>hours / month back</Text>
+              <Text style={{ fontSize: 22, fontWeight: 'bold', color: C.green }}>{hrsSavedMonthly}</Text>
+              <Text style={{ fontSize: 6.5, color: C.text30, marginTop: 2 }}>hours / month back</Text>
             </View>
             <View style={{ flex: 1, alignItems: 'center' }}>
-              <Text style={{ fontSize: 24, fontWeight: 'bold', color: C.green }}>{fmt(annualSavings)}</Text>
-              <Text style={{ fontSize: 7, color: C.text30, marginTop: 2 }}>kept in your pocket / year</Text>
+              <Text style={{ fontSize: 22, fontWeight: 'bold', color: C.green }}>{fmt(annualSavings)}</Text>
+              <Text style={{ fontSize: 6.5, color: C.text30, marginTop: 2 }}>kept in your pocket / year</Text>
             </View>
           </View>
         </View>
 
-        {/* Pullquote — agitation bridge */}
         <View style={s.pullquote}>
           <Text style={s.pullText}>
             That's {hrsSavedMonthly} hours your team stops spending on things that don't grow the business — and starts spending on things that do.
           </Text>
         </View>
 
-        {/* ROI — objection handler */}
         <View style={s.card}>
           <Text style={s.label}>The Math on Getting This Fixed</Text>
           <View style={s.row}>
@@ -333,14 +323,12 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
           </View>
         </View>
 
-        {/* Objection killer — right next to the price */}
-        <View style={{ alignItems: 'center', marginTop: 2, marginBottom: 8 }}>
-          <Text style={{ fontSize: 9, color: C.text30, fontStyle: 'italic' }}>
+        <View style={{ alignItems: 'center', marginTop: 1, marginBottom: 6 }}>
+          <Text style={{ fontSize: 8.5, color: C.text30, fontStyle: 'italic' }}>
             That's less than one week of the waste you're already paying for.
           </Text>
         </View>
 
-        {/* If you wait */}
         <View style={s.card}>
           <Text style={s.label}>Every Month You Wait, You Pay Full Price for Nothing</Text>
           <View style={s.row}>
@@ -363,7 +351,7 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
       {/* ══════════════════════════════════════
           PAGE 3 — THE SOLVE
           ══════════════════════════════════════ */}
-      <Page size="A4" style={s.page}>
+      <Page size="A4" style={s.page} wrap={false}>
         <Logo />
 
         <Text style={s.h1}>
@@ -375,9 +363,8 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
           Here's what's actually going wrong — and exactly how we fix it.
         </Text>
 
-        {/* What's actually broken — voice of customer */}
         <Text style={s.label}>Why Your Team Is Stuck</Text>
-        <View style={{ marginBottom: 16 }}>
+        <View style={{ marginBottom: 12 }}>
           <View style={s.numItem}>
             <View style={s.numCircle}><Text style={s.numText}>01</Text></View>
             <View style={s.numContent}>
@@ -407,9 +394,8 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
           </View>
         </View>
 
-        {/* What changes — outcome-first, not feature-first */}
         <Text style={s.label}>What Changes When We Step In</Text>
-        <View style={{ marginBottom: 16 }}>
+        <View style={{ marginBottom: 12 }}>
           <View style={s.step}>
             <Text style={s.stepLabel}>Week 1–2</Text>
             <Text style={s.stepTitle}>The {data.hoursPerPerson} hrs/wk your people lose? We find exactly where they go.</Text>
@@ -433,21 +419,21 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
           </View>
         </View>
 
-        {/* CTA — specific, tied to their number, reason to act now */}
-        <View style={[s.accentBox, { marginTop: 'auto', marginBottom: 0, padding: 24 }]}>
-          <Text style={{ fontSize: 16, fontWeight: 'bold', color: C.white, marginBottom: 6, textAlign: 'center' }}>
+        {/* CTA — pinned to bottom */}
+        <View style={[s.accentBox, { marginTop: 'auto', marginBottom: 0, padding: 20 }]}>
+          <Text style={{ fontSize: 15, fontWeight: 'bold', color: C.white, marginBottom: 5, textAlign: 'center' }}>
             Get your {hrsSavedMonthly} hours back.
           </Text>
-          <Text style={{ fontSize: 9, color: C.text50, marginBottom: 4, textAlign: 'center' }}>
+          <Text style={{ fontSize: 8.5, color: C.text50, marginBottom: 3, textAlign: 'center' }}>
             30-minute call. We'll show you the 2–3 workflows burning the most time
           </Text>
-          <Text style={{ fontSize: 9, color: C.text50, marginBottom: 12, textAlign: 'center' }}>
+          <Text style={{ fontSize: 8.5, color: C.text50, marginBottom: 10, textAlign: 'center' }}>
             and exactly what it takes to fix them.
           </Text>
-          <Text style={{ fontSize: 10, fontWeight: 'bold', color: C.green, marginBottom: 8 }}>
+          <Text style={{ fontSize: 9.5, fontWeight: 'bold', color: C.green, marginBottom: 6 }}>
             veyra.group  ·  contact@veyra.group  ·  (302) 600-2625
           </Text>
-          <Text style={{ fontSize: 8, color: C.text30, fontStyle: 'italic' }}>
+          <Text style={{ fontSize: 7.5, color: C.text30, fontStyle: 'italic' }}>
             Every week you wait costs you {fmt(weeklyCost)}. You already did the math.
           </Text>
         </View>
