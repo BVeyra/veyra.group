@@ -289,16 +289,9 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
 
         <View style={s.accentBox}>
           <Text style={s.accentLabel}>What Your Team Gets Back</Text>
-          <View style={{ flexDirection: 'row', marginTop: 3 }}>
-            <View style={{ flex: 1, alignItems: 'center' }}>
-              <Text style={{ fontSize: 22, fontWeight: 'bold', color: C.green }}>{hrsSavedMonthly}</Text>
-              <Text style={{ fontSize: 6.5, color: C.text30, marginTop: 2 }}>hours / month back</Text>
-            </View>
-            <View style={{ flex: 1, alignItems: 'center' }}>
-              <Text style={{ fontSize: 22, fontWeight: 'bold', color: C.green }}>{fmt(annualSavings)}</Text>
-              <Text style={{ fontSize: 6.5, color: C.text30, marginTop: 2 }}>kept in your pocket / year</Text>
-            </View>
-          </View>
+          <Text style={{ fontSize: 22, fontWeight: 'bold', color: C.green, marginTop: 4, textAlign: 'center' }}>
+            {hrsSavedMonthly} hours/month back  ·  {fmt(annualSavings)}/year saved
+          </Text>
         </View>
 
         <View style={s.pullquote}>
