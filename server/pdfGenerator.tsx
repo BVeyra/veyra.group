@@ -15,7 +15,7 @@ function getResendClient() {
       process.env.RESEND_FROM_EMAIL ||
       "Veyra Group <contact@contact.veyra.group>",
     calendlyUrl:
-      process.env.CALENDLY_URL || "https://calendly.com/veyragroup/15min",
+      process.env.CALENDLY_URL || "https://calendly.com/veyragroup/30min",
     ownerNotificationEmail:
       process.env.OWNER_NOTIFICATION_EMAIL || "bruno@veyra.group",
   };
