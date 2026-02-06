@@ -67,7 +67,7 @@ export async function generateAndEmailPDF(data: CalculatorData) {
     </p>
     
     <p style="font-size: 16px; color: #0a0a0f; line-height: 1.6; margin: 0 0 30px 0;">
-      If you want to see which 2–3 workflows are burning the most time and what the fix looks like, we can walk through it in 15 minutes.
+      If you want to see which 2–3 workflows are burning the most time and what the fix looks like, we can walk through it in 30 minutes.
     </p>
     
     <p style="margin: 0 0 40px 0;">
@@ -75,7 +75,7 @@ export async function generateAndEmailPDF(data: CalculatorData) {
          style="display: inline-block; background: #059669; color: #ffffff; 
                 padding: 14px 32px; text-decoration: none; border-radius: 6px; 
                 font-weight: 600; font-size: 15px;">
-        Book a 15-min walkthrough →
+        Book a 30-min walkthrough →
       </a>
     </p>
     
