@@ -347,7 +347,8 @@ export default function Home() {
     
     setEmailSubmitting(true);
     try {
-      await fetch("/api/generate-report", {
+      const apiBase = import.meta.env.VITE_API_URL || "";
+      await fetch(`${apiBase}/api/generate-report`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
