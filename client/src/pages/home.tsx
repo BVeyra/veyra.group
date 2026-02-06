@@ -5,7 +5,7 @@ import { Check, X, ArrowRight, Zap, Bot, RefreshCw, Phone, Wrench, Shield } from
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { openCalendly, loadCalendlyScript } from "@/lib/calendly";
-import { SpinningWheel } from "@/components/SpinningWheel";
+import { HeroScene } from "@/components/HeroScene";
 import { CursorGlow } from "@/components/CursorGlow";
 import { ParallaxOrb } from "@/components/ParallaxOrb";
 
@@ -35,11 +35,11 @@ function ParallaxWheel() {
       ref={ref}
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.8, delay: 0.2 }}
+      transition={{ duration: 1.2, delay: 0.3 }}
       style={{ y }}
-      className="hidden lg:flex justify-center items-center hero-stats-wheel"
+      className="hidden lg:flex justify-center items-center w-full h-[520px]"
     >
-      <SpinningWheel />
+      <HeroScene />
     </motion.div>
   );
 }
@@ -347,8 +347,7 @@ export default function Home() {
     
     setEmailSubmitting(true);
     try {
-      const apiBase = import.meta.env.VITE_API_URL || "";
-      await fetch(`${apiBase}/api/generate-report`, {
+      await fetch("/api/generate-report", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
