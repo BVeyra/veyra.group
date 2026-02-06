@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 40" width="300" height="40">
+  <style>
+    .veyra { font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 700; font-size: 28px; }
+  </style>
+  <text x="0" y="30" class="veyra">
+    <tspan fill="#FFFFFF">VEYRA</tspan><tspan fill="#0891B2">GROUP</tspan>
+  </text>
+</svg>
