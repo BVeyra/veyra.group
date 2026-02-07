@@ -2736,3 +2736,17 @@ body::before {
   content: none !important;
   display: none !important;
 }
+
+/* perf fix 8: stagger initial load and defer offscreen sections */
+section:nth-of-type(n+2) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+
+.floating-orb {
+  animation-play-state: paused;
+}
+
+body.loaded .floating-orb {
+  animation-play-state: running;
+}
