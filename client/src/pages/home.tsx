@@ -2,30 +2,14 @@ import { Navbar, Footer } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Check, X, ArrowRight, Zap, Bot, RefreshCw, Phone, Wrench, ShieldCheck } from "lucide-react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 import { openCalendly, loadCalendlyScript } from "@/lib/calendly";
 import { SpinningWheel } from "@/components/SpinningWheel";
 import { CursorGlow } from "@/components/CursorGlow";
 import { ParallaxOrb } from "@/components/ParallaxOrb";
 import { SpotlightCard } from "@/components/SpotlightCard";
 import { StepSlider } from "@/components/StepSlider";
-
-function ScrollProgress() {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
-  return (
-    <motion.div
-      className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--emerald)] to-[var(--steel)] origin-left z-[60]"
-      style={{ scaleX }}
-    />
-  );
-}
 
 function ParallaxWheel() {
   const ref = useRef(null);
@@ -46,67 +30,6 @@ function ParallaxWheel() {
   );
 }
 
-function TypewriterText({ text, className = "" }: { text: string; className?: string }) {
-  const words = text.split(' ');
-
-  const container = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.03, delayChildren: 0.1 },
-    },
-  };
-
-  const child = {
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.3,
-        ease: "easeOut" as const,
-      },
-    },
-    hidden: {
-      opacity: 0,
-      y: 8,
-    },
-  };
-
-  return (
-    <motion.span
-      className={className}
-      variants={container}
-      initial="hidden"
-      animate="visible"
-    >
-      {words.map((word, index) => (
-        <motion.span
-          variants={child}
-          key={index}
-          className="inline-block mr-[0.25em]"
-        >
-          {word}
-        </motion.span>
-      ))}
-    </motion.span>
-  );
-}
-
-const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 }
-};
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.05
-    }
-  }
-};
 
 function AnimatedNumber({ value, prefix = "", suffix = "" }: { value: number; prefix?: string; suffix?: string }) {
   const [displayValue, setDisplayValue] = useState(value);
@@ -137,26 +60,6 @@ function AnimatedNumber({ value, prefix = "", suffix = "" }: { value: number; pr
   return <span className="stat-number">{prefix}{displayValue.toLocaleString()}{suffix}</span>;
 }
 
-function FloatingShape({ className, delay = 0 }: { className?: string; delay?: number }) {
-  return (
-    <motion.div
-      className={`absolute pointer-events-none ${className}`}
-      animate={{
-        y: [0, -20, 0],
-        rotate: [0, 5, -5, 0],
-        scale: [1, 1.05, 1],
-      }}
-      transition={{
-        duration: 8,
-        repeat: Infinity,
-        ease: "easeInOut",
-        delay,
-      }}
-    >
-      <div className="w-full h-full rounded-2xl bg-gradient-to-br from-[var(--emerald)]/5 to-[var(--steel)]/5 border border-white/5" />
-    </motion.div>
-  );
-}
 
 const logoData = [
   {

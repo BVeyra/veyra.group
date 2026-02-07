@@ -1,34 +1,66 @@
-import { useEffect, useState } from 'react';
-import { motion, useSpring } from 'framer-motion';
+import { useEffect, useRef, useState } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 
 export function CursorGlow() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
+  const [isCoarsePointer, setIsCoarsePointer] = useState(false);
+  const frameRef = useRef<number | null>(null);
+  const posRef = useRef({ x: 0, y: 0 });
 
   const springConfig = { damping: 25, stiffness: 200 };
-  const x = useSpring(mousePosition.x, springConfig);
-  const y = useSpring(mousePosition.y, springConfig);
+  const motionX = useMotionValue(-1000);
+  const motionY = useMotionValue(-1000);
+  const x = useSpring(motionX, springConfig);
+  const y = useSpring(motionY, springConfig);
 
   useEffect(() => {
+    const media = window.matchMedia("(pointer: coarse)");
+    setIsCoarsePointer(media.matches);
+
+    const handleChange = (event: MediaQueryListEvent) => setIsCoarsePointer(event.matches);
+    media.addEventListener("change", handleChange);
+
+    return () => media.removeEventListener("change", handleChange);
+  }, []);
+
+  useEffect(() => {
+    if (isCoarsePointer) return;
+
+    const updatePosition = () => {
+      frameRef.current = null;
+      motionX.set(posRef.current.x);
+      motionY.set(posRef.current.y);
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-      if (!isVisible) setIsVisible(true);
+      posRef.current = { x: e.clientX, y: e.clientY };
+      if (!isVisible) {
+        setIsVisible(true);
+      }
+
+      if (frameRef.current === null) {
+        frameRef.current = window.requestAnimationFrame(updatePosition);
+      }
     };
 
     const handleMouseLeave = () => {
       setIsVisible(false);
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    document.body.addEventListener('mouseleave', handleMouseLeave);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    document.body.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      document.body.removeEventListener('mouseleave', handleMouseLeave);
+      if (frameRef.current !== null) {
+        window.cancelAnimationFrame(frameRef.current);
+        frameRef.current = null;
+      }
+      window.removeEventListener("mousemove", handleMouseMove);
+      document.body.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, [isVisible]);
+  }, [isCoarsePointer, isVisible, motionX, motionY]);
 
-  if (typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches) {
+  if (isCoarsePointer) {
     return null;
   }
 
@@ -40,13 +72,14 @@ export function CursorGlow() {
       transition={{ duration: 0.3 }}
     >
       <motion.div
-        className="absolute w-[400px] h-[400px] rounded-full"
+        className="absolute w-[340px] h-[340px] rounded-full"
         style={{
           x,
           y,
-          translateX: '-50%',
-          translateY: '-50%',
-          background: 'radial-gradient(circle, rgba(35, 122, 101, 0.055) 0%, rgba(35, 122, 101, 0.02) 44%, transparent 72%)',
+          translateX: "-50%",
+          translateY: "-50%",
+          background:
+            "radial-gradient(circle, rgba(35, 96, 79, 0.05) 0%, rgba(35, 96, 79, 0.018) 44%, transparent 72%)",
         }}
       />
     </motion.div>

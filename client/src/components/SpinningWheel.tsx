@@ -38,7 +38,7 @@ function Wheel3DCanvas({ size, reducedMotion }: { size: number; reducedMotion: b
     camera.position.set(0, 0, 9.8);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'high-performance' });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setSize(renderSize, renderSize);
     renderer.setClearColor(0x000000, 0);
     mount.appendChild(renderer.domElement);
@@ -84,7 +84,7 @@ function Wheel3DCanvas({ size, reducedMotion }: { size: number; reducedMotion: b
     const ringOpacities = [0.08, 0.065, 0.05, 0.038];
 
     const rings = ringRadii.map((radius, index) => {
-      const geo = new THREE.TorusGeometry(radius, ringTubes[index], 24, 220);
+      const geo = new THREE.TorusGeometry(radius, ringTubes[index], 18, 168);
       geometries.push(geo);
       const mesh = new THREE.Mesh(geo, ringMaterial(ringOpacities[index]));
       mesh.rotation.x = Math.PI * ringTilts[index];
@@ -93,7 +93,7 @@ function Wheel3DCanvas({ size, reducedMotion }: { size: number; reducedMotion: b
       return mesh;
     });
 
-    const coreGeo = new THREE.SphereGeometry(1.05, 48, 48);
+    const coreGeo = new THREE.SphereGeometry(1.05, 32, 32);
     geometries.push(coreGeo);
     const coreMat = new THREE.MeshBasicMaterial({
       color: 0x1f8a6e,
@@ -118,7 +118,7 @@ function Wheel3DCanvas({ size, reducedMotion }: { size: number; reducedMotion: b
     glowGroup.add(halo);
 
     const pointsGeo = new THREE.BufferGeometry();
-    const pointsCount = 170;
+    const pointsCount = 120;
     const points = new Float32Array(pointsCount * 3);
 
     for (let i = 0; i < pointsCount; i += 1) {
@@ -147,7 +147,7 @@ function Wheel3DCanvas({ size, reducedMotion }: { size: number; reducedMotion: b
 
     const nodes: { mesh: THREE.Mesh; ringIndex: number; angle: number; speed: number }[] = [];
     for (let i = 0; i < 14; i += 1) {
-      const nodeGeo = new THREE.SphereGeometry(0.038, 14, 14);
+      const nodeGeo = new THREE.SphereGeometry(0.038, 10, 10);
       geometries.push(nodeGeo);
 
       const nodeMat = new THREE.MeshPhysicalMaterial({
@@ -209,8 +209,10 @@ function Wheel3DCanvas({ size, reducedMotion }: { size: number; reducedMotion: b
 
     const clock = new THREE.Clock();
     let raf = 0;
+    let isAnimating = true;
 
     const tick = () => {
+      if (!isAnimating) return;
       raf = window.requestAnimationFrame(tick);
       const t = clock.getElapsedTime();
       const motionScalar = reducedMotion ? 0 : 1;
@@ -273,10 +275,26 @@ function Wheel3DCanvas({ size, reducedMotion }: { size: number; reducedMotion: b
       renderer.render(scene, camera);
     };
 
+    const intersectionObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !isAnimating) {
+          isAnimating = true;
+          tick();
+        } else if (!entry.isIntersecting && isAnimating) {
+          isAnimating = false;
+          window.cancelAnimationFrame(raf);
+        }
+      },
+      { threshold: 0.06 }
+    );
+    intersectionObserver.observe(mount);
+
     tick();
 
     return () => {
+      isAnimating = false;
       window.cancelAnimationFrame(raf);
+      intersectionObserver.disconnect();
       window.removeEventListener('mousemove', handlePointer);
       if (mount.contains(renderer.domElement)) {
         mount.removeChild(renderer.domElement);
@@ -312,13 +330,15 @@ export function SpinningWheel() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [displayNumber, setDisplayNumber] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [canvasSize, setCanvasSize] = useState(560);
   const [isMobile, setIsMobile] = useState(false);
 
   const intervalRef = useRef<number | null>(null);
   const numberRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const tiltLayerRef = useRef<HTMLDivElement>(null);
+  const tiltFrameRef = useRef<number | null>(null);
+  const tiltTargetRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -396,6 +416,13 @@ export function SpinningWheel() {
     };
   }, [isHovered]);
 
+  const applyTilt = useCallback(() => {
+    tiltFrameRef.current = null;
+    const layer = tiltLayerRef.current;
+    if (!layer) return;
+    layer.style.transform = `rotateX(${tiltTargetRef.current.x.toFixed(2)}deg) rotateY(${tiltTargetRef.current.y.toFixed(2)}deg)`;
+  }, []);
+
   const handleMouseMove = useCallback(
     (event: React.MouseEvent) => {
       if (prefersReducedMotion || isMobile) return;
@@ -407,16 +434,31 @@ export function SpinningWheel() {
       const x = (event.clientX - rect.left) / rect.width - 0.5;
       const y = (event.clientY - rect.top) / rect.height - 0.5;
 
-      setTilt({ x: y * -5, y: x * 5 });
+      tiltTargetRef.current = { x: y * -5, y: x * 5 };
+      if (tiltFrameRef.current === null) {
+        tiltFrameRef.current = window.requestAnimationFrame(applyTilt);
+      }
     },
-    [isMobile, prefersReducedMotion]
+    [applyTilt, isMobile, prefersReducedMotion]
   );
 
   const handleMouseLeave = useCallback(() => {
-    setTilt({ x: 0, y: 0 });
+    tiltTargetRef.current = { x: 0, y: 0 };
+    if (tiltFrameRef.current === null) {
+      tiltFrameRef.current = window.requestAnimationFrame(applyTilt);
+    }
     setIsHovered(false);
     setHoveredIndex(null);
-  }, []);
+  }, [applyTilt]);
+
+  useEffect(
+    () => () => {
+      if (tiltFrameRef.current !== null) {
+        window.cancelAnimationFrame(tiltFrameRef.current);
+      }
+    },
+    []
+  );
 
   const currentActiveIndex = hoveredIndex ?? activeIndex;
   const orbitRadius = Math.round(canvasSize * 0.39);
@@ -431,11 +473,12 @@ export function SpinningWheel() {
       onMouseLeave={handleMouseLeave}
     >
       <div
+        ref={tiltLayerRef}
         style={{
           width: '100%',
           height: '100%',
           position: 'relative',
-          transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+          transform: 'rotateX(0deg) rotateY(0deg)',
           transformStyle: 'preserve-3d',
           transition: prefersReducedMotion || isMobile ? 'none' : 'transform 0.18s ease-out',
         }}
