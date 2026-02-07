@@ -49,23 +49,23 @@ function Wheel3DCanvas({ size, reducedMotion }: { size: number; reducedMotion: b
     const glowGroup = new THREE.Group();
     scene.add(glowGroup);
 
-    scene.add(new THREE.AmbientLight(0x0b3c2d, 0.35));
+    scene.add(new THREE.AmbientLight(0x102e25, 0.3));
 
-    const keyLight = new THREE.PointLight(0x23d79d, 2.2, 28);
+    const keyLight = new THREE.PointLight(0x2aa989, 1.75, 28);
     keyLight.position.set(3.1, 1.8, 5.8);
     scene.add(keyLight);
 
-    const fillLight = new THREE.PointLight(0x1f9b74, 1.1, 24);
+    const fillLight = new THREE.PointLight(0x1f7b63, 0.9, 24);
     fillLight.position.set(-2.8, -2.1, 4.9);
     scene.add(fillLight);
 
-    const rimLight = new THREE.PointLight(0x87d7ff, 0.45, 18);
+    const rimLight = new THREE.PointLight(0x6f9cb9, 0.28, 18);
     rimLight.position.set(0, 3.6, -2.2);
     scene.add(rimLight);
 
     const ringMaterial = (opacity: number) => {
       const mat = new THREE.MeshPhysicalMaterial({
-        color: 0x25b98a,
+        color: 0x27896f,
         metalness: 0.55,
         roughness: 0.32,
         clearcoat: 0.8,
@@ -81,7 +81,7 @@ function Wheel3DCanvas({ size, reducedMotion }: { size: number; reducedMotion: b
     const ringRadii = [3.75, 3.05, 2.34, 1.7];
     const ringTubes = [0.024, 0.021, 0.018, 0.015];
     const ringTilts = [0.49, 0.54, 0.45, 0.5];
-    const ringOpacities = [0.12, 0.09, 0.07, 0.05];
+    const ringOpacities = [0.08, 0.065, 0.05, 0.038];
 
     const rings = ringRadii.map((radius, index) => {
       const geo = new THREE.TorusGeometry(radius, ringTubes[index], 24, 220);
@@ -96,9 +96,9 @@ function Wheel3DCanvas({ size, reducedMotion }: { size: number; reducedMotion: b
     const coreGeo = new THREE.SphereGeometry(1.05, 48, 48);
     geometries.push(coreGeo);
     const coreMat = new THREE.MeshBasicMaterial({
-      color: 0x1ecf97,
+      color: 0x1f8a6e,
       transparent: true,
-      opacity: 0.045,
+      opacity: 0.032,
     });
     materials.push(coreMat);
     const core = new THREE.Mesh(coreGeo, coreMat);
@@ -107,9 +107,9 @@ function Wheel3DCanvas({ size, reducedMotion }: { size: number; reducedMotion: b
     const haloGeo = new THREE.RingGeometry(1.3, 1.42, 80);
     geometries.push(haloGeo);
     const haloMat = new THREE.MeshBasicMaterial({
-      color: 0x4ce2b3,
+      color: 0x2a9d80,
       transparent: true,
-      opacity: 0.14,
+      opacity: 0.075,
       side: THREE.DoubleSide,
     });
     materials.push(haloMat);
@@ -134,10 +134,10 @@ function Wheel3DCanvas({ size, reducedMotion }: { size: number; reducedMotion: b
     geometries.push(pointsGeo);
 
     const pointsMat = new THREE.PointsMaterial({
-      color: 0x1ecf97,
+      color: 0x2a9d80,
       size: 0.012,
       transparent: true,
-      opacity: 0.33,
+      opacity: 0.21,
       sizeAttenuation: true,
     });
     materials.push(pointsMat);
@@ -151,13 +151,13 @@ function Wheel3DCanvas({ size, reducedMotion }: { size: number; reducedMotion: b
       geometries.push(nodeGeo);
 
       const nodeMat = new THREE.MeshPhysicalMaterial({
-        color: 0x42e3b5,
-        emissive: 0x128f6a,
-        emissiveIntensity: 0.7,
+        color: 0x2fb08d,
+        emissive: 0x1a6b56,
+        emissiveIntensity: 0.4,
         roughness: 0.2,
         metalness: 0.25,
         transparent: true,
-        opacity: 0.82,
+        opacity: 0.68,
       });
       materials.push(nodeMat);
 
@@ -186,9 +186,9 @@ function Wheel3DCanvas({ size, reducedMotion }: { size: number; reducedMotion: b
       geometries.push(lineGeo);
 
       const lineMat = new THREE.LineBasicMaterial({
-        color: 0x27ca99,
+        color: 0x2d8f74,
         transparent: true,
-        opacity: 0.08,
+        opacity: 0.05,
       });
       materials.push(lineMat);
 
@@ -268,7 +268,7 @@ function Wheel3DCanvas({ size, reducedMotion }: { size: number; reducedMotion: b
       camera.position.y += (-pointerRef.current.y * 0.45 - camera.position.y) * 0.04;
       camera.lookAt(0, 0, 0);
 
-      keyLight.intensity = 2.1 + Math.sin(t * 1.4) * 0.25;
+      keyLight.intensity = 1.7 + Math.sin(t * 1.4) * 0.18;
 
       renderer.render(scene, camera);
     };
