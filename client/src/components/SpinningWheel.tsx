@@ -44,11 +44,13 @@ function Wheel3DCanvas({ size }: { size: number }) {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-    camera.position.set(0, 0, 6);
+    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+    camera.position.set(0, 0, 7.2);
+
+    const renderSize = Math.round(size * 1.7);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(size, size);
+    renderer.setSize(renderSize, renderSize);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setClearColor(0x000000, 0);
     el.appendChild(renderer.domElement);
@@ -77,14 +79,14 @@ function Wheel3DCanvas({ size }: { size: number }) {
 
     // ── 4 Orbital Rings (matching 4 CSS concentric rings) ──
     const ring1 = new THREE.Mesh(
-      new THREE.TorusGeometry(2.5, 0.03, 16, 128),
+      new THREE.TorusGeometry(3.3, 0.03, 16, 160),
       makeRingMat(0.3)
     );
     ring1.rotation.x = Math.PI * 0.48;
     scene.add(ring1);
 
     const ring2 = new THREE.Mesh(
-      new THREE.TorusGeometry(2.0, 0.025, 16, 100),
+      new THREE.TorusGeometry(2.75, 0.025, 16, 128),
       makeRingMat(0.22)
     );
     ring2.rotation.x = Math.PI * 0.53;
@@ -92,7 +94,7 @@ function Wheel3DCanvas({ size }: { size: number }) {
     scene.add(ring2);
 
     const ring3 = new THREE.Mesh(
-      new THREE.TorusGeometry(1.5, 0.02, 16, 80),
+      new THREE.TorusGeometry(2.15, 0.02, 16, 96),
       makeRingMat(0.15)
     );
     ring3.rotation.x = Math.PI * 0.46;
@@ -100,7 +102,7 @@ function Wheel3DCanvas({ size }: { size: number }) {
     scene.add(ring3);
 
     const ring4 = new THREE.Mesh(
-      new THREE.TorusGeometry(1.0, 0.015, 16, 64),
+      new THREE.TorusGeometry(1.55, 0.015, 16, 80),
       makeRingMat(0.1)
     );
     ring4.rotation.x = Math.PI * 0.5;
@@ -147,7 +149,7 @@ function Wheel3DCanvas({ size }: { size: number }) {
     for (let i = 0; i < pCount; i++) {
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.random() * Math.PI;
-      const r = 1.8 + Math.random() * 1.8;
+      const r = 2.2 + Math.random() * 2.2;
       pPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
       pPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
       pPos[i * 3 + 2] = r * Math.cos(phi);
@@ -196,7 +198,7 @@ function Wheel3DCanvas({ size }: { size: number }) {
     const clock = new THREE.Clock();
     let frameId: number;
 
-    const radii = [2.5, 2.0, 1.5, 1.0];
+    const radii = [3.3, 2.75, 2.15, 1.55];
     const tilts = [0.48, 0.53, 0.46, 0.5];
 
     const animate = () => {
@@ -274,10 +276,11 @@ function Wheel3DCanvas({ size }: { size: number }) {
       ref={mountRef}
       style={{
         position: 'absolute',
-        top: 0,
-        left: 0,
-        width: size,
-        height: size,
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: Math.round(size * 1.7),
+        height: Math.round(size * 1.7),
         zIndex: 0,
         pointerEvents: 'none',
       }}
@@ -411,9 +414,13 @@ export function SpinningWheel() {
         {/* ── Three.js 3D Canvas Layer ── */}
         <Wheel3DCanvas size={canvasSize} />
 
+        {/* Flow halo to blend hero with full-page background */}
+        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[150%] w-[150%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[rgba(18,220,165,0.08)]" />
+        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[185%] w-[185%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[rgba(18,220,165,0.05)]" />
+
         {/* Subtle radial background glow */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-64 h-64 bg-gradient-radial from-[rgba(42,163,122,0.06)] via-[rgba(42,163,122,0.02)] to-transparent rounded-full blur-3xl" />
+          <div className="w-72 h-72 bg-gradient-radial from-[rgba(42,163,122,0.06)] via-[rgba(42,163,122,0.02)] to-transparent rounded-full blur-3xl" />
         </div>
 
         {/* Concentric ring guides - premium styled */}
