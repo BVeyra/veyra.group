@@ -79,14 +79,14 @@ function Wheel3DCanvas({ size }: { size: number }) {
     // ── 4 Orbital Rings (matching 4 CSS concentric rings) ──
     const ring1 = new THREE.Mesh(
       new THREE.TorusGeometry(3.05, 0.03, 16, 160),
-      makeRingMat(0.3)
+      makeRingMat(0.1)
     );
     ring1.rotation.x = Math.PI * 0.48;
     scene.add(ring1);
 
     const ring2 = new THREE.Mesh(
       new THREE.TorusGeometry(2.55, 0.025, 16, 128),
-      makeRingMat(0.22)
+      makeRingMat(0.08)
     );
     ring2.rotation.x = Math.PI * 0.53;
     ring2.rotation.z = 0.12;
@@ -94,7 +94,7 @@ function Wheel3DCanvas({ size }: { size: number }) {
 
     const ring3 = new THREE.Mesh(
       new THREE.TorusGeometry(2.0, 0.02, 16, 96),
-      makeRingMat(0.15)
+      makeRingMat(0.06)
     );
     ring3.rotation.x = Math.PI * 0.46;
     ring3.rotation.z = -0.08;
@@ -102,7 +102,7 @@ function Wheel3DCanvas({ size }: { size: number }) {
 
     const ring4 = new THREE.Mesh(
       new THREE.TorusGeometry(1.45, 0.015, 16, 80),
-      makeRingMat(0.1)
+      makeRingMat(0.04)
     );
     ring4.rotation.x = Math.PI * 0.5;
     scene.add(ring4);
