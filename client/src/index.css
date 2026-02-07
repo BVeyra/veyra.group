@@ -1219,10 +1219,9 @@ section:first-of-type .space-y-6 > *:nth-child(5) { animation-delay: 0.5s; }
     transform: translate(-50%, -50%);
     width: 900px;
     height: 900px;
-    background: radial-gradient(circle, rgba(13, 150, 104, 0.1) 0%, rgba(13, 150, 104, 0.04) 40%, transparent 70%);
+    background: radial-gradient(circle, rgba(13, 150, 104, 0.08) 0%, rgba(13, 150, 104, 0.03) 45%, transparent 75%);
     pointer-events: none;
     z-index: 0;
-    filter: blur(100px);
   }
   
   .ambient-glow-center {
@@ -1238,10 +1237,9 @@ section:first-of-type .space-y-6 > *:nth-child(5) { animation-delay: 0.5s; }
     transform: translate(-50%, -50%);
     width: 1200px;
     height: 800px;
-    background: radial-gradient(ellipse, rgba(13, 150, 104, 0.08) 0%, rgba(90, 122, 143, 0.05) 50%, transparent 80%);
+    background: radial-gradient(ellipse, rgba(13, 150, 104, 0.06) 0%, rgba(90, 122, 143, 0.04) 55%, transparent 82%);
     pointer-events: none;
     z-index: 0;
-    filter: blur(120px);
   }
   
   /* Floating orbs - HIGH VISIBILITY */
@@ -1255,31 +1253,28 @@ section:first-of-type .space-y-6 > *:nth-child(5) { animation-delay: 0.5s; }
   .floating-orb-1 {
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, rgba(13, 150, 104, 0.12) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(13, 150, 104, 0.12) 0%, rgba(13, 150, 104, 0.04) 35%, transparent 65%);
     top: 10%;
     left: -10%;
     animation: float-slow 20s ease-in-out infinite;
-    filter: blur(80px);
   }
   
   .floating-orb-2 {
     width: 400px;
     height: 400px;
-    background: radial-gradient(circle, rgba(90, 122, 143, 0.12) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(90, 122, 143, 0.12) 0%, rgba(90, 122, 143, 0.04) 35%, transparent 65%);
     top: 50%;
     right: -10%;
     animation: float-slow 25s ease-in-out infinite reverse;
-    filter: blur(80px);
   }
   
   .floating-orb-3 {
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, rgba(13, 150, 104, 0.08) 0%, transparent 60%);
+    background: radial-gradient(circle, rgba(13, 150, 104, 0.08) 0%, rgba(13, 150, 104, 0.03) 30%, transparent 55%);
     bottom: 5%;
     left: 20%;
     animation: float-slow 30s ease-in-out infinite;
-    filter: blur(100px);
   }
   
   @keyframes float-slow {
