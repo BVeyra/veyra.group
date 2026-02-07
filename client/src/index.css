@@ -2750,3 +2750,57 @@ section:nth-of-type(n+2) {
 body.loaded .floating-orb {
   animation-play-state: running;
 }
+
+/* perf fix 9: mobile optimizations */
+@media (max-width: 768px) {
+  .floating-orb {
+    display: none !important;
+  }
+
+  .ambient-glow-emerald::before,
+  .ambient-glow-center::before {
+    display: none !important;
+  }
+
+  .glass-card,
+  .bento-card,
+  .feature-card,
+  .step-card,
+  .fit-card,
+  .about-card,
+  .faq-card {
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .glass-card::after,
+  .bento-card::after,
+  .feature-card::after,
+  .step-card::after,
+  .fit-card::after,
+  .about-card::after,
+  .faq-card::after {
+    display: none !important;
+  }
+
+  .stats-outer-ring-main {
+    animation: none !important;
+    border: 1px solid rgba(5, 150, 105, 0.15);
+    background: transparent !important;
+  }
+
+  .stats-center::before {
+    animation: none !important;
+    background: none !important;
+    border: 1px solid rgba(5, 150, 105, 0.15);
+  }
+
+  .glass-card:hover,
+  .bento-card:hover,
+  .feature-card:hover,
+  .step-card:hover,
+  .fit-card:hover,
+  .about-card:hover,
+  .faq-card:hover {
+    transform: none !important;
+  }
+}
