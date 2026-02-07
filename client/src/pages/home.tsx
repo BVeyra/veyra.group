@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Check, X, ArrowRight, Zap, Bot, RefreshCw, Phone, Wrench, ShieldCheck } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
-import { CALENDLY_INLINE_URL, openCalendly, loadCalendlyScript } from "@/lib/calendly";
+import { openCalendly, loadCalendlyScript } from "@/lib/calendly";
 import { SpinningWheel } from "@/components/SpinningWheel";
 import { SpotlightCard } from "@/components/SpotlightCard";
 import { StepSlider } from "@/components/StepSlider";
@@ -180,35 +180,6 @@ export default function Home() {
 
   useEffect(() => {
     loadCalendlyScript();
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    const initInlineWidget = () => {
-      if (cancelled) return;
-
-      const parentElement = document.getElementById("calendly-inline-widget");
-      if (!parentElement) return;
-
-      const calendly = (window as any).Calendly;
-      if (!calendly?.initInlineWidget) {
-        window.setTimeout(initInlineWidget, 150);
-        return;
-      }
-
-      parentElement.innerHTML = "";
-      calendly.initInlineWidget({
-        url: CALENDLY_INLINE_URL,
-        parentElement,
-      });
-    };
-
-    initInlineWidget();
-
-    return () => {
-      cancelled = true;
-    };
   }, []);
 
   useEffect(() => {
@@ -1001,14 +972,6 @@ export default function Home() {
                 <a href="tel:+13026002625" className="text-[#5F6972] hover:text-[var(--emerald)]">(302) 600-2625</a><br />
                 We usually reply same day.
               </p>
-              <div className="mt-10">
-                <div
-                  id="calendly-inline-widget"
-                  className="calendly-inline-widget"
-                  data-url={CALENDLY_INLINE_URL}
-                  style={{ minWidth: "320px", height: "700px" }}
-                />
-              </div>
             </div>
             </div>
           </div>
