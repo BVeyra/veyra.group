@@ -536,7 +536,7 @@ export function SpinningWheel() {
                   className="relative"
                 >
                   <AnimatePresence>
-                    {isActive && isHovered && !isMobile && (
+                    {hoveredIndex === index && !isMobile && (
                       <motion.div
                         initial={{ opacity: 0, y: 6 }}
                         animate={{ opacity: 1, y: 0 }}
