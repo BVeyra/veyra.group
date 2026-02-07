@@ -2547,7 +2547,7 @@ a.bg-primary:hover {
 
 /* FAQ minimal style */
 .faq-accordion {
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .faq-card {
@@ -2557,7 +2557,7 @@ a.bg-primary:hover {
   box-shadow: none;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .faq-card::before,
@@ -3007,14 +3007,14 @@ body::after {
 }
 
 .faq-accordion {
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .faq-card {
   background: transparent !important;
   box-shadow: none !important;
   border: 0 !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
   border-radius: 0 !important;
 }
 
