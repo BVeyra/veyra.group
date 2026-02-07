@@ -3789,12 +3789,12 @@ a.glow-button:active {
 .gradient-accent,
 .section-accent,
 .accent-gradient {
-  color: rgb(45, 212, 160) !important;
+  color: rgb(18, 143, 108) !important;
   background: linear-gradient(
     135deg,
-    rgb(45, 212, 160) 0%,
-    rgb(120, 235, 210) 50%,
-    rgb(45, 212, 160) 100%
+    rgb(18, 143, 108) 0%,
+    rgb(57, 168, 136) 50%,
+    rgb(13, 117, 89) 100%
   ) !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
@@ -3802,12 +3802,12 @@ a.glow-button:active {
 }
 
 .hero-accent {
-  color: rgb(45, 212, 160) !important;
+  color: rgb(16, 138, 104) !important;
   background: linear-gradient(
     135deg,
-    rgb(45, 212, 160) 0%,
-    rgb(95, 225, 195) 50%,
-    rgb(45, 212, 160) 100%
+    rgb(16, 138, 104) 0%,
+    rgb(48, 156, 126) 50%,
+    rgb(12, 110, 84) 100%
   ) !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
@@ -3820,8 +3820,8 @@ a.glow-button:active {
   .accent-gradient,
   .hero-accent {
     background: none !important;
-    -webkit-text-fill-color: rgb(45, 212, 160) !important;
-    color: rgb(45, 212, 160) !important;
+    -webkit-text-fill-color: rgb(18, 143, 108) !important;
+    color: rgb(18, 143, 108) !important;
   }
 }
 
