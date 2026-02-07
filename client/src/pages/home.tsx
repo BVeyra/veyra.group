@@ -536,14 +536,14 @@ export default function Home() {
                     <p className="text-center text-muted-foreground text-sm mb-6">
                       Free 30-minute call. No pitch. Just answers.
                     </p>
-                    <form onSubmit={handleCalculatorSubmit} className="flex flex-col md:flex-row gap-3">
+                    <form onSubmit={handleCalculatorSubmit} className="flex flex-col md:flex-row md:items-center gap-4">
                       <input
                         type="text"
                         placeholder="Your name (optional)"
                         value={calculatorName}
                         onChange={(e) => setCalculatorName(e.target.value)}
                         data-testid="input-calc-name"
-                        className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-foreground placeholder:text-muted-foreground focus:border-[var(--emerald)] focus:outline-none focus:ring-2 focus:ring-[var(--emerald)]/15 transition-all"
+                        className="flex-1 h-12 px-4 bg-white/5 border border-white/10 rounded-xl text-foreground placeholder:text-muted-foreground focus:border-[var(--emerald)] focus:outline-none focus:ring-2 focus:ring-[var(--emerald)]/15 transition-all"
                       />
                       <input
                         type="email"
@@ -552,13 +552,13 @@ export default function Home() {
                         onChange={(e) => setCalculatorEmail(e.target.value)}
                         required
                         data-testid="input-calc-email"
-                        className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-foreground placeholder:text-muted-foreground focus:border-[var(--emerald)] focus:outline-none focus:ring-2 focus:ring-[var(--emerald)]/15 transition-all"
+                        className="flex-1 h-12 px-4 bg-white/5 border border-white/10 rounded-xl text-foreground placeholder:text-muted-foreground focus:border-[var(--emerald)] focus:outline-none focus:ring-2 focus:ring-[var(--emerald)]/15 transition-all"
                       />
                       <button
                         type="submit"
                         disabled={emailSubmitting}
                         data-testid="button-calc-submit"
-                        className="glow-button font-semibold disabled:opacity-50"
+                        className="glow-button h-12 px-6 inline-flex items-center justify-center whitespace-nowrap leading-none font-semibold disabled:opacity-50"
                       >
                         {emailSubmitting ? "Sending..." : "Find Your 10 Hours →"}
                       </button>
@@ -679,7 +679,7 @@ export default function Home() {
                 >
                   {plan.popular && (
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
-                      <span className="bg-gradient-to-r from-[var(--emerald)] to-[var(--steel)] text-white text-xs font-bold px-4 py-1.5 rounded-full">MOST COMMON</span>
+                      <span className="pricing-badge-pop text-xs font-semibold px-4 py-1.5 rounded-full">MOST COMMON</span>
                     </div>
                   )}
                   <SpotlightCard className={`glass-card glass-card-hover pricing-card p-8 h-full ${plan.popular ? 'border-[var(--emerald)]/30 pricing-card-spotlight' : 'pricing-card-secondary'}`}>
