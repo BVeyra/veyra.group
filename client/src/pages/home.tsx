@@ -243,6 +243,67 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const content = document.querySelector<HTMLElement>(".how-it-works-content");
+    if (!content) return;
+
+    const column = content.querySelector<HTMLElement>(".journey-path-column");
+    const fill = content.querySelector<HTMLElement>(".journey-fill");
+    const cards = Array.from(content.querySelectorAll<HTMLElement>(".how-it-works-cards > .step-row"));
+    const nodes = Array.from(content.querySelectorAll<HTMLElement>(".journey-node"));
+    if (!column || !fill || cards.length === 0 || nodes.length === 0) return;
+
+    const positionNodes = () => {
+      const columnRect = column.getBoundingClientRect();
+      cards.forEach((card, i) => {
+        if (!nodes[i]) return;
+        const cardRect = card.getBoundingClientRect();
+        const centerY = cardRect.top + cardRect.height / 2 - columnRect.top;
+        nodes[i].style.top = `${centerY}px`;
+      });
+    };
+
+    let resizeTimer: number | null = null;
+    const onResize = () => {
+      if (resizeTimer) window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(positionNodes, 150);
+    };
+
+    positionNodes();
+    window.addEventListener("resize", onResize);
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) {
+      fill.classList.add("active");
+      nodes.forEach((node) => node.classList.add("active"));
+      return () => window.removeEventListener("resize", onResize);
+    }
+
+    const timers: number[] = [];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          fill.classList.add("active");
+          timers.push(window.setTimeout(() => nodes[0]?.classList.add("active"), 300));
+          timers.push(window.setTimeout(() => nodes[1]?.classList.add("active"), 750));
+          timers.push(window.setTimeout(() => nodes[2]?.classList.add("active"), 1200));
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(content);
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+      if (resizeTimer) window.clearTimeout(resizeTimer);
+      timers.forEach((id) => window.clearTimeout(id));
+      observer.disconnect();
+    };
+  }, []);
+
   const handleCalculatorSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!calculatorEmail) return;
@@ -518,7 +579,7 @@ export default function Home() {
                 </div>
 
                 <div className="rounded-2xl p-6 text-center border border-[var(--emerald)]/20 mb-8 bg-[rgba(10,18,14,0.32)]">
-                  <p className="text-[#A7B1BA] mb-2">A one-time build starts at <span className="text-[var(--emerald)] font-semibold">$2,000</span>.</p>
+                  <p className="text-[#A7B1BA] mb-2">A one-time build starts at <span className="text-[var(--emerald)] font-semibold">$2,500</span>.</p>
                   <p className="text-[#A7B1BA] font-bold text-lg">Pays for itself in <span className="text-[var(--emerald)]">{displayStats.payback.toLocaleString()}</span> days.</p>
                 </div>
 
@@ -575,58 +636,63 @@ export default function Home() {
             <h2 className="section-title">How It <span className="section-accent">Works</span></h2>
           </div>
 
-          <div data-reveal data-reveal-delay="1" className="relative max-w-5xl mx-auto steps-timeline">
-            {[
-              {
-                step: "1",
-                title: "WE TALK",
-                badge: "30 min, free",
-                desc: "You show us the mess. We tell you exactly what it costs to fix. No pitch. No pressure. If it doesn't make sense, we'll say so.",
-                details: "",
-                icon: Phone
-              },
-              {
-                step: "2",
-                title: "WE BUILD",
-                badge: "1-2 weeks",
-                desc: "You keep running your business. We build in the background. You'll see progress the whole way.",
-                details: "",
-                icon: Wrench
-              },
-              {
-                step: "3",
-                title: "IT RUNS",
-                badge: "Day 1",
-                desc: "Working system. Your team trained. 30-60 days of support included.",
-                details: "No decks. No roadmaps. No 'discovery phases.' Just the fix.",
-                icon: Check
-              }
-            ].map((item, i) => (
-              <div
-                key={i}
-                className={`step-row relative ${i % 2 === 0 ? "md:justify-start" : "md:justify-end"}`}
-              >
-                <div className="step-line-pulse hidden md:block" aria-hidden="true" />
+          <div data-reveal data-reveal-delay="1" className="how-it-works-content relative max-w-5xl mx-auto">
+            <div className="journey-path-column" aria-hidden="true">
+              <div className="journey-track" />
+              <div className="journey-fill" />
+              <div className="journey-node" data-step="1" />
+              <div className="journey-node" data-step="2" />
+              <div className="journey-node" data-step="3" />
+            </div>
 
-                <SpotlightCard className={`step-card w-full md:w-[46%] p-6 md:p-7 ${i % 2 === 0 ? "md:mr-auto" : "md:ml-auto"}`}>
-                  <span className="step-watermark" aria-hidden="true">{item.step}</span>
-                  <div className="relative z-[2]">
-                    <div className="step-head">
-                      <div className="step-icon-shell">
-                        <item.icon className="w-5 h-5 text-[var(--emerald)]" />
+            <div className="how-it-works-cards">
+              {[
+                {
+                  step: "1",
+                  title: "WE TALK",
+                  badge: "30 min, free",
+                  desc: "You show us the mess. We tell you exactly what it costs to fix. No pitch. No pressure. If it doesn't make sense, we'll say so.",
+                  details: "",
+                  icon: Phone
+                },
+                {
+                  step: "2",
+                  title: "WE BUILD",
+                  badge: "1-2 weeks",
+                  desc: "You keep running your business. We build in the background. You'll see progress the whole way.",
+                  details: "",
+                  icon: Wrench
+                },
+                {
+                  step: "3",
+                  title: "IT RUNS",
+                  badge: "Day 1",
+                  desc: "Working system. Your team trained. 30-60 days of support included.",
+                  details: "No decks. No roadmaps. No 'discovery phases.' Just the fix.",
+                  icon: Check
+                }
+              ].map((item, i) => (
+                <div key={i} className="step-row relative">
+                  <SpotlightCard className="step-card w-full p-6 md:p-7">
+                    <span className="step-watermark" aria-hidden="true">{item.step}</span>
+                    <div className="relative z-[2]">
+                      <div className="step-head">
+                        <div className="step-icon-shell">
+                          <item.icon className="w-5 h-5 text-[var(--emerald)]" />
+                        </div>
+                        <span className="step-badge">{item.badge}</span>
                       </div>
-                      <span className="step-badge">{item.badge}</span>
-                    </div>
 
-                    <h3 className="text-xl font-bold mb-3">
-                      {item.title}
-                    </h3>
-                    <p className="text-[#A7B1BA] mb-3">{item.desc}</p>
-                    <p className="text-[#7F8A95] text-sm">{item.details}</p>
-                  </div>
-                </SpotlightCard>
-              </div>
-            ))}
+                      <h3 className="text-xl font-bold mb-3">
+                        {item.title}
+                      </h3>
+                      <p className="text-[#A7B1BA] mb-3">{item.desc}</p>
+                      <p className="text-[#7F8A95] text-sm">{item.details}</p>
+                    </div>
+                  </SpotlightCard>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         <div className="h-32"></div>
