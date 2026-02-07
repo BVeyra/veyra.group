@@ -27,8 +27,8 @@ export function Navbar() {
   return (
     <header 
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled ? "glass-shiny glass-shiny-nav border-b border-white/12 py-3" : "bg-transparent py-5"
+        "site-nav fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        isScrolled ? "glass-shiny glass-shiny-nav is-scrolled py-3" : "glass-shiny glass-shiny-nav py-5"
       )}
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
@@ -62,7 +62,7 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full glass-shiny glass-shiny-nav border-b border-white/12 p-4">
+        <div className="md:hidden absolute top-full left-0 w-full glass-shiny glass-shiny-nav p-4">
           <Button 
             onClick={handleCTA}
             data-testid="button-nav-cta-mobile"

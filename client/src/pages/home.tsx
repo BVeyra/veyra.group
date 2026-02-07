@@ -2,12 +2,10 @@ import { Navbar, Footer } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Check, X, ArrowRight, Zap, Bot, RefreshCw, Phone, Wrench, ShieldCheck } from "lucide-react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, MotionConfig, useScroll, useTransform } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import { openCalendly, loadCalendlyScript } from "@/lib/calendly";
 import { SpinningWheel } from "@/components/SpinningWheel";
-import { CursorGlow } from "@/components/CursorGlow";
-import { ParallaxOrb } from "@/components/ParallaxOrb";
 import { SpotlightCard } from "@/components/SpotlightCard";
 import { StepSlider } from "@/components/StepSlider";
 
@@ -33,6 +31,7 @@ function ParallaxWheel() {
 
 function AnimatedNumber({ value, prefix = "", suffix = "" }: { value: number; prefix?: string; suffix?: string }) {
   const [displayValue, setDisplayValue] = useState(value);
+  const [isPulsing, setIsPulsing] = useState(false);
   const prevValue = useRef(value);
   
   useEffect(() => {
@@ -56,8 +55,14 @@ function AnimatedNumber({ value, prefix = "", suffix = "" }: { value: number; pr
     
     requestAnimationFrame(animate);
   }, [value]);
+
+  useEffect(() => {
+    setIsPulsing(true);
+    const timeout = window.setTimeout(() => setIsPulsing(false), 220);
+    return () => window.clearTimeout(timeout);
+  }, [value]);
   
-  return <span className="stat-number">{prefix}{displayValue.toLocaleString()}{suffix}</span>;
+  return <span className={`stat-number ${isPulsing ? "stat-number-pulse" : ""}`}>{prefix}{displayValue.toLocaleString()}{suffix}</span>;
 }
 
 
@@ -218,29 +223,6 @@ export default function Home() {
     loadCalendlyScript();
   }, []);
 
-  // Scroll-linked shimmer effect on accent gradient text
-  useEffect(() => {
-    const updateShimmer = () => {
-      const shimmerElements = document.querySelectorAll('.accent-gradient');
-      shimmerElements.forEach((el) => {
-        const rect = el.getBoundingClientRect();
-        const viewportHeight = window.innerHeight;
-        
-        // Calculate position relative to viewport (0 = top, 1 = bottom)
-        const relativePosition = 1 - (rect.top / viewportHeight);
-        const clampedPosition = Math.max(0, Math.min(1, relativePosition));
-        const bgPosition = clampedPosition * 100;
-        
-        (el as HTMLElement).style.backgroundPosition = `${bgPosition}% 0`;
-      });
-    };
-    
-    window.addEventListener('scroll', updateShimmer, { passive: true });
-    updateShimmer(); // Initial call
-    
-    return () => window.removeEventListener('scroll', updateShimmer);
-  }, []);
-
   const weeklyHours = teamSize * hoursPerPerson;
   const monthlyCost = weeklyHours * 4 * hourlyValue;
   const yearlyCost = monthlyCost * 12;
@@ -279,19 +261,12 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen font-sans text-foreground overflow-x-hidden flex flex-col">
-      <CursorGlow />
-      
-      {/* Parallax background orbs */}
-      <ParallaxOrb top="10vh" left="-100px" speed={0.3} size={700} opacity={0.2} blur={60} />
-      <ParallaxOrb top="60vh" right="-150px" speed={0.2} size={600} color="var(--steel)" opacity={0.18} blur={50} />
-      <ParallaxOrb top="140vh" left="5vw" speed={0.4} size={800} opacity={0.18} blur={70} />
-      <ParallaxOrb top="220vh" right="0px" speed={0.25} size={650} color="var(--steel)" opacity={0.15} blur={55} />
-      
+    <MotionConfig reducedMotion="user">
+      <div className="min-h-screen font-sans text-foreground overflow-x-hidden flex flex-col">
       <Navbar />
 
       {/* HERO SECTION */}
-      <section className="relative min-h-screen flex items-center pt-24 pb-32 overflow-hidden">
+      <section className="hero-section relative min-h-screen flex items-center pt-24 pb-32 overflow-hidden">
         <div className="hero-spotlight"></div>
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
@@ -299,14 +274,14 @@ export default function Home() {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
               className="space-y-6 text-center lg:text-left"
             >
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1]" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>
-                Stop doing work that doesn't <span className="accent-gradient">make you money.</span>
+              <h1 className="hero-title">
+                Stop doing work that doesn't <span className="hero-accent">make you money.</span>
               </h1>
               
-              <div className="text-lg text-[#7F8A95] leading-relaxed space-y-4">
+              <div className="hero-copy text-lg text-[#7F8A95] leading-relaxed space-y-4">
                 <p>The repetitive tasks. The manual processes. The busy work that fills your calendar but never fills your pipeline.</p>
                 <p>We build systems that eliminate it. In <span className="text-[var(--emerald)]">2 weeks</span>. For less than one month's salary.</p>
               </div>
@@ -352,16 +327,16 @@ export default function Home() {
       <div className="section-divider" />
 
       {/* AGITATION SECTION */}
-      <section className="section-wrapper relative">
+      <section className="section-wrapper section-dense relative">
         <div className="container mx-auto px-4 md:px-6">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             className="max-w-3xl mx-auto"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>Sound <span className="accent-gradient">Familiar?</span></h2>
+            <h2 className="section-title text-center">Sound <span className="section-accent">Familiar?</span></h2>
             
             <SpotlightCard className="glass-card p-8 md:p-12 space-y-6 text-lg text-[#7F8A95] leading-relaxed">
               <p className="text-[#A7B1BA]">Copying the same data into three different tools. <span className="text-[#7F8A95]">Again.</span></p>
@@ -382,7 +357,7 @@ export default function Home() {
       <div className="section-divider" />
 
       {/* WHAT WE BUILD SECTION */}
-      <section id="what-i-build" className="section-wrapper relative ambient-glow-emerald">
+      <section id="what-i-build" className="section-wrapper section-dense relative ambient-glow-emerald">
         <div className="floating-orb floating-orb-1"></div>
         <div className="floating-orb floating-orb-2"></div>
         <div className="absolute inset-0 pointer-events-none">
@@ -393,12 +368,12 @@ export default function Home() {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-4"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>What We <span className="accent-gradient">Build</span></h2>
-            <p className="text-[#7F8A95] text-lg">Not strategy decks. Not consulting reports. We build the systems that do the work — so you stop doing it.</p>
+            <h2 className="section-title">What We <span className="section-accent">Build</span></h2>
+            <p className="section-subtitle text-[#7F8A95]">Not strategy decks. Not consulting reports. We build the systems that do the work — so you stop doing it.</p>
           </motion.div>
 
           <div className="max-w-6xl mx-auto mt-16">
@@ -406,8 +381,8 @@ export default function Home() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.5 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
                 className="lg:col-span-2 lg:row-span-2"
               >
                 <SpotlightCard className="bento-card feature-card feature-flagship p-8 md:p-10 h-full group">
@@ -415,7 +390,7 @@ export default function Home() {
                   <div className="feature-icon-shell w-16 h-16 flex items-center justify-center mb-6">
                     <Zap className="feature-icon w-8 h-8 text-[var(--emerald)]" />
                   </div>
-                  <h3 className="feature-title text-2xl font-bold mb-4" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>AUTOMATIONS</h3>
+                  <h3 className="feature-title text-2xl font-bold mb-4">AUTOMATIONS</h3>
                   <p className="feature-description text-[#A7B1BA] mb-2">The stuff you keep saying you'll fix "when things slow down."</p>
                   <p className="feature-description text-[#7F8A95] mb-4 italic">(Things never slow down.)</p>
                   <ul className="space-y-3 mb-6">
@@ -440,8 +415,8 @@ export default function Home() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ delay: 0.08, duration: 0.5 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ delay: 0.1, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
                 className="lg:col-span-1"
               >
                 <SpotlightCard className="bento-card feature-card p-8 h-full group">
@@ -449,7 +424,7 @@ export default function Home() {
                   <div className="feature-icon-shell w-14 h-14 flex items-center justify-center mb-5">
                     <Bot className="feature-icon w-7 h-7 text-slate-400" />
                   </div>
-                  <h3 className="feature-title text-xl font-bold mb-3" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>CUSTOM AI TOOLS</h3>
+                  <h3 className="feature-title text-xl font-bold mb-3">CUSTOM AI TOOLS</h3>
                   <p className="feature-description text-[#A7B1BA] mb-4">You've answered the same question 100 times. Your AI should know the answer by now.</p>
                   <ul className="space-y-2 mb-4">
                     <li className="flex items-start gap-2 text-sm">
@@ -474,8 +449,8 @@ export default function Home() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ delay: 0.16, duration: 0.5 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ delay: 0.2, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
                 className="lg:col-span-1"
               >
                 <SpotlightCard className="bento-card feature-card p-8 h-full group">
@@ -483,7 +458,7 @@ export default function Home() {
                   <div className="feature-icon-shell w-14 h-14 flex items-center justify-center mb-5">
                     <RefreshCw className="feature-icon w-7 h-7 text-slate-400" />
                   </div>
-                  <h3 className="feature-title text-xl font-bold mb-3" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>MONTHLY PARTNERSHIP</h3>
+                  <h3 className="feature-title text-xl font-bold mb-3">MONTHLY PARTNERSHIP</h3>
                   <p className="feature-description text-[#A7B1BA] mb-4">You don't need a full-time hire. You need someone on call.</p>
                   <p className="feature-description text-[#7F8A95] mb-4">New automations as you need them. Maintenance when things change. Updates when tools break. One Slack message away.</p>
                   <p className="feature-description text-[#A7B1BA] font-bold">Like having a tech team — without hiring one.</p>
@@ -498,7 +473,7 @@ export default function Home() {
       <div className="section-divider" />
 
       {/* CALCULATOR SECTION */}
-      <section id="calculator" className="section-wrapper relative overflow-hidden ambient-glow-center">
+      <section id="calculator" className="section-wrapper section-dense relative overflow-hidden ambient-glow-center">
         <div className="floating-orb floating-orb-1"></div>
         <div className="floating-orb floating-orb-3"></div>
         <div className="absolute inset-0 pointer-events-none">
@@ -510,18 +485,18 @@ export default function Home() {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.5 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
               className="text-center mb-12"
             >
-              <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>The <span className="accent-gradient">Math</span></h2>
+              <h2 className="section-title">The <span className="section-accent">Math</span></h2>
             </motion.div>
 
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.5 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
               className="w-full"
             >
               <SpotlightCard className="glass-card glow-border p-8 md:p-12">
@@ -639,16 +614,16 @@ export default function Home() {
       <div className="section-divider" />
 
       {/* HOW IT WORKS SECTION */}
-      <section id="how-it-works" className="section-wrapper relative">
+      <section id="how-it-works" className="section-wrapper section-prelude section-dense relative">
         <div className="container mx-auto px-4 md:px-6">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>How It <span className="accent-gradient">Works</span></h2>
+            <h2 className="section-title">How It <span className="section-accent">Works</span></h2>
           </motion.div>
 
           <div className="relative max-w-5xl mx-auto steps-timeline">
@@ -682,8 +657,8 @@ export default function Home() {
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ delay: i * 0.1, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
                 className={`step-row relative ${i % 2 === 0 ? "md:justify-start" : "md:justify-end"}`}
               >
                 <div className="step-line-pulse hidden md:block" aria-hidden="true" />
@@ -698,7 +673,7 @@ export default function Home() {
                       <span className="step-badge">{item.badge}</span>
                     </div>
 
-                    <h3 className="text-xl font-bold mb-3" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>
+                    <h3 className="text-xl font-bold mb-3">
                       {item.title}
                     </h3>
                     <p className="text-[#A7B1BA] mb-3">{item.desc}</p>
@@ -715,19 +690,19 @@ export default function Home() {
       <div className="section-divider" />
 
       {/* PRICING SECTION */}
-      <section className="section-wrapper relative ambient-glow-center">
+      <section className="section-wrapper section-dense section-pricing relative ambient-glow-center">
         <div className="floating-orb floating-orb-2"></div>
         <div className="floating-orb floating-orb-3"></div>
         <div className="container mx-auto px-4 md:px-6">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>Simple <span className="accent-gradient">Pricing</span></h2>
-            <p className="text-[#7F8A95] text-lg">No hourly rates. No surprise invoices. Just clear packages.</p>
+            <h2 className="section-title">Simple <span className="section-accent">Pricing</span></h2>
+            <p className="section-subtitle text-[#7F8A95]">No hourly rates. No surprise invoices. Just clear packages.</p>
           </motion.div>
 
           <div className="max-w-5xl mx-auto">
@@ -759,8 +734,8 @@ export default function Home() {
                   key={i}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ delay: i * 0.1, duration: 0.5 }}
+                  viewport={{ once: true, amount: 0.15 }}
+                  transition={{ delay: i * 0.1, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
                   className="relative"
                 >
                   {plan.popular && (
@@ -768,8 +743,8 @@ export default function Home() {
                       <span className="bg-gradient-to-r from-[var(--emerald)] to-[var(--steel)] text-white text-xs font-bold px-4 py-1.5 rounded-full">MOST COMMON</span>
                     </div>
                   )}
-                  <SpotlightCard className={`glass-card glass-card-hover p-8 h-full ${plan.popular ? 'border-[var(--emerald)]/30 pricing-card-spotlight' : ''}`}>
-                    <h3 className="text-lg font-bold mb-2" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{plan.name}</h3>
+                  <SpotlightCard className={`glass-card glass-card-hover pricing-card p-8 h-full ${plan.popular ? 'border-[var(--emerald)]/30 pricing-card-spotlight' : 'pricing-card-secondary'}`}>
+                    <h3 className="text-lg font-bold mb-2">{plan.name}</h3>
                     <p className="text-3xl font-bold text-[var(--emerald)] mb-3">{plan.price}</p>
                     <p className="text-[#7F8A95] text-sm mb-6">{plan.description}</p>
                     <ul className="space-y-3">
@@ -792,16 +767,16 @@ export default function Home() {
       <div className="section-divider" />
 
       {/* GUARANTEE SECTION */}
-      <section className="section-wrapper relative">
+      <section className="section-wrapper section-breathe relative">
         <div className="container mx-auto px-4 md:px-6">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             className="max-w-3xl mx-auto text-center"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-8" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>The <span className="accent-gradient">Guarantee</span></h2>
+            <h2 className="section-title">The <span className="section-accent">Guarantee</span></h2>
             
             <SpotlightCard className="guarantee-card text-center" variant="guarantee">
               <div className="guarantee-seal mx-auto mb-6">
@@ -818,24 +793,24 @@ export default function Home() {
       <div className="section-divider" />
 
       {/* WHO THIS IS FOR SECTION */}
-      <section className="section-wrapper relative">
+      <section className="section-wrapper section-dense relative">
         <div className="container mx-auto px-4 md:px-6">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>Is This a <span className="accent-gradient">Fit</span>?</h2>
+            <h2 className="section-title">Is This a <span className="section-accent">Fit</span>?</h2>
           </motion.div>
 
           <div className="max-w-3xl mx-auto grid md:grid-cols-2 gap-5">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.5 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
               className="h-full"
             >
               <SpotlightCard className="fit-card h-full p-6" variant="fit">
@@ -859,8 +834,8 @@ export default function Home() {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ delay: 0.1, duration: 0.5 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ delay: 0.1, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
               className="h-full"
             >
               <SpotlightCard className="fit-card h-full p-6" variant="fit">
@@ -887,24 +862,23 @@ export default function Home() {
       <div className="section-divider" />
 
       {/* ABOUT SECTION */}
-      <section className="section-wrapper relative">
+      <section className="section-wrapper section-statement relative">
         <div className="container mx-auto px-4 md:px-6">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             className="max-w-3xl mx-auto"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>Who We <span className="accent-gradient">Are</span></h2>
-            
-            <SpotlightCard className="about-card glass-card glow-border p-8 md:p-12 text-center">
+            <h2 className="section-title text-center">Who We <span className="section-accent">Are</span></h2>
+            <div className="statement-block text-center">
               <div className="space-y-4 text-[#7F8A95] leading-relaxed max-w-xl mx-auto">
                 <p className="text-[#A7B1BA] font-medium text-lg">We work with businesses too small to hire a full-time automation specialist — and too busy to figure this out alone.</p>
                 <p className="text-[#A7B1BA] mt-4">You point at the problem. We make it go away.</p>
               </div>
-              <p className="mt-8 text-[var(--emerald)] font-semibold text-lg">— Veyra Group</p>
-            </SpotlightCard>
+              <p className="statement-attribution mt-8 text-[var(--emerald)] font-semibold text-lg">— Veyra Group</p>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -912,24 +886,23 @@ export default function Home() {
       <div className="section-divider" />
 
       {/* FAQ SECTION */}
-      <section className="section-wrapper relative">
+      <section className="section-wrapper section-prelude section-faq relative">
         <div className="container mx-auto px-4 md:px-6 max-w-5xl">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
-            className="text-4xl md:text-5xl font-bold mb-12 text-center"
-            style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+            className="section-title text-center"
           >
-            <span className="accent-gradient">FAQ</span>
+            <span className="section-accent">FAQ</span>
           </motion.h2>
           
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
           >
             <Accordion type="single" collapsible className="faq-accordion mx-auto w-full max-w-[980px]">
               {[
@@ -964,19 +937,19 @@ export default function Home() {
       <div className="section-divider" />
 
       {/* FINAL CTA SECTION */}
-      <section className="section-wrapper relative ambient-glow-emerald">
+      <section className="section-wrapper section-arrival relative ambient-glow-emerald">
         <div className="floating-orb floating-orb-1"></div>
         <div className="floating-orb floating-orb-2"></div>
         <div className="container mx-auto px-4 md:px-6 max-w-3xl text-center">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             className="w-full"
           >
             <SpotlightCard className="glass-card glow-border p-12 md:p-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>Let's <span className="accent-gradient">Talk</span></h2>
+            <h2 className="section-title text-center mb-6">Let's <span className="section-accent">Talk</span></h2>
             <div className="text-[#7F8A95] text-lg mb-10 leading-relaxed space-y-4">
               <p>30 minutes. That's it.</p>
               <p>We'll map out exactly what's eating your week — and what it would cost to make it stop.</p>
@@ -986,7 +959,7 @@ export default function Home() {
               onClick={openCalendly}
               size="lg"
               data-testid="button-final-cta"
-              className="glow-button hero-cta font-semibold group"
+              className="glow-button hero-cta final-cta-button font-semibold group"
             >
               Book the Call
               <ArrowRight className="ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform" />
@@ -1003,5 +976,6 @@ export default function Home() {
 
       <Footer />
     </div>
+    </MotionConfig>
   );
 }
