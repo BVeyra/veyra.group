@@ -168,31 +168,6 @@ body {
   animation: fadeSlideIn 0.8s ease-out forwards;
 }
 
-/* Staggered animation for hero elements */
-.hero-content > *,
-section:first-of-type .space-y-6 > * {
-  opacity: 0;
-  animation: fadeSlideIn 0.6s ease-out forwards;
-}
-
-section:first-of-type .space-y-6 > *:nth-child(1) { animation-delay: 0.1s; }
-section:first-of-type .space-y-6 > *:nth-child(2) { animation-delay: 0.2s; }
-section:first-of-type .space-y-6 > *:nth-child(3) { animation-delay: 0.3s; }
-section:first-of-type .space-y-6 > *:nth-child(4) { animation-delay: 0.4s; }
-section:first-of-type .space-y-6 > *:nth-child(5) { animation-delay: 0.5s; }
-
-/* Hero stats wheel entrance */
-.hero-stats-wheel {
-  opacity: 0;
-  animation: fadeSlideIn 0.8s ease-out 0.3s forwards;
-}
-
-/* Parallax performance optimization */
-.hero-stats-wheel {
-  will-change: transform;
-  transform: translateZ(0);
-}
-
 @keyframes driftSlow {
   0%, 100% { transform: translate(0, 0); }
   50% { transform: translate(50px, 30px); }
@@ -1559,19 +1534,6 @@ input[type=range]::-moz-range-progress {
   }
 }
 
-/* perf fix 10: strategic will-change + reduced-motion cleanup */
-.floating-orb {
-  will-change: transform;
-}
-
-.hero-stats-wheel {
-  will-change: transform;
-}
-
-.stats-outer-ring-main {
-  will-change: transform;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .floating-orb,
   .pulse-glow,
@@ -2249,7 +2211,6 @@ a.bg-primary:hover {
     border-color 280ms ease,
     box-shadow 280ms ease,
     background 280ms ease;
-  will-change: auto;
   transform: none !important;
   backdrop-filter: blur(16px) saturate(140%);
   -webkit-backdrop-filter: blur(16px) saturate(140%);
@@ -2994,7 +2955,6 @@ body::after {
   border-radius: 16px !important;
   border: 1px solid rgba(255, 255, 255, 0.06) !important;
   transition: all 300ms ease !important;
-  will-change: transform, opacity;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.32) !important;
 }
 
@@ -3173,4 +3133,155 @@ a.bg-primary:active {
   .statement-block p {
     font-size: clamp(1.32rem, 5vw, 1.55rem);
   }
+}
+
+/* ==================================================
+   BLOCKY LAYOUT + SCROLL PERFORMANCE FIXES
+   ================================================== */
+
+[data-animate] {
+  opacity: 0;
+  transition: opacity 500ms ease-out;
+}
+
+[data-animate].visible {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-animate] {
+    opacity: 1;
+    transition: none;
+  }
+}
+
+.section-open {
+  padding-top: 6rem !important;
+  padding-bottom: 6rem !important;
+}
+
+.section-dense {
+  padding-top: 4rem !important;
+  padding-bottom: 4rem !important;
+}
+
+.section-breathe,
+.section-statement {
+  padding-top: 6rem !important;
+  padding-bottom: 6rem !important;
+}
+
+.section-arrival {
+  padding-top: 8rem !important;
+  padding-bottom: 8rem !important;
+}
+
+.section-prelude {
+  padding-top: clamp(4rem, 8vw, 8rem) !important;
+}
+
+.section-faq {
+  padding-top: clamp(4rem, 8vw, 8rem) !important;
+}
+
+.section-divider {
+  display: none !important;
+}
+
+.guarantee-card {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+
+.final-cta-shell {
+  max-width: 600px;
+  margin: 0 auto;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+.fit-card {
+  border-color: rgba(255, 255, 255, 0.06) !important;
+  box-shadow: none !important;
+  background: rgba(10, 18, 14, 0.36) !important;
+}
+
+.pricing-card {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none !important;
+}
+
+.pricing-card-spotlight {
+  transform: scale(1.02) !important;
+  border-color: rgba(45, 212, 160, 0.2) !important;
+  box-shadow: 0 0 40px rgba(45, 212, 160, 0.08) !important;
+}
+
+.pricing-card-secondary {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  opacity: 0.92;
+  filter: none;
+}
+
+.pricing-card-secondary:hover {
+  opacity: 1;
+  border-color: rgba(255, 255, 255, 0.11) !important;
+}
+
+@media (max-width: 767px) {
+  .pricing-card-spotlight {
+    transform: none !important;
+  }
+}
+
+.glow-button,
+.glow-button.bg-primary,
+button.bg-primary,
+a.bg-primary {
+  font-size: 1rem !important;
+  padding: 0.85rem 1.5rem !important;
+  border-color: rgba(45, 212, 160, 0.38) !important;
+  transform: none !important;
+  transition: all 200ms ease !important;
+}
+
+.glow-button:hover,
+.glow-button.bg-primary:hover,
+button.bg-primary:hover,
+a.bg-primary:hover {
+  filter: brightness(1.06);
+  transform: none !important;
+  box-shadow: 0 0 20px rgba(45, 212, 160, 0.15) !important;
+}
+
+.glow-button:active,
+.glow-button.bg-primary:active,
+button.bg-primary:active,
+a.bg-primary:active {
+  transform: none !important;
+}
+
+.floating-orb,
+.ambient-glow-emerald::before,
+.ambient-glow-center::before,
+.feature-blob,
+.wheel-depth-glow {
+  display: none !important;
+}
+
+.hero-section .hero-spotlight {
+  display: block !important;
+}
+
+#what-i-build .feature-card,
+#calculator .glass-card,
+#how-it-works .step-card {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3) !important;
 }

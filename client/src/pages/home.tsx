@@ -2,7 +2,6 @@ import { Navbar, Footer } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Check, X, ArrowRight, Zap, Bot, RefreshCw, Phone, Wrench, ShieldCheck } from "lucide-react";
-import { motion, MotionConfig, useScroll, useTransform } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import { openCalendly, loadCalendlyScript } from "@/lib/calendly";
 import { SpinningWheel } from "@/components/SpinningWheel";
@@ -10,24 +9,12 @@ import { SpotlightCard } from "@/components/SpotlightCard";
 import { StepSlider } from "@/components/StepSlider";
 
 function ParallaxWheel() {
-  const ref = useRef(null);
-  const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 800], [0, 120]);
-  
   return (
-    <motion.div 
-      ref={ref}
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 1.2, delay: 0.3 }}
-      style={{ y }}
-      className="flex justify-center items-center w-full h-[520px]"
-    >
+    <div className="flex justify-center items-center w-full h-[520px]">
       <SpinningWheel />
-    </motion.div>
+    </div>
   );
 }
-
 
 function AnimatedNumber({ value, prefix = "", suffix = "" }: { value: number; prefix?: string; suffix?: string }) {
   const [displayValue, setDisplayValue] = useState(value);
@@ -64,7 +51,6 @@ function AnimatedNumber({ value, prefix = "", suffix = "" }: { value: number; pr
   
   return <span className={`stat-number ${isPulsing ? "stat-number-pulse" : ""}`}>{prefix}{displayValue.toLocaleString()}{suffix}</span>;
 }
-
 
 const logoData = [
   {
@@ -223,6 +209,31 @@ export default function Home() {
     loadCalendlyScript();
   }, []);
 
+  useEffect(() => {
+    const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-animate]"));
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReduced) {
+      sections.forEach((section) => section.classList.add("visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
   const weeklyHours = teamSize * hoursPerPerson;
   const monthlyCost = weeklyHours * 4 * hourlyValue;
   const yearlyCost = monthlyCost * 12;
@@ -261,20 +272,16 @@ export default function Home() {
   };
 
   return (
-    <MotionConfig reducedMotion="user">
       <div className="min-h-screen font-sans text-foreground overflow-x-hidden flex flex-col">
       <Navbar />
 
       {/* HERO SECTION */}
-      <section className="hero-section relative min-h-screen flex items-center pt-24 pb-32 overflow-hidden">
+      <section data-animate className="hero-section relative min-h-screen flex items-center pt-24 pb-32 overflow-hidden">
         <div className="hero-spotlight"></div>
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-7xl mx-auto">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+            <div 
               className="space-y-6 text-center lg:text-left"
             >
               <h1 className="hero-title">
@@ -298,7 +305,7 @@ export default function Home() {
                 </Button>
               </div>
               
-            </motion.div>
+            </div>
 
             <ParallaxWheel />
           </div>
@@ -324,21 +331,15 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="section-divider" />
-
       {/* AGITATION SECTION */}
-      <section className="section-wrapper section-dense relative">
+      <section data-animate className="section-wrapper section-open relative">
         <div className="container mx-auto px-4 md:px-6">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          <div 
             className="max-w-3xl mx-auto"
           >
             <h2 className="section-title text-center">Sound <span className="section-accent">Familiar?</span></h2>
             
-            <SpotlightCard className="glass-card p-8 md:p-12 space-y-6 text-lg text-[#7F8A95] leading-relaxed">
+            <div className="space-y-6 text-lg text-[#7F8A95] leading-relaxed">
               <p className="text-[#A7B1BA]">Copying the same data into three different tools. <span className="text-[#7F8A95]">Again.</span></p>
               <p className="text-[#A7B1BA]">Manually updating a spreadsheet that should update itself. <span className="text-[#7F8A95]">Again.</span></p>
               <p className="text-[#A7B1BA]">Sending the same email you sent last week. And the week before. <span className="text-[#7F8A95]">Again.</span></p>
@@ -349,43 +350,27 @@ export default function Home() {
               <p className="text-[#A7B1BA] font-medium pt-4">And the worst part? While you're buried in this — the deals you should be closing, the clients you should be serving, the growth you should be focused on — that's what's getting squeezed out.</p>
               
               <p className="text-[#C9D3D9] font-semibold text-xl pt-4">Busy work doesn't make you money. It costs you money.</p>
-            </SpotlightCard>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <div className="section-divider" />
-
       {/* WHAT WE BUILD SECTION */}
-      <section id="what-i-build" className="section-wrapper section-dense relative ambient-glow-emerald">
-        <div className="floating-orb floating-orb-1"></div>
-        <div className="floating-orb floating-orb-2"></div>
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-[var(--emerald)]/3 to-transparent rounded-full blur-3xl" />
-        </div>
-        
+      <section data-animate id="what-i-build" className="section-wrapper section-dense relative">
         <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          <div 
             className="text-center mb-4"
           >
             <h2 className="section-title">What We <span className="section-accent">Build</span></h2>
             <p className="section-subtitle text-[#7F8A95]">Not strategy decks. Not consulting reports. We build the systems that do the work — so you stop doing it.</p>
-          </motion.div>
+          </div>
 
           <div className="max-w-6xl mx-auto mt-16">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[minmax(240px,auto)]">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.15 }}
-                transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-                className="lg:col-span-2 lg:row-span-2"
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start gap-6">
+              <div
+                className=""
               >
-                <SpotlightCard className="bento-card feature-card feature-flagship p-8 md:p-10 h-full group">
+                <SpotlightCard className="bento-card feature-card feature-flagship p-8 md:p-10 group">
                   <div className="feature-blob feature-blob-primary" />
                   <div className="feature-icon-shell w-16 h-16 flex items-center justify-center mb-6">
                     <Zap className="feature-icon w-8 h-8 text-[var(--emerald)]" />
@@ -410,16 +395,12 @@ export default function Home() {
                   <p className="feature-description text-[#A7B1BA] font-bold">It's never a few minutes.</p>
                   <span className="feature-hover-link">Learn more →</span>
                 </SpotlightCard>
-              </motion.div>
+              </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.15 }}
-                transition={{ delay: 0.1, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-                className="lg:col-span-1"
+              <div
+                className=""
               >
-                <SpotlightCard className="bento-card feature-card p-8 h-full group">
+                <SpotlightCard className="bento-card feature-card p-8 group">
                   <div className="feature-blob feature-blob-secondary" />
                   <div className="feature-icon-shell w-14 h-14 flex items-center justify-center mb-5">
                     <Bot className="feature-icon w-7 h-7 text-slate-400" />
@@ -444,16 +425,12 @@ export default function Home() {
                   <p className="feature-description text-[#A7B1BA] font-bold">Build the thing that answers for you.</p>
                   <span className="feature-hover-link">Learn more →</span>
                 </SpotlightCard>
-              </motion.div>
+              </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.15 }}
-                transition={{ delay: 0.2, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-                className="lg:col-span-1"
+              <div
+                className=""
               >
-                <SpotlightCard className="bento-card feature-card p-8 h-full group">
+                <SpotlightCard className="bento-card feature-card p-8 group">
                   <div className="feature-blob feature-blob-tertiary" />
                   <div className="feature-icon-shell w-14 h-14 flex items-center justify-center mb-5">
                     <RefreshCw className="feature-icon w-7 h-7 text-slate-400" />
@@ -464,39 +441,23 @@ export default function Home() {
                   <p className="feature-description text-[#A7B1BA] font-bold">Like having a tech team — without hiring one.</p>
                   <span className="feature-hover-link">Learn more →</span>
                 </SpotlightCard>
-              </motion.div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <div className="section-divider" />
-
       {/* CALCULATOR SECTION */}
-      <section id="calculator" className="section-wrapper section-dense relative overflow-hidden ambient-glow-center">
-        <div className="floating-orb floating-orb-1"></div>
-        <div className="floating-orb floating-orb-3"></div>
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-radial from-[var(--emerald)]/5 via-[var(--steel)]/3 to-transparent rounded-full blur-3xl" />
-        </div>
-        
+      <section data-animate id="calculator" className="section-wrapper section-dense relative overflow-hidden">
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl mx-auto">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+            <div 
               className="text-center mb-12"
             >
               <h2 className="section-title">The <span className="section-accent">Math</span></h2>
-            </motion.div>
+            </div>
 
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+            <div 
               className="w-full"
             >
               <SpotlightCard className="glass-card glow-border p-8 md:p-12">
@@ -560,10 +521,10 @@ export default function Home() {
                 <p className="text-[#A7B1BA] italic mt-2">(What would ONE saved deal be worth to you?)</p>
                 </div>
 
-                <SpotlightCard className="glass-card p-6 text-center border border-[var(--emerald)]/20 mb-8">
+                <div className="rounded-2xl p-6 text-center border border-[var(--emerald)]/20 mb-8 bg-[rgba(10,18,14,0.32)]">
                   <p className="text-[#A7B1BA] mb-2">A one-time build starts at <span className="text-[var(--emerald)] font-semibold">$2,000</span>.</p>
                   <p className="text-[#A7B1BA] font-bold text-lg">Pays for itself in <span className="text-[var(--emerald)]">{monthlyCost > 0 ? Math.max(1, Math.ceil((2000 / monthlyCost) * 30)) : 30}</span> days.</p>
-                </SpotlightCard>
+                </div>
 
                 {emailSubmitted ? (
                   <div className="flex items-center justify-center gap-2 text-[var(--emerald)] py-4">
@@ -606,25 +567,19 @@ export default function Home() {
                 )}
               </div>
               </SpotlightCard>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
 
-      <div className="section-divider" />
-
       {/* HOW IT WORKS SECTION */}
-      <section id="how-it-works" className="section-wrapper section-prelude section-dense relative">
+      <section data-animate id="how-it-works" className="section-wrapper section-prelude section-dense relative">
         <div className="container mx-auto px-4 md:px-6">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          <div 
             className="text-center mb-16"
           >
             <h2 className="section-title">How It <span className="section-accent">Works</span></h2>
-          </motion.div>
+          </div>
 
           <div className="relative max-w-5xl mx-auto steps-timeline">
             {[
@@ -653,12 +608,8 @@ export default function Home() {
                 icon: Check
               }
             ].map((item, i) => (
-              <motion.div
+              <div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.15 }}
-                transition={{ delay: i * 0.1, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
                 className={`step-row relative ${i % 2 === 0 ? "md:justify-start" : "md:justify-end"}`}
               >
                 <div className="step-line-pulse hidden md:block" aria-hidden="true" />
@@ -680,30 +631,22 @@ export default function Home() {
                     <p className="text-[#7F8A95] text-sm">{item.details}</p>
                   </div>
                 </SpotlightCard>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
         <div className="h-32"></div>
       </section>
 
-      <div className="section-divider" />
-
       {/* PRICING SECTION */}
-      <section className="section-wrapper section-dense section-pricing relative ambient-glow-center">
-        <div className="floating-orb floating-orb-2"></div>
-        <div className="floating-orb floating-orb-3"></div>
+      <section data-animate className="section-wrapper section-dense section-pricing relative">
         <div className="container mx-auto px-4 md:px-6">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          <div 
             className="text-center mb-16"
           >
             <h2 className="section-title">Simple <span className="section-accent">Pricing</span></h2>
             <p className="section-subtitle text-[#7F8A95]">No hourly rates. No surprise invoices. Just clear packages.</p>
-          </motion.div>
+          </div>
 
           <div className="max-w-5xl mx-auto">
             <div className="grid md:grid-cols-3 gap-6">
@@ -730,12 +673,8 @@ export default function Home() {
                   popular: false
                 }
               ].map((plan, i) => (
-                <motion.div 
+                <div 
                   key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.15 }}
-                  transition={{ delay: i * 0.1, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
                   className="relative"
                 >
                   {plan.popular && (
@@ -756,7 +695,7 @@ export default function Home() {
                       ))}
                     </ul>
                   </SpotlightCard>
-                </motion.div>
+                </div>
               ))}
             </div>
             <p className="text-center text-[#7F8A95] mt-8 text-lg">Still cheaper than one bad hire.</p>
@@ -764,53 +703,37 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="section-divider" />
-
       {/* GUARANTEE SECTION */}
-      <section className="section-wrapper section-breathe relative">
+      <section data-animate className="section-wrapper section-breathe relative">
         <div className="container mx-auto px-4 md:px-6">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          <div 
             className="max-w-3xl mx-auto text-center"
           >
             <h2 className="section-title">The <span className="section-accent">Guarantee</span></h2>
             
-            <SpotlightCard className="guarantee-card text-center" variant="guarantee">
+            <div className="guarantee-card text-center">
               <div className="guarantee-seal mx-auto mb-6">
                 <ShieldCheck className="w-14 h-14 text-[#d4a853]" />
               </div>
               <p className="guarantee-title text-[rgba(255,255,255,0.92)] font-semibold text-xl mb-3">If it doesn't hit the goals we agreed on, we fix it. Free.</p>
               <p className="text-[rgba(255,255,255,0.72)] text-lg mb-4">And if we can't get it working within your support window? You keep everything we built — and pay nothing.</p>
               <p className="text-[#7F8A95] text-sm italic">We've never had to use this.</p>
-            </SpotlightCard>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <div className="section-divider" />
-
       {/* WHO THIS IS FOR SECTION */}
-      <section className="section-wrapper section-dense relative">
+      <section data-animate className="section-wrapper section-dense relative">
         <div className="container mx-auto px-4 md:px-6">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          <div 
             className="text-center mb-16"
           >
             <h2 className="section-title">Is This a <span className="section-accent">Fit</span>?</h2>
-          </motion.div>
+          </div>
 
           <div className="max-w-3xl mx-auto grid md:grid-cols-2 gap-5">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+            <div 
               className="h-full"
             >
               <SpotlightCard className="fit-card h-full p-6" variant="fit">
@@ -829,13 +752,9 @@ export default function Home() {
                   ))}
                 </ul>
               </SpotlightCard>
-            </motion.div>
+            </div>
             
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ delay: 0.1, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+            <div 
               className="h-full"
             >
               <SpotlightCard className="fit-card h-full p-6" variant="fit">
@@ -854,21 +773,15 @@ export default function Home() {
                   ))}
                 </ul>
               </SpotlightCard>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
 
-      <div className="section-divider" />
-
       {/* ABOUT SECTION */}
-      <section className="section-wrapper section-statement relative">
+      <section data-animate className="section-wrapper section-statement relative">
         <div className="container mx-auto px-4 md:px-6">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          <div 
             className="max-w-3xl mx-auto"
           >
             <h2 className="section-title text-center">Who We <span className="section-accent">Are</span></h2>
@@ -879,30 +792,20 @@ export default function Home() {
               </div>
               <p className="statement-attribution mt-8 text-[var(--emerald)] font-semibold text-lg">— Veyra Group</p>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      <div className="section-divider" />
-
       {/* FAQ SECTION */}
-      <section className="section-wrapper section-prelude section-faq relative">
+      <section data-animate className="section-wrapper section-prelude section-faq relative">
         <div className="container mx-auto px-4 md:px-6 max-w-5xl">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          <h2 
             className="section-title text-center"
           >
             <span className="section-accent">FAQ</span>
-          </motion.h2>
+          </h2>
           
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          <div
           >
             <Accordion type="single" collapsible className="faq-accordion mx-auto w-full max-w-[980px]">
               {[
@@ -913,42 +816,32 @@ export default function Home() {
                 { q: "How long until it's running?", a: "Most builds are done in 1-2 weeks. Not a proposal. Not a project plan. A working system, live in your business." },
                 { q: "What if something breaks later?", a: "Every build includes 30 days of support. If something breaks, we fix it. After that, you can either grab a monthly partnership for ongoing maintenance — or we document everything so your team can handle it. Either way, you're not left hanging." }
               ].map((item, i) => (
-                <motion.div key={i} layout>
-                  <SpotlightCard className="faq-card" variant="faq">
-                    <AccordionItem
-                      value={`item-${i}`}
-                      className="border-none px-0"
-                    >
-                      <AccordionTrigger className="faq-question text-xl py-6 hover:no-underline text-left">
-                        {item.q}
-                      </AccordionTrigger>
-                      <AccordionContent className="faq-answer pb-7 text-base leading-relaxed">
-                        {item.a}
-                      </AccordionContent>
-                    </AccordionItem>
-                  </SpotlightCard>
-                </motion.div>
+                <div key={i}>
+                  <AccordionItem
+                    value={`item-${i}`}
+                    className="faq-card border-none px-0"
+                  >
+                    <AccordionTrigger className="faq-question text-xl py-6 hover:no-underline text-left">
+                      {item.q}
+                    </AccordionTrigger>
+                    <AccordionContent className="faq-answer pb-7 text-base leading-relaxed">
+                      {item.a}
+                    </AccordionContent>
+                  </AccordionItem>
+                </div>
               ))}
             </Accordion>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      <div className="section-divider" />
-
       {/* FINAL CTA SECTION */}
-      <section className="section-wrapper section-arrival relative ambient-glow-emerald">
-        <div className="floating-orb floating-orb-1"></div>
-        <div className="floating-orb floating-orb-2"></div>
+      <section data-animate className="section-wrapper section-arrival relative">
         <div className="container mx-auto px-4 md:px-6 max-w-3xl text-center">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          <div 
             className="w-full"
           >
-            <SpotlightCard className="glass-card glow-border p-12 md:p-16">
+            <div className="final-cta-shell p-12 md:p-16">
             <h2 className="section-title text-center mb-6">Let's <span className="section-accent">Talk</span></h2>
             <div className="text-[#7F8A95] text-lg mb-10 leading-relaxed space-y-4">
               <p>30 minutes. That's it.</p>
@@ -969,13 +862,12 @@ export default function Home() {
               <a href="tel:+13026002625" className="text-[#5F6972] hover:text-[var(--emerald)]">(302) 600-2625</a><br />
               We usually reply same day.
             </p>
-            </SpotlightCard>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
       <Footer />
     </div>
-    </MotionConfig>
   );
 }
