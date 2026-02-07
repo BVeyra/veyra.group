@@ -55,18 +55,22 @@ export function openCalendly() {
     return false;
   };
 
-  if (openPopup()) return;
+  if (openPopup()) {
+    return;
+  }
 
+  // Keep click handling synchronous so browser popup blockers don't kill the CTA.
+  const fallbackWindow = window.open(CALENDLY_URL, "_blank", "noopener,noreferrer");
+  if (!fallbackWindow) {
+    window.location.assign(CALENDLY_URL);
+    return;
+  }
+
+  // Opportunistically load Calendly script for future popup usage.
   ensureCalendlyStyle();
-  ensureCalendlyScript()
-    .then(() => {
-      if (!openPopup()) {
-        window.open(CALENDLY_URL, "_blank", "noopener,noreferrer");
-      }
-    })
-    .catch(() => {
-      window.open(CALENDLY_URL, "_blank", "noopener,noreferrer");
-    });
+  ensureCalendlyScript().catch(() => {
+    // Ignore load failure because fallback URL already opened.
+  });
 }
 
 export function loadCalendlyScript() {
