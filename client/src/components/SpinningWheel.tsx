@@ -407,7 +407,7 @@ export function SpinningWheel() {
 
     intervalRef.current = window.setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % wheelIcons.length);
-    }, 2600);
+    }, 2200);
 
     return () => {
       if (intervalRef.current !== null) {
@@ -526,7 +526,10 @@ export function SpinningWheel() {
                 }}
               >
                 <motion.div
-                  onMouseEnter={() => setHoveredIndex(index)}
+                  onMouseEnter={() => {
+                    setHoveredIndex(index);
+                    setActiveIndex(index);
+                  }}
                   onMouseLeave={() => setHoveredIndex(null)}
                   animate={{
                     scale: isActive ? 1.07 : 1,
