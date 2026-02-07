@@ -712,7 +712,7 @@ export default function Home() {
             <h2 className="section-title">The <span className="section-accent">Guarantee</span></h2>
             
             <div className="guarantee-card text-center">
-              <div className="guarantee-seal mx-auto mb-6">
+              <div className="guarantee-seal mx-auto mt-8 mb-6">
                 <ShieldCheck className="w-14 h-14 text-[#d4a853]" />
               </div>
               <p className="guarantee-title text-[rgba(255,255,255,0.92)] font-semibold text-xl mb-3">If it doesn't hit the goals we agreed on, we fix it. Free.</p>

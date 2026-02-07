@@ -3198,6 +3198,11 @@ a.bg-primary:active {
   padding: 0 !important;
 }
 
+.guarantee-card::before,
+.guarantee-card::after {
+  display: none !important;
+}
+
 .final-cta-shell {
   max-width: 600px;
   margin: 0 auto;
