@@ -304,6 +304,53 @@ export default function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    if ("ontouchstart" in window || navigator.maxTouchPoints > 0 || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      return;
+    }
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-tilt]"));
+    const timers: number[] = [];
+    const listeners = cards.map((card) => {
+      const baseScale = card.dataset.tiltScale ? ` scale(${card.dataset.tiltScale})` : "";
+      const move = (e: MouseEvent) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 3;
+        const rotateX = (((rect.height / 2) - y) / (rect.height / 2)) * 3;
+        card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)${baseScale}`;
+      };
+      const enter = () => {
+        card.style.willChange = "transform";
+        card.style.transition = "transform 150ms ease-out";
+      };
+      const leave = () => {
+        card.style.transition = "transform 400ms ease-out";
+        card.style.transform = `perspective(800px) rotateX(0deg) rotateY(0deg)${baseScale}`;
+        timers.push(window.setTimeout(() => { card.style.willChange = "auto"; }, 400));
+      };
+      return { card, move, enter, leave };
+    });
+
+    listeners.forEach(({ card, move, enter, leave }) => {
+      card.addEventListener("mousemove", move);
+      card.addEventListener("mouseenter", enter);
+      card.addEventListener("mouseleave", leave);
+    });
+
+    return () => {
+      listeners.forEach(({ card, move, enter, leave }) => {
+        card.removeEventListener("mousemove", move);
+        card.removeEventListener("mouseenter", enter);
+        card.removeEventListener("mouseleave", leave);
+      });
+      timers.forEach((id) => window.clearTimeout(id));
+    };
+  }, []);
+
   const handleCalculatorSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!calculatorEmail) return;
@@ -431,7 +478,7 @@ export default function Home() {
               <div
                 className=""
               >
-                <SpotlightCard className="bento-card feature-card feature-flagship p-8 md:p-10 group">
+                <SpotlightCard data-tilt className="bento-card feature-card feature-flagship p-8 md:p-10 group">
                   <div className="feature-blob feature-blob-primary" />
                   <div className="feature-icon-shell w-16 h-16 flex items-center justify-center mb-6">
                     <Zap className="feature-icon w-8 h-8 text-[var(--emerald)]" />
@@ -461,7 +508,7 @@ export default function Home() {
               <div
                 className=""
               >
-                <SpotlightCard className="bento-card feature-card p-8 group">
+                <SpotlightCard data-tilt className="bento-card feature-card p-8 group">
                   <div className="feature-blob feature-blob-secondary" />
                   <div className="feature-icon-shell w-14 h-14 flex items-center justify-center mb-5">
                     <Bot className="feature-icon w-7 h-7 text-slate-400" />
@@ -491,7 +538,7 @@ export default function Home() {
               <div
                 className=""
               >
-                <SpotlightCard className="bento-card feature-card p-8 group">
+                <SpotlightCard data-tilt className="bento-card feature-card p-8 group">
                   <div className="feature-blob feature-blob-tertiary" />
                   <div className="feature-icon-shell w-14 h-14 flex items-center justify-center mb-5">
                     <RefreshCw className="feature-icon w-7 h-7 text-slate-400" />
@@ -517,7 +564,7 @@ export default function Home() {
             </div>
 
             <div data-reveal data-reveal-delay="1" data-counter-trigger="1" className="w-full">
-              <SpotlightCard className="glass-card glow-border p-8 md:p-12">
+              <SpotlightCard data-tilt className="glass-card glow-border p-8 md:p-12">
               <div className="space-y-10">
                 <div>
                   <StepSlider
@@ -673,7 +720,7 @@ export default function Home() {
                 }
               ].map((item, i) => (
                 <div key={i} className="step-row relative">
-                  <SpotlightCard className="step-card w-full p-6 md:p-7">
+                  <SpotlightCard data-tilt className="step-card w-full p-6 md:p-7">
                     <span className="step-watermark" aria-hidden="true">{item.step}</span>
                     <div className="relative z-[2]">
                       <div className="step-head">
@@ -686,7 +733,7 @@ export default function Home() {
                       <h3 className="text-xl font-bold mb-3">
                         {item.title}
                       </h3>
-                      <p className="text-[#A7B1BA] mb-3">{item.desc}</p>
+                      <p className={`text-[#A7B1BA] mb-3 ${i === 0 ? "md:pr-24" : ""}`}>{item.desc}</p>
                       <p className="text-[#7F8A95] text-sm">{item.details}</p>
                     </div>
                   </SpotlightCard>
@@ -740,7 +787,7 @@ export default function Home() {
                       <span className="pricing-badge-pop text-xs font-semibold px-4 py-1.5 rounded-full">MOST COMMON</span>
                     </div>
                   )}
-                  <SpotlightCard className={`glass-card glass-card-hover pricing-card p-8 h-full ${plan.popular ? 'border-[var(--emerald)]/30 pricing-card-spotlight' : 'pricing-card-secondary'}`}>
+                  <SpotlightCard data-tilt data-tilt-scale={plan.popular ? "1.03" : undefined} className={`glass-card glass-card-hover pricing-card p-8 h-full ${plan.popular ? 'border-[var(--emerald)]/30 pricing-card-spotlight full-build-card' : 'pricing-card-secondary'}`}>
                     <h3 className="text-lg font-bold mb-2">{plan.name}</h3>
                     <p className="text-3xl font-bold text-[var(--emerald)] mb-3">{plan.price}</p>
                     <p className="text-[#7F8A95] text-sm mb-6">{plan.description}</p>
@@ -792,7 +839,7 @@ export default function Home() {
             <div 
               className="h-full"
             >
-              <SpotlightCard className="fit-card h-full p-6" variant="fit">
+              <SpotlightCard data-tilt className="fit-card h-full p-6" variant="fit">
                 <ul className="space-y-3">
                   {[
                     "Small team wearing a lot of hats",
@@ -813,7 +860,7 @@ export default function Home() {
             <div 
               className="h-full"
             >
-              <SpotlightCard className="fit-card h-full p-6" variant="fit">
+              <SpotlightCard data-tilt className="fit-card h-full p-6" variant="fit">
                 <ul className="space-y-3">
                   {[
                     "Large org with long procurement cycles",

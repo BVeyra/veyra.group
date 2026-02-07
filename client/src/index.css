@@ -3732,3 +3732,37 @@ a.glow-button:active {
     transition: none !important;
   }
 }
+
+/* Card hover tilt interaction */
+[data-tilt] {
+  transform-style: preserve-3d;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  [data-tilt] {
+    transition: border-color 200ms ease, box-shadow 200ms ease;
+  }
+
+  [data-tilt]:hover {
+    border-color: rgba(45, 212, 160, 0.15) !important;
+    box-shadow: 0 0 30px rgba(45, 212, 160, 0.06) !important;
+  }
+
+  .full-build-card:hover {
+    border-color: rgba(45, 212, 160, 0.3) !important;
+    box-shadow:
+      0 0 80px rgba(45, 212, 160, 0.12),
+      0 0 160px rgba(45, 212, 160, 0.06) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-tilt] {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  [data-tilt]:hover {
+    border-color: rgba(45, 212, 160, 0.15) !important;
+  }
+}
