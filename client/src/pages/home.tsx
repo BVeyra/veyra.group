@@ -1,13 +1,14 @@
 import { Navbar, Footer } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, X, ArrowRight, Zap, Bot, RefreshCw, Phone, Wrench, Shield } from "lucide-react";
+import { Check, X, ArrowRight, Zap, Bot, RefreshCw, Phone, Wrench, ShieldCheck } from "lucide-react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { openCalendly, loadCalendlyScript } from "@/lib/calendly";
 import { SpinningWheel } from "@/components/SpinningWheel";
 import { CursorGlow } from "@/components/CursorGlow";
 import { ParallaxOrb } from "@/components/ParallaxOrb";
+import { SpotlightCard } from "@/components/SpotlightCard";
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
@@ -463,7 +464,7 @@ export default function Home() {
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>Sound <span className="accent-gradient">Familiar?</span></h2>
             
-            <div className="glass-card p-8 md:p-12 space-y-6 text-lg text-[#7F8A95] leading-relaxed">
+            <SpotlightCard className="glass-card p-8 md:p-12 space-y-6 text-lg text-[#7F8A95] leading-relaxed">
               <p className="text-[#A7B1BA]">Copying the same data into three different tools. <span className="text-[#7F8A95]">Again.</span></p>
               <p className="text-[#A7B1BA]">Manually updating a spreadsheet that should update itself. <span className="text-[#7F8A95]">Again.</span></p>
               <p className="text-[#A7B1BA]">Sending the same email you sent last week. And the week before. <span className="text-[#7F8A95]">Again.</span></p>
@@ -474,7 +475,7 @@ export default function Home() {
               <p className="text-[#A7B1BA] font-medium pt-4">And the worst part? While you're buried in this — the deals you should be closing, the clients you should be serving, the growth you should be focused on — that's what's getting squeezed out.</p>
               
               <p className="text-[#C9D3D9] font-semibold text-xl pt-4">Busy work doesn't make you money. It costs you money.</p>
-            </div>
+            </SpotlightCard>
           </motion.div>
         </div>
       </section>
@@ -501,83 +502,94 @@ export default function Home() {
             <p className="text-[#7F8A95] text-lg">Not strategy decks. Not consulting reports. We build the systems that do the work — so you stop doing it.</p>
           </motion.div>
 
-          <div className="max-w-5xl mx-auto mt-16">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <motion.div 
+          <div className="max-w-6xl mx-auto mt-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[minmax(240px,auto)]">
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.5 }}
-                className="bento-card hover-glow card-lift p-8 md:row-span-2"
+                className="lg:col-span-2 lg:row-span-2"
               >
-                <div className="icon-wrapper w-16 h-16 flex items-center justify-center mb-6">
-                  <Zap className="w-8 h-8 text-[var(--emerald)] icon-glow" />
-                </div>
-                <h3 className="text-2xl font-bold mb-4" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>AUTOMATIONS</h3>
-                <p className="text-[#A7B1BA] mb-2">The stuff you keep saying you'll fix "when things slow down."</p>
-                <p className="text-[#7F8A95] mb-4 italic">(Things never slow down.)</p>
-                
-                <ul className="space-y-3 mb-6">
-                  {[
-                    "New lead comes in? Sorted, tagged, routed. Before you see it. Before you forget it.",
-                    "Invoice hits 7 days overdue? Reminder sent. Then another at 14. You're not chasing anyone.",
-                    "Client signs on? Welcome email, intake form, calendar link — all out the door while you're still in the meeting.",
-                    "Follow-up due Thursday? Already in their inbox. You were slammed. Didn't matter."
-                  ].map((example, j) => (
-                    <li key={j} className="flex items-start gap-3 text-sm">
+                <SpotlightCard className="bento-card feature-card feature-flagship p-8 md:p-10 h-full group">
+                  <div className="feature-blob feature-blob-primary" />
+                  <div className="feature-icon-shell w-16 h-16 flex items-center justify-center mb-6">
+                    <Zap className="feature-icon w-8 h-8 text-[var(--emerald)]" />
+                  </div>
+                  <h3 className="feature-title text-2xl font-bold mb-4" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>AUTOMATIONS</h3>
+                  <p className="feature-description text-[#A7B1BA] mb-2">The stuff you keep saying you'll fix "when things slow down."</p>
+                  <p className="feature-description text-[#7F8A95] mb-4 italic">(Things never slow down.)</p>
+                  <ul className="space-y-3 mb-6">
+                    {[
+                      "New lead comes in? Sorted, tagged, routed. Before you see it. Before you forget it.",
+                      "Invoice hits 7 days overdue? Reminder sent. Then another at 14. You're not chasing anyone.",
+                      "Client signs on? Welcome email, intake form, calendar link — all out the door while you're still in the meeting.",
+                      "Follow-up due Thursday? Already in their inbox. You were slammed. Didn't matter."
+                    ].map((example, j) => (
+                      <li key={j} className="flex items-start gap-3 text-sm">
+                        <span className="text-[var(--emerald)] mt-0.5">→</span>
+                        <span className="text-[#7F8A95]">{example}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="feature-description text-[#A7B1BA] font-bold mb-2">You've been doing this manually because "it only takes a few minutes."</p>
+                  <p className="feature-description text-[#A7B1BA] font-bold">It's never a few minutes.</p>
+                  <span className="feature-hover-link">Learn more →</span>
+                </SpotlightCard>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ delay: 0.08, duration: 0.5 }}
+                className="lg:col-span-1"
+              >
+                <SpotlightCard className="bento-card feature-card p-8 h-full group">
+                  <div className="feature-blob feature-blob-secondary" />
+                  <div className="feature-icon-shell w-14 h-14 flex items-center justify-center mb-5">
+                    <Bot className="feature-icon w-7 h-7 text-slate-400" />
+                  </div>
+                  <h3 className="feature-title text-xl font-bold mb-3" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>CUSTOM AI TOOLS</h3>
+                  <p className="feature-description text-[#A7B1BA] mb-4">You've answered the same question 100 times. Your AI should know the answer by now.</p>
+                  <ul className="space-y-2 mb-4">
+                    <li className="flex items-start gap-2 text-sm">
                       <span className="text-[var(--emerald)] mt-0.5">→</span>
-                      <span className="text-[#7F8A95]">{example}</span>
+                      <span className="text-[#7F8A95]">Support bot that actually knows your product? Built on your docs, your FAQs, your way of explaining things.</span>
                     </li>
-                  ))}
-                </ul>
-                <p className="text-[#A7B1BA] font-bold mb-2">You've been doing this manually because "it only takes a few minutes."</p>
-                <p className="text-[#A7B1BA] font-bold">It's never a few minutes.</p>
+                    <li className="flex items-start gap-2 text-sm">
+                      <span className="text-[var(--emerald)] mt-0.5">→</span>
+                      <span className="text-[#7F8A95]">Writing assistant that sounds like you? Trained on your voice, not generic AI slop.</span>
+                    </li>
+                    <li className="flex items-start gap-2 text-sm">
+                      <span className="text-[var(--emerald)] mt-0.5">→</span>
+                      <span className="text-[#7F8A95]">Internal tool your team keeps asking for? Built once. Used forever.</span>
+                    </li>
+                  </ul>
+                  <p className="feature-description text-[#A7B1BA] font-bold mb-2">Stop being the answer to every question.</p>
+                  <p className="feature-description text-[#A7B1BA] font-bold">Build the thing that answers for you.</p>
+                  <span className="feature-hover-link">Learn more →</span>
+                </SpotlightCard>
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
-                transition={{ delay: 0.1, duration: 0.5 }}
-                className="bento-card hover-glow card-lift p-8"
+                transition={{ delay: 0.16, duration: 0.5 }}
+                className="lg:col-span-1"
               >
-                <div className="icon-wrapper w-14 h-14 flex items-center justify-center mb-5">
-                  <Bot className="w-7 h-7 text-slate-400 icon-glow" />
-                </div>
-                <h3 className="text-xl font-bold mb-3" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>CUSTOM AI TOOLS</h3>
-                <p className="text-[#A7B1BA] mb-4">You've answered the same question 100 times. Your AI should know the answer by now.</p>
-                <ul className="space-y-2 mb-4">
-                  <li className="flex items-start gap-2 text-sm">
-                    <span className="text-[var(--emerald)] mt-0.5">→</span>
-                    <span className="text-[#7F8A95]">Support bot that actually knows your product? Built on your docs, your FAQs, your way of explaining things.</span>
-                  </li>
-                  <li className="flex items-start gap-2 text-sm">
-                    <span className="text-[var(--emerald)] mt-0.5">→</span>
-                    <span className="text-[#7F8A95]">Writing assistant that sounds like you? Trained on your voice, not generic AI slop.</span>
-                  </li>
-                  <li className="flex items-start gap-2 text-sm">
-                    <span className="text-[var(--emerald)] mt-0.5">→</span>
-                    <span className="text-[#7F8A95]">Internal tool your team keeps asking for? Built once. Used forever.</span>
-                  </li>
-                </ul>
-                <p className="text-[#A7B1BA] font-bold mb-2">Stop being the answer to every question.</p>
-                <p className="text-[#A7B1BA] font-bold">Build the thing that answers for you.</p>
-              </motion.div>
-
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-                className="bento-card hover-glow card-lift p-8"
-              >
-                <div className="icon-wrapper w-14 h-14 flex items-center justify-center mb-5">
-                  <RefreshCw className="w-7 h-7 text-slate-400 icon-glow" />
-                </div>
-                <h3 className="text-xl font-bold mb-3" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>MONTHLY PARTNERSHIP</h3>
-                <p className="text-[#A7B1BA] mb-4">You don't need a full-time hire. You need someone on call.</p>
-                <p className="text-[#7F8A95] mb-4">New automations as you need them. Maintenance when things change. Updates when tools break. One Slack message away.</p>
-                <p className="text-[#A7B1BA] font-bold">Like having a tech team — without hiring one.</p>
+                <SpotlightCard className="bento-card feature-card p-8 h-full group">
+                  <div className="feature-blob feature-blob-tertiary" />
+                  <div className="feature-icon-shell w-14 h-14 flex items-center justify-center mb-5">
+                    <RefreshCw className="feature-icon w-7 h-7 text-slate-400" />
+                  </div>
+                  <h3 className="feature-title text-xl font-bold mb-3" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>MONTHLY PARTNERSHIP</h3>
+                  <p className="feature-description text-[#A7B1BA] mb-4">You don't need a full-time hire. You need someone on call.</p>
+                  <p className="feature-description text-[#7F8A95] mb-4">New automations as you need them. Maintenance when things change. Updates when tools break. One Slack message away.</p>
+                  <p className="feature-description text-[#A7B1BA] font-bold">Like having a tech team — without hiring one.</p>
+                  <span className="feature-hover-link">Learn more →</span>
+                </SpotlightCard>
               </motion.div>
             </div>
           </div>
@@ -611,8 +623,9 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.5 }}
-              className="glass-card glow-border p-8 md:p-12"
+              className="w-full"
             >
+              <SpotlightCard className="glass-card glow-border p-8 md:p-12">
               <div className="space-y-10">
                 <div>
                   <label className="block text-[#A7B1BA] text-lg mb-4 font-semibold">
@@ -697,10 +710,10 @@ export default function Home() {
                 <p className="text-[#A7B1BA] italic mt-2">(What would ONE saved deal be worth to you?)</p>
                 </div>
 
-                <div className="glass-card p-6 text-center border border-[var(--emerald)]/20 mb-8">
+                <SpotlightCard className="glass-card p-6 text-center border border-[var(--emerald)]/20 mb-8">
                   <p className="text-[#A7B1BA] mb-2">A one-time build starts at <span className="text-[var(--emerald)] font-semibold">$2,000</span>.</p>
                   <p className="text-[#A7B1BA] font-bold text-lg">Pays for itself in <span className="text-[var(--emerald)]">{monthlyCost > 0 ? Math.max(1, Math.ceil((2000 / monthlyCost) * 30)) : 30}</span> days.</p>
-                </div>
+                </SpotlightCard>
 
                 {emailSubmitted ? (
                   <div className="flex items-center justify-center gap-2 text-[var(--emerald)] py-4">
@@ -742,6 +755,7 @@ export default function Home() {
                   </>
                 )}
               </div>
+              </SpotlightCard>
             </motion.div>
           </div>
         </div>
@@ -762,63 +776,62 @@ export default function Home() {
             <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>How It <span className="accent-gradient">Works</span></h2>
           </motion.div>
 
-          <div className="relative max-w-5xl mx-auto">
-            <div className="hidden md:block absolute top-16 left-[16.67%] right-[16.67%] h-0.5 bg-gradient-to-r from-transparent via-[var(--emerald)]/30 to-transparent" />
-            
-            <div className="grid md:grid-cols-3 gap-8">
-              {[
-                { 
-                  step: "1", 
-                  title: "WE TALK", 
-                  badge: "30 min, free",
-                  desc: "You show us the mess. We tell you exactly what it costs to fix. No pitch. No pressure. If it doesn't make sense, we'll say so.",
-                  details: "",
-                  icon: Phone 
-                },
-                { 
-                  step: "2", 
-                  title: "WE BUILD", 
-                  badge: "1-2 weeks",
-                  desc: "You keep running your business. We build in the background. You'll see progress the whole way.",
-                  details: "",
-                  icon: Wrench 
-                },
-                { 
-                  step: "3", 
-                  title: "IT RUNS", 
-                  badge: "Day 1",
-                  desc: "Working system. Your team trained. 30-60 days of support included.",
-                  details: "No decks. No roadmaps. No 'discovery phases.' Just the fix.",
-                  icon: Check 
-                }
-              ].map((item, i) => (
-                <motion.div 
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ delay: i * 0.1, duration: 0.5 }}
-                  className="relative"
-                >
-                  <div className="hidden md:flex justify-center mb-8">
-                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[var(--emerald)]/15 to-[var(--steel)]/15 border border-white/8 flex items-center justify-center">
-                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[var(--emerald)] to-[var(--steel)] flex items-center justify-center">
-                        <item.icon className="w-6 h-6 text-white" />
+          <div className="relative max-w-5xl mx-auto steps-timeline">
+            {[
+              {
+                step: "01",
+                title: "WE TALK",
+                badge: "30 min, free",
+                desc: "You show us the mess. We tell you exactly what it costs to fix. No pitch. No pressure. If it doesn't make sense, we'll say so.",
+                details: "",
+                icon: Phone
+              },
+              {
+                step: "02",
+                title: "WE BUILD",
+                badge: "1-2 weeks",
+                desc: "You keep running your business. We build in the background. You'll see progress the whole way.",
+                details: "",
+                icon: Wrench
+              },
+              {
+                step: "03",
+                title: "IT RUNS",
+                badge: "Day 1",
+                desc: "Working system. Your team trained. 30-60 days of support included.",
+                details: "No decks. No roadmaps. No 'discovery phases.' Just the fix.",
+                icon: Check
+              }
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+                className={`step-row relative ${i % 2 === 0 ? "md:justify-start" : "md:justify-end"}`}
+              >
+                <div className="step-line-pulse hidden md:block" aria-hidden="true" />
+
+                <SpotlightCard className={`step-card w-full md:w-[46%] p-6 md:p-7 ${i % 2 === 0 ? "md:mr-auto" : "md:ml-auto"}`}>
+                  <span className="step-watermark" aria-hidden="true">{item.step}</span>
+                  <div className="relative z-[2]">
+                    <div className="step-head">
+                      <div className="step-icon-shell">
+                        <item.icon className="w-5 h-5 text-[var(--emerald)]" />
                       </div>
+                      <span className="step-badge">{item.badge}</span>
                     </div>
+
+                    <h3 className="text-xl font-bold mb-3" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>
+                      {item.title}
+                    </h3>
+                    <p className="text-[#A7B1BA] mb-3">{item.desc}</p>
+                    <p className="text-[#7F8A95] text-sm">{item.details}</p>
                   </div>
-                  
-                  <div className="glass-card glass-card-hover p-6 h-full">
-                    <div className="text-center mb-4">
-                      <h3 className="text-xl font-bold" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>{item.title}</h3>
-                      <span className="inline-block mt-2 px-3 py-1 rounded-full bg-[var(--emerald)]/15 text-[var(--emerald)] text-xs font-medium floating-badge">{item.badge}</span>
-                    </div>
-                    <p className="text-[#A7B1BA] text-center mb-3">{item.desc}</p>
-                    <p className="text-[#7F8A95] text-sm text-center">{item.details}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                </SpotlightCard>
+              </motion.div>
+            ))}
           </div>
         </div>
         <div className="h-32"></div>
@@ -880,7 +893,7 @@ export default function Home() {
                       <span className="bg-gradient-to-r from-[var(--emerald)] to-[var(--steel)] text-white text-xs font-bold px-4 py-1.5 rounded-full">MOST COMMON</span>
                     </div>
                   )}
-                  <div className={`glass-card glass-card-hover p-8 h-full ${plan.popular ? 'border-[var(--emerald)]/30' : ''}`}>
+                  <SpotlightCard className={`glass-card glass-card-hover p-8 h-full ${plan.popular ? 'border-[var(--emerald)]/30 pricing-card-spotlight' : ''}`}>
                     <h3 className="text-lg font-bold mb-2" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{plan.name}</h3>
                     <p className="text-3xl font-bold text-[var(--emerald)] mb-3">{plan.price}</p>
                     <p className="text-[#7F8A95] text-sm mb-6">{plan.description}</p>
@@ -892,7 +905,7 @@ export default function Home() {
                         </li>
                       ))}
                     </ul>
-                  </div>
+                  </SpotlightCard>
                 </motion.div>
               ))}
             </div>
@@ -915,14 +928,14 @@ export default function Home() {
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-8" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>The <span className="accent-gradient">Guarantee</span></h2>
             
-            <div className="guarantee-card text-center">
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <Shield className="w-8 h-8 text-[var(--emerald)]" />
+            <SpotlightCard className="guarantee-card text-center" variant="guarantee">
+              <div className="guarantee-seal mx-auto mb-6">
+                <ShieldCheck className="w-14 h-14 text-[#d4a853]" />
               </div>
-              <p className="text-[rgba(255,255,255,0.92)] font-semibold text-xl mb-3">If it doesn't hit the goals we agreed on, we fix it. Free.</p>
+              <p className="guarantee-title text-[rgba(255,255,255,0.92)] font-semibold text-xl mb-3">If it doesn't hit the goals we agreed on, we fix it. Free.</p>
               <p className="text-[rgba(255,255,255,0.72)] text-lg mb-4">And if we can't get it working within your support window? You keep everything we built — and pay nothing.</p>
               <p className="text-[#7F8A95] text-sm italic">We've never had to use this.</p>
-            </div>
+            </SpotlightCard>
           </motion.div>
         </div>
       </section>
@@ -942,26 +955,30 @@ export default function Home() {
             <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>Is This a <span className="accent-gradient">Fit</span>?</h2>
           </motion.div>
 
-          <div className="max-w-2xl mx-auto grid md:grid-cols-2 gap-6">
+          <div className="max-w-3xl mx-auto grid md:grid-cols-2 gap-5">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.5 }}
-              className="glass-card glass-card-hover p-8"
+              className="h-full"
             >
-              <ul className="space-y-4">
-                {[
-                  "Small team wearing a lot of hats",
-                  "Repetitive tasks eating your week",
-                  "Ready to hand it off and have it just... work"
-                ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-[var(--emerald)] flex-shrink-0 mt-0.5" />
-                    <span className="text-[#A7B1BA]">{item}</span>
-                  </li>
-                ))}
-              </ul>
+              <SpotlightCard className="fit-card h-full p-6" variant="fit">
+                <ul className="space-y-3">
+                  {[
+                    "Small team wearing a lot of hats",
+                    "Repetitive tasks eating your week",
+                    "Ready to hand it off and have it just... work"
+                  ].map((item, i) => (
+                    <li key={i} className="fit-item flex items-start gap-3">
+                      <span className="fit-status fit-status-good">
+                        <Check className="w-4 h-4" />
+                      </span>
+                      <span className="text-[#A7B1BA]">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </SpotlightCard>
             </motion.div>
             
             <motion.div 
@@ -969,20 +986,24 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ delay: 0.1, duration: 0.5 }}
-              className="glass-card glass-card-hover p-8"
+              className="h-full"
             >
-              <ul className="space-y-4">
-                {[
-                  "Large org with long procurement cycles",
-                  "Still exploring, not ready to build",
-                  "Need internal IT sign-off first"
-                ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <X className="w-5 h-5 text-[#7F8A95] flex-shrink-0 mt-0.5" />
-                    <span className="text-[#7F8A95]">{item}</span>
-                  </li>
-                ))}
-              </ul>
+              <SpotlightCard className="fit-card h-full p-6" variant="fit">
+                <ul className="space-y-3">
+                  {[
+                    "Large org with long procurement cycles",
+                    "Still exploring, not ready to build",
+                    "Need internal IT sign-off first"
+                  ].map((item, i) => (
+                    <li key={i} className="fit-item flex items-start gap-3">
+                      <span className="fit-status fit-status-neutral">
+                        <X className="w-4 h-4" />
+                      </span>
+                      <span className="text-[#7F8A95]">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </SpotlightCard>
             </motion.div>
           </div>
         </div>
@@ -1002,13 +1023,13 @@ export default function Home() {
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>Who We <span className="accent-gradient">Are</span></h2>
             
-            <div className="glass-card glow-border p-8 md:p-12 text-center">
+            <SpotlightCard className="about-card glass-card glow-border p-8 md:p-12 text-center">
               <div className="space-y-4 text-[#7F8A95] leading-relaxed max-w-xl mx-auto">
                 <p className="text-[#A7B1BA] font-medium text-lg">We work with businesses too small to hire a full-time automation specialist — and too busy to figure this out alone.</p>
                 <p className="text-[#A7B1BA] mt-4">You point at the problem. We make it go away.</p>
               </div>
               <p className="mt-8 text-[var(--emerald)] font-semibold text-lg">— Veyra Group</p>
-            </div>
+            </SpotlightCard>
           </motion.div>
         </div>
       </section>
@@ -1035,7 +1056,7 @@ export default function Home() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.5 }}
           >
-            <Accordion type="single" collapsible className="space-y-4">
+            <Accordion type="single" collapsible className="faq-accordion mx-auto w-full max-w-[720px]">
               {[
                 { q: "What exactly do you build?", a: "Two things. First — automations. The stuff you do over and over that doesn't require thinking. Lead routing, invoice reminders, client onboarding, data syncing between tools. We make it run without you. Second — custom AI tools. Think support bots that actually know your business, writing tools that sound like you, internal assistants that answer questions so you don't have to. If it's repetitive and doesn't need your brain, we can probably kill it." },
                 { q: "How much of my time does this take?", a: "One 30-minute call upfront. Maybe a few async questions during the build. That's it. You don't need to project-manage this. You don't need to learn new software. You keep running your business — we handle the rest." },
@@ -1044,18 +1065,21 @@ export default function Home() {
                 { q: "How long until it's running?", a: "Most builds are done in 1-2 weeks. Not a proposal. Not a project plan. A working system, live in your business." },
                 { q: "What if something breaks later?", a: "Every build includes 30 days of support. If something breaks, we fix it. After that, you can either grab a monthly partnership for ongoing maintenance — or we document everything so your team can handle it. Either way, you're not left hanging." }
               ].map((item, i) => (
-                <AccordionItem 
-                  key={i} 
-                  value={`item-${i}`}
-                  className="glass-card glass-card-hover border border-white/10 rounded-2xl overflow-hidden px-6"
-                >
-                  <AccordionTrigger className="text-lg font-semibold py-5 hover:no-underline text-left" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                    {item.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-[#7F8A95] pb-5 leading-relaxed">
-                    {item.a}
-                  </AccordionContent>
-                </AccordionItem>
+                <motion.div key={i} layout>
+                  <SpotlightCard className="faq-card" variant="faq">
+                    <AccordionItem
+                      value={`item-${i}`}
+                      className="border-none px-0"
+                    >
+                      <AccordionTrigger className="faq-question text-lg py-5 hover:no-underline text-left">
+                        {item.q}
+                      </AccordionTrigger>
+                      <AccordionContent className="faq-answer pb-5 leading-relaxed">
+                        {item.a}
+                      </AccordionContent>
+                    </AccordionItem>
+                  </SpotlightCard>
+                </motion.div>
               ))}
             </Accordion>
           </motion.div>
@@ -1074,8 +1098,9 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.5 }}
-            className="glass-card glow-border p-12 md:p-16"
+            className="w-full"
           >
+            <SpotlightCard className="glass-card glow-border p-12 md:p-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #D4DEE4 35%, #9EADB8 70%, #6B7C87 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingBottom: '0.1em' }}>Let's <span className="accent-gradient">Talk</span></h2>
             <div className="text-[#7F8A95] text-lg mb-10 leading-relaxed space-y-4">
               <p>30 minutes. That's it.</p>
@@ -1096,6 +1121,7 @@ export default function Home() {
               <a href="tel:+13026002625" className="text-[#5F6972] hover:text-[var(--emerald)]">(302) 600-2625</a><br />
               We usually reply same day.
             </p>
+            </SpotlightCard>
           </motion.div>
         </div>
       </section>
