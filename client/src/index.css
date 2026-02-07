@@ -3290,3 +3290,32 @@ a.bg-primary:active {
 #how-it-works .step-card {
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3) !important;
 }
+
+@media (max-width: 767px) {
+  .logo-carousel-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    mask-image: none;
+    -webkit-mask-image: none;
+    touch-action: pan-x;
+    cursor: grab;
+  }
+
+  .logo-carousel-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .logo-carousel-track {
+    animation: none !important;
+    transform: none !important;
+    display: inline-flex;
+    width: max-content;
+  }
+
+  .logo-carousel-track > .logo-carousel-item[aria-hidden="true"] {
+    display: none;
+  }
+}
