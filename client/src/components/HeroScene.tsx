@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
@@ -132,7 +132,10 @@ export function HeroScene() {
   const radius = isMobile ? 122 : 188;
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [rotation, setRotation] = useState(0);
+  const [rotation, setRotation] = useState(0.2);
+  const [dragging, setDragging] = useState(false);
+  const dragStartX = useRef(0);
+  const dragStartRotation = useRef(0);
 
   useEffect(() => {
     let raf = 0;
@@ -141,33 +144,58 @@ export function HeroScene() {
     const tick = (now: number) => {
       const dt = Math.min(0.033, (now - last) / 1000);
       last = now;
-      const speed = hoveredIndex !== null ? 0.24 : 0.42;
+      const speed = hoveredIndex !== null || dragging ? 0.18 : 0.32;
       setRotation((prev) => prev + dt * speed);
       raf = requestAnimationFrame(tick);
     };
 
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [hoveredIndex]);
+  }, [dragging, hoveredIndex]);
 
   useEffect(() => {
-    if (hoveredIndex !== null) return;
+    if (hoveredIndex !== null || dragging) return;
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % items.length);
     }, 1800);
     return () => clearInterval(interval);
-  }, [hoveredIndex, items.length]);
+  }, [dragging, hoveredIndex, items.length]);
+
+  const handlePointerDown = (clientX: number) => {
+    setDragging(true);
+    dragStartX.current = clientX;
+    dragStartRotation.current = rotation;
+  };
+
+  const handlePointerMove = (clientX: number) => {
+    if (!dragging) return;
+    const delta = (clientX - dragStartX.current) * 0.0036;
+    setRotation(dragStartRotation.current + delta);
+  };
+
+  const handlePointerUp = () => {
+    setDragging(false);
+  };
 
   const highlighted = hoveredIndex ?? activeIndex;
-  const focus = hoveredIndex !== null ? 1 : 0.35;
+  const focus = hoveredIndex !== null || dragging ? 1 : 0.42;
 
   return (
-    <div className="relative w-full h-full min-h-[360px] sm:min-h-[420px] lg:min-h-[520px]">
+    <div
+      className="relative w-full h-full min-h-[360px] select-none sm:min-h-[420px] lg:min-h-[520px]"
+      onMouseLeave={handlePointerUp}
+      onMouseUp={handlePointerUp}
+      onMouseMove={(event) => handlePointerMove(event.clientX)}
+      onTouchEnd={handlePointerUp}
+      onTouchMove={(event) => handlePointerMove(event.touches[0].clientX)}
+    >
       <div className="absolute inset-0 rounded-[30px] border border-white/10 bg-[linear-gradient(160deg,rgba(18,35,27,0.32),rgba(9,15,12,0.7))] shadow-[0_24px_80px_rgba(0,0,0,0.45),0_0_55px_rgba(5,150,105,0.16)] overflow-hidden">
         <WheelCanvas focus={focus} mobile={isMobile} />
       </div>
 
       <div className="pointer-events-none absolute inset-0 rounded-[30px] bg-[radial-gradient(circle_at_50%_90%,rgba(0,0,0,0.42),transparent_58%)]" />
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[74%] w-[74%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-emerald-300/20" />
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[89%] w-[89%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/10" />
 
       <div className="absolute inset-0">
         {items.map((item, index) => {
@@ -175,28 +203,33 @@ export function HeroScene() {
           const x = Math.cos(angle) * radius;
           const y = Math.sin(angle) * radius;
           const isActive = index === highlighted;
+          const depth = (Math.sin(angle - Math.PI / 2) + 1) / 2;
+          const scaleByDepth = 0.88 + depth * 0.28;
+          const opacityByDepth = 0.52 + depth * 0.46;
           const Icon = item.icon;
 
           return (
             <motion.button
               key={item.label}
               type="button"
+              onMouseDown={(event) => handlePointerDown(event.clientX)}
+              onTouchStart={(event) => handlePointerDown(event.touches[0].clientX)}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
               onFocus={() => setHoveredIndex(index)}
               onBlur={() => setHoveredIndex(null)}
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-              style={{ transform: `translate(${x}px, ${y}px)` }}
+              className="absolute left-1/2 top-1/2 cursor-pointer -translate-x-1/2 -translate-y-1/2"
+              style={{ transform: `translate(${x}px, ${y}px)`, zIndex: Math.round(depth * 100) }}
               animate={{
-                scale: isActive ? 1.12 : 1,
-                opacity: isActive ? 1 : 0.72,
+                scale: isActive ? scaleByDepth * 1.1 : scaleByDepth,
+                opacity: isActive ? 1 : opacityByDepth,
               }}
               transition={{ duration: 0.22 }}
             >
               <span
-                className={`flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-2xl border backdrop-blur-md transition-colors ${
+                className={`flex h-11 w-11 items-center justify-center rounded-2xl border backdrop-blur-md transition-colors sm:h-12 sm:w-12 ${
                   isActive
-                    ? "border-emerald-300/55 bg-emerald-400/20 text-emerald-100"
+                    ? "border-emerald-300/55 bg-emerald-400/22 text-emerald-100 shadow-[0_0_24px_rgba(22,220,163,0.45)]"
                     : "border-white/15 bg-black/35 text-white/70"
                 }`}
               >
@@ -208,7 +241,7 @@ export function HeroScene() {
       </div>
 
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-        <div className="rounded-2xl border border-white/12 bg-black/40 px-4 py-3 text-center backdrop-blur-lg sm:px-5">
+        <div className="rounded-2xl border border-white/14 bg-black/45 px-4 py-3 text-center shadow-[0_0_28px_rgba(0,0,0,0.38)] backdrop-blur-lg sm:px-5">
           <p className="text-2xl font-semibold text-emerald-200 sm:text-3xl">10+</p>
           <p className="text-[11px] uppercase tracking-[0.16em] text-white/65">hrs/week saved</p>
         </div>

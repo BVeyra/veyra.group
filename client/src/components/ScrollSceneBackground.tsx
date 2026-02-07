@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Sparkles } from "@react-three/drei";
 import { Group, MathUtils, Mesh } from "three";
+import { useIsMobile } from "@/hooks/use-mobile";
 
-function BackgroundRig() {
+function BackgroundRig({ mobile }: { mobile: boolean }) {
   const rootRef = useRef<Group>(null);
   const ringARef = useRef<Mesh>(null);
   const ringBRef = useRef<Mesh>(null);
@@ -57,7 +58,7 @@ function BackgroundRig() {
   return (
     <group ref={rootRef}>
       <mesh ref={gridRef} position={[0, -1.5, -6]} rotation={[-Math.PI / 2.8, 0, 0]}>
-        <planeGeometry args={[40, 24, 28, 18]} />
+        <planeGeometry args={[40, 24, mobile ? 14 : 28, mobile ? 10 : 18]} />
         <meshBasicMaterial color="#1ee2ad" wireframe transparent opacity={0.08} />
       </mesh>
 
@@ -66,33 +67,46 @@ function BackgroundRig() {
         <meshBasicMaterial color="#19d6a3" transparent opacity={0.16} />
       </mesh>
 
-      <mesh ref={ringBRef} position={[5, 0.6, -6.2]} rotation={[Math.PI / 3, -0.3, 0]}>
-        <torusGeometry args={[3.5, 0.04, 12, 180]} />
-        <meshBasicMaterial color="#7b9bb0" transparent opacity={0.14} />
-      </mesh>
+      {!mobile && (
+        <mesh ref={ringBRef} position={[5, 0.6, -6.2]} rotation={[Math.PI / 3, -0.3, 0]}>
+          <torusGeometry args={[3.5, 0.04, 12, 180]} />
+          <meshBasicMaterial color="#7b9bb0" transparent opacity={0.14} />
+        </mesh>
+      )}
 
-      <mesh ref={ringCRef} position={[0, -0.2, -7.2]} rotation={[Math.PI / 2.9, 0, 0]}>
-        <torusGeometry args={[6.3, 0.03, 10, 180]} />
-        <meshBasicMaterial color="#1bdba7" transparent opacity={0.1} />
-      </mesh>
+      {!mobile && (
+        <mesh ref={ringCRef} position={[0, -0.2, -7.2]} rotation={[Math.PI / 2.9, 0, 0]}>
+          <torusGeometry args={[6.3, 0.03, 10, 180]} />
+          <meshBasicMaterial color="#1bdba7" transparent opacity={0.1} />
+        </mesh>
+      )}
 
-      <Sparkles count={120} size={1.8} speed={0.16} color="#24dca9" opacity={0.25} scale={[22, 12, 16]} />
+      <Sparkles
+        count={mobile ? 46 : 120}
+        size={mobile ? 1.35 : 1.8}
+        speed={0.16}
+        color="#24dca9"
+        opacity={mobile ? 0.18 : 0.25}
+        scale={mobile ? [15, 10, 12] : [22, 12, 16]}
+      />
     </group>
   );
 }
 
 export function ScrollSceneBackground() {
+  const isMobile = useIsMobile();
+
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       <Canvas
-        camera={{ position: [0, 0.2, 8.2], fov: 46 }}
-        dpr={[1, 1.4]}
+        camera={{ position: [0, 0.2, isMobile ? 9.2 : 8.2], fov: isMobile ? 52 : 46 }}
+        dpr={isMobile ? [1, 1.2] : [1, 1.4]}
         gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
         style={{ background: "transparent" }}
       >
         <ambientLight intensity={0.2} />
         <pointLight position={[0, 1.2, 2.5]} intensity={0.3} color="#16d8a3" />
-        <BackgroundRig />
+        <BackgroundRig mobile={isMobile} />
       </Canvas>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(7,30,20,0.22),transparent_44%),linear-gradient(180deg,rgba(6,10,8,0.25),rgba(6,10,8,0.64))]" />
     </div>
