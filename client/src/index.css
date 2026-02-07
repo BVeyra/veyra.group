@@ -1,11 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: 'Inter', sans-serif;
-  --font-heading: 'Inter', sans-serif;
+  --font-sans: "Manrope", sans-serif;
+  --font-heading: "Sora", sans-serif;
 
   /* STEP 1: Global Design Tokens - Premium Visual Upgrade */
   --bg: #0a0f0a;
@@ -129,9 +130,9 @@ body::before {
   width: 100%;
   height: 100%;
   background-image: 
-    linear-gradient(rgba(5, 150, 105, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(5, 150, 105, 0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
+    linear-gradient(rgba(5, 150, 105, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(5, 150, 105, 0.02) 1px, transparent 1px);
+  background-size: 80px 80px;
   pointer-events: none;
   z-index: 0;
 }
@@ -146,8 +147,8 @@ body::after {
   height: 100%;
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.015;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.006;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.52' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
 }
 
 /* Page load entrance animation */
@@ -164,21 +165,8 @@ body::after {
 
 /* Apply to main sections */
 body {
-  animation: fadeSlideIn 0.8s ease-out forwards;
+  animation: fadeSlideIn 0.5s ease-out forwards;
 }
-
-/* Staggered animation for hero elements */
-.hero-content > *,
-section:first-of-type .space-y-6 > * {
-  opacity: 0;
-  animation: fadeSlideIn 0.6s ease-out forwards;
-}
-
-section:first-of-type .space-y-6 > *:nth-child(1) { animation-delay: 0.1s; }
-section:first-of-type .space-y-6 > *:nth-child(2) { animation-delay: 0.2s; }
-section:first-of-type .space-y-6 > *:nth-child(3) { animation-delay: 0.3s; }
-section:first-of-type .space-y-6 > *:nth-child(4) { animation-delay: 0.4s; }
-section:first-of-type .space-y-6 > *:nth-child(5) { animation-delay: 0.5s; }
 
 /* Hero stats wheel entrance */
 .hero-stats-wheel {
