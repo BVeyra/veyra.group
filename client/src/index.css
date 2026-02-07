@@ -3024,11 +3024,20 @@ body::after {
 }
 
 .step-watermark {
-  font-size: clamp(2.5rem, 5vw, 3rem) !important;
-  line-height: 1;
-  font-weight: 700;
-  color: rgba(62, 207, 160, 0.7) !important;
-  opacity: 0.7 !important;
+  position: absolute !important;
+  top: 12px !important;
+  right: 16px !important;
+  font-size: 6rem !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  color: #ffffff !important;
+  opacity: 0.08 !important;
+  pointer-events: none !important;
+}
+
+.step-card:hover .step-watermark {
+  opacity: 0.08 !important;
+  transform: none !important;
 }
 
 .glow-button,

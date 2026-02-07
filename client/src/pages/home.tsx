@@ -584,7 +584,7 @@ export default function Home() {
           <div className="relative max-w-5xl mx-auto steps-timeline">
             {[
               {
-                step: "01",
+                step: "1",
                 title: "WE TALK",
                 badge: "30 min, free",
                 desc: "You show us the mess. We tell you exactly what it costs to fix. No pitch. No pressure. If it doesn't make sense, we'll say so.",
@@ -592,7 +592,7 @@ export default function Home() {
                 icon: Phone
               },
               {
-                step: "02",
+                step: "2",
                 title: "WE BUILD",
                 badge: "1-2 weeks",
                 desc: "You keep running your business. We build in the background. You'll see progress the whole way.",
@@ -600,7 +600,7 @@ export default function Home() {
                 icon: Wrench
               },
               {
-                step: "03",
+                step: "3",
                 title: "IT RUNS",
                 badge: "Day 1",
                 desc: "Working system. Your team trained. 30-60 days of support included.",
