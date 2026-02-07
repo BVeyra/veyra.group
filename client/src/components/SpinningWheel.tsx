@@ -35,6 +35,7 @@ const wheelIcons = [
 function Wheel3DCanvas({ size }: { size: number }) {
   const mountRef = useRef<HTMLDivElement>(null);
   const mouse = useRef({ x: 0, y: 0 });
+  const renderSize = Math.round(Math.min(size * 2, 1040));
 
   useEffect(() => {
     const el = mountRef.current;
@@ -44,10 +45,8 @@ function Wheel3DCanvas({ size }: { size: number }) {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-    camera.position.set(0, 0, 7.2);
-
-    const renderSize = Math.round(size * 1.7);
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 120);
+    camera.position.set(0, 0, 8.6);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(renderSize, renderSize);
@@ -79,14 +78,14 @@ function Wheel3DCanvas({ size }: { size: number }) {
 
     // ── 4 Orbital Rings (matching 4 CSS concentric rings) ──
     const ring1 = new THREE.Mesh(
-      new THREE.TorusGeometry(3.3, 0.03, 16, 160),
+      new THREE.TorusGeometry(3.05, 0.03, 16, 160),
       makeRingMat(0.3)
     );
     ring1.rotation.x = Math.PI * 0.48;
     scene.add(ring1);
 
     const ring2 = new THREE.Mesh(
-      new THREE.TorusGeometry(2.75, 0.025, 16, 128),
+      new THREE.TorusGeometry(2.55, 0.025, 16, 128),
       makeRingMat(0.22)
     );
     ring2.rotation.x = Math.PI * 0.53;
@@ -94,7 +93,7 @@ function Wheel3DCanvas({ size }: { size: number }) {
     scene.add(ring2);
 
     const ring3 = new THREE.Mesh(
-      new THREE.TorusGeometry(2.15, 0.02, 16, 96),
+      new THREE.TorusGeometry(2.0, 0.02, 16, 96),
       makeRingMat(0.15)
     );
     ring3.rotation.x = Math.PI * 0.46;
@@ -102,7 +101,7 @@ function Wheel3DCanvas({ size }: { size: number }) {
     scene.add(ring3);
 
     const ring4 = new THREE.Mesh(
-      new THREE.TorusGeometry(1.55, 0.015, 16, 80),
+      new THREE.TorusGeometry(1.45, 0.015, 16, 80),
       makeRingMat(0.1)
     );
     ring4.rotation.x = Math.PI * 0.5;
@@ -149,7 +148,7 @@ function Wheel3DCanvas({ size }: { size: number }) {
     for (let i = 0; i < pCount; i++) {
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.random() * Math.PI;
-      const r = 2.2 + Math.random() * 2.2;
+      const r = 2.1 + Math.random() * 1.9;
       pPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
       pPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
       pPos[i * 3 + 2] = r * Math.cos(phi);
@@ -198,7 +197,7 @@ function Wheel3DCanvas({ size }: { size: number }) {
     const clock = new THREE.Clock();
     let frameId: number;
 
-    const radii = [3.3, 2.75, 2.15, 1.55];
+    const radii = [3.05, 2.55, 2.0, 1.45];
     const tilts = [0.48, 0.53, 0.46, 0.5];
 
     const animate = () => {
@@ -279,8 +278,8 @@ function Wheel3DCanvas({ size }: { size: number }) {
         left: '50%',
         top: '50%',
         transform: 'translate(-50%, -50%)',
-        width: Math.round(size * 1.7),
-        height: Math.round(size * 1.7),
+        width: renderSize,
+        height: renderSize,
         zIndex: 0,
         pointerEvents: 'none',
       }}
