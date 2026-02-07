@@ -2697,3 +2697,28 @@ a.bg-primary {
   animation: none !important;
   filter: drop-shadow(0 0 20px rgba(5, 150, 105, 0.4));
 }
+
+/* perf fix 5: simplify card shadow stacks */
+.glass-card,
+.bento-card,
+.feature-card,
+.step-card,
+.fit-card,
+.about-card,
+.faq-card {
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(5, 150, 105, 0.05) !important;
+}
+
+.glass-card:hover,
+.bento-card:hover,
+.feature-card:hover,
+.step-card:hover,
+.fit-card:hover,
+.about-card:hover,
+.faq-card:hover {
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(5, 150, 105, 0.1) !important;
+}
