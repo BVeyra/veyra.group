@@ -1010,7 +1010,7 @@ export default function Home() {
 
       {/* FAQ SECTION */}
       <section className="section-wrapper relative">
-        <div className="container mx-auto px-4 md:px-6 max-w-3xl">
+        <div className="container mx-auto px-4 md:px-6 max-w-5xl">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1028,7 +1028,7 @@ export default function Home() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.5 }}
           >
-            <Accordion type="single" collapsible className="faq-accordion mx-auto w-full max-w-[720px]">
+            <Accordion type="single" collapsible className="faq-accordion mx-auto w-full max-w-[980px]">
               {[
                 { q: "What exactly do you build?", a: "Two things. First — automations. The stuff you do over and over that doesn't require thinking. Lead routing, invoice reminders, client onboarding, data syncing between tools. We make it run without you. Second — custom AI tools. Think support bots that actually know your business, writing tools that sound like you, internal assistants that answer questions so you don't have to. If it's repetitive and doesn't need your brain, we can probably kill it." },
                 { q: "How much of my time does this take?", a: "One 30-minute call upfront. Maybe a few async questions during the build. That's it. You don't need to project-manage this. You don't need to learn new software. You keep running your business — we handle the rest." },
@@ -1043,10 +1043,10 @@ export default function Home() {
                       value={`item-${i}`}
                       className="border-none px-0"
                     >
-                      <AccordionTrigger className="faq-question text-lg py-5 hover:no-underline text-left">
+                      <AccordionTrigger className="faq-question text-xl py-6 hover:no-underline text-left">
                         {item.q}
                       </AccordionTrigger>
-                      <AccordionContent className="faq-answer pb-5 leading-relaxed">
+                      <AccordionContent className="faq-answer pb-7 text-base leading-relaxed">
                         {item.a}
                       </AccordionContent>
                     </AccordionItem>
