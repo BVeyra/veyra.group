@@ -2606,3 +2606,52 @@ a.bg-primary:hover {
     animation: none !important;
   }
 }
+
+/* perf fix 2: remove expensive backdrop filters */
+.glass-shiny:not(.glass-shiny-nav) {
+  background: rgba(20, 30, 20, 0.92);
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.glass-card,
+.bento-card,
+.guarantee-card,
+.feature-card,
+.step-card,
+.fit-card,
+.about-card,
+.faq-card {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.stats-icon-box {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: radial-gradient(circle at 30% 30%, rgba(5, 150, 105, 0.08) 0%, rgba(15, 25, 15, 0.95) 70%);
+}
+
+.stats-center {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: radial-gradient(circle at 30% 30%, rgba(5, 150, 105, 0.12) 0%, rgba(10, 15, 10, 0.97) 60%);
+}
+
+.calc-panel {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: rgba(15, 25, 18, 0.95);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 1.75rem;
+}
+
+.glow-button,
+.glow-button.bg-primary,
+button.bg-primary,
+a.bg-primary {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
