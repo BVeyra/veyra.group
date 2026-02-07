@@ -10,46 +10,10 @@ import { StepSlider } from "@/components/StepSlider";
 
 function ParallaxWheel() {
   return (
-    <div className="flex justify-center items-center w-full h-[520px]">
+    <div className="hero-load-wheel flex justify-center items-center w-full h-[520px]">
       <SpinningWheel />
     </div>
   );
-}
-
-function AnimatedNumber({ value, prefix = "", suffix = "" }: { value: number; prefix?: string; suffix?: string }) {
-  const [displayValue, setDisplayValue] = useState(value);
-  const [isPulsing, setIsPulsing] = useState(false);
-  const prevValue = useRef(value);
-  
-  useEffect(() => {
-    const startValue = prevValue.current;
-    const endValue = value;
-    const duration = 400;
-    let startTime: number;
-    
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      const easeOut = 1 - Math.pow(1 - progress, 3);
-      setDisplayValue(Math.round(startValue + (endValue - startValue) * easeOut));
-      
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      } else {
-        prevValue.current = endValue;
-      }
-    };
-    
-    requestAnimationFrame(animate);
-  }, [value]);
-
-  useEffect(() => {
-    setIsPulsing(true);
-    const timeout = window.setTimeout(() => setIsPulsing(false), 220);
-    return () => window.clearTimeout(timeout);
-  }, [value]);
-  
-  return <span className={`stat-number ${isPulsing ? "stat-number-pulse" : ""}`}>{prefix}{displayValue.toLocaleString()}{suffix}</span>;
 }
 
 const logoData = [
@@ -204,17 +168,56 @@ export default function Home() {
   const [calculatorEmail, setCalculatorEmail] = useState("");
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [emailSubmitting, setEmailSubmitting] = useState(false);
-  
+  const [displayStats, setDisplayStats] = useState({ weekly: 0, monthly: 0, yearly: 0, payback: 0 });
+
+  const weeklyHours = teamSize * hoursPerPerson;
+  const monthlyCost = weeklyHours * 4 * hourlyValue;
+  const yearlyCost = monthlyCost * 12;
+  const paybackDays = monthlyCost > 0 ? Math.max(1, Math.ceil((2000 / monthlyCost) * 30)) : 30;
+  const countersPlayedRef = useRef(false);
+  const liveValuesRef = useRef({ weekly: weeklyHours, monthly: monthlyCost, yearly: yearlyCost, payback: paybackDays });
+
   useEffect(() => {
     loadCalendlyScript();
   }, []);
 
   useEffect(() => {
-    const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-animate]"));
+    liveValuesRef.current = { weekly: weeklyHours, monthly: monthlyCost, yearly: yearlyCost, payback: paybackDays };
+    if (countersPlayedRef.current) {
+      setDisplayStats(liveValuesRef.current);
+    }
+  }, [weeklyHours, monthlyCost, yearlyCost, paybackDays]);
+
+  useEffect(() => {
+    const nodes = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const runCounters = (delay = 0) => {
+      if (countersPlayedRef.current) return;
+      const start = () => {
+        if (countersPlayedRef.current) return;
+        countersPlayedRef.current = true;
+        const targets = liveValuesRef.current;
+        const startTime = performance.now();
+        const tick = (now: number) => {
+          const p = Math.min((now - startTime) / 800, 1);
+          const e = 1 - Math.pow(1 - p, 3);
+          setDisplayStats({
+            weekly: Math.round(targets.weekly * e),
+            monthly: Math.round(targets.monthly * e),
+            yearly: Math.round(targets.yearly * e),
+            payback: Math.round(targets.payback * e),
+          });
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      };
+      delay ? window.setTimeout(start, delay) : start();
+    };
 
     if (prefersReduced) {
-      sections.forEach((section) => section.classList.add("visible"));
+      nodes.forEach((node) => node.classList.add("revealed"));
+      countersPlayedRef.current = true;
+      setDisplayStats(liveValuesRef.current);
       return;
     }
 
@@ -222,22 +225,23 @@ export default function Home() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
+            (entry.target as HTMLElement).classList.add("revealed");
+            if ((entry.target as HTMLElement).dataset.counterTrigger === "1") runCounters();
             observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.15 }
     );
 
-    sections.forEach((section) => observer.observe(section));
+    nodes.forEach((node) => observer.observe(node));
+    const trigger = document.querySelector<HTMLElement>("[data-counter-trigger='1']");
+    if (trigger) {
+      const rect = trigger.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) runCounters(500);
+    }
     return () => observer.disconnect();
   }, []);
-
-  const weeklyHours = teamSize * hoursPerPerson;
-  const monthlyCost = weeklyHours * 4 * hourlyValue;
-  const yearlyCost = monthlyCost * 12;
-  const paybackWeeks = Math.max(1, Math.round(1500 / (weeklyHours * hourlyValue * 0.5)));
 
   const handleCalculatorSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -276,19 +280,17 @@ export default function Home() {
       <Navbar />
 
       {/* HERO SECTION */}
-      <section data-animate className="hero-section relative min-h-screen flex items-center pt-24 pb-32 overflow-hidden">
+      <section className="hero-section relative min-h-screen flex items-center pt-24 pb-32 overflow-hidden">
         <div className="hero-spotlight"></div>
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-7xl mx-auto">
-            <div 
-              className="space-y-6 text-center lg:text-left"
-            >
-              <h1 className="hero-title">
+            <div className="space-y-6 text-center lg:text-left">
+              <h1 className="hero-title hero-load-headline">
                 Stop doing work that doesn't <span className="hero-accent">make you money.</span>
               </h1>
               
-              <div className="hero-copy text-lg text-[#7F8A95] leading-relaxed space-y-4">
+              <div className="hero-copy hero-load-subtext text-lg text-[#7F8A95] leading-relaxed space-y-4">
                 <p>The repetitive tasks. The manual processes. The busy work that fills your calendar but never fills your pipeline.</p>
                 <p>We build systems that eliminate it. In <span className="text-[var(--emerald)]">2 weeks</span>. For less than one month's salary.</p>
               </div>
@@ -298,7 +300,7 @@ export default function Home() {
                   onClick={() => scrollToSection('calculator')}
                   size="lg"
                   data-testid="button-hero-cta-primary"
-                  className="glow-button hero-cta font-semibold group"
+                  className="glow-button hero-cta hero-load-cta font-semibold group"
                 >
                   Find My 10 Hours
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -332,14 +334,14 @@ export default function Home() {
       </section>
 
       {/* AGITATION SECTION */}
-      <section data-animate className="section-wrapper section-open relative">
+      <section className="section-wrapper section-open relative">
         <div className="container mx-auto px-4 md:px-6">
           <div 
             className="max-w-3xl mx-auto"
           >
-            <h2 className="section-title text-center">Sound <span className="section-accent">Familiar?</span></h2>
+            <h2 data-reveal className="section-title text-center">Sound <span className="section-accent">Familiar?</span></h2>
             
-            <div className="space-y-6 text-lg text-[#7F8A95] leading-relaxed">
+            <div data-reveal data-reveal-delay="1" className="space-y-6 text-lg text-[#7F8A95] leading-relaxed">
               <p className="text-[#A7B1BA]">Copying the same data into three different tools. <span className="text-[#7F8A95]">Again.</span></p>
               <p className="text-[#A7B1BA]">Manually updating a spreadsheet that should update itself. <span className="text-[#7F8A95]">Again.</span></p>
               <p className="text-[#A7B1BA]">Sending the same email you sent last week. And the week before. <span className="text-[#7F8A95]">Again.</span></p>
@@ -356,16 +358,14 @@ export default function Home() {
       </section>
 
       {/* WHAT WE BUILD SECTION */}
-      <section data-animate id="what-i-build" className="section-wrapper section-dense relative">
+      <section id="what-i-build" className="section-wrapper section-dense relative">
         <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div 
-            className="text-center mb-4"
-          >
+          <div data-reveal className="text-center mb-4">
             <h2 className="section-title">What We <span className="section-accent">Build</span></h2>
             <p className="section-subtitle text-[#7F8A95]">Not strategy decks. Not consulting reports. We build the systems that do the work — so you stop doing it.</p>
           </div>
 
-          <div className="max-w-6xl mx-auto mt-16">
+          <div data-reveal data-reveal-delay="1" className="max-w-6xl mx-auto mt-16">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start gap-6">
               <div
                 className=""
@@ -448,18 +448,14 @@ export default function Home() {
       </section>
 
       {/* CALCULATOR SECTION */}
-      <section data-animate id="calculator" className="section-wrapper section-dense relative overflow-hidden">
+      <section id="calculator" className="section-wrapper section-dense relative overflow-hidden">
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl mx-auto">
-            <div 
-              className="text-center mb-12"
-            >
+            <div data-reveal className="text-center mb-12">
               <h2 className="section-title">The <span className="section-accent">Math</span></h2>
             </div>
 
-            <div 
-              className="w-full"
-            >
+            <div data-reveal data-reveal-delay="1" data-counter-trigger="1" className="w-full">
               <SpotlightCard className="glass-card glow-border p-8 md:p-12">
               <div className="space-y-10">
                 <div>
@@ -511,11 +507,11 @@ export default function Home() {
 
               <div className="mt-12 pt-8 border-t border-white/10">
                 <div className="text-center mb-8">
-                  <p className="text-[#7F8A95] mb-4">Your team spends <span className="text-[var(--emerald)] font-bold text-2xl"><AnimatedNumber value={weeklyHours} /> hours/week</span> on robot work.</p>
+                  <p className="text-[#7F8A95] mb-4">Your team spends <span className="text-[var(--emerald)] font-bold text-2xl">{displayStats.weekly.toLocaleString()} hours/week</span> on robot work.</p>
                   <p className="text-[#A7B1BA] font-semibold text-xl mb-4">That's costing you:</p>
                   <div className="space-y-2">
-                    <p className="text-3xl font-bold">→ <span className="text-[var(--emerald)]"><AnimatedNumber value={monthlyCost} prefix="$" /></span> <span className="text-[#A7B1BA]">per month</span></p>
-                    <p className="text-3xl font-bold">→ <span className="text-[var(--emerald)]"><AnimatedNumber value={yearlyCost} prefix="$" /></span> <span className="text-[#A7B1BA]">per year</span></p>
+                    <p className="text-3xl font-bold">→ <span className="text-[var(--emerald)]">${displayStats.monthly.toLocaleString()}</span> <span className="text-[#A7B1BA]">per month</span></p>
+                    <p className="text-3xl font-bold">→ <span className="text-[var(--emerald)]">${displayStats.yearly.toLocaleString()}</span> <span className="text-[#A7B1BA]">per year</span></p>
                   </div>
                   <p className="text-[#7F8A95] mt-4">Plus the mistakes. The missed follow-ups. The deals that slipped because someone was too buried to notice.</p>
                 <p className="text-[#A7B1BA] italic mt-2">(What would ONE saved deal be worth to you?)</p>
@@ -523,7 +519,7 @@ export default function Home() {
 
                 <div className="rounded-2xl p-6 text-center border border-[var(--emerald)]/20 mb-8 bg-[rgba(10,18,14,0.32)]">
                   <p className="text-[#A7B1BA] mb-2">A one-time build starts at <span className="text-[var(--emerald)] font-semibold">$2,000</span>.</p>
-                  <p className="text-[#A7B1BA] font-bold text-lg">Pays for itself in <span className="text-[var(--emerald)]">{monthlyCost > 0 ? Math.max(1, Math.ceil((2000 / monthlyCost) * 30)) : 30}</span> days.</p>
+                  <p className="text-[#A7B1BA] font-bold text-lg">Pays for itself in <span className="text-[var(--emerald)]">{displayStats.payback.toLocaleString()}</span> days.</p>
                 </div>
 
                 {emailSubmitted ? (
@@ -573,15 +569,13 @@ export default function Home() {
       </section>
 
       {/* HOW IT WORKS SECTION */}
-      <section data-animate id="how-it-works" className="section-wrapper section-prelude section-dense relative">
+      <section id="how-it-works" className="section-wrapper section-prelude section-dense relative">
         <div className="container mx-auto px-4 md:px-6">
-          <div 
-            className="text-center mb-16"
-          >
+          <div data-reveal className="text-center mb-16">
             <h2 className="section-title">How It <span className="section-accent">Works</span></h2>
           </div>
 
-          <div className="relative max-w-5xl mx-auto steps-timeline">
+          <div data-reveal data-reveal-delay="1" className="relative max-w-5xl mx-auto steps-timeline">
             {[
               {
                 step: "1",
@@ -639,16 +633,14 @@ export default function Home() {
       </section>
 
       {/* PRICING SECTION */}
-      <section data-animate className="section-wrapper section-dense section-pricing relative">
+      <section className="section-wrapper section-dense section-pricing relative">
         <div className="container mx-auto px-4 md:px-6">
-          <div 
-            className="text-center mb-16"
-          >
+          <div data-reveal className="text-center mb-16">
             <h2 className="section-title">Simple <span className="section-accent">Pricing</span></h2>
             <p className="section-subtitle text-[#7F8A95]">No hourly rates. No surprise invoices. Just clear packages.</p>
           </div>
 
-          <div className="max-w-5xl mx-auto">
+          <div data-reveal data-reveal-delay="1" className="max-w-5xl mx-auto">
             <div className="grid md:grid-cols-3 gap-6">
               {[
                 {
@@ -704,14 +696,14 @@ export default function Home() {
       </section>
 
       {/* GUARANTEE SECTION */}
-      <section data-animate className="section-wrapper section-breathe relative">
+      <section className="section-wrapper section-breathe relative">
         <div className="container mx-auto px-4 md:px-6">
           <div 
             className="max-w-3xl mx-auto text-center"
           >
-            <h2 className="section-title">The <span className="section-accent">Guarantee</span></h2>
+            <h2 data-reveal className="section-title">The <span className="section-accent">Guarantee</span></h2>
             
-            <div className="guarantee-card text-center">
+            <div data-reveal data-reveal-delay="1" className="guarantee-card text-center">
               <div className="guarantee-seal mx-auto mt-8 mb-6">
                 <ShieldCheck className="w-14 h-14 text-[#d4a853]" />
               </div>
@@ -724,15 +716,13 @@ export default function Home() {
       </section>
 
       {/* WHO THIS IS FOR SECTION */}
-      <section data-animate className="section-wrapper section-dense relative">
+      <section className="section-wrapper section-dense relative">
         <div className="container mx-auto px-4 md:px-6">
-          <div 
-            className="text-center mb-16"
-          >
+          <div data-reveal className="text-center mb-16">
             <h2 className="section-title">Is This a <span className="section-accent">Fit</span>?</h2>
           </div>
 
-          <div className="max-w-3xl mx-auto grid md:grid-cols-2 gap-5">
+          <div data-reveal data-reveal-delay="1" className="max-w-3xl mx-auto grid md:grid-cols-2 gap-5">
             <div 
               className="h-full"
             >
@@ -779,11 +769,9 @@ export default function Home() {
       </section>
 
       {/* ABOUT SECTION */}
-      <section data-animate className="section-wrapper section-statement relative">
+      <section className="section-wrapper section-statement relative">
         <div className="container mx-auto px-4 md:px-6">
-          <div 
-            className="max-w-3xl mx-auto"
-          >
+          <div data-reveal className="max-w-3xl mx-auto">
             <h2 className="section-title text-center">Who We <span className="section-accent">Are</span></h2>
             <div className="statement-block text-center">
               <div className="space-y-4 text-[#7F8A95] leading-relaxed max-w-xl mx-auto">
@@ -797,16 +785,16 @@ export default function Home() {
       </section>
 
       {/* FAQ SECTION */}
-      <section data-animate className="section-wrapper section-prelude section-faq relative">
+      <section className="section-wrapper section-prelude section-faq relative">
         <div className="container mx-auto px-4 md:px-6 max-w-5xl">
           <h2 
+            data-reveal
             className="section-title text-center"
           >
             <span className="section-accent">FAQ</span>
           </h2>
           
-          <div
-          >
+          <div data-reveal data-reveal-delay="1">
             <Accordion type="single" collapsible className="faq-accordion mx-auto w-full max-w-[980px]">
               {[
                 { q: "What exactly do you build?", a: "Two things. First — automations. The stuff you do over and over that doesn't require thinking. Lead routing, invoice reminders, client onboarding, data syncing between tools. We make it run without you. Second — custom AI tools. Think support bots that actually know your business, writing tools that sound like you, internal assistants that answer questions so you don't have to. If it's repetitive and doesn't need your brain, we can probably kill it." },
@@ -836,32 +824,32 @@ export default function Home() {
       </section>
 
       {/* FINAL CTA SECTION */}
-      <section data-animate className="section-wrapper section-arrival relative">
+      <section className="section-wrapper section-arrival relative">
         <div className="container mx-auto px-4 md:px-6 max-w-3xl text-center">
-          <div 
-            className="w-full"
-          >
+          <div className="w-full">
             <div className="final-cta-shell p-12 md:p-16">
-            <h2 className="section-title text-center mb-6">Let's <span className="section-accent">Talk</span></h2>
-            <div className="text-[#7F8A95] text-lg mb-10 leading-relaxed space-y-4">
-              <p>30 minutes. That's it.</p>
-              <p>We'll map out exactly what's eating your week — and what it would cost to make it stop.</p>
-              <p>If automation isn't the right answer, we'll tell you. No hard sell.</p>
+            <h2 data-reveal className="section-title text-center mb-6">Let's <span className="section-accent">Talk</span></h2>
+            <div data-reveal data-reveal-delay="1">
+              <div className="text-[#7F8A95] text-lg mb-10 leading-relaxed space-y-4">
+                <p>30 minutes. That's it.</p>
+                <p>We'll map out exactly what's eating your week — and what it would cost to make it stop.</p>
+                <p>If automation isn't the right answer, we'll tell you. No hard sell.</p>
+              </div>
+              <Button 
+                onClick={openCalendly}
+                size="lg"
+                data-testid="button-final-cta"
+                className="glow-button hero-cta final-cta-button font-semibold group"
+              >
+                Book the Call
+                <ArrowRight className="ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform" />
+              </Button>
+              <p className="text-[#5F6972] text-sm mt-8">
+                <a href="mailto:contact@veyra.group" className="text-[var(--emerald)] hover:underline">contact@veyra.group</a><br />
+                <a href="tel:+13026002625" className="text-[#5F6972] hover:text-[var(--emerald)]">(302) 600-2625</a><br />
+                We usually reply same day.
+              </p>
             </div>
-            <Button 
-              onClick={openCalendly}
-              size="lg"
-              data-testid="button-final-cta"
-              className="glow-button hero-cta final-cta-button font-semibold group"
-            >
-              Book the Call
-              <ArrowRight className="ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <p className="text-[#5F6972] text-sm mt-8">
-              <a href="mailto:contact@veyra.group" className="text-[var(--emerald)] hover:underline">contact@veyra.group</a><br />
-              <a href="tel:+13026002625" className="text-[#5F6972] hover:text-[var(--emerald)]">(302) 600-2625</a><br />
-              We usually reply same day.
-            </p>
             </div>
           </div>
         </div>
