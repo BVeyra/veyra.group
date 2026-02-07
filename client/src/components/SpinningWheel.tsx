@@ -462,6 +462,19 @@ export function SpinningWheel() {
 
   const currentActiveIndex = hoveredIndex ?? activeIndex;
   const orbitRadius = Math.round(canvasSize * 0.39);
+  const getTooltipPosition = (angle: number) => {
+    const radians = (angle * Math.PI) / 180;
+    const offset = isMobile ? 72 : 88;
+    const x = Math.sin(radians) * offset;
+    const y = -Math.cos(radians) * offset;
+
+    return {
+      left: '50%',
+      top: '50%',
+      bottom: 'auto',
+      transform: `translate(calc(-50% + ${x.toFixed(1)}px), calc(-50% + ${y.toFixed(1)}px))`,
+    } as const;
+  };
 
   return (
     <div
@@ -496,7 +509,7 @@ export function SpinningWheel() {
           <div className="stats-outer-ring absolute w-[42%] h-[42%] rounded-full" />
         </div>
 
-        <div className="absolute inset-0 overflow-visible" style={{ zIndex: 5 }}>
+        <div className="absolute inset-0 overflow-visible" style={{ zIndex: 8 }}>
           {wheelIcons.map((item, index) => {
             const angle = (index / wheelIcons.length) * 360;
             const isActive = index === currentActiveIndex;
@@ -528,9 +541,13 @@ export function SpinningWheel() {
                         initial={{ opacity: 0, y: 6 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 6 }}
-                        className="stats-tooltip"
+                        style={getTooltipPosition(angle)}
+                        className="stats-tooltip absolute pointer-events-none whitespace-nowrap rounded-2xl border border-[rgba(132,208,184,0.28)] bg-[linear-gradient(160deg,rgba(7,13,11,0.94),rgba(12,23,18,0.86))] px-4 py-2 shadow-[0_16px_36px_rgba(0,0,0,0.42),0_0_24px_rgba(34,129,104,0.18),inset_0_1px_0_rgba(217,243,234,0.08)] backdrop-blur-[2px]"
                       >
-                        <span className="text-xs font-semibold text-[#d7e2eb]">{item.label}</span>
+                        <span className="inline-block h-1.5 w-1.5 rounded-full bg-[rgba(99,205,170,0.95)] shadow-[0_0_10px_rgba(44,148,118,0.8)] mr-2 align-middle" />
+                        <span className="align-middle text-[13px] font-semibold leading-none tracking-[0.01em] text-[rgba(229,244,238,0.94)]">
+                          {item.label}
+                        </span>
                       </motion.div>
                     )}
                   </AnimatePresence>
