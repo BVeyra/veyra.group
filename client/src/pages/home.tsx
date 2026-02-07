@@ -400,7 +400,7 @@ export default function Home() {
               
               <div className="hero-copy hero-load-subtext text-lg text-[#7F8A95] leading-relaxed space-y-4">
                 <p>The repetitive tasks. The manual processes. The busy work that fills your calendar but never fills your pipeline.</p>
-                <p>We build systems that eliminate it. In <span className="text-[var(--emerald)]">2 weeks</span>. For less than one month's salary.</p>
+                <p>We build systems that eliminate it. In <span className="gradient-accent">2 weeks</span>. For less than one month's salary.</p>
               </div>
               
               <div className="flex flex-col sm:flex-row items-center lg:items-start gap-4 pt-2">
@@ -501,7 +501,6 @@ export default function Home() {
                   </ul>
                   <p className="feature-description text-[#A7B1BA] font-bold mb-2">You've been doing this manually because "it only takes a few minutes."</p>
                   <p className="feature-description text-[#A7B1BA] font-bold">It's never a few minutes.</p>
-                  <span className="feature-hover-link">Learn more →</span>
                 </SpotlightCard>
               </div>
 
@@ -531,7 +530,6 @@ export default function Home() {
                   </ul>
                   <p className="feature-description text-[#A7B1BA] font-bold mb-2">Stop being the answer to every question.</p>
                   <p className="feature-description text-[#A7B1BA] font-bold">Build the thing that answers for you.</p>
-                  <span className="feature-hover-link">Learn more →</span>
                 </SpotlightCard>
               </div>
 
@@ -547,7 +545,6 @@ export default function Home() {
                   <p className="feature-description text-[#A7B1BA] mb-4">You don't need a full-time hire. You need someone on call.</p>
                   <p className="feature-description text-[#7F8A95] mb-4">New automations as you need them. Maintenance when things change. Updates when tools break. One Slack message away.</p>
                   <p className="feature-description text-[#A7B1BA] font-bold">Like having a tech team — without hiring one.</p>
-                  <span className="feature-hover-link">Learn more →</span>
                 </SpotlightCard>
               </div>
             </div>

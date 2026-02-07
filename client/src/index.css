@@ -3766,3 +3766,61 @@ a.glow-button:active {
     border-color: rgba(45, 212, 160, 0.15) !important;
   }
 }
+
+/* Remove hover-revealed "Learn more" behavior; keep only tilt + border glow */
+.feature-hover-link {
+  display: none !important;
+}
+
+.feature-description {
+  opacity: 1 !important;
+}
+
+.feature-card:hover .feature-icon-shell,
+.feature-card:hover .feature-title,
+.feature-card:hover .feature-description,
+.feature-card:hover .feature-hover-link {
+  transform: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+/* Gradient accent text for heading accent words and key inline accent */
+.gradient-accent,
+.section-accent,
+.accent-gradient {
+  color: rgb(45, 212, 160) !important;
+  background: linear-gradient(
+    135deg,
+    rgb(45, 212, 160) 0%,
+    rgb(120, 235, 210) 50%,
+    rgb(45, 212, 160) 100%
+  ) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+.hero-accent {
+  color: rgb(45, 212, 160) !important;
+  background: linear-gradient(
+    135deg,
+    rgb(45, 212, 160) 0%,
+    rgb(95, 225, 195) 50%,
+    rgb(45, 212, 160) 100%
+  ) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+@supports not (-webkit-background-clip: text) {
+  .gradient-accent,
+  .section-accent,
+  .accent-gradient,
+  .hero-accent {
+    background: none !important;
+    -webkit-text-fill-color: rgb(45, 212, 160) !important;
+    color: rgb(45, 212, 160) !important;
+  }
+}
