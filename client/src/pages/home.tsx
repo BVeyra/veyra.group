@@ -9,6 +9,7 @@ import { SpinningWheel } from "@/components/SpinningWheel";
 import { CursorGlow } from "@/components/CursorGlow";
 import { ParallaxOrb } from "@/components/ParallaxOrb";
 import { SpotlightCard } from "@/components/SpotlightCard";
+import { StepSlider } from "@/components/StepSlider";
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
@@ -367,11 +368,6 @@ export default function Home() {
     }
   };
 
-  const getSliderBackground = (value: number, max: number, min: number = 1) => {
-    const percentage = ((value - min) / (max - min)) * 100;
-    return `linear-gradient(to right, #047857 0%, #5a7a8f ${percentage}%, rgba(255,255,255,0.08) ${percentage}%, rgba(255,255,255,0.08) 100%)`;
-  };
-
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -628,51 +624,27 @@ export default function Home() {
               <SpotlightCard className="glass-card glow-border p-8 md:p-12">
               <div className="space-y-10">
                 <div>
-                  <label className="block text-[#A7B1BA] text-lg mb-4 font-semibold">
-                    Team size
-                  </label>
-                  <div className="text-center mb-4">
-                    <span className="text-6xl font-bold text-[var(--emerald)] stat-number">{teamSize}</span>
-                    <span className="text-[#7F8A95] ml-2">people</span>
-                  </div>
-                  <input 
-                    type="range" 
-                    min="1" 
-                    max="30" 
+                  <StepSlider
                     value={teamSize}
-                    onChange={(e) => setTeamSize(parseInt(e.target.value))}
-                    data-testid="slider-team-size"
-                    className="w-full rounded-lg cursor-pointer"
-                    style={{ background: getSliderBackground(teamSize, 30) }}
+                    onChange={setTeamSize}
+                    min={1}
+                    max={30}
+                    step={1}
+                    label="Team size"
+                    suffix=" people"
                   />
-                  <div className="flex justify-between mt-2 text-sm text-muted-foreground">
-                    <span>1</span>
-                    <span>30</span>
-                  </div>
                 </div>
 
                 <div>
-                  <label className="block text-[#A7B1BA] text-lg mb-4 font-semibold">
-                    Hours/week on repetitive tasks per person
-                  </label>
-                  <div className="text-center mb-4">
-                    <span className="text-6xl font-bold text-[var(--emerald)] stat-number">{hoursPerPerson}</span>
-                    <span className="text-[#7F8A95] ml-2">hours</span>
-                  </div>
-                  <input 
-                    type="range" 
-                    min="1" 
-                    max="20" 
+                  <StepSlider
                     value={hoursPerPerson}
-                    onChange={(e) => setHoursPerPerson(parseInt(e.target.value))}
-                    data-testid="slider-hours"
-                    className="w-full rounded-lg cursor-pointer"
-                    style={{ background: getSliderBackground(hoursPerPerson, 20) }}
+                    onChange={setHoursPerPerson}
+                    min={1}
+                    max={20}
+                    step={1}
+                    label="Hours/week on repetitive tasks per person"
+                    suffix=" hours"
                   />
-                  <div className="flex justify-between mt-2 text-sm text-muted-foreground">
-                    <span>1</span>
-                    <span>20</span>
-                  </div>
                 </div>
 
                 <div>
