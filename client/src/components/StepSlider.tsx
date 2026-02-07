@@ -86,12 +86,12 @@ export function StepSlider({
       <div className="mb-3 flex items-center justify-between gap-3">
         <span className="text-sm font-medium text-[rgba(255,255,255,0.5)]">{label}</span>
         <span
-          className="text-sm font-semibold text-white tabular-nums"
-          style={{ fontVariantNumeric: "tabular-nums" }}
+          className="tabular-nums tracking-tight leading-none text-xl sm:text-2xl"
+          style={{ fontVariantNumeric: "tabular-nums", letterSpacing: "-0.025em", lineHeight: 1 }}
         >
-          {prefix}
-          {value}
-          {suffix}
+          {prefix && <span className="font-bold text-white">{prefix}</span>}
+          <span className="font-bold text-white">{value}</span>
+          {suffix && <span className="font-normal text-[rgba(255,255,255,0.5)]">{suffix}</span>}
         </span>
       </div>
 
