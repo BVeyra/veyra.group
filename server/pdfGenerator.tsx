@@ -13,7 +13,8 @@ function getResendClient() {
     client: new Resend(apiKey),
     fromEmail:
       process.env.RESEND_FROM_EMAIL ||
-      "Veyra Group <contact@contact.veyra.group>",
+      "Veyra Group <contact@veyra.group>",
+    fallbackFromEmail: "Veyra Group <onboarding@resend.dev>",
     calendlyUrl:
       process.env.CALENDLY_URL || "https://calendly.com/veyragroup/30min",
     ownerNotificationEmail:
@@ -35,7 +36,7 @@ export async function generateAndEmailPDF(data: CalculatorData) {
     const pdfBuffer = await renderToBuffer(<PDFReport data={data} />);
 
     // Get Resend client
-    const { client: resend, fromEmail, calendlyUrl } = getResendClient();
+    const { client: resend, fromEmail, fallbackFromEmail, calendlyUrl } = getResendClient();
 
     // Calculate metrics for email
     const weeklyHours = Math.round(data.teamSize * data.hoursPerPerson);
@@ -47,11 +48,12 @@ export async function generateAndEmailPDF(data: CalculatorData) {
       .replace(/^_+|_+$/g, "");
 
     // Send email with PDF attachment
-    const result = await resend.emails.send({
-      from: fromEmail,
-      to: data.email,
-      subject: `Your Time Waste Report - $${annualWaste.toLocaleString()}/year`,
-      html: `
+    const sendReportEmail = async (sender: string) =>
+      resend.emails.send({
+        from: sender,
+        to: data.email,
+        subject: `Your Time Waste Report - $${annualWaste.toLocaleString()}/year`,
+        html: `
   <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px;">
     
     <p style="font-size: 18px; color: #0a0a0f; margin: 0 0 30px 0;">
@@ -87,13 +89,22 @@ export async function generateAndEmailPDF(data: CalculatorData) {
     
   </div>
 `,
-      attachments: [
-        {
-          filename: `${safeFileBase || "calculator"}_Time_Waste_Report.pdf`,
-          content: pdfBuffer,
-        },
-      ],
-    });
+        attachments: [
+          {
+            filename: `${safeFileBase || "calculator"}_Time_Waste_Report.pdf`,
+            content: pdfBuffer,
+          },
+        ],
+      });
+
+    let result = await sendReportEmail(fromEmail);
+
+    if (result.error && fromEmail !== fallbackFromEmail) {
+      console.warn(
+        `Primary sender ${fromEmail} failed: ${result.error.message}. Retrying with fallback sender.`,
+      );
+      result = await sendReportEmail(fallbackFromEmail);
+    }
 
     if (result.error) {
       throw new Error(result.error.message);
@@ -119,7 +130,7 @@ interface LeadNotificationData {
 
 export async function sendOwnerNotification(data: LeadNotificationData) {
   try {
-    const { client: resend, fromEmail, ownerNotificationEmail } =
+    const { client: resend, fromEmail, fallbackFromEmail, ownerNotificationEmail } =
       getResendClient();
     
     // Calculate lead score
@@ -137,11 +148,12 @@ export async function sendOwnerNotification(data: LeadNotificationData) {
       nextAction = 'Send intro email';
     }
 
-    const result = await resend.emails.send({
-      from: fromEmail,
-      to: ownerNotificationEmail,
-      subject: `🔥 New Calculator Lead - ${data.name || data.email}`,
-      html: `
+    const sendNotification = async (sender: string) =>
+      resend.emails.send({
+        from: sender,
+        to: ownerNotificationEmail,
+        subject: `🔥 New Calculator Lead - ${data.name || data.email}`,
+        html: `
 <h2>New Lead from Calculator</h2>
 
 <p><strong>Lead Score: ${leadScore}</strong></p>
@@ -167,7 +179,15 @@ export async function sendOwnerNotification(data: LeadNotificationData) {
 
 <hr>
 `,
-    });
+      });
+
+    let result = await sendNotification(fromEmail);
+    if (result.error && fromEmail !== fallbackFromEmail) {
+      console.warn(
+        `Owner notification sender ${fromEmail} failed: ${result.error.message}. Retrying with fallback sender.`,
+      );
+      result = await sendNotification(fallbackFromEmail);
+    }
 
     if (result.error) {
       throw new Error(result.error.message);

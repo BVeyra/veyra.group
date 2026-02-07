@@ -168,6 +168,7 @@ export default function Home() {
   const [calculatorEmail, setCalculatorEmail] = useState("");
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [emailSubmitting, setEmailSubmitting] = useState(false);
+  const [emailError, setEmailError] = useState("");
   const [displayStats, setDisplayStats] = useState({ weekly: 0, monthly: 0, yearly: 0, payback: 0 });
 
   const weeklyHours = teamSize * hoursPerPerson;
@@ -355,9 +356,11 @@ export default function Home() {
     e.preventDefault();
     if (!calculatorEmail) return;
     
+    setEmailError("");
     setEmailSubmitting(true);
     try {
-      await fetch("/api/generate-report", {
+      const apiBase = ((import.meta.env.VITE_API_URL as string | undefined) || "").replace(/\/$/, "");
+      const response = await fetch(`${apiBase}/api/generate-report`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -368,9 +371,16 @@ export default function Home() {
           hourlyValue,
         }),
       });
+
+      const payload = await response.json().catch(() => null);
+      if (!response.ok || !payload?.success) {
+        throw new Error(payload?.error || payload?.message || "Failed to send report");
+      }
+
       setEmailSubmitted(true);
     } catch (error) {
       console.error("Error:", error);
+      setEmailError(error instanceof Error ? error.message : "Failed to send report");
     } finally {
       setEmailSubmitting(false);
     }
@@ -664,6 +674,9 @@ export default function Home() {
                         {emailSubmitting ? "Sending..." : "Find Your 10 Hours →"}
                       </button>
                     </form>
+                    {emailError && (
+                      <p className="mt-3 text-sm text-red-300">{emailError}</p>
+                    )}
                   </>
                 )}
               </div>

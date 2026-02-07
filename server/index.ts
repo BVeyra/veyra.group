@@ -21,10 +21,39 @@ app.use(
   }),
 );
 
-const corsOrigins = (process.env.CORS_ORIGINS || "")
+const corsOriginValues = (process.env.CORS_ORIGINS || "")
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
+
+const corsAllowedOrigins = new Set<string>();
+const corsAllowedHosts = new Set<string>();
+
+for (const value of corsOriginValues) {
+  if (value === "*") {
+    corsAllowedOrigins.add("*");
+    continue;
+  }
+
+  const hasProtocol = /^https?:\/\//i.test(value);
+  if (hasProtocol) {
+    try {
+      corsAllowedOrigins.add(new URL(value).origin);
+    } catch {
+      // Ignore malformed entries.
+    }
+    continue;
+  }
+
+  // Support host-only values like "veyra-group.vercel.app" in env config.
+  const normalizedHost = value
+    .replace(/^https?:\/\//i, "")
+    .replace(/\/.*$/, "")
+    .toLowerCase();
+  if (normalizedHost) {
+    corsAllowedHosts.add(normalizedHost);
+  }
+}
 
 app.use(
   cors({
@@ -32,7 +61,29 @@ app.use(
       if (!origin) {
         return callback(null, true);
       }
-      if (corsOrigins.length === 0 || corsOrigins.includes(origin)) {
+
+      if (corsAllowedOrigins.size === 0 && corsAllowedHosts.size === 0) {
+        return callback(null, true);
+      }
+
+      if (corsAllowedOrigins.has("*")) {
+        return callback(null, true);
+      }
+
+      let requestOrigin = origin;
+      let requestHost = "";
+      try {
+        const parsed = new URL(origin);
+        requestOrigin = parsed.origin;
+        requestHost = parsed.host.toLowerCase();
+      } catch {
+        // Leave requestOrigin as-is when parsing fails.
+      }
+
+      if (
+        corsAllowedOrigins.has(requestOrigin) ||
+        (requestHost && corsAllowedHosts.has(requestHost))
+      ) {
         return callback(null, true);
       }
       return callback(new Error("Not allowed by CORS"));

@@ -65,9 +65,11 @@ export async function registerRoutes(
       });
     } catch (error) {
       console.error("Error generating report:", error);
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to generate and send report";
       return res.status(500).json({ 
         success: false, 
-        error: "Failed to generate and send report" 
+        error: errorMessage
       });
     }
   });
