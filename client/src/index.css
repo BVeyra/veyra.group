@@ -2722,3 +2722,17 @@ a.bg-primary {
     0 8px 32px rgba(0, 0, 0, 0.4),
     0 0 40px rgba(5, 150, 105, 0.1) !important;
 }
+
+/* perf fix 6: merge grid into body background */
+body {
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(5, 150, 105, 0.08), transparent),
+    linear-gradient(rgba(65, 159, 132, 0.009) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(65, 159, 132, 0.009) 1px, transparent 1px) !important;
+  background-size: auto, 96px 96px, 96px 96px !important;
+}
+
+body::before {
+  content: none !important;
+  display: none !important;
+}
