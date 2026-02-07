@@ -3328,3 +3328,192 @@ a.bg-primary:active {
     display: none;
   }
 }
+
+/* ==================================================
+   ATMOSPHERE SYSTEM (CSS-ONLY)
+   ================================================== */
+
+/* 1) Section transition gradients (breathing sections only) */
+.section-open,
+.section-breathe,
+.section-statement,
+.section-arrival {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.012) 15%,
+    rgba(255, 255, 255, 0.018) 50%,
+    rgba(255, 255, 255, 0.012) 85%,
+    transparent 100%
+  ) !important;
+}
+
+/* Keep ambient layers underneath section content */
+.hero-section,
+.section-pricing,
+.section-arrival {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section > .container,
+.section-pricing > .container,
+.section-arrival > .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* 2) Ambient light sources (exactly 3) */
+.hero-spotlight {
+  background-image: radial-gradient(circle, rgba(45, 212, 160, 0.07) 0%, transparent 60%) !important;
+  background-size: 800px 800px !important;
+  background-position: 70% 40% !important;
+  background-repeat: no-repeat !important;
+}
+
+.section-pricing::before,
+.section-arrival::before {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  border-radius: 9999px;
+  z-index: 0;
+}
+
+.section-pricing::before {
+  width: 700px;
+  height: 700px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle at 50% 50%, rgba(45, 212, 160, 0.05) 0%, transparent 55%);
+}
+
+.section-arrival::before {
+  width: 600px;
+  height: 600px;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -40%);
+  background: radial-gradient(circle at 50% 40%, rgba(45, 212, 160, 0.06) 0%, transparent 55%);
+}
+
+/* 3) Glass depth on allowed card groups only */
+#what-i-build .feature-card,
+#how-it-works .step-card,
+.section-pricing .pricing-card,
+#calculator .glass-card,
+.fit-card {
+  background: rgba(255, 255, 255, 0.03) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+/* 4) Pricing spotlight hierarchy */
+.section-pricing .pricing-card-spotlight {
+  border: 1px solid rgba(45, 212, 160, 0.2) !important;
+  box-shadow:
+    0 0 80px rgba(45, 212, 160, 0.08),
+    0 0 160px rgba(45, 212, 160, 0.04) !important;
+  transform: scale(1.03) !important;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.045) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+.section-pricing .pricing-card-secondary {
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  opacity: 0.85 !important;
+  box-shadow: none !important;
+}
+
+.section-pricing .pricing-card-secondary:hover {
+  opacity: 1 !important;
+}
+
+.section-pricing .relative > .absolute > span {
+  background: rgb(45, 212, 160) !important;
+  color: #082117 !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 12px rgba(45, 212, 160, 0.3) !important;
+  border: none !important;
+}
+
+/* 5) Illuminated primary CTA buttons */
+.glow-button,
+.glow-button.bg-primary,
+button.glow-button,
+a.glow-button {
+  color: rgb(45, 212, 160) !important;
+  background: rgba(45, 212, 160, 0.08) !important;
+  border: 1px solid rgba(45, 212, 160, 0.4) !important;
+  box-shadow:
+    0 0 20px rgba(45, 212, 160, 0.15),
+    0 0 40px rgba(45, 212, 160, 0.05) !important;
+  transition: all 200ms ease !important;
+}
+
+.glow-button:hover,
+.glow-button.bg-primary:hover,
+button.glow-button:hover,
+a.glow-button:hover {
+  box-shadow:
+    0 0 30px rgba(45, 212, 160, 0.25),
+    0 0 60px rgba(45, 212, 160, 0.1) !important;
+  border: 1px solid rgba(45, 212, 160, 0.6) !important;
+  background: rgba(45, 212, 160, 0.12) !important;
+  transform: none !important;
+}
+
+.glow-button:active,
+.glow-button.bg-primary:active,
+button.glow-button:active,
+a.glow-button:active {
+  transform: none !important;
+}
+
+/* Nav CTA gets 60% glow intensity so it doesn't overpower page CTAs */
+[data-testid="button-nav-cta"].glow-button,
+[data-testid="button-nav-cta-mobile"].glow-button {
+  box-shadow:
+    0 0 12px rgba(45, 212, 160, 0.09),
+    0 0 24px rgba(45, 212, 160, 0.03) !important;
+}
+
+[data-testid="button-nav-cta"].glow-button:hover,
+[data-testid="button-nav-cta-mobile"].glow-button:hover {
+  box-shadow:
+    0 0 18px rgba(45, 212, 160, 0.15),
+    0 0 36px rgba(45, 212, 160, 0.06) !important;
+}
+
+@media (max-width: 767px) {
+  .section-open,
+  .section-breathe,
+  .section-statement,
+  .section-arrival {
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.006) 15%,
+      rgba(255, 255, 255, 0.009) 50%,
+      rgba(255, 255, 255, 0.006) 85%,
+      transparent 100%
+    ) !important;
+  }
+
+  #what-i-build .feature-card,
+  #how-it-works .step-card,
+  .section-pricing .pricing-card,
+  #calculator .glass-card,
+  .fit-card {
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+  }
+
+  .section-pricing .pricing-card-spotlight {
+    transform: none !important;
+  }
+}
