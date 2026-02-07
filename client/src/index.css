@@ -420,7 +420,7 @@ section:first-of-type .space-y-6 > *:nth-child(5) { animation-delay: 0.5s; }
     content: '';
     position: absolute;
     top: 0;
-    left: -100%;
+    left: 0;
     width: 60%;
     height: 100%;
     background: linear-gradient(
@@ -429,8 +429,8 @@ section:first-of-type .space-y-6 > *:nth-child(5) { animation-delay: 0.5s; }
       rgba(5, 150, 105, 0.03) 50%,
       transparent 100%
     );
-    transform: skewX(-20deg);
-    transition: left 0.8s ease;
+    transform: translateX(-170%) skewX(-20deg);
+    transition: transform 0.8s ease;
     z-index: 0;
     pointer-events: none;
   }
@@ -443,7 +443,7 @@ section:first-of-type .space-y-6 > *:nth-child(5) { animation-delay: 0.5s; }
   .fit-card:hover::after,
   .about-card:hover::after,
   .faq-card:hover::after {
-    left: 120%;
+    transform: translateX(220%) skewX(-20deg);
   }
   
   /* Enhanced hover state */
