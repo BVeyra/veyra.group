@@ -1559,6 +1559,54 @@ input[type=range]::-moz-range-progress {
   }
 }
 
+/* perf fix 10: strategic will-change + reduced-motion cleanup */
+.floating-orb {
+  will-change: transform;
+}
+
+.hero-stats-wheel {
+  will-change: transform;
+}
+
+.stats-outer-ring-main {
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-orb,
+  .pulse-glow,
+  .pulse-glow::after,
+  .mesh-gradient,
+  .animate-scroll,
+  .animate-scroll-pills,
+  .hero-stats-wheel,
+  .stats-outer-ring-main,
+  .stats-center::before {
+    animation: none !important;
+  }
+
+  .glow-border::before,
+  .animated-border-gradient::before {
+    animation: none !important;
+  }
+
+  .glass-card:hover,
+  .bento-card:hover,
+  .feature-card:hover,
+  .step-card:hover,
+  .fit-card:hover,
+  .about-card:hover,
+  .faq-card:hover {
+    transform: none !important;
+  }
+
+  .glass-card::after,
+  .bento-card::after,
+  .feature-card::after {
+    transition: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .floating-orb,
   .pulse-glow,
