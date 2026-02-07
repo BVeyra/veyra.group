@@ -8,7 +8,7 @@ import { openCalendly, loadCalendlyScript } from "@/lib/calendly";
 import { HeroScene } from "@/components/HeroScene";
 import { CursorGlow } from "@/components/CursorGlow";
 import { ParallaxOrb } from "@/components/ParallaxOrb";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { ScrollSceneBackground } from "@/components/ScrollSceneBackground";
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
@@ -30,7 +30,6 @@ function ParallaxWheel() {
   const ref = useRef(null);
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 1000], [0, 90]);
-  const isMobile = useIsMobile();
   
   return (
     <motion.div 
@@ -43,7 +42,7 @@ function ParallaxWheel() {
     >
       <div className="relative h-full w-full max-w-[680px] rounded-[28px] border border-white/12 bg-[radial-gradient(circle_at_20%_20%,rgba(20,220,170,0.14),transparent_44%),linear-gradient(180deg,rgba(7,13,10,0.28),rgba(6,11,8,0.56))] shadow-[0_30px_90px_rgba(0,0,0,0.45),0_0_45px_rgba(5,150,105,0.12)] overflow-hidden">
         <div className="absolute inset-0">
-          <HeroScene quality={isMobile ? "lite" : "full"} />
+          <HeroScene />
         </div>
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(0,0,0,0.46),transparent_60%)]" />
       </div>
@@ -386,7 +385,10 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen font-sans text-foreground overflow-x-hidden flex flex-col">
+    <div className="relative min-h-screen font-sans text-foreground overflow-x-hidden">
+      <ScrollSceneBackground />
+
+      <div className="relative z-10 flex min-h-screen flex-col">
       <CursorGlow />
       
       {/* Parallax background orbs */}
@@ -1108,6 +1110,7 @@ export default function Home() {
       </section>
 
       <Footer />
+      </div>
     </div>
   );
 }
