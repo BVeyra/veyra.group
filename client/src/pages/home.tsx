@@ -10,7 +10,7 @@ import { StepSlider } from "@/components/StepSlider";
 
 function ParallaxWheel() {
   return (
-    <div className="hero-load-wheel flex justify-center items-center w-full h-[520px]">
+    <div className="hero-load-wheel relative z-10 flex justify-center items-center w-full h-[520px]">
       <SpinningWheel />
     </div>
   );
@@ -393,7 +393,7 @@ export default function Home() {
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-7xl mx-auto">
-            <div className="space-y-6 text-center lg:text-left">
+            <div className="relative z-20 space-y-6 text-center lg:text-left">
               <h1 className="hero-title hero-load-headline">
                 Stop doing work that doesn't <span className="hero-accent">make you money.</span>
               </h1>

@@ -3824,3 +3824,17 @@ a.glow-button:active {
     color: rgb(45, 212, 160) !important;
   }
 }
+
+/* Keep hero copy fully in front and fully opaque */
+.hero-section .hero-title,
+.hero-section .hero-copy,
+.hero-section .hero-copy p {
+  position: relative;
+  z-index: 20;
+  opacity: 1 !important;
+}
+
+.hero-section .hero-copy,
+.hero-section .hero-copy p {
+  color: #e8f0ec !important;
+}
