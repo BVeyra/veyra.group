@@ -3099,6 +3099,10 @@ a.bg-primary:active {
   border-bottom: 1px solid transparent;
 }
 
+.site-nav:hover {
+  transform: none !important;
+}
+
 .site-nav.is-scrolled {
   border-bottom-color: rgba(255, 255, 255, 0.06);
 }
