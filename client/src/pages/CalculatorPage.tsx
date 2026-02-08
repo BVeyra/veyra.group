@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "wouter";
 
-const CALENDLY_URL = "https://calendly.com/veyragroup/15min";
-
 interface SavingsResults {
   weeklyHours: number;
   monthlySavings: number;
@@ -315,9 +313,7 @@ export default function CalculatorPage() {
 
               <div style={{ textAlign: "center" }}>
                 <a
-                  href={CALENDLY_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="/book"
                   className="glow-button"
                   data-testid="button-book-call"
                   style={{
