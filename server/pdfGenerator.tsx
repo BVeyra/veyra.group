@@ -15,8 +15,8 @@ function getResendClient() {
       process.env.RESEND_FROM_EMAIL ||
       "Veyra Group <contact@veyra.group>",
     fallbackFromEmail: "Veyra Group <onboarding@resend.dev>",
-    calendlyUrl:
-      process.env.CALENDLY_URL || "https://calendly.com/veyragroup/30min",
+    bookingUrl:
+      process.env.BOOKING_URL || "https://www.veyra.group/book",
     ownerNotificationEmail:
       process.env.OWNER_NOTIFICATION_EMAIL || "bruno@veyra.group",
   };
@@ -36,7 +36,7 @@ export async function generateAndEmailPDF(data: CalculatorData) {
     const pdfBuffer = await renderToBuffer(<PDFReport data={data} />);
 
     // Get Resend client
-    const { client: resend, fromEmail, fallbackFromEmail, calendlyUrl } = getResendClient();
+    const { client: resend, fromEmail, fallbackFromEmail, bookingUrl } = getResendClient();
 
     // Calculate metrics for email
     const weeklyHours = Math.round(data.teamSize * data.hoursPerPerson);
@@ -52,41 +52,95 @@ export async function generateAndEmailPDF(data: CalculatorData) {
       resend.emails.send({
         from: sender,
         to: data.email,
-        subject: `Your Time Waste Report - $${annualWaste.toLocaleString()}/year`,
+        subject: `You're spending $${annualWaste.toLocaleString()}/yr on work nobody should be doing`,
         html: `
-  <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px;">
-    
-    <p style="font-size: 18px; color: #0a0a0f; margin: 0 0 30px 0;">
-      ${displayName},
-    </p>
-    
-    <p style="font-size: 16px; color: #0a0a0f; line-height: 1.6; margin: 0 0 30px 0;">
-      Your team is spending <strong style="color: #059669;">$${annualWaste.toLocaleString()}/year</strong> on work that a system should handle.
-    </p>
-    
-    <p style="font-size: 16px; color: #0a0a0f; line-height: 1.6; margin: 0 0 30px 0;">
-      Your full breakdown is attached — it shows exactly where the hours go and what it would look like to get them back.
-    </p>
-    
-    <p style="font-size: 16px; color: #0a0a0f; line-height: 1.6; margin: 0 0 30px 0;">
-      If you want to see which 2–3 workflows are burning the most time and what the fix looks like, we can walk through it in 30 minutes.
-    </p>
-    
-    <p style="margin: 0 0 40px 0;">
-      <a href="${calendlyUrl}" 
-         style="display: inline-block; background: #059669; color: #ffffff; 
-                padding: 14px 32px; text-decoration: none; border-radius: 6px; 
-                font-weight: 600; font-size: 15px;">
-        Book a 30-min walkthrough →
-      </a>
-    </p>
-    
-    <div style="border-top: 1px solid #e5e7eb; padding-top: 24px; margin-top: 40px;">
-      <p style="font-size: 14px; color: #6b7280; margin: 0;">
-        — Veyra Group
-      </p>
+  <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background-color: #0a0f0a;">
+
+    <!-- Header -->
+    <div style="padding: 28px 32px 20px 32px; border-bottom: 1px solid #1e201e;">
+      <span style="font-size: 16px; font-weight: 800; letter-spacing: -0.3px;">
+        <span style="color: #ffffff;">VEYRA</span><span style="color: #059669; margin-left: 4px;">GROUP</span>
+      </span>
     </div>
-    
+
+    <!-- Body -->
+    <div style="padding: 32px;">
+
+      <p style="font-size: 17px; font-weight: 600; color: #ebebeb; margin: 0 0 24px 0;">
+        ${displayName},
+      </p>
+
+      <p style="font-size: 15px; color: #b6b9b6; line-height: 1.7; margin: 0 0 20px 0;">
+        You just ran the numbers. Here's what they say:
+      </p>
+
+      <p style="font-size: 15px; color: #b6b9b6; line-height: 1.7; margin: 0 0 4px 0;">
+        → <strong style="color: #059669;">${weeklyHours} hours/week</strong> lost to manual work across your team
+      </p>
+      <p style="font-size: 15px; color: #b6b9b6; line-height: 1.7; margin: 0 0 4px 0;">
+        → <strong style="color: #059669;">$${monthlyWaste.toLocaleString()}/month</strong> spent on tasks a system should handle
+      </p>
+      <p style="font-size: 15px; color: #b6b9b6; line-height: 1.7; margin: 0 0 20px 0;">
+        → <strong style="color: #059669;">$${annualWaste.toLocaleString()}/year</strong> — gone, whether you see it on a line item or not
+      </p>
+
+      <!-- Stat highlight box -->
+      <div style="background-color: #091f15; border: 1.5px solid #08533a; border-radius: 12px; padding: 20px; margin: 0 0 24px 0; text-align: center;">
+        <div style="font-size: 11px; color: #059669; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px;">Annual cost of busywork</div>
+        <div style="font-size: 32px; font-weight: 800; color: #059669;">$${annualWaste.toLocaleString()}</div>
+      </div>
+
+      <p style="font-size: 15px; color: #b6b9b6; line-height: 1.7; margin: 0 0 20px 0;">
+        Your full breakdown is attached — where the hours go, what they cost, and what it looks like when they're gone.
+      </p>
+
+      <p style="font-size: 15px; color: #b6b9b6; line-height: 1.7; margin: 0 0 28px 0;">
+        Most of it comes from 2–3 workflows. Scheduling, follow-ups, data entry — the stuff that feels small until you see the bill. We can show you exactly which ones and what the fix costs in a 30-minute call.
+      </p>
+
+      <!-- CTA Button -->
+      <div style="text-align: center; margin: 0 0 32px 0;">
+        <a href="${bookingUrl}"
+           style="display: inline-block; background-color: #059669; color: #0a0f0a;
+                  padding: 14px 36px; text-decoration: none; border-radius: 8px;
+                  font-weight: 700; font-size: 15px; letter-spacing: 0.3px;">
+          Book a 30-min walkthrough →
+        </a>
+      </div>
+
+      <!-- Divider -->
+      <div style="border-top: 1px solid #1e201e; padding-top: 24px;">
+
+        <!-- Signature block -->
+        <table cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
+          <tr>
+            <!-- VG Monogram -->
+            <td style="vertical-align: top; padding-right: 14px;">
+              <div style="width: 44px; height: 44px; background-color: #0a0f0a; border: 2px solid #059669; border-radius: 10px; text-align: center; line-height: 44px;">
+                <span style="font-size: 16px; font-weight: 800; letter-spacing: -2px;">
+                  <span style="color: #059669;">V</span><span style="color: #e8f0ec;">G</span>
+                </span>
+              </div>
+            </td>
+            <!-- Name + contact -->
+            <td style="vertical-align: middle;">
+              <div style="font-size: 14px; font-weight: 700; color: #ebebeb; margin-bottom: 2px;">Bruno Larizza</div>
+              <div style="font-size: 12px; color: #848884;">
+                Founder <span style="color: #059669; font-weight: 700; margin: 0 4px;">·</span> <span style="color: #059669;">Veyra Group</span>
+              </div>
+              <div style="font-size: 11px; color: #848884; margin-top: 4px;">
+                <a href="https://www.veyra.group" style="color: #848884; text-decoration: none;">veyra.group</a>
+                <span style="color: #545754; margin: 0 6px;">·</span>
+                <a href="mailto:contact@veyra.group" style="color: #848884; text-decoration: none;">contact@veyra.group</a>
+                <span style="color: #545754; margin: 0 6px;">·</span>
+                <a href="tel:+13026002625" style="color: #848884; text-decoration: none;">(302) 600-2625</a>
+              </div>
+            </td>
+          </tr>
+        </table>
+
+      </div>
+    </div>
   </div>
 `,
         attachments: [

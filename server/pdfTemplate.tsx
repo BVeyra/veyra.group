@@ -1,5 +1,5 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Link } from '@react-pdf/renderer';
 
 // ─────────────────────────────────────────────
 // ALL HEX — @react-pdf does NOT support rgba()
@@ -123,13 +123,13 @@ const fmt = (n: number) => '$' + Math.abs(n).toLocaleString();
 const Logo = () => (
   <View style={s.logo}>
     <Text style={s.logoW}>VEYRA</Text>
-    <Text style={s.logoG}>GROUP</Text>
+    <Text style={[s.logoG, { marginLeft: 4 }]}>GROUP</Text>
   </View>
 );
 
 const Foot = ({ n }: { n: number }) => (
   <View style={s.footer}>
-    <Text style={s.footerText}>veyra.group  ·  contact@veyra.group</Text>
+    <Text style={s.footerText}>veyra.group  ·  contact@veyra.group  ·  (302) 600-2625</Text>
     <Text style={s.footerText}>{n} / 3</Text>
   </View>
 );
@@ -163,7 +163,7 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
 
   const sixMoCost = Math.abs(Math.round(monthlyCost * 6));
   const threeYrCost = Math.abs(Math.round(annualCost * 3));
-  const paybackDays = Math.round((2000 / monthlyCost) * 30);
+  const paybackDays = Math.round((2500 / monthlyCost) * 30);
 
   return (
     <Document>
@@ -178,8 +178,8 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
           So why does <Text style={s.h1Green}>nothing move forward?</Text>
         </Text>
         <Text style={s.subtitle}>
-          You're paying {data.teamSize} people to do work that a system should handle.{'\n'}
-          This is what that costs you — every week, whether you see it or not.
+          {data.teamSize} people. {data.hoursPerPerson} hours a week each. Spent on work a system should handle.{'\n'}
+          Here's what that actually costs — whether you see it on a line item or not.
         </Text>
 
         <Text style={s.metaLabel}>Prepared for</Text>
@@ -231,13 +231,13 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
         <View style={s.agBlock}>
           <Text style={s.label}>Here's What That Actually Looks Like</Text>
           <Text style={s.agText}>
-            It's your ops lead spending Friday afternoon chasing the same update they chased last Friday.
+            It's you — texting your crew for updates you should already have. Retyping the same job details into three different systems. Chasing down a quote you sent last week because there's no follow-up system except your memory.
           </Text>
           <Text style={s.agText}>
-            It's your best people doing <Text style={s.agBold}>{weeklyHrs} hours a week</Text> of copy-paste, follow-up, and manual entry — instead of the work you hired them for.
+            Meanwhile, <Text style={s.agBold}>{weeklyHrs} hours a week</Text> burn on scheduling, status updates, invoicing, and manual data entry — the kind of work that runs a business but doesn't grow one.
           </Text>
           <Text style={s.agTextLast}>
-            Every month you wait, <Text style={s.agBold}>{fmt(monthlyCost)}</Text> walks out the door. Not because your team isn't working hard. Because <Text style={s.agBold}>the work itself is broken.</Text>
+            <Text style={s.agBold}>{fmt(monthlyCost)}</Text> leaves every month. Not because anyone's slacking. Because the way the work gets done hasn't changed in years — and your competitors' has.
           </Text>
         </View>
 
@@ -296,7 +296,7 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
 
         <View style={s.pullquote}>
           <Text style={s.pullText}>
-            That's {hrsSavedMonthly} hours your team stops spending on things that don't grow the business — and starts spending on things that do.
+            {hrsSavedMonthly} hours a month. That's not efficiency. That's like adding {Math.max(1, Math.round(hrsSavedMonthly / 160))} full-time {Math.max(1, Math.round(hrsSavedMonthly / 160)) === 1 ? 'person' : 'people'} — without the payroll.
           </Text>
         </View>
 
@@ -304,7 +304,7 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
           <Text style={s.label}>The Math on Getting This Fixed</Text>
           <View style={s.row}>
             <Text style={s.rowLabel}>One-time build starts at</Text>
-            <Text style={s.rowValGreen}>$2,000</Text>
+            <Text style={s.rowValGreen}>$2,500</Text>
           </View>
           <View style={s.row}>
             <Text style={s.rowLabel}>You save every month</Text>
@@ -361,27 +361,27 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
           <View style={s.numItem}>
             <View style={s.numCircle}><Text style={s.numText}>01</Text></View>
             <View style={s.numContent}>
-              <Text style={s.numTitle}>"We're still doing everything by hand"</Text>
+              <Text style={s.numTitle}>"Every job gets scheduled the same way — by hand"</Text>
               <Text style={s.numDesc}>
-                Nobody sat down and removed the manual steps. So your team does them — every day, on autopilot.
+                New lead comes in, someone writes it down, someone else enters it, a third person confirms it. Four touches for something that should take zero.
               </Text>
             </View>
           </View>
           <View style={s.numItem}>
             <View style={s.numCircle}><Text style={s.numText}>02</Text></View>
             <View style={s.numContent}>
-              <Text style={s.numTitle}>"We bought tools but nobody uses them"</Text>
+              <Text style={s.numTitle}>"We have the tools. Nobody uses them."</Text>
               <Text style={s.numDesc}>
-                The tool wasn't the problem. Nobody wired it into how your team actually works. So it sits there.
+                You bought the CRM. You set up the project board. But nobody wired them together — so your team works around them instead of through them.
               </Text>
             </View>
           </View>
           <View style={s.numItem}>
             <View style={s.numCircle}><Text style={s.numText}>03</Text></View>
             <View style={s.numContent}>
-              <Text style={s.numTitle}>"I spend half my day on stuff that shouldn't need me"</Text>
+              <Text style={s.numTitle}>"I'm the bottleneck and I know it"</Text>
               <Text style={s.numDesc}>
-                Follow-ups, scheduling, data entry, status updates — work that doesn't need a human but gets one anyway.
+                Every approval, every follow-up, every status check runs through you. Not because you want it to — because there's no system to handle it without you.
               </Text>
             </View>
           </View>
@@ -391,23 +391,23 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
         <View style={{ marginBottom: 12 }}>
           <View style={s.step}>
             <Text style={s.stepLabel}>Week 1–2</Text>
-            <Text style={s.stepTitle}>The {data.hoursPerPerson} hrs/wk your people lose? We find exactly where they go.</Text>
+            <Text style={s.stepTitle}>We find the {data.hoursPerPerson} hrs/wk your people are losing — and where.</Text>
             <Text style={s.stepDesc}>
-              We map your top 3–5 time sinks and build automations that remove them — not next quarter, now.
+              We audit your scheduling, follow-ups, quoting, and data entry. Then we build the automations that replace them. Not next quarter. Now.
             </Text>
           </View>
           <View style={s.step}>
             <Text style={s.stepLabel}>Week 3–4</Text>
-            <Text style={s.stepTitle}>Your team uses it because it's already in their path.</Text>
+            <Text style={s.stepTitle}>Your team doesn't learn a new tool. The tool learns their workflow.</Text>
             <Text style={s.stepDesc}>
-              No new app to learn. No training deck nobody reads. It works inside the tools they already open every morning.
+              Everything runs inside the systems they already use — their calendar, their inbox, their CRM. Zero training. Zero adoption friction.
             </Text>
           </View>
           <View style={s.step}>
             <Text style={s.stepLabel}>Month 2–3</Text>
-            <Text style={s.stepTitle}>You stop paying {fmt(monthlyCost)}/mo for work that doesn't exist anymore.</Text>
+            <Text style={s.stepTitle}>{hrsSavedMonthly} hours come back. {fmt(monthlyCost)}/mo stops disappearing.</Text>
             <Text style={s.stepDesc}>
-              Your team gets {hrsSavedMonthly} hours back every month. They work on growth, not grunt work. You see it in the numbers.
+              Jobs get scheduled faster. Follow-ups happen automatically. Your team spends time on revenue — not on busywork you didn't realize was still there.
             </Text>
           </View>
         </View>
@@ -423,6 +423,19 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
           <Text style={{ fontSize: 8.5, color: C.text50, marginBottom: 10, textAlign: 'center' }}>
             and exactly what it takes to fix them.
           </Text>
+          <Link src="https://www.veyra.group/book" style={{ textDecoration: 'none', marginBottom: 10 }}>
+            <View style={{
+              backgroundColor: C.green,
+              borderRadius: 8,
+              paddingVertical: 10,
+              paddingHorizontal: 28,
+              alignItems: 'center',
+            }}>
+              <Text style={{ fontSize: 11, fontWeight: 'bold', color: C.bg, letterSpacing: 0.3 }}>
+                Book a 30-Minute Walkthrough →
+              </Text>
+            </View>
+          </Link>
           <Text style={{ fontSize: 9.5, fontWeight: 'bold', color: C.green, marginBottom: 6 }}>
             veyra.group  ·  contact@veyra.group  ·  (302) 600-2625
           </Text>
