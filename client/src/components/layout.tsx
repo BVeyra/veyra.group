@@ -1,13 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { openCalendly } from "@/lib/calendly";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,14 +16,13 @@ export function Navbar() {
   }, []);
 
   const handleCTA = () => {
-    setIsMobileMenuOpen(false);
     openCalendly();
   };
 
   return (
     <header 
       className={cn(
-        "site-nav fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        "site-nav sticky top-0 left-0 right-0 z-[1000] transition-all duration-300",
         isScrolled ? "glass-shiny glass-shiny-nav is-scrolled py-3" : "glass-shiny glass-shiny-nav py-5"
       )}
     >
@@ -39,40 +36,17 @@ export function Navbar() {
           />
         </Link>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
-          <Button 
-            onClick={handleCTA}
-            size="lg"
-            data-testid="button-nav-cta"
-            className="glow-button font-semibold"
-          >
-            Book a Call →
-          </Button>
-        </div>
-
-        {/* Mobile Toggle */}
-        <button 
-          className="md:hidden text-foreground"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle menu"
+        <Button
+          onClick={handleCTA}
+          size="lg"
+          data-testid="button-nav-cta"
+          className="glow-button font-semibold h-10 sm:h-11 px-4 sm:px-6 whitespace-nowrap"
         >
-          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+          <span className="sm:hidden">Book</span>
+          <span className="hidden sm:inline">Book a Call</span>
+          <span className="ml-1">→</span>
+        </Button>
       </div>
-
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full glass-shiny glass-shiny-nav p-4">
-          <Button 
-            onClick={handleCTA}
-            data-testid="button-nav-cta-mobile"
-            className="w-full glow-button"
-          >
-            Book a Call →
-          </Button>
-        </div>
-      )}
     </header>
   );
 }
