@@ -33,9 +33,12 @@ export function Navbar() {
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
         <Link href="/">
-          <span className="text-2xl font-bold tracking-tight cursor-pointer text-[#A7B1BA]">
-            VEYRA<span className="text-[var(--emerald)]">GROUP</span>
-          </span>
+          <img
+            src="/veyra-logo.svg"
+            alt="Veyra Group"
+            className="h-11 w-auto cursor-pointer select-none"
+            draggable={false}
+          />
         </Link>
 
         {/* Desktop Nav */}
@@ -91,7 +94,12 @@ export function Footer() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
             <div className="text-center md:text-left">
-              <h3 className="text-xl font-bold text-[#8a9299] mb-3">VEYRA<span className="text-[var(--emerald)]">GROUP</span></h3>
+              <img
+                src="/veyra-logo.svg"
+                alt="Veyra Group"
+                className="h-14 w-auto mb-3 mx-auto md:mx-0 select-none"
+                draggable={false}
+              />
               <p className="text-[#7F8A95] text-sm mb-4">Built for small teams that hate busywork.</p>
               <p className="text-xs text-[#5F6972]">Trusted by 50+ small teams.</p>
             </div>

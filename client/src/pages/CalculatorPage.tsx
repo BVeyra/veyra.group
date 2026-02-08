@@ -117,13 +117,16 @@ export default function CalculatorPage() {
           zIndex: 10,
         }}>
           <Link href="/" style={{
-            color: "#ffffff",
-            fontSize: "20px",
-            fontWeight: "700",
             textDecoration: "none",
-            letterSpacing: "-0.02em",
+            display: "inline-flex",
+            alignItems: "center",
           }}>
-            <span>VEYRA</span><span className="gradient-text-blue">GROUP</span>
+            <img
+              src="/veyra-logo.svg"
+              alt="Veyra Group"
+              style={{ height: "44px", width: "auto", display: "block" }}
+              draggable={false}
+            />
           </Link>
         </header>
 
