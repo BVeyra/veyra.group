@@ -16,33 +16,33 @@
 
   <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#bg)" />
   <rect
-    x="10"
-    y="22"
-    width="44"
-    height="22"
-    rx="4"
+    x="8.5"
+    y="19"
+    width="47"
+    height="26"
+    rx="4.8"
     fill="none"
     stroke="url(#stroke)"
-    stroke-width="1.8"
+    stroke-width="1.9"
   />
 
   <text
-    x="26"
-    y="38.8"
+    x="25.2"
+    y="40.8"
     text-anchor="middle"
     font-family="Inter, system-ui, -apple-system, Segoe UI, sans-serif"
-    font-size="11.5"
-    font-weight="800"
+    font-size="17.2"
+    font-weight="900"
     fill="url(#vFill)"
     letter-spacing="-0.04em"
   >V</text>
   <text
-    x="35.5"
-    y="38.8"
+    x="38.8"
+    y="40.8"
     text-anchor="middle"
     font-family="Inter, system-ui, -apple-system, Segoe UI, sans-serif"
-    font-size="11.5"
-    font-weight="800"
+    font-size="17.2"
+    font-weight="900"
     fill="#e8f0ec"
     letter-spacing="-0.03em"
   >G</text>
