@@ -36,7 +36,7 @@ export function Navbar() {
           <img
             src="/veyra-logo.svg"
             alt="Veyra Group"
-            className="h-11 w-auto cursor-pointer select-none"
+            className="h-12 w-auto cursor-pointer select-none"
             draggable={false}
           />
         </Link>
@@ -97,7 +97,7 @@ export function Footer() {
               <img
                 src="/veyra-logo.svg"
                 alt="Veyra Group"
-                className="h-14 w-auto mb-3 mx-auto md:mx-0 select-none"
+                className="h-16 w-auto mb-3 mx-auto md:mx-0 select-none"
                 draggable={false}
               />
               <p className="text-[#7F8A95] text-sm mb-4">Built for small teams that hate busywork.</p>

@@ -124,7 +124,7 @@ export default function CalculatorPage() {
             <img
               src="/veyra-logo.svg"
               alt="Veyra Group"
-              style={{ height: "44px", width: "auto", display: "block" }}
+              style={{ height: "50px", width: "auto", display: "block" }}
               draggable={false}
             />
           </Link>

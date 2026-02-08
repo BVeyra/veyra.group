@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 230" width="560" height="230" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 220" width="1200" height="220" role="img" aria-labelledby="title desc">
   <title id="title">Veyra Group logo</title>
-  <desc id="desc">Wordmark with V in emerald and remaining letters in soft white.</desc>
+  <desc id="desc">Horizontal wordmark with V in emerald and remaining letters in soft white.</desc>
   <defs>
     <linearGradient id="vGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#34d8ab"/>
@@ -8,8 +8,8 @@
     </linearGradient>
   </defs>
   <g font-family="Inter, Plus Jakarta Sans, system-ui, -apple-system, Segoe UI, sans-serif" letter-spacing="-0.02em">
-    <text x="56" y="120" font-size="106" font-weight="800" fill="url(#vGrad)">V</text>
-    <text x="122" y="120" font-size="106" font-weight="800" fill="#e8f0ec">EYRA</text>
-    <text x="117" y="196" font-size="86" font-weight="500" fill="#e8f0ec">GROUP</text>
+    <text x="30" y="155" font-size="138" font-weight="800" fill="url(#vGrad)">V</text>
+    <text x="116" y="155" font-size="138" font-weight="800" fill="#e8f0ec">EYRA</text>
+    <text x="565" y="155" font-size="120" font-weight="700" fill="#e8f0ec">GROUP</text>
   </g>
 </svg>
