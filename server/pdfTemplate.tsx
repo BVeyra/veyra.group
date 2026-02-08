@@ -432,7 +432,7 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
               alignItems: 'center',
             }}>
               <Text style={{ fontSize: 11, fontWeight: 'bold', color: C.bg, letterSpacing: 0.3 }}>
-                Book a 30-Minute Walkthrough →
+                Book a 30-Minute Walkthrough {'>'}
               </Text>
             </View>
           </Link>
