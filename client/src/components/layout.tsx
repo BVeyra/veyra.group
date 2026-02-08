@@ -22,7 +22,7 @@ export function Navbar() {
   return (
     <header 
       className={cn(
-        "site-nav sticky top-0 left-0 right-0 z-[1000] transition-all duration-300",
+        "site-nav fixed top-0 left-0 right-0 z-[1000] transition-all duration-300",
         isScrolled ? "glass-shiny glass-shiny-nav is-scrolled py-3" : "glass-shiny glass-shiny-nav py-5"
       )}
     >

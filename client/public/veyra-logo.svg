@@ -1,15 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 220" width="1200" height="220" role="img" aria-labelledby="title desc">
   <title id="title">Veyra Group logo</title>
-  <desc id="desc">Horizontal wordmark with V in emerald and remaining letters in soft white.</desc>
+  <desc id="desc">Horizontal wordmark with V in emerald, EYRA in white, and GROUP in muted silver.</desc>
   <defs>
     <linearGradient id="vGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#34d8ab"/>
-      <stop offset="100%" stop-color="#24bf95"/>
+      <stop offset="100%" stop-color="#2bc89f"/>
     </linearGradient>
   </defs>
-  <g font-family="Inter, Plus Jakarta Sans, system-ui, -apple-system, Segoe UI, sans-serif" letter-spacing="-0.02em">
+  <g font-family="Outfit, Inter, Plus Jakarta Sans, system-ui, -apple-system, Segoe UI, sans-serif" letter-spacing="-0.02em">
     <text x="30" y="155" font-size="138" font-weight="800" fill="url(#vGrad)">V</text>
     <text x="116" y="155" font-size="138" font-weight="800" fill="#e8f0ec">EYRA</text>
-    <text x="538" y="155" font-size="120" font-weight="700" fill="#e8f0ec">GROUP</text>
+    <text x="500" y="155" font-size="118" font-weight="600" fill="#9caea8">GROUP</text>
   </g>
 </svg>
