@@ -390,8 +390,9 @@ export default function Home() {
   };
 
   return (
-      <div className="min-h-screen font-sans text-foreground overflow-x-hidden flex flex-col">
+      <div className="min-h-screen font-sans text-foreground flex flex-col">
       <Navbar />
+      <main className="page-content-enter flex flex-col">
 
       {/* HERO SECTION */}
       <section className="hero-section relative min-h-screen flex items-center pt-24 pb-32 overflow-hidden">
@@ -975,6 +976,7 @@ export default function Home() {
       </section>
 
       <Footer />
+      </main>
     </div>
   );
 }
