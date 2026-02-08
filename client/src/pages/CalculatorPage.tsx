@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "wouter";
+import { openCalendly } from "@/lib/calendly";
 
 interface SavingsResults {
   weeklyHours: number;
@@ -312,8 +313,9 @@ export default function CalculatorPage() {
               </div>
 
               <div style={{ textAlign: "center" }}>
-                <a
-                  href="/book"
+                <button
+                  type="button"
+                  onClick={openCalendly}
                   className="glow-button"
                   data-testid="button-book-call"
                   style={{
@@ -332,7 +334,7 @@ export default function CalculatorPage() {
                   }}
                 >
                   Book a Free Call →
-                </a>
+                </button>
               </div>
             </div>
           )}
