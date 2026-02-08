@@ -1,14 +1,49 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
   <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#070B0A"/>
-      <stop offset="100%" style="stop-color:#0B1A15"/>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#021f18" />
+      <stop offset="100%" stop-color="#04261d" />
     </linearGradient>
-    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#2AA37A"/>
-      <stop offset="100%" style="stop-color:#1C6E56"/>
+    <linearGradient id="stroke" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2adca7" />
+      <stop offset="100%" stop-color="#27c997" />
+    </linearGradient>
+    <linearGradient id="vFill" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38dfaf" />
+      <stop offset="100%" stop-color="#2ccf9f" />
     </linearGradient>
   </defs>
-  <rect width="32" height="32" rx="6" fill="url(#bgGrad)"/>
-  <text x="16" y="22" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="13" fill="url(#textGrad)">VG</text>
+
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#bg)" />
+  <rect
+    x="10"
+    y="22"
+    width="44"
+    height="22"
+    rx="4"
+    fill="none"
+    stroke="url(#stroke)"
+    stroke-width="1.8"
+  />
+
+  <text
+    x="26"
+    y="38.8"
+    text-anchor="middle"
+    font-family="Inter, system-ui, -apple-system, Segoe UI, sans-serif"
+    font-size="11.5"
+    font-weight="800"
+    fill="url(#vFill)"
+    letter-spacing="-0.04em"
+  >V</text>
+  <text
+    x="35.5"
+    y="38.8"
+    text-anchor="middle"
+    font-family="Inter, system-ui, -apple-system, Segoe UI, sans-serif"
+    font-size="11.5"
+    font-weight="800"
+    fill="#e8f0ec"
+    letter-spacing="-0.03em"
+  >G</text>
 </svg>
