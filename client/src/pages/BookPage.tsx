@@ -76,8 +76,10 @@ export default function BookPage() {
       <header
         style={{
           borderBottom: "1px solid rgba(45, 212, 160, 0.08)",
-          position: "sticky",
+          position: "fixed",
           top: 0,
+          left: 0,
+          right: 0,
           backdropFilter: "blur(10px)",
           background: "rgba(13, 29, 22, 0.88)",
           zIndex: 20,
@@ -116,7 +118,7 @@ export default function BookPage() {
         </div>
       </header>
 
-      <main style={{ maxWidth: "1100px", margin: "0 auto", padding: "48px 20px 64px" }}>
+      <main style={{ maxWidth: "1100px", margin: "0 auto", padding: "120px 20px 64px" }}>
         <section style={{ textAlign: "center", marginBottom: "28px" }}>
           <h1
             style={{

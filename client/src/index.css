@@ -3088,6 +3088,11 @@ a.bg-primary:active {
 }
 
 .site-nav {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
   background: rgba(10, 26, 20, 0.8) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
