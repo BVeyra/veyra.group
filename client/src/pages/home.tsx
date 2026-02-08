@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Check, X, ArrowRight, Zap, Bot, RefreshCw, Phone, Wrench, ShieldCheck } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
-import { openCalendly, loadCalendlyScript } from "@/lib/calendly";
+import { openCalendly } from "@/lib/calendly";
 import { SpinningWheel } from "@/components/SpinningWheel";
 import { SpotlightCard } from "@/components/SpotlightCard";
 import { StepSlider } from "@/components/StepSlider";
@@ -177,10 +177,6 @@ export default function Home() {
   const paybackDays = monthlyCost > 0 ? Math.max(1, Math.ceil((2000 / monthlyCost) * 30)) : 30;
   const countersPlayedRef = useRef(false);
   const liveValuesRef = useRef({ weekly: weeklyHours, monthly: monthlyCost, yearly: yearlyCost, payback: paybackDays });
-
-  useEffect(() => {
-    loadCalendlyScript();
-  }, []);
 
   useEffect(() => {
     liveValuesRef.current = { weekly: weeklyHours, monthly: monthlyCost, yearly: yearlyCost, payback: paybackDays };

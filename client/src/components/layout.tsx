@@ -3,15 +3,13 @@ import { Link } from "wouter";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { openCalendly, loadCalendlyScript } from "@/lib/calendly";
+import { openCalendly } from "@/lib/calendly";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    loadCalendlyScript();
-    
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };

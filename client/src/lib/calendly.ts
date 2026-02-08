@@ -7,7 +7,3 @@ export function openCalendly() {
   window.history.pushState({}, "", BOOK_PAGE_PATH);
   window.dispatchEvent(new PopStateEvent("popstate"));
 }
-
-export function loadCalendlyScript() {
-  // Calendly is loaded only on /book.
-}
