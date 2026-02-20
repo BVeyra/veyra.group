@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a premium, high-converting single-page landing website for Veyra Group (veyra.group), positioned as an **AI systems builder for small teams (5-30 people)**. The site uses Alex Hormozi-style copy—punchy, direct, with specific numbers and no fluff. Features $25K+ premium dark mode design with glassmorphism, animations, and gradients.
+This is a premium, high-converting single-page landing website for Veyra Group (veyragroup.ai), positioned as an **AI systems builder for small teams (5-30 people)**. The site uses Alex Hormozi-style copy—punchy, direct, with specific numbers and no fluff. Features $25K+ premium dark mode design with glassmorphism, animations, and gradients.
 
 Target audience: Small teams, agencies, professional services, and startups looking to save 10+ hours/week through AI automation.
 

@@ -13,12 +13,12 @@ function getResendClient() {
     client: new Resend(apiKey),
     fromEmail:
       process.env.RESEND_FROM_EMAIL ||
-      "Veyra Group <contact@veyra.group>",
+      "Veyra Group <contact@veyragroup.ai>",
     fallbackFromEmail: "Veyra Group <onboarding@resend.dev>",
     bookingUrl:
-      process.env.BOOKING_URL || "https://www.veyra.group/book",
+      process.env.BOOKING_URL || "https://veyragroup.ai/book",
     ownerNotificationEmail:
-      process.env.OWNER_NOTIFICATION_EMAIL || "bruno@veyra.group",
+      process.env.OWNER_NOTIFICATION_EMAIL || "bruno@veyragroup.ai",
   };
 }
 
@@ -129,9 +129,9 @@ export async function generateAndEmailPDF(data: CalculatorData) {
                 Founder <span style="color: #059669; font-weight: 700; margin: 0 4px;">·</span> <span style="color: #059669;">Veyra Group</span>
               </div>
               <div style="font-size: 11px; color: #848884; margin-top: 4px;">
-                <a href="https://www.veyra.group" style="color: #848884; text-decoration: none;">veyra.group</a>
+                <a href="https://veyragroup.ai" style="color: #848884; text-decoration: none;">veyragroup.ai</a>
                 <span style="color: #545754; margin: 0 6px;">·</span>
-                <a href="mailto:contact@veyra.group" style="color: #848884; text-decoration: none;">contact@veyra.group</a>
+                <a href="mailto:contact@veyragroup.ai" style="color: #848884; text-decoration: none;">contact@veyragroup.ai</a>
                 <span style="color: #545754; margin: 0 6px;">·</span>
                 <a href="tel:+13026002625" style="color: #848884; text-decoration: none;">(302) 600-2625</a>
               </div>

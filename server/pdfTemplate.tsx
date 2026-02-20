@@ -129,7 +129,7 @@ const Logo = () => (
 
 const Foot = ({ n }: { n: number }) => (
   <View style={s.footer}>
-    <Text style={s.footerText}>veyra.group  ·  contact@veyra.group  ·  (302) 600-2625</Text>
+    <Text style={s.footerText}>veyragroup.ai  ·  contact@veyragroup.ai  ·  (302) 600-2625</Text>
     <Text style={s.footerText}>{n} / 3</Text>
   </View>
 );
@@ -423,7 +423,7 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
           <Text style={{ fontSize: 8.5, color: C.text50, marginBottom: 10, textAlign: 'center' }}>
             and exactly what it takes to fix them.
           </Text>
-          <Link src="https://www.veyra.group/book" style={{ textDecoration: 'none', marginBottom: 10 }}>
+          <Link src="https://veyragroup.ai/book" style={{ textDecoration: 'none', marginBottom: 10 }}>
             <View style={{
               backgroundColor: C.green,
               borderRadius: 8,
@@ -437,7 +437,7 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
             </View>
           </Link>
           <Text style={{ fontSize: 9.5, fontWeight: 'bold', color: C.green, marginBottom: 6 }}>
-            veyra.group  ·  contact@veyra.group  ·  (302) 600-2625
+            veyragroup.ai  ·  contact@veyragroup.ai  ·  (302) 600-2625
           </Text>
           <Text style={{ fontSize: 7.5, color: C.text30, fontStyle: 'italic' }}>
             Every week you wait costs you {fmt(weeklyCost)}. You already did the math.
