@@ -1,7 +1,7 @@
 import { Navbar, Footer } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, ArrowRight, Phone, Wrench, ShieldCheck } from "lucide-react";
+import { Check, X, ArrowRight, Zap, Bot, RefreshCw, Phone, Wrench, ShieldCheck } from "lucide-react";
 import { useEffect } from "react";
 import { openCalendly } from "@/lib/calendly";
 import { SpinningWheel } from "@/components/SpinningWheel";
@@ -555,15 +555,27 @@ export default function Home() {
             </div>
 
             <div data-reveal data-reveal-delay="1" className="max-w-6xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {automationCards.map((item, index) => (
-                <SpotlightCard key={item.title} data-tilt className="bento-card feature-card p-7 group">
-                  <h3 className="feature-title text-xl font-bold mb-4">{index + 1}. {item.title}</h3>
-                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#f87171] mb-2">Before</p>
-                  <p className="text-[#7F8A95] mb-4 text-sm leading-relaxed">{item.before}</p>
-                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--emerald)] mb-2">After</p>
-                  <p className="text-[#A7B1BA] text-sm leading-relaxed">{item.after}</p>
-                </SpotlightCard>
-              ))}
+              {automationCards.map((item, index) => {
+                const Icon = [Zap, Bot, RefreshCw][index % 3];
+                const blobClass = index % 3 === 0 ? "feature-blob-primary" : index % 3 === 1 ? "feature-blob-secondary" : "feature-blob-tertiary";
+                return (
+                  <SpotlightCard
+                    key={item.title}
+                    data-tilt
+                    className={`bento-card feature-card p-8 group ${index === 0 ? "feature-flagship" : ""}`}
+                  >
+                    <div className={`feature-blob ${blobClass}`} />
+                    <div className="feature-icon-shell w-14 h-14 flex items-center justify-center mb-5">
+                      <Icon className="feature-icon w-7 h-7 text-[var(--emerald)]" />
+                    </div>
+                    <h3 className="feature-title text-xl font-bold mb-4">{index + 1}. {item.title}</h3>
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#f87171] mb-2">Before</p>
+                    <p className="text-[#7F8A95] mb-4 text-sm leading-relaxed">{item.before}</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--emerald)] mb-2">After</p>
+                    <p className="text-[#A7B1BA] text-sm leading-relaxed">{item.after}</p>
+                  </SpotlightCard>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -606,42 +618,80 @@ export default function Home() {
           <div className="container mx-auto px-4 md:px-6">
             <div data-reveal className="text-center mb-16 max-w-5xl mx-auto">
               <h2 className="section-title">Less than a part-time hire. More than a full-time employee could do.</h2>
+              <p className="section-subtitle text-[#7F8A95]">Clear pricing. No annual contracts. No surprise charges.</p>
             </div>
 
-            <div data-reveal data-reveal-delay="1" className="max-w-4xl mx-auto">
-              <SpotlightCard data-tilt className="glass-card p-8 md:p-10">
-                <p className="text-[#A7B1BA] mb-4">A part-time admin costs you $2,500/month. They work 20 hours a week, take vacations, call in sick, and still can't respond to tenants at 2 AM.</p>
-                <p className="text-[#A7B1BA] mb-5">Veyra costs:</p>
-
-                <div className="grid md:grid-cols-2 gap-5 mb-6">
-                  <div className="rounded-2xl p-6 border border-[var(--emerald)]/30 bg-[rgba(10,18,14,0.32)]">
-                    <p className="text-[#A7B1BA] text-sm uppercase tracking-[0.1em] mb-2">One-Time Build</p>
-                    <p className="text-3xl font-bold text-[var(--emerald)] mb-3">$1,500</p>
-                    <p className="text-[#7F8A95] text-sm">Custom automations designed around your exact workflows. Introductory rate for first 5 clients, then increasing.</p>
+            <div data-reveal data-reveal-delay="1" className="max-w-6xl mx-auto">
+              <div className="grid md:grid-cols-3 gap-6">
+                {[
+                  {
+                    name: "CUSTOM BUILD",
+                    price: "$1,500 one-time",
+                    description: "Founding-client introductory rate (first 5 clients).",
+                    features: [
+                      "Custom automations around your existing tools",
+                      "Built and launched in 1-2 weeks",
+                      "Approve every workflow before go-live",
+                    ],
+                    popular: false,
+                  },
+                  {
+                    name: "BASE OPERATIONS",
+                    price: "$500/month",
+                    description: "Covers up to 50 units. Cancel anytime.",
+                    features: [
+                      "Monitoring + fast fixes",
+                      "Continuous optimization",
+                      "Direct support, no ticket queue",
+                    ],
+                    popular: true,
+                  },
+                  {
+                    name: "GROWTH SCALING",
+                    price: "$5/unit above 50",
+                    description: "Pricing grows with portfolio size and automation load.",
+                    features: [
+                      "Predictable unit-based scaling",
+                      "No annual contracts",
+                      "No hidden platform or seat fees",
+                    ],
+                    popular: false,
+                  },
+                ].map((plan, i) => (
+                  <div key={i} className="relative">
+                    {plan.popular && (
+                      <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
+                        <span className="pricing-badge-pop text-xs font-semibold px-4 py-1.5 rounded-full">MOST COMMON</span>
+                      </div>
+                    )}
+                    <SpotlightCard
+                      data-tilt
+                      data-tilt-scale={plan.popular ? "1.03" : undefined}
+                      className={`glass-card glass-card-hover pricing-card p-8 h-full ${
+                        plan.popular ? "border-[var(--emerald)]/30 pricing-card-spotlight full-build-card" : "pricing-card-secondary"
+                      }`}
+                    >
+                      <h3 className="text-lg font-bold mb-2">{plan.name}</h3>
+                      <p className="text-3xl font-bold text-[var(--emerald)] mb-3">{plan.price}</p>
+                      <p className="text-[#7F8A95] text-sm mb-6">{plan.description}</p>
+                      <ul className="space-y-3">
+                        {plan.features.map((feature, j) => (
+                          <li key={j} className="flex items-start gap-2 text-sm">
+                            <Check className="w-4 h-4 text-[var(--emerald)] flex-shrink-0 mt-0.5" />
+                            <span className="text-[#A7B1BA]">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </SpotlightCard>
                   </div>
-                  <div className="rounded-2xl p-6 border border-[var(--emerald)]/30 bg-[rgba(10,18,14,0.32)]">
-                    <p className="text-[#A7B1BA] text-sm uppercase tracking-[0.1em] mb-2">Monthly</p>
-                    <p className="text-3xl font-bold text-[var(--emerald)] mb-3">$500/mo</p>
-                    <p className="text-[#7F8A95] text-sm">Up to 50 units. Above 50 units: $500 + $5/unit for every unit above 50.</p>
-                  </div>
-                </div>
+                ))}
+              </div>
 
-                <ul className="space-y-3 mb-6">
-                  {[
-                    "That's less than 12 hours of a part-time admin at minimum wage.",
-                    "One product. One price structure. No annual contracts. No surprise charges. Cancel anytime.",
-                    "Your automations work 24/7. They don't take PTO. They don't forget lease renewals. We update them when your process changes.",
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm">
-                      <Check className="w-4 h-4 text-[var(--emerald)] flex-shrink-0 mt-0.5" />
-                      <span className="text-[#A7B1BA]">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <p className="text-[#C9D3D9] font-semibold text-lg mb-8">The question isn't whether you can afford this. It's how much longer you can afford to do it all manually.</p>
-
-                <div className="text-center">
+              <SpotlightCard data-tilt className="glass-card p-7 md:p-8 mt-8 text-center">
+                <p className="text-[#A7B1BA] mb-2">A part-time admin costs about $2,500/month and still cannot handle tenant ops 24/7.</p>
+                <p className="text-[#A7B1BA] mb-2">That's less than 12 hours of a part-time admin at minimum wage.</p>
+                <p className="text-[#C9D3D9] font-semibold text-lg mt-4">The question isn't whether you can afford this. It's how much longer you can afford to do it all manually.</p>
+                <div className="mt-6">
                   <Button onClick={openCalendly} size="lg" className="glow-button hero-cta font-semibold group" data-testid="button-pricing-cta">
                     Book Your Free Workflow Audit
                     <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -686,6 +736,54 @@ export default function Home() {
                     <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="section-wrapper section-dense relative" id="fit">
+          <div className="container mx-auto px-4 md:px-6">
+            <div data-reveal className="text-center mb-16">
+              <h2 className="section-title">Is This a <span className="section-accent">Fit</span>?</h2>
+            </div>
+
+            <div data-reveal data-reveal-delay="1" className="max-w-4xl mx-auto grid md:grid-cols-2 gap-5">
+              <div className="h-full">
+                <SpotlightCard data-tilt className="fit-card h-full p-6" variant="fit">
+                  <ul className="space-y-3">
+                    {[
+                      "You manage 5-300 units and wear too many hats",
+                      "Tenant comms, maintenance, leases, and follow-ups run manually",
+                      "You want practical automation live in weeks, not quarters",
+                    ].map((item, i) => (
+                      <li key={i} className="fit-item flex items-start gap-3">
+                        <span className="fit-status fit-status-good">
+                          <Check className="w-4 h-4" />
+                        </span>
+                        <span className="text-[#A7B1BA]">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </SpotlightCard>
+              </div>
+
+              <div className="h-full">
+                <SpotlightCard data-tilt className="fit-card h-full p-6" variant="fit">
+                  <ul className="space-y-3">
+                    {[
+                      "You're looking for a DIY tool with no implementation support",
+                      "You need long enterprise procurement and committee approvals",
+                      "You're not ready to execute workflow changes this month",
+                    ].map((item, i) => (
+                      <li key={i} className="fit-item flex items-start gap-3">
+                        <span className="fit-status fit-status-neutral">
+                          <X className="w-4 h-4" />
+                        </span>
+                        <span className="text-[#7F8A95]">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </SpotlightCard>
               </div>
             </div>
           </div>
