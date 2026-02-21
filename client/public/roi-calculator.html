@@ -88,6 +88,15 @@ const vacancyOptions=['Under 2 weeks','2-4 weeks','1-2 months','2+ months','Not 
 const afterhoursOptions=['I respond personally','Team member on call','They wait until morning','Answering service','Automated system'];
 const painOptions=['Tenant communications','Maintenance coordination','Lease renewals','Rent collection','Prospect response time','Owner reporting','All of the above'];
 
+function postHeight(){
+requestAnimationFrame(()=>{
+const h=Math.max(document.body.scrollHeight,document.documentElement.scrollHeight);
+if(window.parent&&window.parent!==window){
+window.parent.postMessage({type:'roi-calculator-height',height:h},window.location.origin);
+}
+});
+}
+
 function render(){
 const app=document.getElementById('app');
 const progress=document.getElementById('progress');
@@ -240,8 +249,11 @@ ${speedSavings?`<div class="insight">⚡ Faster prospect response could reduce y
 <div class="cta-note">No pitch. Just your workflow, mapped and optimized.</div>
 </div>
 </div>`;
+postHeight();
 }
 
+window.addEventListener('load',postHeight);
+window.addEventListener('resize',postHeight);
 render();
 </script>
 </body>

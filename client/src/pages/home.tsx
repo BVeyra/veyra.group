@@ -2,7 +2,7 @@ import { Navbar, Footer } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Check, X, ArrowRight, Zap, Bot, RefreshCw, Phone, Wrench, ShieldCheck } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { openCalendly } from "@/lib/calendly";
 import { SpinningWheel } from "@/components/SpinningWheel";
 import { SpotlightCard } from "@/components/SpotlightCard";
@@ -239,6 +239,8 @@ const faqItems = [
 ];
 
 export default function Home() {
+  const [calculatorHeight, setCalculatorHeight] = useState(980);
+
   useEffect(() => {
     const nodes = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -262,6 +264,22 @@ export default function Home() {
 
     nodes.forEach((node) => observer.observe(node));
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const onMessage = (event: MessageEvent) => {
+      if (event.origin !== window.location.origin) return;
+      const payload = event.data as { type?: string; height?: number } | null;
+      if (!payload || payload.type !== "roi-calculator-height") return;
+
+      const next = Number(payload.height);
+      if (!Number.isFinite(next)) return;
+
+      setCalculatorHeight(Math.max(700, Math.min(2200, Math.round(next))));
+    };
+
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
   }, []);
 
   useEffect(() => {
@@ -596,8 +614,8 @@ export default function Home() {
                     <iframe
                       src="/roi-calculator.html"
                       title="Veyra Group PM Efficiency Audit"
-                      className="w-full min-h-[1400px] bg-[#0a0f0a]"
-                      style={{ border: 0 }}
+                      className="w-full bg-[#0a0f0a]"
+                      style={{ border: 0, height: `${calculatorHeight}px` }}
                     />
                   </div>
                   <div className="mt-5 flex flex-col sm:flex-row gap-3 justify-center">
