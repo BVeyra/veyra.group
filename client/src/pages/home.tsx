@@ -250,7 +250,7 @@ const faqItems = [
   },
   {
     q: "What if I want to cancel?",
-    a: "Cancel anytime. No contracts, no penalties. You keep everything we built - it's yours.",
+    a: "Cancel anytime. No long-term contracts or penalties. If you cancel, access to the managed automations ends.",
   },
 ];
 
@@ -681,7 +681,7 @@ export default function Home() {
                   {
                     name: "BASE OPERATIONS",
                     price: "$500/month",
-                    description: "Covers up to 50 units. Cancel anytime.",
+                    description: "Base operations plan. Supports 50+ unit portfolios with no cap.",
                     features: [
                       "Monitoring + fast fixes",
                       "Continuous optimization",
@@ -691,7 +691,7 @@ export default function Home() {
                   },
                   {
                     name: "GROWTH SCALING",
-                    price: "$5/unit above 50",
+                    price: "$5/unit above 50 (no cap)",
                     description: "Pricing grows with portfolio size and automation load.",
                     features: [
                       "Predictable unit-based scaling",
@@ -702,11 +702,6 @@ export default function Home() {
                   },
                 ].map((plan, i) => (
                   <div key={i} className="relative">
-                    {plan.popular && (
-                      <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
-                        <span className="pricing-badge-pop text-xs font-semibold px-4 py-1.5 rounded-full">MOST COMMON</span>
-                      </div>
-                    )}
                     <SpotlightCard
                       data-tilt
                       data-tilt-scale={plan.popular ? "1.03" : undefined}
@@ -755,8 +750,8 @@ export default function Home() {
                   <ShieldCheck className="w-14 h-14 text-[#d4a853]" />
                 </div>
                 <p className="guarantee-title text-[rgba(255,255,255,0.92)] font-semibold text-xl mb-3">If we build it and it doesn't hit the goals we agreed on - we fix it. Free.</p>
-                <p className="text-[rgba(255,255,255,0.72)] text-lg mb-3">Still not working? Keep everything we built. Pay nothing.</p>
-                <p className="text-[#A7B1BA] text-base mb-3">Every automation, every workflow, every integration - it's yours. We don't hold your business hostage.</p>
+                <p className="text-[rgba(255,255,255,0.72)] text-lg mb-3">Still not working? You don't pay.</p>
+                <p className="text-[#A7B1BA] text-base mb-3">Everything is fully managed while you're active. If you cancel, access to the managed automations ends.</p>
                 <p className="text-[#C9D3D9] font-semibold">You risk nothing. We risk everything. That's how confident we are.</p>
               </div>
             </div>
