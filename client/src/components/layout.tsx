@@ -79,9 +79,9 @@ export function Footer() {
             <div className="text-center">
               <h4 className="text-sm font-semibold text-[#A7B1BA] mb-4 tracking-wide">NAVIGATE</h4>
               <div className="flex flex-col gap-2">
-                <button onClick={() => scrollToSection('what-i-build')} className="text-[#7F8A95] hover:text-[var(--emerald)] text-sm transition-colors">Services</button>
-                <button onClick={() => scrollToSection('calculator')} className="text-[#7F8A95] hover:text-[var(--emerald)] text-sm transition-colors">Calculator</button>
-                <button onClick={() => scrollToSection('how-it-works')} className="text-[#7F8A95] hover:text-[var(--emerald)] text-sm transition-colors">How It Works</button>
+                <button onClick={() => scrollToSection('features')} className="text-[#7F8A95] hover:text-[var(--emerald)] text-sm transition-colors">Features</button>
+                <button onClick={() => scrollToSection('process')} className="text-[#7F8A95] hover:text-[var(--emerald)] text-sm transition-colors">Process</button>
+                <button onClick={() => scrollToSection('pricing')} className="text-[#7F8A95] hover:text-[var(--emerald)] text-sm transition-colors">Pricing</button>
                 <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-[#7F8A95] hover:text-[var(--emerald)] text-sm transition-colors">Back to Top ↑</button>
               </div>
             </div>

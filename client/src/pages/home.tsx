@@ -1,7 +1,23 @@
 import { Navbar, Footer } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, X, ArrowRight, Zap, Bot, RefreshCw, Phone, Wrench, ShieldCheck } from "lucide-react";
+import {
+  Check,
+  X,
+  ArrowRight,
+  Zap,
+  Bot,
+  RefreshCw,
+  Phone,
+  Wrench,
+  ShieldCheck,
+  MessageSquare,
+  FileText,
+  DollarSign,
+  Users,
+  Mail,
+  Clock,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { openCalendly } from "@/lib/calendly";
 import { SpinningWheel } from "@/components/SpinningWheel";
@@ -267,83 +283,6 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const onMessage = (event: MessageEvent) => {
-      if (event.origin !== window.location.origin) return;
-      const payload = event.data as { type?: string; height?: number } | null;
-      if (!payload || payload.type !== "roi-calculator-height") return;
-
-      const next = Number(payload.height);
-      if (!Number.isFinite(next)) return;
-
-      setCalculatorHeight(Math.max(700, Math.min(2200, Math.round(next))));
-    };
-
-    window.addEventListener("message", onMessage);
-    return () => window.removeEventListener("message", onMessage);
-  }, []);
-
-  useEffect(() => {
-    const content = document.querySelector<HTMLElement>(".how-it-works-content");
-    if (!content) return;
-
-    const column = content.querySelector<HTMLElement>(".journey-path-column");
-    const fill = content.querySelector<HTMLElement>(".journey-fill");
-    const cards = Array.from(content.querySelectorAll<HTMLElement>(".how-it-works-cards > .step-row"));
-    const nodes = Array.from(content.querySelectorAll<HTMLElement>(".journey-node"));
-    if (!column || !fill || cards.length === 0 || nodes.length === 0) return;
-
-    const positionNodes = () => {
-      const columnRect = column.getBoundingClientRect();
-      cards.forEach((card, i) => {
-        if (!nodes[i]) return;
-        const cardRect = card.getBoundingClientRect();
-        const centerY = cardRect.top + cardRect.height / 2 - columnRect.top;
-        nodes[i].style.top = `${centerY}px`;
-      });
-    };
-
-    let resizeTimer: number | null = null;
-    const onResize = () => {
-      if (resizeTimer) window.clearTimeout(resizeTimer);
-      resizeTimer = window.setTimeout(positionNodes, 150);
-    };
-
-    positionNodes();
-    window.addEventListener("resize", onResize);
-
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduceMotion) {
-      fill.classList.add("active");
-      nodes.forEach((node) => node.classList.add("active"));
-      return () => window.removeEventListener("resize", onResize);
-    }
-
-    const timers: number[] = [];
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          fill.classList.add("active");
-          timers.push(window.setTimeout(() => nodes[0]?.classList.add("active"), 300));
-          timers.push(window.setTimeout(() => nodes[1]?.classList.add("active"), 750));
-          timers.push(window.setTimeout(() => nodes[2]?.classList.add("active"), 1200));
-          observer.unobserve(entry.target);
-        });
-      },
-      { threshold: 0.15 }
-    );
-
-    observer.observe(content);
-
-    return () => {
-      window.removeEventListener("resize", onResize);
-      if (resizeTimer) window.clearTimeout(resizeTimer);
-      timers.forEach((id) => window.clearTimeout(id));
-      observer.disconnect();
-    };
-  }, []);
-
-  useEffect(() => {
     if (
       "ontouchstart" in window ||
       navigator.maxTouchPoints > 0 ||
@@ -373,9 +312,11 @@ export default function Home() {
       const leave = () => {
         card.style.transition = "transform 400ms ease-out";
         card.style.transform = `perspective(800px) rotateX(0deg) rotateY(0deg)${baseScale}`;
-        timers.push(window.setTimeout(() => {
-          card.style.willChange = "auto";
-        }, 400));
+        timers.push(
+          window.setTimeout(() => {
+            card.style.willChange = "auto";
+          }, 400)
+        );
       };
       return { card, move, enter, leave };
     });
@@ -396,16 +337,69 @@ export default function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    const onMessage = (event: MessageEvent) => {
+      if (event.origin !== window.location.origin) return;
+      const payload = event.data as { type?: string; height?: number } | null;
+      if (!payload || payload.type !== "roi-calculator-height") return;
+
+      const next = Number(payload.height);
+      if (!Number.isFinite(next)) return;
+
+      setCalculatorHeight(Math.max(700, Math.min(2200, Math.round(next))));
+    };
+
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
+
+  const processSteps = [
+    {
+      number: "1",
+      duration: "Free, 15 min",
+      title: "We audit your workflows",
+      description:
+        "You tell us where you're bleeding time. We map your current process and show you exactly what we'd automate first.",
+      icon: Phone,
+    },
+    {
+      number: "2",
+      duration: "1-2 weeks",
+      title: "We build your automations",
+      description:
+        "No templates. We build custom AI workflows around the tools you already use. You approve everything before it goes live.",
+      icon: Wrench,
+    },
+    {
+      number: "3",
+      duration: "Ongoing",
+      title: "We maintain and improve",
+      description:
+        "Things change. Tenants change. We monitor your automations, fix what breaks, and optimize what's working.",
+      icon: Check,
+    },
+  ];
+
+  const featureIcons = [MessageSquare, Wrench, FileText, DollarSign, Users, Mail];
+
   return (
     <div className="min-h-screen font-sans text-foreground flex flex-col">
       <Navbar />
       <main className="page-content-enter flex flex-col">
         <section className="hero-section relative min-h-screen flex items-center pt-24 pb-32 overflow-hidden">
-          <div className="hero-spotlight"></div>
+          <div className="hero-spotlight" />
 
           <div className="container mx-auto px-4 md:px-6 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-7xl mx-auto">
               <div className="relative z-20 space-y-6 text-center lg:text-left">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[var(--emerald)] text-xs font-medium mb-2">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-[var(--emerald)] opacity-75 animate-ping" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--emerald)]" />
+                  </span>
+                  Accepting New Clients for Q2 2026
+                </div>
+
                 <h1 className="hero-title hero-load-headline">
                   You didn't start a property management company to answer texts at 11 PM.
                 </h1>
@@ -428,6 +422,22 @@ export default function Home() {
                     Book a Free 15-Min Workflow Audit
                     <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Button>
+
+                  <div className="flex items-center gap-4 px-2">
+                    <div className="flex -space-x-2">
+                      {[1, 2, 3].map((i) => (
+                        <div
+                          key={i}
+                          className="w-9 h-9 rounded-full bg-[rgba(12,18,14,0.8)] border border-white/10 flex items-center justify-center text-[10px] font-bold text-[#A7B1BA]"
+                        >
+                          {i === 3 ? "10+" : ""}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="text-xs text-[#7F8A95]">
+                      <span className="text-[#C9D3D9] font-bold">10+ hrs/week</span> saved
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -441,13 +451,17 @@ export default function Home() {
                 {logoData.map((logo, index) => (
                   <div key={index} className="logo-carousel-item group cursor-pointer">
                     {logo.svg}
-                    <span className="text-[10px] text-[rgba(255,255,255,0.40)] group-hover:text-[var(--emerald)] transition-colors">{logo.name}</span>
+                    <span className="text-[10px] text-[rgba(255,255,255,0.40)] group-hover:text-[var(--emerald)] transition-colors">
+                      {logo.name}
+                    </span>
                   </div>
                 ))}
                 {logoData.map((logo, index) => (
                   <div key={`dup-${index}`} className="logo-carousel-item group cursor-pointer" aria-hidden="true">
                     {logo.svg}
-                    <span className="text-[10px] text-[rgba(255,255,255,0.40)] group-hover:text-[var(--emerald)] transition-colors">{logo.name}</span>
+                    <span className="text-[10px] text-[rgba(255,255,255,0.40)] group-hover:text-[var(--emerald)] transition-colors">
+                      {logo.name}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -470,7 +484,7 @@ export default function Home() {
               </div>
 
               <div data-reveal data-reveal-delay="2" className="max-w-4xl mx-auto mt-8">
-                <SpotlightCard data-tilt className="glass-card p-7 md:p-9">
+                <SpotlightCard data-tilt className="glass-card p-7 md:p-9 text-center">
                   <p className="text-[#C9D3D9] text-lg leading-relaxed">
                     This is not a scaling problem. This is a "doing-everything-manually" problem.
                     You're not bad at your job. You're doing three jobs - and two of them shouldn't
@@ -484,116 +498,127 @@ export default function Home() {
 
         <section className="section-wrapper section-dense relative" id="solution">
           <div className="container mx-auto px-4 md:px-6">
-            <div className="max-w-4xl mx-auto">
-              <h2 data-reveal className="section-title text-center">What changes when the busywork handles itself.</h2>
+            <div className="grid lg:grid-cols-2 gap-10 items-center max-w-6xl mx-auto">
+              <div>
+                <h2 data-reveal className="section-title mb-8">What changes when the busywork handles itself.</h2>
+                <div data-reveal data-reveal-delay="1" className="space-y-5 text-[#A7B1BA] leading-relaxed">
+                  <p>
+                    <strong className="text-[#C9D3D9]">You wake up and your inbox isn't a disaster.</strong> Tenant messages from overnight? Already drafted responses waiting for your review. Maintenance requests? Logged, categorized, and dispatched.
+                  </p>
+                  <p>
+                    <strong className="text-[#C9D3D9]">That prospect who inquired at 2 AM?</strong> They got a personalized response in 90 seconds. They're already scheduled for a showing.
+                  </p>
+                  <p>
+                    <strong className="text-[#C9D3D9]">Rent is 3 days late?</strong> The follow-up sequence already started. Friendly, professional, on-brand - like you wrote it yourself. Because you did. Once.
+                  </p>
+                  <div className="rounded-2xl p-6 border border-[var(--emerald)]/30 bg-[rgba(10,18,14,0.32)] mt-8">
+                    <p className="text-[#C9D3D9] italic">
+                      "Veyra doesn't replace your judgment. We automate everything between the decision and the doing."
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-              <SpotlightCard data-reveal data-reveal-delay="1" data-tilt className="glass-card p-8 md:p-10 mt-10 space-y-5">
-                <p className="text-[#A7B1BA]">You wake up and your inbox isn't a disaster. Tenant messages from overnight? Already drafted responses waiting for your review. Maintenance requests? Logged, categorized, and dispatched to the right vendor - before you opened your eyes.</p>
-                <p className="text-[#A7B1BA]">That prospect who inquired at 2 AM? They got a personalized response in 90 seconds. They're already scheduled for a showing.</p>
-                <p className="text-[#A7B1BA]">Lease renewals coming up in 60 days? You got a heads-up last week. Notices are drafted. You just approve and send.</p>
-                <p className="text-[#A7B1BA]">Rent is 3 days late? The follow-up sequence already started. Friendly, professional, on-brand - like you wrote it yourself. Because you did. Once.</p>
-                <p className="text-[#A7B1BA]">You still make every decision. You still run your business. You just stop being the person who has to type every message, remember every deadline, and chase every vendor.</p>
-                <p className="text-[#C9D3D9] font-semibold text-lg">Veyra doesn't replace your judgment. We automate everything between the decision and the doing.</p>
-              </SpotlightCard>
+              <div data-reveal data-reveal-delay="2" className="relative">
+                <SpotlightCard data-tilt className="glass-card p-7 md:p-8">
+                  <div className="flex items-center justify-between mb-6 border-b border-white/10 pb-5">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-[rgba(10,18,14,0.9)] border border-white/10 flex items-center justify-center">
+                        <Bot size={18} className="text-[var(--emerald)]" />
+                      </div>
+                      <div>
+                        <div className="font-bold text-white">Veyra Agent</div>
+                        <div className="text-xs text-[#7F8A95]">Active now</div>
+                      </div>
+                    </div>
+                    <div className="px-3 py-1 rounded-full bg-[var(--emerald)]/15 text-[var(--emerald)] text-xs font-medium">
+                      Automated
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="flex gap-4">
+                      <div className="w-8 h-8 rounded-full bg-[rgba(10,18,14,0.9)] border border-white/10 flex-shrink-0" />
+                      <div className="bg-[rgba(10,18,14,0.8)] border border-white/10 rounded-2xl rounded-tl-none p-4 text-sm text-[#A7B1BA] max-w-[85%]">
+                        Hi, my toilet is overflowing in unit 12C. Help!
+                      </div>
+                    </div>
+                    <div className="flex gap-4 flex-row-reverse">
+                      <div className="w-8 h-8 rounded-full bg-[var(--emerald)] flex-shrink-0 flex items-center justify-center">
+                        <Bot size={15} className="text-[#0a0f0a]" />
+                      </div>
+                      <div className="bg-[var(--emerald)] text-[#0a0f0a] rounded-2xl rounded-tr-none p-4 text-sm max-w-[85%]">
+                        I'm sorry to hear that. I just dispatched Mike from Speedy Plumbing. ETA ~45 mins. Please turn off the water valve behind the toilet if possible.
+                      </div>
+                    </div>
+                    <div className="text-center pt-1">
+                      <span className="text-xs text-[#7F8A95]">Ticket #4921 created • Vendor notified</span>
+                    </div>
+                  </div>
+                </SpotlightCard>
+              </div>
             </div>
           </div>
         </section>
 
-        <section id="how-it-works" className="section-wrapper section-prelude section-dense relative">
+        <section id="features" className="section-wrapper section-dense relative">
+          <div className="container mx-auto px-4 md:px-6 relative z-10">
+            <div data-reveal className="text-center mb-4">
+              <h2 className="section-title">Six things eating your day.</h2>
+              <p className="section-subtitle text-[#7F8A95]">Before and after Veyra.</p>
+            </div>
+
+            <div data-reveal data-reveal-delay="1" className="max-w-6xl mx-auto mt-16 grid lg:grid-cols-2 gap-6">
+              {automationCards.map((item, index) => {
+                const Icon = featureIcons[index];
+                return (
+                  <SpotlightCard key={item.title} data-tilt className="glass-card overflow-hidden p-0">
+                    <div className="p-6 border-b border-white/10 flex items-center gap-4">
+                      <div className="w-11 h-11 rounded-xl bg-[rgba(10,18,14,0.9)] border border-white/10 flex items-center justify-center text-[var(--emerald)]">
+                        <Icon size={22} />
+                      </div>
+                      <h3 className="text-xl font-bold">{item.title}</h3>
+                    </div>
+                    <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-white/10">
+                      <div className="p-6 bg-red-500/5">
+                        <div className="text-xs font-bold text-red-300 uppercase tracking-[0.12em] mb-3">Before</div>
+                        <p className="text-[#A7B1BA] text-sm leading-relaxed">{item.before}</p>
+                      </div>
+                      <div className="p-6 bg-[var(--emerald)]/5">
+                        <div className="text-xs font-bold text-[var(--emerald)] uppercase tracking-[0.12em] mb-3">After</div>
+                        <p className="text-[#C9D3D9] text-sm leading-relaxed">{item.after}</p>
+                      </div>
+                    </div>
+                  </SpotlightCard>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        <section id="process" className="section-wrapper section-prelude section-dense relative">
           <div className="container mx-auto px-4 md:px-6">
             <div data-reveal className="text-center mb-16">
               <h2 className="section-title">Three steps. You're up and running in two weeks.</h2>
             </div>
 
-            <div data-reveal data-reveal-delay="1" className="how-it-works-content relative max-w-5xl mx-auto">
-              <div className="journey-path-column" aria-hidden="true">
-                <div className="journey-track" />
-                <div className="journey-fill" />
-                <div className="journey-node" data-step="1" />
-                <div className="journey-node" data-step="2" />
-                <div className="journey-node" data-step="3" />
-              </div>
-
-              <div className="how-it-works-cards">
-                {[
-                  {
-                    step: "1",
-                    title: "We audit your workflows (free, 15 min)",
-                    badge: "Free, 15 min",
-                    desc: "You tell us where you're bleeding time. We map your current process - how tenant requests come in, how you dispatch maintenance, how you track leases - and show you exactly what we'd automate first.",
-                    details: "",
-                    icon: Phone,
-                  },
-                  {
-                    step: "2",
-                    title: "We build your automations (1-2 weeks)",
-                    badge: "1-2 weeks",
-                    desc: "No templates. No one-size-fits-all. We build custom AI workflows around the tools you already use - your email, your phone system, your property management software. You approve everything before it goes live.",
-                    details: "",
-                    icon: Wrench,
-                  },
-                  {
-                    step: "3",
-                    title: "We maintain and improve (ongoing)",
-                    badge: "Ongoing",
-                    desc: "Things change. Tenants change. Your portfolio grows. We monitor your automations, fix what breaks, and optimize what's working. $500/month. Cancel anytime.",
-                    details: "",
-                    icon: Check,
-                  },
-                ].map((item, i) => (
-                  <div key={i} className="step-row relative">
-                    <SpotlightCard data-tilt className="step-card w-full p-6 md:p-7">
-                      <span className="step-watermark" aria-hidden="true">{item.step}</span>
-                      <div className="relative z-[2]">
-                        <div className="step-head">
-                          <div className="step-icon-shell">
-                            <item.icon className="w-5 h-5 text-[var(--emerald)]" />
-                          </div>
-                          <span className="step-badge">{item.badge}</span>
-                        </div>
-
-                        <h3 className="text-xl font-bold mb-3">{item.title}</h3>
-                        <p className={`text-[#A7B1BA] mb-3 ${i === 0 ? "md:pr-24" : ""}`}>{item.desc}</p>
-                        <p className="text-[#7F8A95] text-sm">{item.details}</p>
-                      </div>
-                    </SpotlightCard>
+            <div data-reveal data-reveal-delay="1" className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
+              {processSteps.map((step) => (
+                <SpotlightCard key={step.number} data-tilt className="glass-card p-7 h-full">
+                  <div className="w-12 h-12 rounded-full bg-[rgba(10,18,14,0.9)] border border-white/10 flex items-center justify-center text-[var(--emerald)] font-bold text-lg mb-4">
+                    {step.number}
                   </div>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className="h-32"></div>
-        </section>
-
-        <section id="what-i-build" className="section-wrapper section-dense relative">
-          <div className="container mx-auto px-4 md:px-6 relative z-10">
-            <div data-reveal className="text-center mb-4">
-              <h2 className="section-title">What We <span className="section-accent">Automate</span></h2>
-              <p className="section-subtitle text-[#7F8A95]">Six things eating your day - before and after Veyra.</p>
-            </div>
-
-            <div data-reveal data-reveal-delay="1" className="max-w-6xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {automationCards.map((item, index) => {
-                const Icon = [Zap, Bot, RefreshCw][index % 3];
-                const blobClass = index % 3 === 0 ? "feature-blob-primary" : index % 3 === 1 ? "feature-blob-secondary" : "feature-blob-tertiary";
-                return (
-                  <SpotlightCard
-                    key={item.title}
-                    data-tilt
-                    className={`bento-card feature-card p-8 group ${index === 0 ? "feature-flagship" : ""}`}
-                  >
-                    <div className={`feature-blob ${blobClass}`} />
-                    <div className="feature-icon-shell w-14 h-14 flex items-center justify-center mb-5">
-                      <Icon className="feature-icon w-7 h-7 text-[var(--emerald)]" />
-                    </div>
-                    <h3 className="feature-title text-xl font-bold mb-4">{index + 1}. {item.title}</h3>
-                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#f87171] mb-2">Before</p>
-                    <p className="text-[#7F8A95] mb-4 text-sm leading-relaxed">{item.before}</p>
-                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--emerald)] mb-2">After</p>
-                    <p className="text-[#A7B1BA] text-sm leading-relaxed">{item.after}</p>
-                  </SpotlightCard>
-                );
-              })}
+                  <div className="flex items-center gap-2 mb-3 text-xs text-[#7F8A95] uppercase tracking-[0.12em]">
+                    <Clock size={13} />
+                    {step.duration}
+                  </div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <step.icon className="w-4 h-4 text-[var(--emerald)]" />
+                    <h3 className="text-xl font-bold">{step.title}</h3>
+                  </div>
+                  <p className="text-[#A7B1BA] leading-relaxed">{step.description}</p>
+                </SpotlightCard>
+              ))}
             </div>
           </div>
         </section>
@@ -826,25 +851,6 @@ export default function Home() {
                   </div>
                 ))}
               </Accordion>
-            </div>
-          </div>
-        </section>
-
-        <section className="section-wrapper section-arrival relative" id="footer-cta">
-          <div className="container mx-auto px-4 md:px-6 max-w-3xl text-center">
-            <div className="w-full">
-              <div className="final-cta-shell p-12 md:p-16">
-                <h2 data-reveal className="section-title text-center mb-6">Ready to stop being your own help desk?</h2>
-                <div data-reveal data-reveal-delay="1">
-                  <div className="text-[#7F8A95] text-lg mb-10 leading-relaxed space-y-4">
-                    <p>In 15 minutes, we'll show you exactly which workflows we'd automate and how much time you'd get back.</p>
-                  </div>
-                  <Button onClick={openCalendly} size="lg" data-testid="button-final-cta" className="glow-button hero-cta final-cta-button font-semibold group">
-                    Book Your Free Workflow Audit
-                    <ArrowRight className="ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </div>
-              </div>
             </div>
           </div>
         </section>
