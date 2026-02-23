@@ -17,6 +17,7 @@ import {
   Users,
   Mail,
   Clock,
+  BarChart3,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { openCalendly } from "@/lib/calendly";
@@ -32,147 +33,16 @@ function ParallaxWheel() {
 }
 
 const logoData = [
-  {
-    name: "Slack",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24">
-        <path fill="#E01E5A" d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zm1.271 0a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313z"/>
-        <path fill="#36C5F0" d="M8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zm0 1.271a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312z"/>
-        <path fill="#2EB67D" d="M18.956 8.834a2.528 2.528 0 0 1 2.52-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.52V8.834zm-1.271 0a2.528 2.528 0 0 1-2.521 2.521 2.528 2.528 0 0 1-2.521-2.521V2.522A2.528 2.528 0 0 1 15.166 0a2.528 2.528 0 0 1 2.521 2.522v6.312z"/>
-        <path fill="#ECB22E" d="M15.166 18.956a2.528 2.528 0 0 1 2.521 2.52A2.528 2.528 0 0 1 15.166 24a2.528 2.528 0 0 1-2.521-2.522v-2.52h2.521zm0-1.271a2.528 2.528 0 0 1-2.521-2.521 2.528 2.528 0 0 1 2.521-2.521h6.312A2.528 2.528 0 0 1 24 15.166a2.528 2.528 0 0 1-2.522 2.521h-6.312z"/>
-      </svg>
-    )
-  },
-  {
-    name: "Gmail",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24">
-        <path fill="#EA4335" d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/>
-      </svg>
-    )
-  },
-  {
-    name: "Outlook",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24">
-        <path fill="#0078D4" d="M24 7.387v10.478c0 .23-.08.424-.238.576-.158.154-.352.23-.578.23h-8.547v-6.959l1.6 1.229c.102.086.229.127.379.127.148 0 .277-.041.379-.127l6.768-5.187c.059-.04.127-.065.202-.074.076-.01.143.003.201.04.065.038.113.085.143.143.03.057.046.12.048.189l-.357 2.52v-3.165z"/>
-        <path fill="#0078D4" d="M15.072 10.688L24 4.264v-.877c0-.23-.08-.424-.238-.578-.158-.153-.352-.23-.578-.23h-8.547v7.396l.435.713z"/>
-        <path fill="#0078D4" d="M0 6.109v11.578c0 .586.477 1.063 1.063 1.063h7.575c.586 0 1.063-.477 1.063-1.063V6.109c0-.586-.477-1.063-1.063-1.063H1.063C.477 5.046 0 5.523 0 6.109zm4.85 8.45c-2.092 0-3.395-1.639-3.395-3.687 0-2.148 1.357-3.787 3.45-3.787 2.147 0 3.395 1.693 3.395 3.687 0 2.148-1.357 3.787-3.45 3.787zm.027-6.082c-1.248 0-1.967 1.057-1.967 2.35 0 1.275.665 2.35 1.94 2.35 1.249 0 1.968-1.057 1.968-2.35 0-1.275-.665-2.35-1.94-2.35z"/>
-      </svg>
-    )
-  },
-  {
-    name: "Notion",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="white">
-        <path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.98-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466l1.823 1.447zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.84-.046.933-.56.933-1.167V6.354c0-.606-.233-.933-.746-.886l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952l1.448.327s0 .84-1.168.84l-3.22.186c-.094-.187 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-.98.7-1.027l3.459-.233 4.764 7.28v-6.44l-1.215-.14c-.093-.514.28-.887.747-.933l3.312-.187z"/>
-      </svg>
-    )
-  },
-  {
-    name: "Sheets",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24">
-        <path fill="#34A853" d="M19 11V9h-6V3h-2v6H5v2h6v10h2V11z"/>
-        <path fill="#188038" d="M19 3h-5v6h6V4a1 1 0 0 0-1-1z"/>
-        <path fill="#34A853" d="M19 9h-5v6h6V9z"/>
-        <path fill="#188038" d="M19 15h-5v6h5a1 1 0 0 0 1-1v-5z"/>
-        <path fill="#34A853" d="M5 21h5v-6H4v5a1 1 0 0 0 1 1z"/>
-        <path fill="#188038" d="M4 9v6h6V9H4z"/>
-        <path fill="#34A853" d="M5 3a1 1 0 0 0-1 1v5h6V3H5z"/>
-      </svg>
-    )
-  },
-  {
-    name: "Excel",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24">
-        <path fill="#217346" d="M23 1.5q.41 0 .7.3.3.29.3.7v19q0 .41-.3.7-.29.3-.7.3H7q-.41 0-.7-.3-.3-.29-.3-.7V18H1q-.41 0-.7-.3-.3-.29-.3-.7V7q0-.41.3-.7Q.58 6 1 6h5V2.5q0-.41.3-.7.29-.3.7-.3zM6 13.28l1.42 2.66h2.14l-2.38-3.87 2.34-3.8H7.46l-1.3 2.4-.05.08-.04.09-.64-1.28-.66-1.29H2.59l2.27 3.82-2.48 3.85h2.16zM14.25 21v-3H7.5v3zm0-4.5v-3.75H12v3.75zm0-5.25V7.5H12v3.75zm0-5.25V3H7.5v3zm8.25 15v-3h-6.75v3zm0-4.5v-3.75h-6.75v3.75zm0-5.25V7.5h-6.75v3.75zm0-5.25V3h-6.75v3z"/>
-      </svg>
-    )
-  },
-  {
-    name: "Airtable",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24">
-        <path fill="#FCB400" d="M11.992 0L1.59 4.222 12.008 8.79l10.4-4.554L11.992 0z"/>
-        <path fill="#18BFFF" d="M12 24l10.4-4.56V8.508l-10.4 4.557V24z"/>
-        <path fill="#F82B60" d="M0 19.44L10.4 24V13.065L.4 8.51l-.4.178v10.752z"/>
-      </svg>
-    )
-  },
-  {
-    name: "HubSpot",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="#FF7A59">
-        <path d="M18.164 7.93V5.084a2.198 2.198 0 0 0 1.267-1.984v-.066A2.2 2.2 0 0 0 17.231.835h-.065a2.2 2.2 0 0 0-2.2 2.199v.066a2.19 2.19 0 0 0 1.267 1.984V7.93a6.152 6.152 0 0 0-2.918 1.303l-7.7-5.996a2.596 2.596 0 1 0-1.003 1.455l7.463 5.808a6.222 6.222 0 0 0-.472 2.375c0 .903.196 1.76.545 2.533l-2.263 2.263a1.906 1.906 0 0 0-.558-.09 1.928 1.928 0 1 0 1.928 1.927c0-.2-.036-.39-.09-.569l2.227-2.227a6.223 6.223 0 1 0 4.693-10.782zm-.967 9.787a3.317 3.317 0 1 1 .034-6.634 3.317 3.317 0 0 1-.034 6.634z"/>
-      </svg>
-    )
-  },
-  {
-    name: "Salesforce",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="#00A1E0">
-        <path d="M10.006 5.415a4.195 4.195 0 0 1 3.045-1.306c1.56 0 2.954.9 3.69 2.205.63-.3 1.35-.45 2.1-.45 2.85 0 5.159 2.34 5.159 5.22s-2.31 5.22-5.16 5.22c-.45 0-.84-.06-1.26-.15-.63 1.41-2.04 2.4-3.69 2.4-1.05 0-2.01-.39-2.76-1.05a4.12 4.12 0 0 1-3.93 2.88c-1.62 0-3.06-.93-3.75-2.31-.42.09-.87.15-1.32.15C.93 18.225 0 15.885 0 13.005c0-2.88 2.28-5.22 5.13-5.22.48 0 .93.06 1.38.18.81-1.56 2.46-2.55 4.35-2.55.39 0 .75.03 1.146.105z"/>
-      </svg>
-    )
-  },
-  {
-    name: "Calendly",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="#006BFF">
-        <path d="M19.655 14.262c.281-.281.663-.438 1.061-.438h1.861c.276 0 .5-.224.5-.5V10.72c0-.276-.224-.5-.5-.5h-1.861c-.398 0-.78-.157-1.061-.438l-1.318-1.318c-.281-.281-.438-.663-.438-1.061V5.543c0-.276-.224-.5-.5-.5h-2.604c-.276 0-.5.224-.5.5v1.86c0 .398-.157.78-.438 1.061l-1.318 1.318c-.281.281-.663.438-1.061.438H9.617c-.398 0-.78.157-1.061.438l-1.318 1.318c-.281.281-.438.663-.438 1.061v1.86c0 .398.157.78.438 1.061l1.318 1.318c.281.281.438.663.438 1.061v1.861c0 .276.224.5.5.5h2.604c.276 0 .5-.224.5-.5v-1.861c0-.398.157-.78.438-1.061l1.318-1.318c.281-.281.663-.438 1.061-.438h1.861c.398 0 .78-.157 1.061-.438zM12 15.75c-2.071 0-3.75-1.679-3.75-3.75S9.929 8.25 12 8.25s3.75 1.679 3.75 3.75-1.679 3.75-3.75 3.75z"/>
-      </svg>
-    )
-  },
-  {
-    name: "Stripe",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="#635BFF">
-        <path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.591-7.305z"/>
-      </svg>
-    )
-  },
-  {
-    name: "QuickBooks",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="#2CA01C">
-        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm3.805 17.93h-1.65c-.276 0-.5-.224-.5-.5v-4.93h-3.31v4.93c0 .276-.224.5-.5.5H8.195c-.276 0-.5-.224-.5-.5V7.07c0-.276.224-.5.5-.5h1.65c.276 0 .5.224.5.5v4.43h3.31V7.07c0-.276.224-.5.5-.5h1.65c.276 0 .5.224.5.5v10.36c0 .276-.224.5-.5.5z"/>
-      </svg>
-    )
-  },
-  {
-    name: "DocuSign",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="#FFCC22">
-        <path d="M22.5 10.5h-4.125v-9h-12.75v9H1.5L12 21l10.5-10.5zM8.625 4.5h6.75v6h-6.75v-6z"/>
-      </svg>
-    )
-  },
-  {
-    name: "Zapier",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="#FF4A00">
-        <path d="M15.185 12l2.813-2.813a5.985 5.985 0 0 0 0-2.374l-2.813 2.813-2.813-2.813a5.985 5.985 0 0 0-2.374 0l2.813 2.813-2.813 2.813a5.985 5.985 0 0 0 0 2.374l2.813-2.813 2.813 2.813a5.985 5.985 0 0 0 2.374 0L15.185 12zm-3.187 5.998a6 6 0 1 1 0-12 6 6 0 0 1 0 12z"/>
-      </svg>
-    )
-  },
-  {
-    name: "Make",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="#6D00CC">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15H9V9h2v8zm4 0h-2V9h2v8z"/>
-      </svg>
-    )
-  },
-  {
-    name: "OpenAI",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="white">
-        <path d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.676l5.815 3.355-2.02 1.168a.076.076 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.896zm16.597 3.855l-5.833-3.387L15.119 7.2a.076.076 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.407-.667zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08L8.704 5.46a.795.795 0 0 0-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.607-1.5z"/>
-      </svg>
-    )
-  },
+  { name: "AppFolio", mark: "AF" },
+  { name: "Buildium", mark: "BU" },
+  { name: "Rent Manager", mark: "RM" },
+  { name: "Yardi", mark: "YA" },
+  { name: "Propertyware", mark: "PW" },
+  { name: "QuickBooks", mark: "QB" },
+  { name: "DocuSign", mark: "DS" },
+  { name: "Twilio", mark: "TW" },
+  { name: "Gmail", mark: "GM" },
+  { name: "Outlook", mark: "OL" },
 ];
 
 const problemTimeline = [
@@ -228,6 +98,11 @@ const automationCards = [
     title: "Prospect Auto-Response",
     before: "Someone inquires about a vacant unit at 9 PM on Saturday. You see it Monday. They've already signed a lease somewhere else.",
     after: "Instant, personalized response with unit details, availability, and a link to schedule a showing. 90 seconds, not 48 hours.",
+  },
+  {
+    title: "Owner Reporting",
+    before: "Spending 12+ hours reformatting AppFolio exports for different owners - because every owner wants a slightly different format. It's your last weekend of every month, every month, forever.",
+    after: "Every owner gets a custom report, automatically generated, on the 1st of every month. Financials, maintenance summaries, occupancy updates - formatted to their preferences, delivered without you lifting a finger.",
   },
 ];
 
@@ -380,7 +255,7 @@ export default function Home() {
     },
   ];
 
-  const featureIcons = [MessageSquare, Wrench, FileText, DollarSign, Users, Mail];
+  const featureIcons = [MessageSquare, Wrench, FileText, DollarSign, Users, Mail, BarChart3];
 
   return (
     <div className="min-h-screen font-sans text-foreground flex flex-col">
@@ -406,9 +281,8 @@ export default function Home() {
 
                 <div className="hero-copy hero-load-subtext text-lg text-[#7F8A95] leading-relaxed space-y-4">
                   <p>
-                    Veyra builds custom AI automations that handle your tenant communications,
-                    maintenance coordination, and lease tracking - so you can manage 200 units
-                    without hiring 2 more people.
+                    We handle your tenants, your maintenance requests, and your owner reports -
+                    so you can grow your portfolio without growing your team.
                   </p>
                 </div>
 
@@ -422,22 +296,6 @@ export default function Home() {
                     Book a Free 15-Min Workflow Audit
                     <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Button>
-
-                  <div className="flex items-center gap-4 px-2">
-                    <div className="flex -space-x-2">
-                      {[1, 2, 3].map((i) => (
-                        <div
-                          key={i}
-                          className="w-9 h-9 rounded-full bg-[rgba(12,18,14,0.8)] border border-white/10 flex items-center justify-center text-[10px] font-bold text-[#A7B1BA]"
-                        >
-                          {i === 3 ? "10+" : ""}
-                        </div>
-                      ))}
-                    </div>
-                    <div className="text-xs text-[#7F8A95]">
-                      <span className="text-[#C9D3D9] font-bold">10+ hrs/week</span> saved
-                    </div>
-                  </div>
                 </div>
               </div>
 
@@ -450,7 +308,9 @@ export default function Home() {
               <div className="logo-carousel-track">
                 {logoData.map((logo, index) => (
                   <div key={index} className="logo-carousel-item group cursor-pointer">
-                    {logo.svg}
+                    <span className="w-7 h-7 rounded-full border border-white/15 bg-[rgba(8,14,11,0.82)] text-[11px] font-semibold tracking-[0.04em] text-[rgba(214,233,225,0.82)] flex items-center justify-center group-hover:border-[var(--emerald)]/40 group-hover:text-[var(--emerald)] transition-colors">
+                      {logo.mark}
+                    </span>
                     <span className="text-[10px] text-[rgba(255,255,255,0.40)] group-hover:text-[var(--emerald)] transition-colors">
                       {logo.name}
                     </span>
@@ -458,7 +318,9 @@ export default function Home() {
                 ))}
                 {logoData.map((logo, index) => (
                   <div key={`dup-${index}`} className="logo-carousel-item group cursor-pointer" aria-hidden="true">
-                    {logo.svg}
+                    <span className="w-7 h-7 rounded-full border border-white/15 bg-[rgba(8,14,11,0.82)] text-[11px] font-semibold tracking-[0.04em] text-[rgba(214,233,225,0.82)] flex items-center justify-center group-hover:border-[var(--emerald)]/40 group-hover:text-[var(--emerald)] transition-colors">
+                      {logo.mark}
+                    </span>
                     <span className="text-[10px] text-[rgba(255,255,255,0.40)] group-hover:text-[var(--emerald)] transition-colors">
                       {logo.name}
                     </span>
@@ -564,7 +426,7 @@ export default function Home() {
         <section id="features" className="section-wrapper section-dense relative">
           <div className="container mx-auto px-4 md:px-6 relative z-10">
             <div data-reveal className="text-center mb-4">
-              <h2 className="section-title">Six things eating your day.</h2>
+              <h2 className="section-title">Seven things eating your day.</h2>
               <p className="section-subtitle text-[#7F8A95]">Before and after Veyra.</p>
             </div>
 
@@ -635,9 +497,9 @@ export default function Home() {
 
               <div data-reveal data-reveal-delay="1" className="w-full">
                 <SpotlightCard data-tilt className="glass-card glow-border p-4 md:p-6">
-                  <div className="rounded-2xl overflow-hidden border border-white/10 bg-[rgba(10,18,14,0.32)]">
+                  <div className="rounded-xl overflow-hidden border border-[rgba(255,255,255,0.1)] bg-[#0a0f0a]">
                     <iframe
-                      src="/roi-calculator.html"
+                      src="/roi-calculator.html?theme=dark"
                       title="Veyra Group PM Efficiency Audit"
                       className="w-full bg-[#0a0f0a]"
                       style={{ border: 0, height: `${calculatorHeight}px` }}
@@ -790,7 +652,7 @@ export default function Home() {
                 <SpotlightCard data-tilt className="fit-card h-full p-6" variant="fit">
                   <ul className="space-y-3">
                     {[
-                      "You manage 5-300 units and wear too many hats",
+                      "You're an independent property manager who wears too many hats",
                       "Tenant comms, maintenance, leases, and follow-ups run manually",
                       "You want practical automation live in weeks, not quarters",
                     ].map((item, i) => (
@@ -846,6 +708,23 @@ export default function Home() {
                   </div>
                 ))}
               </Accordion>
+            </div>
+          </div>
+        </section>
+
+        <section className="section-wrapper section-dense relative" id="footer-cta">
+          <div className="container mx-auto px-4 md:px-6">
+            <div data-reveal className="max-w-4xl mx-auto text-center">
+              <SpotlightCard data-tilt className="glass-card p-8 md:p-10">
+                <h2 className="section-title mb-4">Ready to stop being your own help desk?</h2>
+                <Button asChild size="lg" className="glow-button hero-cta font-semibold group" data-testid="button-footer-final-cta">
+                  <a href="/book">
+                    Book Your Free Workflow Audit
+                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </a>
+                </Button>
+                <p className="text-[#7F8A95] mt-4">15 minutes. We'll show you exactly which workflows to automate first.</p>
+              </SpotlightCard>
             </div>
           </div>
         </section>

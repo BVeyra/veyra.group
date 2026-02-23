@@ -73,7 +73,7 @@ export function Footer() {
                 draggable={false}
               />
               <p className="text-[#7F8A95] text-sm mb-4">Built for small teams that hate busywork.</p>
-              <p className="text-xs text-[#5F6972]">Trusted by 50+ small teams.</p>
+              <p className="text-xs text-[#5F6972]">Built for independent property managers.</p>
             </div>
             
             <div className="text-center">
