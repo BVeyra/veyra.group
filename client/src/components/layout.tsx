@@ -32,6 +32,7 @@ export function Navbar() {
             src="/veyra-logo.svg"
             alt="Veyra Group"
             className="h-12 w-auto cursor-pointer select-none"
+            loading="lazy"
             draggable={false}
           />
         </Link>
@@ -70,6 +71,7 @@ export function Footer() {
                 src="/veyra-logo.svg"
                 alt="Veyra Group"
                 className="h-16 w-auto mb-3 mx-auto md:mx-0 select-none"
+                loading="lazy"
                 draggable={false}
               />
               <p className="text-xs text-[#5F6972]">Built for independent property managers.</p>

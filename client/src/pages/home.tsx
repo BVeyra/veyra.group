@@ -19,16 +19,52 @@ import {
   BarChart3,
   Building2,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { openCalendly } from "@/lib/calendly";
-import { SpinningWheel } from "@/components/SpinningWheel";
 import { SpotlightCard } from "@/components/SpotlightCard";
 import { AnimatePresence, motion } from "framer-motion";
 
-function ParallaxWheel() {
+function HeroDashboardMockup() {
+  const rows = [
+    { unit: "Unit 12C — Toilet overflow", status: "Auto-dispatched ✓", tone: "emerald" },
+    { unit: "Unit 4B — Rent inquiry", status: "Auto-replied ✓", tone: "emerald" },
+    { unit: "Unit 8A — Noise complaint", status: "Flagged for review", tone: "amber" },
+  ] as const;
+
   return (
-    <div className="hero-load-wheel relative z-10 flex justify-center items-center w-full h-[520px]">
-      <SpinningWheel />
+    <div className="relative w-full max-w-[520px] mx-auto">
+      <div className="absolute -top-5 right-5 z-20">
+        <div className="rounded-full border border-emerald-400/30 bg-[#0a1511]/90 px-3 py-1.5 flex items-center gap-2 text-[11px] text-[#D2F2E6]">
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-70 animate-ping" />
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400" />
+          </span>
+          10+ hrs/week saved
+        </div>
+      </div>
+
+      <motion.div
+        className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur p-6 shadow-2xl shadow-emerald-500/10"
+        animate={{ y: [0, -10, 0] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
+          <div className="font-semibold text-white">Veyra Dashboard</div>
+          <div className="inline-flex items-center gap-2 text-xs text-[#A7CFC0]">
+            <span className="h-2 w-2 rounded-full bg-emerald-400" />
+            Active
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          {rows.map((row) => (
+            <div key={row.unit} className="rounded-xl border border-white/10 bg-[rgba(8,16,13,0.75)] p-3">
+              <p className="text-sm text-[#D7E7E1]">{row.unit}</p>
+              <p className={`text-xs mt-1 ${row.tone === "emerald" ? "text-emerald-300" : "text-amber-300"}`}>{row.status}</p>
+            </div>
+          ))}
+        </div>
+      </motion.div>
     </div>
   );
 }
@@ -134,6 +170,9 @@ export default function Home() {
   const [calculatorHeight, setCalculatorHeight] = useState(980);
   const [activeAutomationIndex, setActiveAutomationIndex] = useState(0);
   const [billingView, setBillingView] = useState<"monthly" | "annual">("monthly");
+  const [calculatorOpen, setCalculatorOpen] = useState(false);
+  const [automationPausedUntil, setAutomationPausedUntil] = useState(0);
+  const calculatorSectionRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const nodes = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
@@ -231,6 +270,35 @@ export default function Home() {
     return () => window.removeEventListener("message", onMessage);
   }, []);
 
+  useEffect(() => {
+    const now = Date.now();
+    const isPaused = automationPausedUntil > now;
+    const wait = isPaused ? automationPausedUntil - now : 5000;
+
+    const timer = window.setTimeout(() => {
+      if (Date.now() < automationPausedUntil) return;
+      setActiveAutomationIndex((prev) => (prev + 1) % automationCards.length);
+    }, wait);
+
+    return () => window.clearTimeout(timer);
+  }, [activeAutomationIndex, automationPausedUntil]);
+
+  const handleAutomationSelect = (index: number) => {
+    setActiveAutomationIndex(index);
+    setAutomationPausedUntil(Date.now() + 10000);
+  };
+
+  const toggleCalculator = () => {
+    const next = !calculatorOpen;
+    setCalculatorOpen(next);
+
+    if (next) {
+      window.setTimeout(() => {
+        calculatorSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 220);
+    }
+  };
+
   const processSteps = [
     {
       number: "1",
@@ -278,13 +346,18 @@ export default function Home() {
     <div className="min-h-screen font-sans text-foreground flex flex-col">
       <Navbar />
       <main className="page-content-enter flex flex-col">
-        <section className="hero-section relative min-h-screen flex items-center pt-24 pb-32 overflow-hidden">
+        <section className="hero-section relative overflow-hidden pt-28 pb-0">
           <div className="hero-spotlight" />
 
           <div className="container mx-auto px-4 md:px-6 relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-7xl mx-auto">
-              <div className="relative z-20 space-y-6 text-center lg:text-left">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[var(--emerald)] text-xs font-medium mb-2">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-12 items-center">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="lg:col-span-3 text-center lg:text-left"
+              >
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[var(--emerald)] text-xs font-medium mb-5">
                   <span className="relative flex h-2 w-2">
                     <span className="absolute inline-flex h-full w-full rounded-full bg-[var(--emerald)] opacity-75 animate-ping" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--emerald)]" />
@@ -292,53 +365,71 @@ export default function Home() {
                   Accepting New Clients for Q2 2026
                 </div>
 
-                <h1 className="hero-title hero-load-headline">
-                  You didn't start a property management company to answer texts at 11 PM.
+                <h1 className="text-4xl lg:text-6xl font-bold leading-[1.05] text-white">
+                  You didn't start a property management company to{" "}
+                  <span className="bg-gradient-to-r from-emerald-400 to-green-300 bg-clip-text text-transparent">
+                    answer texts at 11 PM.
+                  </span>
                 </h1>
 
-                <div className="hero-copy hero-load-subtext text-lg text-[#7F8A95] leading-relaxed space-y-4">
-                  <p>
-                    We handle your tenants, your maintenance requests, and your owner reports -
-                    so you can grow your portfolio without growing your team.
-                  </p>
-                </div>
+                <p className="text-xl text-gray-400 mt-6 max-w-[520px] mx-auto lg:mx-0">
+                  We handle your tenants, your maintenance requests, and your owner reports - so you can grow your portfolio without growing your team.
+                </p>
 
-                <div className="flex flex-col sm:flex-row items-center lg:items-start gap-4 pt-2">
+                <div className="mt-8">
                   <Button
                     onClick={openCalendly}
                     size="lg"
                     data-testid="button-hero-cta-primary"
-                    className="glow-button hero-cta hero-load-cta font-semibold group"
+                    className="glow-button hero-cta font-semibold group px-8 py-4 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40"
                   >
                     Book a Free 15-Min Workflow Audit
-                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </div>
-              </div>
+              </motion.div>
 
-              <ParallaxWheel />
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="lg:col-span-2"
+              >
+                <HeroDashboardMockup />
+              </motion.div>
             </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="max-w-3xl mx-auto text-center mt-14 mb-8"
+            >
+              <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent mb-3" />
+              <p className="text-sm text-gray-500">Serving property managers across 15+ US markets</p>
+              <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent mt-3" />
+            </motion.div>
           </div>
 
-          <div className="absolute bottom-0 left-0 right-0 border-t border-white/5 py-4">
+          <div className="border-t border-white/5 py-5">
             <div className="logo-carousel-wrapper">
               <div className="logo-carousel-track">
                 {logoData.map((logo, index) => (
                   <div key={index} className="logo-carousel-item group cursor-pointer">
-                    <span className="w-7 h-7 rounded-full border border-white/15 bg-[rgba(8,14,11,0.82)] flex items-center justify-center group-hover:border-[var(--emerald)]/40 transition-colors overflow-hidden">
-                      <img src={logo.icon} alt={`${logo.name} logo`} className="w-5 h-5" loading="lazy" />
+                    <span className="w-8 h-8 rounded-full border border-white/10 bg-[rgba(8,14,11,0.7)] flex items-center justify-center overflow-hidden">
+                      <img src={logo.icon} alt={`${logo.name} logo`} className="w-5 h-5 grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300" loading="lazy" />
                     </span>
-                    <span className="text-[10px] text-[rgba(255,255,255,0.40)] group-hover:text-[var(--emerald)] transition-colors">
+                    <span className="text-[10px] text-[rgba(255,255,255,0.35)] group-hover:text-[var(--emerald)] transition-colors">
                       {logo.name}
                     </span>
                   </div>
                 ))}
                 {logoData.map((logo, index) => (
                   <div key={`dup-${index}`} className="logo-carousel-item group cursor-pointer" aria-hidden="true">
-                    <span className="w-7 h-7 rounded-full border border-white/15 bg-[rgba(8,14,11,0.82)] flex items-center justify-center group-hover:border-[var(--emerald)]/40 transition-colors overflow-hidden">
-                      <img src={logo.icon} alt="" className="w-5 h-5" loading="lazy" />
+                    <span className="w-8 h-8 rounded-full border border-white/10 bg-[rgba(8,14,11,0.7)] flex items-center justify-center overflow-hidden">
+                      <img src={logo.icon} alt="" className="w-5 h-5 grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300" loading="lazy" />
                     </span>
-                    <span className="text-[10px] text-[rgba(255,255,255,0.40)] group-hover:text-[var(--emerald)] transition-colors">
+                    <span className="text-[10px] text-[rgba(255,255,255,0.35)] group-hover:text-[var(--emerald)] transition-colors">
                       {logo.name}
                     </span>
                   </div>
@@ -350,19 +441,45 @@ export default function Home() {
 
         <section className="section-wrapper section-open relative" id="problem">
           <div className="container mx-auto px-4 md:px-6">
-            <div className="max-w-6xl mx-auto">
-              <h2 data-reveal className="section-title text-center">You know this day.</h2>
+            <div className="max-w-5xl mx-auto">
+              <motion.h2
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.6 }}
+                className="section-title text-center"
+              >
+                You know this day.
+              </motion.h2>
 
-              <div data-reveal data-reveal-delay="1" className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-12">
-                {problemTimeline.map((item) => (
-                  <SpotlightCard key={item.time} data-tilt className="glass-card p-6">
-                    <p className="text-xs font-semibold tracking-[0.14em] uppercase text-[var(--emerald)] mb-3">{item.time}</p>
-                    <p className="text-[#A7B1BA] leading-relaxed">{item.text}</p>
-                  </SpotlightCard>
+              <div className="relative mt-12 pl-8 md:pl-12">
+                <div className="absolute left-2 md:left-4 top-2 bottom-2 border-l border-emerald-500/30" />
+
+                {problemTimeline.map((item, index) => (
+                  <motion.div
+                    key={item.time}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.25 }}
+                    transition={{ duration: 0.6, delay: index * 0.2 }}
+                    className="relative mb-8 last:mb-0"
+                  >
+                    <span className="absolute -left-[30px] md:-left-[33px] top-2 h-3 w-3 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.45)]" />
+                    <SpotlightCard data-tilt className="glass-card p-6 md:p-7">
+                      <p className="text-2xl font-bold text-emerald-400 mb-3">{item.time}</p>
+                      <p className="text-[#A7B1BA] leading-relaxed">{item.text}</p>
+                    </SpotlightCard>
+                  </motion.div>
                 ))}
               </div>
 
-              <div data-reveal data-reveal-delay="2" className="max-w-4xl mx-auto mt-8">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="max-w-4xl mx-auto mt-10"
+              >
                 <SpotlightCard data-tilt className="glass-card p-7 md:p-9 text-center">
                   <p className="text-[#C9D3D9] text-lg leading-relaxed">
                     This is not a scaling problem. This is a "doing-everything-manually" problem.
@@ -370,7 +487,7 @@ export default function Home() {
                     require a human.
                   </p>
                 </SpotlightCard>
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>
@@ -398,63 +515,82 @@ export default function Home() {
                 </div>
               </div>
 
-              <div data-reveal data-reveal-delay="2" className="relative">
-                <SpotlightCard data-tilt className="glass-card p-7 md:p-8">
-                  <div className="flex items-center justify-between mb-6 border-b border-white/10 pb-5">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-[rgba(10,18,14,0.9)] border border-white/10 flex items-center justify-center">
-                        <Bot size={18} className="text-[var(--emerald)]" />
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="relative lg:-mb-16"
+              >
+                <motion.div
+                  animate={{ scale: [1, 1.02, 1] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                  className="max-w-[560px] mx-auto rounded-[36px] border border-white/10 bg-[rgba(6,11,9,0.95)] p-3 shadow-2xl shadow-emerald-500/10"
+                >
+                  <div className="mx-auto mb-3 h-6 w-36 rounded-full bg-[rgba(255,255,255,0.06)]" />
+                  <div className="rounded-[28px] border border-white/10 bg-[linear-gradient(165deg,rgba(10,18,14,0.94),rgba(7,12,10,0.95))] p-7 md:p-8">
+                    <div className="flex items-center justify-between mb-6 border-b border-white/10 pb-5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-[rgba(10,18,14,0.9)] border border-white/10 flex items-center justify-center">
+                          <Bot size={18} className="text-[var(--emerald)]" />
+                        </div>
+                        <div>
+                          <div className="font-bold text-white">Veyra Agent</div>
+                          <div className="text-xs text-[#7F8A95]">Active now</div>
+                        </div>
                       </div>
-                      <div>
-                        <div className="font-bold text-white">Veyra Agent</div>
-                        <div className="text-xs text-[#7F8A95]">Active now</div>
+                      <div className="px-3 py-1 rounded-full bg-[var(--emerald)]/15 text-[var(--emerald)] text-xs font-medium">
+                        Automated
                       </div>
                     </div>
-                    <div className="px-3 py-1 rounded-full bg-[var(--emerald)]/15 text-[var(--emerald)] text-xs font-medium">
-                      Automated
-                    </div>
-                  </div>
 
-                  <div className="space-y-4">
-                    <div className="flex gap-4">
-                      <div className="w-8 h-8 rounded-full bg-[rgba(10,18,14,0.9)] border border-white/10 flex-shrink-0" />
-                      <div className="bg-[rgba(10,18,14,0.8)] border border-white/10 rounded-2xl rounded-tl-none p-4 text-sm text-[#A7B1BA] max-w-[85%]">
-                        Hi, my toilet is overflowing in unit 12C. Help!
+                    <div className="space-y-4">
+                      <div className="flex gap-4">
+                        <div className="w-8 h-8 rounded-full bg-[rgba(10,18,14,0.9)] border border-white/10 flex-shrink-0" />
+                        <div className="bg-[rgba(10,18,14,0.8)] border border-white/10 rounded-2xl rounded-tl-none p-4 text-sm text-[#A7B1BA] max-w-[85%]">
+                          Hi, my toilet is overflowing in unit 12C. Help!
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex gap-4 flex-row-reverse">
-                      <div className="w-8 h-8 rounded-full bg-[var(--emerald)] flex-shrink-0 flex items-center justify-center">
-                        <Bot size={15} className="text-[#0a0f0a]" />
+                      <div className="flex gap-4 flex-row-reverse">
+                        <div className="w-8 h-8 rounded-full bg-[var(--emerald)] flex-shrink-0 flex items-center justify-center">
+                          <Bot size={15} className="text-[#0a0f0a]" />
+                        </div>
+                        <div className="bg-[var(--emerald)] text-[#0a0f0a] rounded-2xl rounded-tr-none p-4 text-sm max-w-[85%]">
+                          I'm sorry to hear that. I just dispatched Mike from Speedy Plumbing. ETA ~45 mins. Please turn off the water valve behind the toilet if possible.
+                        </div>
                       </div>
-                      <div className="bg-[var(--emerald)] text-[#0a0f0a] rounded-2xl rounded-tr-none p-4 text-sm max-w-[85%]">
-                        I'm sorry to hear that. I just dispatched Mike from Speedy Plumbing. ETA ~45 mins. Please turn off the water valve behind the toilet if possible.
+                      <div className="text-center pt-1">
+                        <span className="text-xs text-[#7F8A95]">Ticket #4921 created • Vendor notified</span>
                       </div>
-                    </div>
-                    <div className="text-center pt-1">
-                      <span className="text-xs text-[#7F8A95]">Ticket #4921 created • Vendor notified</span>
                     </div>
                   </div>
-                </SpotlightCard>
-              </div>
+                </motion.div>
+              </motion.div>
             </div>
           </div>
         </section>
 
         <section id="features" className="section-wrapper section-dense relative">
           <div className="container mx-auto px-4 md:px-6 relative z-10">
-            <div data-reveal className="text-center mb-4">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-4"
+            >
               <h2 className="section-title">Seven things eating your day.</h2>
               <p className="section-subtitle text-[#7F8A95]">Before and after Veyra.</p>
-            </div>
+            </motion.div>
 
-            <div className="max-w-6xl mx-auto mt-14">
-              <motion.div
-                initial={{ opacity: 0, y: 22 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.5 }}
-                className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide"
-              >
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="max-w-6xl mx-auto mt-14"
+            >
+              <div className="lg:hidden flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
                 {automationCards.map((item, index) => {
                   const Icon = featureIcons[index];
                   const isActive = index === activeAutomationIndex;
@@ -462,53 +598,75 @@ export default function Home() {
                     <button
                       key={item.title}
                       type="button"
-                      onClick={() => setActiveAutomationIndex(index)}
+                      onClick={() => handleAutomationSelect(index)}
                       className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm whitespace-nowrap transition-all ${
                         isActive
                           ? "border-[var(--emerald)]/50 bg-[var(--emerald)]/15 text-[#D8F4EA]"
                           : "border-white/10 bg-[rgba(10,18,14,0.72)] text-[#8DA49A] hover:border-[var(--emerald)]/30"
                       }`}
                     >
-                      <Icon size={16} />
+                      <Icon size={15} />
                       <span>{item.title}</span>
                     </button>
                   );
                 })}
-              </motion.div>
+              </div>
 
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeAutomation.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -16 }}
-                  transition={{ duration: 0.35 }}
-                  className="mt-6"
-                >
-                  <SpotlightCard data-tilt className="glass-card overflow-hidden p-0">
-                    <div className="grid lg:grid-cols-[0.9fr_1.9fr]">
-                      <div className="p-7 border-b lg:border-b-0 lg:border-r border-white/10 bg-[rgba(7,14,11,0.75)]">
-                        <div className="w-[72px] h-[72px] mb-5 rounded-2xl border border-[var(--emerald)]/30 bg-[var(--emerald)]/10 text-[var(--emerald)] flex items-center justify-center">
-                          <ActiveAutomationIcon size={34} />
+              <div className="mt-6 lg:mt-0 grid lg:grid-cols-[0.35fr_0.65fr] gap-8">
+                <div className="hidden lg:flex flex-col rounded-2xl border border-white/6 bg-white/[0.02] overflow-hidden">
+                  {automationCards.map((item, index) => {
+                    const Icon = featureIcons[index];
+                    const isActive = index === activeAutomationIndex;
+                    return (
+                      <button
+                        key={item.title}
+                        type="button"
+                        onClick={() => handleAutomationSelect(index)}
+                        className={`flex items-center gap-3 text-left px-5 py-4 border-l-2 transition-colors ${
+                          isActive
+                            ? "border-l-emerald-400 bg-[rgba(54,201,154,0.08)] text-white"
+                            : "border-l-transparent text-gray-500 hover:text-[#B7CFC4] hover:bg-white/[0.02]"
+                        }`}
+                      >
+                        <Icon size={18} className={isActive ? "text-emerald-400" : "text-gray-500"} />
+                        <span>{item.title}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <div>
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeAutomation.title}
+                      initial={{ opacity: 0, x: 24 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -18 }}
+                      transition={{ duration: 0.3 }}
+                      className="rounded-2xl border border-white/6 bg-white/[0.02] p-6 md:p-8"
+                    >
+                      <div className="flex items-center gap-3 mb-6">
+                        <div className="w-14 h-14 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                          <ActiveAutomationIcon size={28} />
                         </div>
-                        <h3 className="text-2xl font-bold leading-tight">{activeAutomation.title}</h3>
+                        <h3 className="text-2xl font-bold">{activeAutomation.title}</h3>
                       </div>
 
-                      <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-white/10">
-                        <div className="p-7 bg-red-500/5">
+                      <div className="space-y-4">
+                        <div className="bg-red-500/5 border border-red-500/10 rounded-xl p-6">
                           <div className="text-xs font-bold text-red-300 uppercase tracking-[0.12em] mb-3">Before</div>
-                          <p className="text-[#A7B1BA] text-sm leading-relaxed">{activeAutomation.before}</p>
+                          <p className="text-[#A7B1BA] leading-relaxed">{activeAutomation.before}</p>
                         </div>
-                        <div className="p-7 bg-[var(--emerald)]/5">
-                          <div className="text-xs font-bold text-[var(--emerald)] uppercase tracking-[0.12em] mb-3">After</div>
-                          <p className="text-[#C9D3D9] text-sm leading-relaxed">{activeAutomation.after}</p>
+                        <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-xl p-6">
+                          <div className="text-xs font-bold text-emerald-300 uppercase tracking-[0.12em] mb-3">After</div>
+                          <p className="text-[#C9D3D9] leading-relaxed">{activeAutomation.after}</p>
                         </div>
                       </div>
-                    </div>
-                  </SpotlightCard>
-                </motion.div>
-              </AnimatePresence>
-            </div>
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </section>
 
@@ -519,7 +677,7 @@ export default function Home() {
             </div>
 
             <div className="max-w-6xl mx-auto relative">
-              <div className="hidden md:block absolute left-[14%] right-[14%] top-[38px] h-px bg-gradient-to-r from-transparent via-[var(--emerald)]/40 to-transparent" />
+              <div className="hidden md:block absolute left-[14%] right-[14%] top-[38px] border-t border-dashed border-emerald-500/20" />
               <div className="grid md:grid-cols-3 gap-6">
                 {processSteps.map((step, index) => (
                   <motion.div
@@ -550,38 +708,61 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="calculator" className="section-wrapper section-dense relative overflow-hidden">
+        <section id="calculator" ref={calculatorSectionRef} className="section-wrapper section-dense relative overflow-hidden">
           <div className="container mx-auto px-4 md:px-6 relative z-10">
             <div className="max-w-5xl mx-auto">
-              <div data-reveal className="text-center mb-12">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.6 }}
+                className="text-center mb-10"
+              >
                 <h2 className="section-title">PM Efficiency <span className="section-accent">Audit</span></h2>
                 <p className="section-subtitle text-[#7F8A95] mt-4">
-                  Use the interactive calculator below to see your vacancy and ops opportunity.
+                  See how much time and money you're leaving on the table.
                 </p>
-              </div>
+                <button
+                  type="button"
+                  onClick={toggleCalculator}
+                  className="mt-6 inline-flex items-center justify-center rounded-full border border-emerald-500/30 text-emerald-400 px-6 py-3 hover:bg-emerald-500/10 transition-colors"
+                >
+                  {calculatorOpen ? "Close Calculator ↑" : "Open Calculator ↓"}
+                </button>
+              </motion.div>
 
-              <div data-reveal data-reveal-delay="1" className="w-full">
-                <SpotlightCard data-tilt className="glass-card glow-border p-4 md:p-6">
-                  <div className="rounded-2xl border border-[rgba(255,255,255,0.1)] bg-[rgba(7,13,11,0.92)] p-3 md:p-4">
-                    <div className="rounded-2xl overflow-hidden border border-[rgba(255,255,255,0.08)] bg-[#0a0f0a]">
-                    <iframe
-                      src="/roi-calculator.html?theme=dark"
-                      title="Veyra Group PM Efficiency Audit"
-                      className="w-full bg-[#0a0f0a]"
-                      style={{ border: 0, height: `${calculatorHeight}px` }}
-                    />
-                    </div>
-                  </div>
-                  <div className="mt-5 flex flex-col sm:flex-row gap-3 justify-center">
-                    <Button asChild size="lg" className="glow-button font-semibold px-6" data-testid="button-open-calculator-page">
-                      <a href="/calculator">Open Full Calculator</a>
-                    </Button>
-                    <Button onClick={openCalendly} size="lg" className="glow-button font-semibold px-6" data-testid="button-calculator-book">
-                      Book a Free Audit
-                    </Button>
-                  </div>
-                </SpotlightCard>
-              </div>
+              <AnimatePresence initial={false}>
+                {calculatorOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.35, ease: "easeInOut" }}
+                    className="overflow-hidden"
+                  >
+                    <SpotlightCard data-tilt className="glass-card glow-border p-4 md:p-6">
+                      <div className="rounded-2xl border border-[rgba(255,255,255,0.1)] bg-[rgba(7,13,11,0.92)] p-3 md:p-4">
+                        <div className="rounded-2xl overflow-hidden border border-[rgba(255,255,255,0.08)] bg-[#0a0f0a]">
+                          <iframe
+                            src="/roi-calculator.html?theme=dark"
+                            title="Veyra Group PM Efficiency Audit"
+                            className="w-full bg-[#0a0f0a]"
+                            style={{ border: 0, height: `${calculatorHeight}px` }}
+                          />
+                        </div>
+                      </div>
+                      <div className="mt-5 flex flex-col sm:flex-row gap-3 justify-center">
+                        <Button asChild size="lg" className="glow-button font-semibold px-6" data-testid="button-open-calculator-page">
+                          <a href="/calculator">Open Full Calculator</a>
+                        </Button>
+                        <Button onClick={openCalendly} size="lg" className="glow-button font-semibold px-6" data-testid="button-calculator-book">
+                          Book a Free Audit
+                        </Button>
+                      </div>
+                    </SpotlightCard>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
         </section>
@@ -685,7 +866,6 @@ export default function Home() {
 
               <SpotlightCard data-tilt className="glass-card p-7 md:p-8 mt-8 text-center">
                 <p className="text-[#A7B1BA] mb-2">A part-time admin costs about $2,500/month and still cannot handle tenant ops 24/7.</p>
-                <p className="text-[#A7B1BA] mb-2">That's less than 12 hours of a part-time admin at minimum wage.</p>
                 <p className="text-[#C9D3D9] font-semibold text-lg mt-4">The question isn't whether you can afford this. It's how much longer you can afford to do it all manually.</p>
                 <div className="mt-6">
                   <Button onClick={openCalendly} size="lg" className="glow-button hero-cta font-semibold group" data-testid="button-pricing-cta">
@@ -701,13 +881,11 @@ export default function Home() {
         <section className="section-wrapper section-breathe relative" id="guarantee">
           <div className="container mx-auto px-4 md:px-6">
             <div className="max-w-3xl mx-auto text-center">
+              <ShieldCheck className="w-12 h-12 text-emerald-400 mx-auto mb-5" />
               <h2 data-reveal className="section-title">Hit your goals or don't pay. Period.</h2>
 
               <div data-reveal data-reveal-delay="1" className="guarantee-card text-center">
                 <div className="mx-auto h-1 w-28 rounded-full bg-[var(--emerald)]/70 mb-6" />
-                <div className="guarantee-seal mx-auto mt-8 mb-6">
-                  <ShieldCheck className="w-14 h-14 text-[var(--emerald)]" />
-                </div>
                 <p className="guarantee-title text-[rgba(255,255,255,0.92)] font-semibold text-xl mb-3">If we build it and it doesn't hit the goals we agreed on - we fix it. Free.</p>
                 <p className="text-[rgba(255,255,255,0.72)] text-lg mb-3">Still not working? You don't pay.</p>
                 <p className="text-[#A7B1BA] text-base mb-3">Everything is fully managed while you're active. If you cancel, access to the managed automations ends.</p>

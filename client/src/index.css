@@ -48,9 +48,9 @@
 }
 
 :root {
-  --section-pad: clamp(4.5rem, 7vw, 6.25rem);
-  --section-pad-tight: clamp(3.75rem, 6vw, 5rem);
-  --section-pad-loose: clamp(5rem, 8vw, 7rem);
+  --section-pad: clamp(6rem, 8.5vw, 8rem);
+  --section-pad-tight: clamp(5.25rem, 7.5vw, 7rem);
+  --section-pad-loose: clamp(6.5rem, 9.5vw, 8.75rem);
 }
 
 @layer base {
@@ -167,6 +167,17 @@
   padding-bottom: var(--section-pad);
 }
 
+.section-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(52, 201, 154, 0.2), transparent);
+  pointer-events: none;
+}
+
 .section-open {
   padding-top: var(--section-pad-loose);
 }
@@ -192,6 +203,8 @@
 
 .section-title {
   margin-bottom: 0.95rem;
+  font-size: clamp(2rem, 4vw, 2.7rem);
+  font-weight: 700;
   color: var(--text);
 }
 
@@ -400,7 +413,7 @@
   overflow: hidden;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.06);
-  background: linear-gradient(165deg, rgba(11, 20, 16, 0.86) 0%, rgba(10, 18, 14, 0.78) 58%, rgba(7, 12, 10, 0.9) 100%);
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.015) 58%, rgba(255, 255, 255, 0.02) 100%);
   box-shadow: var(--shadow-md);
 }
 
@@ -426,12 +439,13 @@
 
 .glass-card,
 .spotlight-card {
-  transition: border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
+  transition: border-color 220ms ease, box-shadow 220ms ease, background-color 220ms ease, transform 220ms ease;
 }
 
 .glass-card:hover,
 .spotlight-card:hover {
-  border-color: var(--border-strong);
+  border-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.04);
   box-shadow: var(--shadow-lg);
 }
 
@@ -550,23 +564,22 @@
 }
 
 .site-nav {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 50;
   border-bottom: 1px solid transparent;
-  background: rgba(9, 16, 13, 0.76);
-  opacity: 0.86;
-  backdrop-filter: blur(14px) saturate(138%);
-  -webkit-backdrop-filter: blur(14px) saturate(138%);
+  background: rgba(0, 0, 0, 0.04);
+  opacity: 1;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   transition: background-color 220ms ease, border-color 220ms ease, opacity 220ms ease;
 }
 
 .site-nav.is-scrolled {
-  background: rgba(8, 14, 12, 0.92);
-  border-bottom-color: rgba(126, 192, 171, 0.18);
-  opacity: 1;
+  background: rgba(0, 0, 0, 0.8);
+  border-bottom-color: rgba(255, 255, 255, 0.05);
 }
 
 .glow-button,
@@ -620,7 +633,7 @@ a.glow-button:hover {
 .logo-carousel-track {
   display: flex;
   width: max-content;
-  animation: logo-scroll 62s linear infinite;
+  animation: logo-scroll 40s linear infinite;
 }
 
 .logo-carousel-track:hover {
