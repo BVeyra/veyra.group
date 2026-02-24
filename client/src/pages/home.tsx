@@ -323,12 +323,10 @@ function IntegrationLogo({ logo }: { logo: IntegrationLogo }) {
 
 export default function Home() {
   const [calculatorHeight, setCalculatorHeight] = useState(980);
-  const [calculatorOpen, setCalculatorOpen] = useState(false);
   const [activeAutomationIndex, setActiveAutomationIndex] = useState(0);
   const [automationPausedUntil, setAutomationPausedUntil] = useState(0);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [featuresInView, setFeaturesInView] = useState(false);
-  const calculatorSectionRef = useRef<HTMLDivElement | null>(null);
   const featuresSectionRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -339,7 +337,7 @@ export default function Home() {
 
       const next = Number(payload.height);
       if (!Number.isFinite(next)) return;
-      setCalculatorHeight(Math.max(700, Math.min(2200, Math.round(next))));
+      setCalculatorHeight(Math.max(560, Math.min(1400, Math.round(next))));
     };
 
     window.addEventListener("message", onMessage);
@@ -389,20 +387,10 @@ export default function Home() {
     setAutomationPausedUntil(Date.now() + 10000);
   };
 
-  const toggleCalculator = () => {
-    const next = !calculatorOpen;
-    setCalculatorOpen(next);
-
-    if (next) {
-      window.setTimeout(() => {
-        calculatorSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 260);
-    }
-  };
-
   const featureIcons = [MessageSquare, Wrench, FileText, DollarSign, Users, Mail, BarChart3];
   const activeAutomation = automationCards[activeAutomationIndex];
   const ActiveAutomationIcon = featureIcons[activeAutomationIndex];
+  const calculatorDisplayHeight = Math.max(560, Math.min(860, calculatorHeight));
 
   return (
     <div className="min-h-screen text-white">
@@ -803,9 +791,7 @@ export default function Home() {
               className="text-center mb-10"
             >
               <h2 className="text-3xl md:text-4xl font-bold text-white">Property managers are saying it out loud.</h2>
-              <p className="text-gray-400 mt-3">
-                These are real posts from PM communities. We just built the fix.
-              </p>
+              <p className="text-gray-400 mt-3">These are real posts from Reddit communities. We just built the fix.</p>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -829,7 +815,7 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
-        <section id="calculator" ref={calculatorSectionRef} className="py-16 md:py-28">
+        <section id="calculator" className="py-16 md:py-28">
           <div className="max-w-5xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -840,53 +826,39 @@ export default function Home() {
             >
               <h2 className="text-3xl md:text-4xl font-bold text-white">PM Efficiency Audit</h2>
               <p className="text-gray-400 mt-4">See how much time and money you're leaving on the table.</p>
-
-              <button
-                type="button"
-                onClick={toggleCalculator}
-                className="mt-6 border border-emerald-500/30 text-emerald-400 px-6 py-3 rounded-full hover:bg-emerald-500/10 transition"
-              >
-                {calculatorOpen ? "Close Calculator ↑" : "Open Calculator ↓"}
-              </button>
             </motion.div>
 
-            <AnimatePresence initial={false}>
-              {calculatorOpen && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.4, ease: "easeInOut" }}
-                  className="overflow-hidden"
-                >
-                  <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 md:p-8 mt-6">
-                    <div className="rounded-2xl overflow-hidden border border-white/10 bg-[#0A0A0A]">
-                      <iframe
-                        src="/roi-calculator.html?theme=dark"
-                        title="Veyra Group PM Efficiency Audit"
-                        loading="lazy"
-                        className="w-full bg-[#0A0A0A]"
-                        style={{ border: 0, height: `${calculatorHeight}px` }}
-                      />
-                    </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 md:p-8 mt-6"
+            >
+              <div className="rounded-2xl overflow-hidden border border-white/10 bg-[#0A0A0A]">
+                <iframe
+                  src="/roi-calculator.html?theme=dark"
+                  title="Veyra Group PM Efficiency Audit"
+                  loading="lazy"
+                  className="w-full bg-[#0A0A0A]"
+                  style={{ border: 0, height: `${calculatorDisplayHeight}px` }}
+                />
+              </div>
 
-                    <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-                      <Button asChild size="lg" className="bg-emerald-500 text-black font-semibold rounded-full px-6" data-testid="button-open-calculator-page">
-                        <a href="/calculator">Open Full Calculator</a>
-                      </Button>
-                      <Button
-                        onClick={openCalendly}
-                        size="lg"
-                        className="bg-emerald-500 text-black font-semibold rounded-full px-6"
-                        data-testid="button-calculator-book"
-                      >
-                        Book a Free Audit
-                      </Button>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+              <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+                <Button asChild size="lg" className="bg-emerald-500 text-black font-semibold rounded-full px-6" data-testid="button-open-calculator-page">
+                  <a href="/calculator">Open Full Calculator</a>
+                </Button>
+                <Button
+                  onClick={openCalendly}
+                  size="lg"
+                  className="bg-emerald-500 text-black font-semibold rounded-full px-6"
+                  data-testid="button-calculator-book"
+                >
+                  Book a Free Audit
+                </Button>
+              </div>
+            </motion.div>
           </div>
         </section>
 
@@ -956,12 +928,6 @@ export default function Home() {
                       : "border-white/5 bg-white/[0.02]"
                   }`}
                 >
-                  {plan.popular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-500 text-black text-xs font-bold px-3 py-1 rounded-full">
-                      Most Popular
-                    </div>
-                  )}
-
                   <h3 className="text-lg font-semibold text-white mb-3">{plan.name}</h3>
                   <p className="text-3xl font-bold text-emerald-300 mb-2">{plan.price}</p>
                   <p className="text-sm text-gray-500 mb-6">{plan.description}</p>
