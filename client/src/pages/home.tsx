@@ -25,60 +25,49 @@ import { AnimatePresence, motion } from "framer-motion";
 
 type IntegrationLogo = {
   name: string;
-  svg: string;
-  fallback: string;
+  icon: string;
 };
 
 const integrationLogos: IntegrationLogo[] = [
   {
     name: "AppFolio",
-    svg: "https://cdn.simpleicons.org/appfolio/34D399",
-    fallback: "https://logo.clearbit.com/appfolio.com",
+    icon: "https://www.google.com/s2/favicons?domain=appfolio.com&sz=64",
   },
   {
     name: "Buildium",
-    svg: "https://cdn.simpleicons.org/buildium/34D399",
-    fallback: "https://logo.clearbit.com/buildium.com",
+    icon: "https://www.google.com/s2/favicons?domain=buildium.com&sz=64",
   },
   {
     name: "Rent Manager",
-    svg: "https://cdn.simpleicons.org/rentmanager/34D399",
-    fallback: "https://logo.clearbit.com/rentmanager.com",
+    icon: "https://www.google.com/s2/favicons?domain=rentmanager.com&sz=64",
   },
   {
     name: "Yardi",
-    svg: "https://cdn.simpleicons.org/yardi/34D399",
-    fallback: "https://logo.clearbit.com/yardi.com",
+    icon: "https://www.google.com/s2/favicons?domain=yardi.com&sz=64",
   },
   {
     name: "Propertyware",
-    svg: "https://cdn.simpleicons.org/propertyware/34D399",
-    fallback: "https://logo.clearbit.com/propertyware.com",
+    icon: "https://www.google.com/s2/favicons?domain=propertyware.com&sz=64",
   },
   {
     name: "QuickBooks",
-    svg: "https://cdn.simpleicons.org/quickbooks/34D399",
-    fallback: "https://logo.clearbit.com/quickbooks.intuit.com",
+    icon: "https://www.google.com/s2/favicons?domain=quickbooks.intuit.com&sz=64",
   },
   {
     name: "DocuSign",
-    svg: "https://cdn.simpleicons.org/docusign/34D399",
-    fallback: "https://logo.clearbit.com/docusign.com",
+    icon: "https://www.google.com/s2/favicons?domain=docusign.com&sz=64",
   },
   {
     name: "Twilio",
-    svg: "https://cdn.simpleicons.org/twilio/34D399",
-    fallback: "https://logo.clearbit.com/twilio.com",
+    icon: "https://www.google.com/s2/favicons?domain=twilio.com&sz=64",
   },
   {
     name: "Gmail",
-    svg: "https://cdn.simpleicons.org/gmail/34D399",
-    fallback: "https://logo.clearbit.com/mail.google.com",
+    icon: "https://www.google.com/s2/favicons?domain=mail.google.com&sz=64",
   },
   {
     name: "Outlook",
-    svg: "https://cdn.simpleicons.org/microsoftoutlook/34D399",
-    fallback: "https://logo.clearbit.com/outlook.office.com",
+    icon: "https://www.google.com/s2/favicons?domain=outlook.office.com&sz=64",
   },
 ];
 
@@ -304,16 +293,9 @@ function IntegrationLogo({ logo }: { logo: IntegrationLogo }) {
   return (
     <div className="logo-carousel-item group" aria-label={logo.name}>
       <img
-        src={logo.svg}
+        src={logo.icon}
         alt={`${logo.name} logo`}
         loading="lazy"
-        onError={(event) => {
-          const target = event.currentTarget;
-          if (target.src !== logo.fallback) {
-            target.src = logo.fallback;
-            target.onerror = null;
-          }
-        }}
         className="w-8 h-8 object-contain grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition duration-300"
       />
       <span className="text-[11px] text-gray-500 group-hover:text-gray-300 transition-colors">{logo.name}</span>
@@ -322,7 +304,7 @@ function IntegrationLogo({ logo }: { logo: IntegrationLogo }) {
 }
 
 export default function Home() {
-  const [calculatorHeight, setCalculatorHeight] = useState(980);
+  const [calculatorHeight, setCalculatorHeight] = useState(460);
   const [activeAutomationIndex, setActiveAutomationIndex] = useState(0);
   const [automationPausedUntil, setAutomationPausedUntil] = useState(0);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
@@ -337,7 +319,7 @@ export default function Home() {
 
       const next = Number(payload.height);
       if (!Number.isFinite(next)) return;
-      setCalculatorHeight(Math.max(560, Math.min(1400, Math.round(next))));
+      setCalculatorHeight(Math.max(360, Math.min(1800, Math.round(next))));
     };
 
     window.addEventListener("message", onMessage);
@@ -390,7 +372,7 @@ export default function Home() {
   const featureIcons = [MessageSquare, Wrench, FileText, DollarSign, Users, Mail, BarChart3];
   const activeAutomation = automationCards[activeAutomationIndex];
   const ActiveAutomationIcon = featureIcons[activeAutomationIndex];
-  const calculatorDisplayHeight = Math.max(560, Math.min(860, calculatorHeight));
+  const calculatorDisplayHeight = Math.max(360, calculatorHeight);
 
   return (
     <div className="min-h-screen text-white">
