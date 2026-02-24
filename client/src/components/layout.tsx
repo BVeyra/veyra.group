@@ -68,7 +68,7 @@ export function Navbar() {
           data-testid="button-nav-cta"
           className="rounded-full bg-emerald-500 text-black font-semibold px-4 py-2 h-auto hover:bg-emerald-400 transition"
         >
-          Book Free Audit
+          Book a Free Audit
         </Button>
       </div>
     </header>

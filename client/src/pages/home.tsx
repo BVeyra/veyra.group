@@ -190,6 +190,29 @@ const processSteps = [
   },
 ];
 
+const socialProofQuotes = [
+  {
+    quote:
+      "\"I'm exporting to Excel and spending a full weekend reformatting everything. Every owner wants something different.\"",
+    attribution: "— Property Manager, 45 units",
+  },
+  {
+    quote:
+      "\"Our working theory is that 5% of the tenants cause 80% of your work. And that 5% always texts at midnight.\"",
+    attribution: "— Property Manager, 200+ units",
+  },
+  {
+    quote:
+      "\"We tried AppFolio's LISA. Instead of saving us time, it created a whole new set of headaches. Our closing ratio dropped 10%.\"",
+    attribution: "— Property Manager, 150 units",
+  },
+  {
+    quote:
+      "\"I'm a one-woman show managing 60 doors. I haven't had a weekend off in 3 months. Something has to give.\"",
+    attribution: "— Property Manager, 60 units",
+  },
+];
+
 const faqItems = [
   {
     q: "Is this just another SaaS platform I have to learn?",
@@ -197,7 +220,7 @@ const faqItems = [
   },
   {
     q: "What property management software do you work with?",
-    a: "AppFolio, Buildium, Rent Manager, Yardi, Propertyware - plus everything else. If your PM software has email, we connect to it.",
+    a: "AppFolio, Buildium, Rent Manager, Yardi, Propertyware — plus everything else. If your PM software has email or an API, we connect to it.",
   },
   {
     q: "Will my tenants know they're talking to AI?",
@@ -304,7 +327,9 @@ export default function Home() {
   const [activeAutomationIndex, setActiveAutomationIndex] = useState(0);
   const [automationPausedUntil, setAutomationPausedUntil] = useState(0);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const [featuresInView, setFeaturesInView] = useState(false);
   const calculatorSectionRef = useRef<HTMLDivElement | null>(null);
+  const featuresSectionRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const onMessage = (event: MessageEvent) => {
@@ -322,6 +347,32 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    const target = featuresSectionRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (!entry) return;
+
+        if (entry.isIntersecting) {
+          setFeaturesInView(true);
+          setActiveAutomationIndex(0);
+          setAutomationPausedUntil(Date.now() + 5000);
+        } else {
+          setFeaturesInView(false);
+        }
+      },
+      { threshold: 0.35 }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!featuresInView) return;
+
     const now = Date.now();
     const delay = automationPausedUntil > now ? automationPausedUntil - now : 5000;
 
@@ -331,7 +382,7 @@ export default function Home() {
     }, delay);
 
     return () => window.clearTimeout(timer);
-  }, [activeAutomationIndex, automationPausedUntil]);
+  }, [activeAutomationIndex, automationPausedUntil, featuresInView]);
 
   const handleAutomationSelect = (index: number) => {
     setActiveAutomationIndex(index);
@@ -592,7 +643,7 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
-        <section id="features" className="py-16 md:py-28">
+        <section id="features" ref={featuresSectionRef} className="py-16 md:py-28">
           <div className="max-w-6xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -734,6 +785,42 @@ export default function Home() {
                     </h3>
                     <p className="text-gray-400 leading-relaxed">{step.description}</p>
                   </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+
+        <section id="social-proof" className="py-16 md:py-24">
+          <div className="max-w-6xl mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="text-center mb-10"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-white">Property managers are saying it out loud.</h2>
+              <p className="text-gray-400 mt-3">
+                These are real posts from PM communities. We just built the fix.
+              </p>
+            </motion.div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {socialProofQuotes.map((item, index) => (
+                <motion.div
+                  key={item.quote}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.6, delay: index * 0.2 }}
+                  className="relative rounded-2xl border border-white/5 bg-white/[0.02] p-6 hover:border-white/10 hover:bg-white/[0.04] transition"
+                >
+                  <span className="absolute top-2 left-4 text-4xl text-emerald-400/30">"</span>
+                  <p className="text-gray-300 text-base italic leading-relaxed pt-4">{item.quote}</p>
+                  <p className="text-sm text-gray-500 mt-4 not-italic">{item.attribution}</p>
                 </motion.div>
               ))}
             </div>
