@@ -34,32 +34,27 @@ const integrationLogos: IntegrationLogo[] = [
   {
     name: "AppFolio",
     type: "icon",
-    icon: "https://logo.clearbit.com/appfolio.com",
-    fallback: "https://www.google.com/s2/favicons?domain=appfolio.com&sz=64",
+    icon: "https://www.google.com/s2/favicons?domain=appfolio.com&sz=64",
   },
   {
     name: "Buildium",
     type: "icon",
-    icon: "https://logo.clearbit.com/buildium.com",
-    fallback: "https://www.google.com/s2/favicons?domain=buildium.com&sz=64",
+    icon: "https://www.google.com/s2/favicons?domain=buildium.com&sz=64",
   },
   {
     name: "Rent Manager",
     type: "icon",
-    icon: "https://logo.clearbit.com/rentmanager.com",
-    fallback: "https://www.google.com/s2/favicons?domain=rentmanager.com&sz=64",
+    icon: "https://www.google.com/s2/favicons?domain=rentmanager.com&sz=64",
   },
   {
     name: "Yardi",
     type: "icon",
-    icon: "https://logo.clearbit.com/yardi.com",
-    fallback: "https://www.google.com/s2/favicons?domain=yardi.com&sz=64",
+    icon: "https://www.google.com/s2/favicons?domain=yardi.com&sz=64",
   },
   {
     name: "Propertyware",
     type: "icon",
-    icon: "https://logo.clearbit.com/propertyware.com",
-    fallback: "https://www.google.com/s2/favicons?domain=propertyware.com&sz=64",
+    icon: "https://www.google.com/s2/favicons?domain=propertyware.com&sz=64",
   },
   {
     name: "Maintenance IQ",
@@ -76,74 +71,62 @@ const integrationLogos: IntegrationLogo[] = [
   {
     name: "QuickBooks",
     type: "icon",
-    icon: "https://cdn.simpleicons.org/quickbooks/34D399",
-    fallback: "https://www.google.com/s2/favicons?domain=quickbooks.intuit.com&sz=64",
+    icon: "https://www.google.com/s2/favicons?domain=quickbooks.intuit.com&sz=64",
   },
   {
     name: "DocuSign",
     type: "icon",
-    icon: "https://cdn.simpleicons.org/docusign/34D399",
-    fallback: "https://www.google.com/s2/favicons?domain=docusign.com&sz=64",
+    icon: "https://www.google.com/s2/favicons?domain=docusign.com&sz=64",
   },
   {
     name: "Twilio",
     type: "icon",
-    icon: "https://cdn.simpleicons.org/twilio/34D399",
-    fallback: "https://www.google.com/s2/favicons?domain=twilio.com&sz=64",
+    icon: "https://www.google.com/s2/favicons?domain=twilio.com&sz=64",
   },
   {
     name: "Gmail",
     type: "icon",
-    icon: "https://cdn.simpleicons.org/gmail/34D399",
-    fallback: "https://www.google.com/s2/favicons?domain=mail.google.com&sz=64",
+    icon: "https://www.google.com/s2/favicons?domain=mail.google.com&sz=64",
   },
   {
     name: "Outlook",
     type: "icon",
-    icon: "https://cdn.simpleicons.org/microsoftoutlook/34D399",
-    fallback: "https://www.google.com/s2/favicons?domain=outlook.office.com&sz=64",
+    icon: "https://www.google.com/s2/favicons?domain=outlook.office.com&sz=64",
   },
   {
     name: "Zillow Rental Manager",
     type: "icon",
-    icon: "https://cdn.simpleicons.org/zillow/34D399",
-    fallback: "https://www.google.com/s2/favicons?domain=zillow.com&sz=64",
+    icon: "https://www.google.com/s2/favicons?domain=zillow.com&sz=64",
   },
   {
     name: "Apartments.com",
     type: "icon",
-    icon: "https://logo.clearbit.com/apartments.com",
-    fallback: "https://www.google.com/s2/favicons?domain=apartments.com&sz=64",
+    icon: "https://www.google.com/s2/favicons?domain=apartments.com&sz=64",
   },
   {
     name: "Stripe",
     type: "icon",
-    icon: "https://cdn.simpleicons.org/stripe/34D399",
-    fallback: "https://www.google.com/s2/favicons?domain=stripe.com&sz=64",
+    icon: "https://www.google.com/s2/favicons?domain=stripe.com&sz=64",
   },
   {
     name: "Google Workspace",
     type: "icon",
-    icon: "https://cdn.simpleicons.org/googleworkspace/34D399",
-    fallback: "https://www.google.com/s2/favicons?domain=workspace.google.com&sz=64",
+    icon: "https://www.google.com/s2/favicons?domain=workspace.google.com&sz=64",
   },
   {
     name: "Microsoft 365",
     type: "icon",
-    icon: "https://cdn.simpleicons.org/microsoft365/34D399",
-    fallback: "https://www.google.com/s2/favicons?domain=microsoft.com&sz=64",
+    icon: "https://www.google.com/s2/favicons?domain=microsoft.com&sz=64",
   },
   {
     name: "Zapier",
     type: "icon",
-    icon: "https://cdn.simpleicons.org/zapier/34D399",
-    fallback: "https://www.google.com/s2/favicons?domain=zapier.com&sz=64",
+    icon: "https://www.google.com/s2/favicons?domain=zapier.com&sz=64",
   },
   {
     name: "Gusto",
     type: "icon",
-    icon: "https://cdn.simpleicons.org/gusto/34D399",
-    fallback: "https://www.google.com/s2/favicons?domain=gusto.com&sz=64",
+    icon: "https://www.google.com/s2/favicons?domain=gusto.com&sz=64",
   },
   {
     name: "Latchel",
@@ -1152,9 +1135,6 @@ export default function Home() {
               </div>
 
               <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-                <Button asChild size="lg" className="bg-emerald-500 text-black font-semibold rounded-full px-6" data-testid="button-open-calculator-page">
-                  <a href="/calculator">Open Full Calculator</a>
-                </Button>
                 <Button
                   onClick={openCalendly}
                   size="lg"
