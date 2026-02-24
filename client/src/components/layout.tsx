@@ -72,7 +72,6 @@ export function Footer() {
                 className="h-16 w-auto mb-3 mx-auto md:mx-0 select-none"
                 draggable={false}
               />
-              <p className="text-[#7F8A95] text-sm mb-4">Built for small teams that hate busywork.</p>
               <p className="text-xs text-[#5F6972]">Built for independent property managers.</p>
             </div>
             

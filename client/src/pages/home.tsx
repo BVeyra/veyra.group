@@ -7,7 +7,6 @@ import {
   ArrowRight,
   Zap,
   Bot,
-  RefreshCw,
   Phone,
   Wrench,
   ShieldCheck,
@@ -18,11 +17,13 @@ import {
   Mail,
   Clock,
   BarChart3,
+  Building2,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { openCalendly } from "@/lib/calendly";
 import { SpinningWheel } from "@/components/SpinningWheel";
 import { SpotlightCard } from "@/components/SpotlightCard";
+import { AnimatePresence, motion } from "framer-motion";
 
 function ParallaxWheel() {
   return (
@@ -33,16 +34,16 @@ function ParallaxWheel() {
 }
 
 const logoData = [
-  { name: "AppFolio", mark: "AF" },
-  { name: "Buildium", mark: "BU" },
-  { name: "Rent Manager", mark: "RM" },
-  { name: "Yardi", mark: "YA" },
-  { name: "Propertyware", mark: "PW" },
-  { name: "QuickBooks", mark: "QB" },
-  { name: "DocuSign", mark: "DS" },
-  { name: "Twilio", mark: "TW" },
-  { name: "Gmail", mark: "GM" },
-  { name: "Outlook", mark: "OL" },
+  { name: "AppFolio", icon: "https://www.google.com/s2/favicons?domain=appfolio.com&sz=64" },
+  { name: "Buildium", icon: "https://www.google.com/s2/favicons?domain=buildium.com&sz=64" },
+  { name: "Rent Manager", icon: "https://www.google.com/s2/favicons?domain=rentmanager.com&sz=64" },
+  { name: "Yardi", icon: "https://www.google.com/s2/favicons?domain=yardi.com&sz=64" },
+  { name: "Propertyware", icon: "https://www.google.com/s2/favicons?domain=propertyware.com&sz=64" },
+  { name: "QuickBooks", icon: "https://www.google.com/s2/favicons?domain=quickbooks.intuit.com&sz=64" },
+  { name: "DocuSign", icon: "https://www.google.com/s2/favicons?domain=docusign.com&sz=64" },
+  { name: "Twilio", icon: "https://www.google.com/s2/favicons?domain=twilio.com&sz=64" },
+  { name: "Gmail", icon: "https://www.google.com/s2/favicons?domain=mail.google.com&sz=64" },
+  { name: "Outlook", icon: "https://www.google.com/s2/favicons?domain=outlook.office.com&sz=64" },
 ];
 
 const problemTimeline = [
@@ -131,6 +132,8 @@ const faqItems = [
 
 export default function Home() {
   const [calculatorHeight, setCalculatorHeight] = useState(980);
+  const [activeAutomationIndex, setActiveAutomationIndex] = useState(0);
+  const [billingView, setBillingView] = useState<"monthly" | "annual">("monthly");
 
   useEffect(() => {
     const nodes = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
@@ -256,6 +259,20 @@ export default function Home() {
   ];
 
   const featureIcons = [MessageSquare, Wrench, FileText, DollarSign, Users, Mail, BarChart3];
+  const activeAutomation = automationCards[activeAutomationIndex];
+  const ActiveAutomationIcon = featureIcons[activeAutomationIndex];
+
+  const fitPositiveItems = [
+    { text: "You're an independent property manager who wears too many hats", icon: Building2 },
+    { text: "Tenant comms, maintenance, leases, and follow-ups run manually", icon: MessageSquare },
+    { text: "You want practical automation live in weeks, not quarters", icon: Zap },
+  ];
+
+  const fitNegativeItems = [
+    { text: "You're looking for a DIY tool with no implementation support", icon: Wrench },
+    { text: "You need long enterprise procurement and committee approvals", icon: Users },
+    { text: "You're not ready to execute workflow changes this month", icon: Clock },
+  ];
 
   return (
     <div className="min-h-screen font-sans text-foreground flex flex-col">
@@ -308,8 +325,8 @@ export default function Home() {
               <div className="logo-carousel-track">
                 {logoData.map((logo, index) => (
                   <div key={index} className="logo-carousel-item group cursor-pointer">
-                    <span className="w-7 h-7 rounded-full border border-white/15 bg-[rgba(8,14,11,0.82)] text-[11px] font-semibold tracking-[0.04em] text-[rgba(214,233,225,0.82)] flex items-center justify-center group-hover:border-[var(--emerald)]/40 group-hover:text-[var(--emerald)] transition-colors">
-                      {logo.mark}
+                    <span className="w-7 h-7 rounded-full border border-white/15 bg-[rgba(8,14,11,0.82)] flex items-center justify-center group-hover:border-[var(--emerald)]/40 transition-colors overflow-hidden">
+                      <img src={logo.icon} alt={`${logo.name} logo`} className="w-5 h-5" loading="lazy" />
                     </span>
                     <span className="text-[10px] text-[rgba(255,255,255,0.40)] group-hover:text-[var(--emerald)] transition-colors">
                       {logo.name}
@@ -318,8 +335,8 @@ export default function Home() {
                 ))}
                 {logoData.map((logo, index) => (
                   <div key={`dup-${index}`} className="logo-carousel-item group cursor-pointer" aria-hidden="true">
-                    <span className="w-7 h-7 rounded-full border border-white/15 bg-[rgba(8,14,11,0.82)] text-[11px] font-semibold tracking-[0.04em] text-[rgba(214,233,225,0.82)] flex items-center justify-center group-hover:border-[var(--emerald)]/40 group-hover:text-[var(--emerald)] transition-colors">
-                      {logo.mark}
+                    <span className="w-7 h-7 rounded-full border border-white/15 bg-[rgba(8,14,11,0.82)] flex items-center justify-center group-hover:border-[var(--emerald)]/40 transition-colors overflow-hidden">
+                      <img src={logo.icon} alt="" className="w-5 h-5" loading="lazy" />
                     </span>
                     <span className="text-[10px] text-[rgba(255,255,255,0.40)] group-hover:text-[var(--emerald)] transition-colors">
                       {logo.name}
@@ -430,30 +447,67 @@ export default function Home() {
               <p className="section-subtitle text-[#7F8A95]">Before and after Veyra.</p>
             </div>
 
-            <div data-reveal data-reveal-delay="1" className="max-w-6xl mx-auto mt-16 grid lg:grid-cols-2 gap-6">
-              {automationCards.map((item, index) => {
-                const Icon = featureIcons[index];
-                return (
-                  <SpotlightCard key={item.title} data-tilt className="glass-card overflow-hidden p-0">
-                    <div className="p-6 border-b border-white/10 flex items-center gap-4">
-                      <div className="w-11 h-11 rounded-xl bg-[rgba(10,18,14,0.9)] border border-white/10 flex items-center justify-center text-[var(--emerald)]">
-                        <Icon size={22} />
+            <div className="max-w-6xl mx-auto mt-14">
+              <motion.div
+                initial={{ opacity: 0, y: 22 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5 }}
+                className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide"
+              >
+                {automationCards.map((item, index) => {
+                  const Icon = featureIcons[index];
+                  const isActive = index === activeAutomationIndex;
+                  return (
+                    <button
+                      key={item.title}
+                      type="button"
+                      onClick={() => setActiveAutomationIndex(index)}
+                      className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm whitespace-nowrap transition-all ${
+                        isActive
+                          ? "border-[var(--emerald)]/50 bg-[var(--emerald)]/15 text-[#D8F4EA]"
+                          : "border-white/10 bg-[rgba(10,18,14,0.72)] text-[#8DA49A] hover:border-[var(--emerald)]/30"
+                      }`}
+                    >
+                      <Icon size={16} />
+                      <span>{item.title}</span>
+                    </button>
+                  );
+                })}
+              </motion.div>
+
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeAutomation.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -16 }}
+                  transition={{ duration: 0.35 }}
+                  className="mt-6"
+                >
+                  <SpotlightCard data-tilt className="glass-card overflow-hidden p-0">
+                    <div className="grid lg:grid-cols-[0.9fr_1.9fr]">
+                      <div className="p-7 border-b lg:border-b-0 lg:border-r border-white/10 bg-[rgba(7,14,11,0.75)]">
+                        <div className="w-[72px] h-[72px] mb-5 rounded-2xl border border-[var(--emerald)]/30 bg-[var(--emerald)]/10 text-[var(--emerald)] flex items-center justify-center">
+                          <ActiveAutomationIcon size={34} />
+                        </div>
+                        <h3 className="text-2xl font-bold leading-tight">{activeAutomation.title}</h3>
                       </div>
-                      <h3 className="text-xl font-bold">{item.title}</h3>
-                    </div>
-                    <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-white/10">
-                      <div className="p-6 bg-red-500/5">
-                        <div className="text-xs font-bold text-red-300 uppercase tracking-[0.12em] mb-3">Before</div>
-                        <p className="text-[#A7B1BA] text-sm leading-relaxed">{item.before}</p>
-                      </div>
-                      <div className="p-6 bg-[var(--emerald)]/5">
-                        <div className="text-xs font-bold text-[var(--emerald)] uppercase tracking-[0.12em] mb-3">After</div>
-                        <p className="text-[#C9D3D9] text-sm leading-relaxed">{item.after}</p>
+
+                      <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-white/10">
+                        <div className="p-7 bg-red-500/5">
+                          <div className="text-xs font-bold text-red-300 uppercase tracking-[0.12em] mb-3">Before</div>
+                          <p className="text-[#A7B1BA] text-sm leading-relaxed">{activeAutomation.before}</p>
+                        </div>
+                        <div className="p-7 bg-[var(--emerald)]/5">
+                          <div className="text-xs font-bold text-[var(--emerald)] uppercase tracking-[0.12em] mb-3">After</div>
+                          <p className="text-[#C9D3D9] text-sm leading-relaxed">{activeAutomation.after}</p>
+                        </div>
                       </div>
                     </div>
                   </SpotlightCard>
-                );
-              })}
+                </motion.div>
+              </AnimatePresence>
             </div>
           </div>
         </section>
@@ -464,23 +518,34 @@ export default function Home() {
               <h2 className="section-title">Three steps. You're up and running in two weeks.</h2>
             </div>
 
-            <div data-reveal data-reveal-delay="1" className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
-              {processSteps.map((step) => (
-                <SpotlightCard key={step.number} data-tilt className="glass-card p-7 h-full">
-                  <div className="w-12 h-12 rounded-full bg-[rgba(10,18,14,0.9)] border border-white/10 flex items-center justify-center text-[var(--emerald)] font-bold text-lg mb-4">
-                    {step.number}
-                  </div>
-                  <div className="flex items-center gap-2 mb-3 text-xs text-[#7F8A95] uppercase tracking-[0.12em]">
-                    <Clock size={13} />
-                    {step.duration}
-                  </div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <step.icon className="w-4 h-4 text-[var(--emerald)]" />
-                    <h3 className="text-xl font-bold">{step.title}</h3>
-                  </div>
-                  <p className="text-[#A7B1BA] leading-relaxed">{step.description}</p>
-                </SpotlightCard>
-              ))}
+            <div className="max-w-6xl mx-auto relative">
+              <div className="hidden md:block absolute left-[14%] right-[14%] top-[38px] h-px bg-gradient-to-r from-transparent via-[var(--emerald)]/40 to-transparent" />
+              <div className="grid md:grid-cols-3 gap-6">
+                {processSteps.map((step, index) => (
+                  <motion.div
+                    key={step.number}
+                    initial={{ opacity: 0, y: 26 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.25 }}
+                    transition={{ duration: 0.45, delay: index * 0.08 }}
+                  >
+                    <SpotlightCard data-tilt className="glass-card p-7 h-full relative">
+                      <div className="w-[76px] h-[76px] rounded-full bg-[linear-gradient(160deg,rgba(53,184,146,0.24),rgba(11,24,19,0.94))] border border-[var(--emerald)]/45 flex items-center justify-center text-[var(--emerald)] font-bold text-3xl mb-5 mx-auto md:mx-0">
+                        {step.number}
+                      </div>
+                      <div className="flex items-center gap-2 mb-3 text-xs text-[#7F8A95] uppercase tracking-[0.12em]">
+                        <Clock size={13} />
+                        {step.duration}
+                      </div>
+                      <div className="flex items-center gap-3 mb-3">
+                        <step.icon className="w-5 h-5 text-[var(--emerald)]" />
+                        <h3 className="text-xl font-bold">{step.title}</h3>
+                      </div>
+                      <p className="text-[#A7B1BA] leading-relaxed">{step.description}</p>
+                    </SpotlightCard>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -497,13 +562,15 @@ export default function Home() {
 
               <div data-reveal data-reveal-delay="1" className="w-full">
                 <SpotlightCard data-tilt className="glass-card glow-border p-4 md:p-6">
-                  <div className="rounded-xl overflow-hidden border border-[rgba(255,255,255,0.1)] bg-[#0a0f0a]">
+                  <div className="rounded-2xl border border-[rgba(255,255,255,0.1)] bg-[rgba(7,13,11,0.92)] p-3 md:p-4">
+                    <div className="rounded-2xl overflow-hidden border border-[rgba(255,255,255,0.08)] bg-[#0a0f0a]">
                     <iframe
                       src="/roi-calculator.html?theme=dark"
                       title="Veyra Group PM Efficiency Audit"
                       className="w-full bg-[#0a0f0a]"
                       style={{ border: 0, height: `${calculatorHeight}px` }}
                     />
+                    </div>
                   </div>
                   <div className="mt-5 flex flex-col sm:flex-row gap-3 justify-center">
                     <Button asChild size="lg" className="glow-button font-semibold px-6" data-testid="button-open-calculator-page">
@@ -524,6 +591,22 @@ export default function Home() {
             <div data-reveal className="text-center mb-16 max-w-5xl mx-auto">
               <h2 className="section-title">Less than a part-time hire. More than a full-time employee could do.</h2>
               <p className="section-subtitle text-[#7F8A95]">Clear pricing. No annual contracts. No surprise charges.</p>
+              <div className="mt-6 inline-flex p-1 rounded-full border border-white/10 bg-[rgba(8,14,11,0.8)]">
+                <button
+                  type="button"
+                  onClick={() => setBillingView("monthly")}
+                  className={`px-5 py-2 text-sm rounded-full transition-colors ${billingView === "monthly" ? "bg-[var(--emerald)]/20 text-[#D7F4EA]" : "text-[#8FA69C]"}`}
+                >
+                  Monthly
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBillingView("annual")}
+                  className={`px-5 py-2 text-sm rounded-full transition-colors ${billingView === "annual" ? "bg-[var(--emerald)]/20 text-[#D7F4EA]" : "text-[#8FA69C]"}`}
+                >
+                  Annual
+                </button>
+              </div>
             </div>
 
             <div data-reveal data-reveal-delay="1" className="max-w-6xl mx-auto">
@@ -563,7 +646,19 @@ export default function Home() {
                     popular: false,
                   },
                 ].map((plan, i) => (
-                  <div key={i} className="relative">
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.25 }}
+                    transition={{ duration: 0.45, delay: i * 0.08 }}
+                    className={`relative ${plan.popular ? "md:-translate-y-2" : ""}`}
+                  >
+                    {plan.popular && (
+                      <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
+                        <span className="pricing-badge-pop text-xs font-semibold px-4 py-1.5 rounded-full">Most Popular</span>
+                      </div>
+                    )}
                     <SpotlightCard
                       data-tilt
                       data-tilt-scale={plan.popular ? "1.03" : undefined}
@@ -571,6 +666,7 @@ export default function Home() {
                         plan.popular ? "border-[var(--emerald)]/30 pricing-card-spotlight full-build-card" : "pricing-card-secondary"
                       }`}
                     >
+                      {plan.popular && <div className="h-2" />}
                       <h3 className="text-lg font-bold mb-2">{plan.name}</h3>
                       <p className="text-3xl font-bold text-[var(--emerald)] mb-3">{plan.price}</p>
                       <p className="text-[#7F8A95] text-sm mb-6">{plan.description}</p>
@@ -583,7 +679,7 @@ export default function Home() {
                         ))}
                       </ul>
                     </SpotlightCard>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 
@@ -608,8 +704,9 @@ export default function Home() {
               <h2 data-reveal className="section-title">Hit your goals or don't pay. Period.</h2>
 
               <div data-reveal data-reveal-delay="1" className="guarantee-card text-center">
+                <div className="mx-auto h-1 w-28 rounded-full bg-[var(--emerald)]/70 mb-6" />
                 <div className="guarantee-seal mx-auto mt-8 mb-6">
-                  <ShieldCheck className="w-14 h-14 text-[#d4a853]" />
+                  <ShieldCheck className="w-14 h-14 text-[var(--emerald)]" />
                 </div>
                 <p className="guarantee-title text-[rgba(255,255,255,0.92)] font-semibold text-xl mb-3">If we build it and it doesn't hit the goals we agreed on - we fix it. Free.</p>
                 <p className="text-[rgba(255,255,255,0.72)] text-lg mb-3">Still not working? You don't pay.</p>
@@ -648,43 +745,59 @@ export default function Home() {
             </div>
 
             <div data-reveal data-reveal-delay="1" className="max-w-4xl mx-auto grid md:grid-cols-2 gap-5">
-              <div className="h-full">
+              <motion.div
+                initial={{ opacity: 0, y: 22 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.4 }}
+                className="h-full"
+              >
                 <SpotlightCard data-tilt className="fit-card h-full p-6" variant="fit">
                   <ul className="space-y-3">
-                    {[
-                      "You're an independent property manager who wears too many hats",
-                      "Tenant comms, maintenance, leases, and follow-ups run manually",
-                      "You want practical automation live in weeks, not quarters",
-                    ].map((item, i) => (
+                    {fitPositiveItems.map((item, i) => {
+                      const ItemIcon = item.icon;
+                      return (
                       <li key={i} className="fit-item flex items-start gap-3">
+                        <span className="w-9 h-9 rounded-xl border border-[var(--emerald)]/35 bg-[var(--emerald)]/10 flex items-center justify-center text-[var(--emerald)] flex-shrink-0">
+                          <ItemIcon className="w-4 h-4" />
+                        </span>
                         <span className="fit-status fit-status-good">
-                          <Check className="w-4 h-4" />
+                          <Check className="w-5 h-5" />
                         </span>
-                        <span className="text-[#A7B1BA]">{item}</span>
+                        <span className="text-[#A7B1BA]">{item.text}</span>
                       </li>
-                    ))}
+                      );
+                    })}
                   </ul>
                 </SpotlightCard>
-              </div>
+              </motion.div>
 
-              <div className="h-full">
+              <motion.div
+                initial={{ opacity: 0, y: 22 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.4, delay: 0.08 }}
+                className="h-full"
+              >
                 <SpotlightCard data-tilt className="fit-card h-full p-6" variant="fit">
                   <ul className="space-y-3">
-                    {[
-                      "You're looking for a DIY tool with no implementation support",
-                      "You need long enterprise procurement and committee approvals",
-                      "You're not ready to execute workflow changes this month",
-                    ].map((item, i) => (
+                    {fitNegativeItems.map((item, i) => {
+                      const ItemIcon = item.icon;
+                      return (
                       <li key={i} className="fit-item flex items-start gap-3">
-                        <span className="fit-status fit-status-neutral">
-                          <X className="w-4 h-4" />
+                        <span className="w-9 h-9 rounded-xl border border-[rgba(130,164,190,0.3)] bg-[rgba(111,137,156,0.16)] flex items-center justify-center text-[#9AB4C6] flex-shrink-0">
+                          <ItemIcon className="w-4 h-4" />
                         </span>
-                        <span className="text-[#7F8A95]">{item}</span>
+                        <span className="fit-status fit-status-neutral">
+                          <X className="w-5 h-5" />
+                        </span>
+                        <span className="text-[#7F8A95]">{item.text}</span>
                       </li>
-                    ))}
+                      );
+                    })}
                   </ul>
                 </SpotlightCard>
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>
@@ -712,20 +825,24 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section-wrapper section-dense relative" id="footer-cta">
+        <section className="section-wrapper section-dense relative footer-cta-band" id="footer-cta">
           <div className="container mx-auto px-4 md:px-6">
-            <div data-reveal className="max-w-4xl mx-auto text-center">
-              <SpotlightCard data-tilt className="glass-card p-8 md:p-10">
-                <h2 className="section-title mb-4">Ready to stop being your own help desk?</h2>
-                <Button asChild size="lg" className="glow-button hero-cta font-semibold group" data-testid="button-footer-final-cta">
-                  <a href="/book">
-                    Book Your Free Workflow Audit
-                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </a>
-                </Button>
-                <p className="text-[#7F8A95] mt-4">15 minutes. We'll show you exactly which workflows to automate first.</p>
-              </SpotlightCard>
-            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.45 }}
+              className="max-w-4xl mx-auto text-center py-8"
+            >
+              <h2 className="section-title mb-4">Ready to stop being your own help desk?</h2>
+              <Button asChild size="lg" className="glow-button hero-cta font-semibold group text-base px-12 py-6" data-testid="button-footer-final-cta">
+                <a href="/book">
+                  Book Your Free Workflow Audit
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </a>
+              </Button>
+              <p className="text-[#B6C7BF] mt-4">15 minutes. We'll show you exactly which workflows to automate first.</p>
+            </motion.div>
           </div>
         </section>
 
