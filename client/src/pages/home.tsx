@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
   BarChart3,
-  Bot,
   Building2,
   Check,
   Clock,
@@ -22,115 +21,82 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { openCalendly } from "@/lib/calendly";
 import { AnimatePresence, motion } from "framer-motion";
+import DashboardMockup from "@/components/marketing/DashboardMockup";
+import TenantChatMockup from "@/components/marketing/TenantChatMockup";
 
 type IntegrationLogo = {
   name: string;
-  type: "icon" | "pill";
-  icon?: string;
-  fallback?: string;
+  icon: string;
 };
 
 const integrationLogos: IntegrationLogo[] = [
   {
     name: "AppFolio",
-    type: "icon",
     icon: "https://www.google.com/s2/favicons?domain=appfolio.com&sz=64",
   },
   {
     name: "Buildium",
-    type: "icon",
     icon: "https://www.google.com/s2/favicons?domain=buildium.com&sz=64",
   },
   {
     name: "Rent Manager",
-    type: "icon",
     icon: "https://www.google.com/s2/favicons?domain=rentmanager.com&sz=64",
   },
   {
     name: "Yardi",
-    type: "icon",
     icon: "https://www.google.com/s2/favicons?domain=yardi.com&sz=64",
   },
   {
     name: "Propertyware",
-    type: "icon",
     icon: "https://www.google.com/s2/favicons?domain=propertyware.com&sz=64",
   },
   {
-    name: "Maintenance IQ",
-    type: "pill",
-  },
-  {
-    name: "RentVine",
-    type: "pill",
-  },
-  {
-    name: "Tenant Turner",
-    type: "pill",
-  },
-  {
     name: "QuickBooks",
-    type: "icon",
     icon: "https://www.google.com/s2/favicons?domain=quickbooks.intuit.com&sz=64",
   },
   {
     name: "DocuSign",
-    type: "icon",
     icon: "https://www.google.com/s2/favicons?domain=docusign.com&sz=64",
   },
   {
     name: "Twilio",
-    type: "icon",
     icon: "https://www.google.com/s2/favicons?domain=twilio.com&sz=64",
   },
   {
     name: "Gmail",
-    type: "icon",
     icon: "https://www.google.com/s2/favicons?domain=mail.google.com&sz=64",
   },
   {
     name: "Outlook",
-    type: "icon",
     icon: "https://www.google.com/s2/favicons?domain=outlook.office.com&sz=64",
   },
   {
     name: "Zillow Rental Manager",
-    type: "icon",
     icon: "https://www.google.com/s2/favicons?domain=zillow.com&sz=64",
   },
   {
     name: "Apartments.com",
-    type: "icon",
     icon: "https://www.google.com/s2/favicons?domain=apartments.com&sz=64",
   },
   {
     name: "Stripe",
-    type: "icon",
     icon: "https://www.google.com/s2/favicons?domain=stripe.com&sz=64",
   },
   {
     name: "Google Workspace",
-    type: "icon",
     icon: "https://www.google.com/s2/favicons?domain=workspace.google.com&sz=64",
   },
   {
     name: "Microsoft 365",
-    type: "icon",
     icon: "https://www.google.com/s2/favicons?domain=microsoft.com&sz=64",
   },
   {
     name: "Zapier",
-    type: "icon",
     icon: "https://www.google.com/s2/favicons?domain=zapier.com&sz=64",
   },
   {
     name: "Gusto",
-    type: "icon",
     icon: "https://www.google.com/s2/favicons?domain=gusto.com&sz=64",
-  },
-  {
-    name: "Latchel",
-    type: "pill",
   },
 ];
 
@@ -375,40 +341,19 @@ function HeroDashboardMockup({ timingScale }: { timingScale: number }) {
 }
 
 function IntegrationLogo({ logo }: { logo: IntegrationLogo }) {
-  const [iconSrc, setIconSrc] = useState(logo.type === "icon" ? logo.icon ?? "" : "");
-  const [showPillFallback, setShowPillFallback] = useState(logo.type === "pill");
+  const [isVisible, setIsVisible] = useState(true);
 
-  if (logo.type === "pill") {
-    return (
-      <div className="logo-carousel-item" aria-label={logo.name}>
-        <span className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5 text-sm font-medium text-gray-400 hover:text-gray-200 hover:border-white/20 transition-colors">
-          {logo.name}
-        </span>
-      </div>
-    );
-  }
+  if (!isVisible) return null;
 
   return (
     <div className="logo-carousel-item group" aria-label={logo.name}>
-      {showPillFallback ? (
-        <span className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5 text-sm font-medium text-gray-400">
-          {logo.name}
-        </span>
-      ) : (
-        <img
-          src={iconSrc}
-          alt={`${logo.name} logo`}
-          loading="lazy"
-          onError={() => {
-            if (logo.fallback && iconSrc !== logo.fallback) {
-              setIconSrc(logo.fallback);
-              return;
-            }
-            setShowPillFallback(true);
-          }}
-          className="h-7 w-auto object-contain grayscale opacity-35 group-hover:grayscale-0 group-hover:opacity-100 transition duration-300"
-        />
-      )}
+      <img
+        src={logo.icon}
+        alt={`${logo.name} logo`}
+        loading="lazy"
+        onError={() => setIsVisible(false)}
+        className="h-7 w-auto object-contain grayscale opacity-35 group-hover:grayscale-0 group-hover:opacity-100 transition duration-300"
+      />
     </div>
   );
 }
@@ -872,48 +817,25 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
               className="flex justify-center lg:justify-end"
             >
-              <motion.div
-                animate={{ scale: [1, 1.015, 1] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                className="w-[300px] rounded-[36px] border-2 border-white/10 bg-[#0A0A0A] p-3 mx-auto shadow-[0_0_80px_rgba(52,211,153,0.06),0_24px_60px_-18px_rgba(0,0,0,0.55)] will-change-transform"
-              >
-                <div className="w-20 h-4 bg-[#0A0A0A] rounded-full mx-auto mb-3 border border-white/5" />
+              <div className="w-full max-w-5xl space-y-8">
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
+                >
+                  <DashboardMockup />
+                </motion.div>
 
-                <div className="rounded-[28px] overflow-hidden border border-white/10 bg-[#0D1110] p-5 space-y-4">
-                  <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center">
-                        <Bot className="w-4 h-4 text-emerald-400" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-semibold text-white">Veyra Agent</p>
-                        <p className="text-xs text-gray-500">Active now</p>
-                      </div>
-                    </div>
-                    <span className="text-[11px] px-2 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/15 text-emerald-300">
-                      Automated
-                    </span>
-                  </div>
-
-                  <div className="flex gap-2">
-                    <div className="w-7 h-7 rounded-full bg-white/10 flex-shrink-0" />
-                    <div className="rounded-2xl rounded-tl-none border border-white/10 bg-white/[0.03] px-3 py-2 text-sm text-gray-300">
-                      Hi, my toilet is overflowing in unit 12C. Help!
-                    </div>
-                  </div>
-
-                  <div className="flex gap-2 flex-row-reverse">
-                    <div className="w-7 h-7 rounded-full bg-emerald-500 flex-shrink-0 flex items-center justify-center">
-                      <Bot className="w-3.5 h-3.5 text-black" />
-                    </div>
-                    <div className="rounded-2xl rounded-tr-none bg-emerald-500 text-black px-3 py-2 text-sm">
-                      I'm sorry to hear that. I just dispatched Mike from Speedy Plumbing. ETA ~45 mins. Please turn off the water valve behind the toilet if possible.
-                    </div>
-                  </div>
-
-                  <p className="text-center text-xs text-gray-500">Ticket #4921 created • Vendor notified</p>
-                </div>
-              </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.6, delay: 0.25, ease: "easeOut" }}
+                >
+                  <TenantChatMockup />
+                </motion.div>
+              </div>
             </motion.div>
           </div>
         </section>
