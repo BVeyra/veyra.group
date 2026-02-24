@@ -105,11 +105,78 @@
   -webkit-backdrop-filter: blur(20px);
 }
 
-.hero-mesh-bg {
-  background:
-    radial-gradient(ellipse at 20% 50%, rgba(52, 211, 153, 0.15), transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(16, 185, 129, 0.1), transparent 50%),
-    radial-gradient(ellipse at 50% 80%, rgba(6, 78, 59, 0.2), transparent 50%);
+.hero-orb {
+  position: absolute;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.hero-orb-1 {
+  width: 1200px;
+  height: 1200px;
+  left: -420px;
+  top: -460px;
+  background: radial-gradient(600px circle at 20% 30%, rgba(52, 211, 153, 0.15), transparent 72%);
+}
+
+.hero-orb-2 {
+  width: 1000px;
+  height: 1000px;
+  right: -340px;
+  top: -220px;
+  background: radial-gradient(500px circle at 70% 50%, rgba(16, 185, 129, 0.08), transparent 72%);
+}
+
+.hero-orb-3 {
+  width: 1400px;
+  height: 1400px;
+  left: calc(50% - 700px);
+  bottom: -980px;
+  background: radial-gradient(700px circle at 50% 90%, rgba(6, 78, 59, 0.2), transparent 74%);
+}
+
+.hero-grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(52, 211, 153, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(52, 211, 153, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-noise-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+.hero-headline-glow {
+  text-shadow: 0 0 80px rgba(52, 211, 153, 0.15);
+}
+
+.hero-gradient-shimmer {
+  background-size: 220% 100%;
+  animation: heroShimmerSweep 1.2s ease-out 0.6s 1 both;
+}
+
+.hero-stat-value {
+  display: inline-block;
+  text-shadow: 0 0 30px rgba(52, 211, 153, 0.15);
+}
+
+@keyframes heroShimmerSweep {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
 }
 
 .logo-carousel-wrapper {
@@ -157,6 +224,35 @@
 @media (max-width: 767px) {
   html {
     scroll-behavior: smooth;
+  }
+
+  .hero-orb-1 {
+    width: 600px;
+    height: 600px;
+    left: -250px;
+    top: -220px;
+    background: radial-gradient(300px circle at 20% 30%, rgba(52, 211, 153, 0.15), transparent 72%);
+  }
+
+  .hero-orb-2 {
+    width: 500px;
+    height: 500px;
+    right: -210px;
+    top: -140px;
+    background: radial-gradient(250px circle at 70% 50%, rgba(16, 185, 129, 0.08), transparent 72%);
+  }
+
+  .hero-orb-3 {
+    width: 700px;
+    height: 700px;
+    left: calc(50% - 350px);
+    bottom: -500px;
+    background: radial-gradient(350px circle at 50% 90%, rgba(6, 78, 59, 0.2), transparent 74%);
+  }
+
+  .hero-gradient-shimmer {
+    animation-duration: 0.84s;
+    animation-delay: 0.42s;
   }
 
   .logo-carousel-wrapper {

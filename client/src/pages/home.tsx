@@ -72,9 +72,9 @@ const integrationLogos: IntegrationLogo[] = [
 ];
 
 const statsData = [
-  { value: "87+", label: "PMs Researched" },
-  { value: "15+", label: "US Markets" },
-  { value: "10+", label: "Hours/Week Saved" },
+  { value: 87, label: "PMs Researched" },
+  { value: 15, label: "US Markets" },
+  { value: 10, label: "Hours/Week Saved" },
 ];
 
 const problemTimeline = [
@@ -237,7 +237,7 @@ const fitNegativeItems = [
   { text: "You're not ready to execute workflow changes this month", icon: Clock },
 ];
 
-function HeroDashboardMockup() {
+function HeroDashboardMockup({ timingScale }: { timingScale: number }) {
   const rows = [
     {
       title: "📱 Unit 12C — Toilet overflow",
@@ -256,11 +256,17 @@ function HeroDashboardMockup() {
     },
   ];
 
+  const rowEntranceDelay = 2.3 * timingScale;
+
   return (
     <motion.div
-      animate={{ y: [0, -8, 0] }}
-      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-      className="w-full max-w-[560px] rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm p-6 shadow-2xl shadow-emerald-500/5 will-change-transform"
+      animate={{ y: [0, -6, 0] }}
+      transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+      className="w-full max-w-[340px] sm:max-w-[560px] rounded-2xl border border-white/[0.08] bg-[linear-gradient(135deg,rgba(255,255,255,0.05)_0%,rgba(255,255,255,0.02)_100%)] backdrop-blur-[20px] p-6 will-change-transform"
+      style={{
+        boxShadow:
+          "0 0 0 1px rgba(52,211,153,0.1), 0 20px 50px -12px rgba(0,0,0,0.5), 0 0 100px rgba(52,211,153,0.07)",
+      }}
     >
       <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
         <p className="text-sm text-gray-400">Veyra Dashboard</p>
@@ -271,16 +277,27 @@ function HeroDashboardMockup() {
       </div>
 
       <div className="space-y-3">
-        {rows.map((row) => (
-          <div
+        {rows.map((row, index) => (
+          <motion.div
             key={row.title}
-            className="rounded-xl bg-white/[0.03] border border-white/5 p-4 flex items-center justify-between gap-4"
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{
+              duration: 0.35 * timingScale,
+              delay: rowEntranceDelay + index * 0.1 * timingScale,
+              ease: "easeOut",
+            }}
+            className={`rounded-xl bg-white/[0.03] border border-white/5 p-4 flex items-center justify-between gap-4 ${
+              index === 0
+                ? "border-l-2 border-l-emerald-400/50 shadow-[inset_4px_0_12px_-4px_rgba(52,211,153,0.1)]"
+                : ""
+            }`}
           >
             <p className="text-sm text-gray-200">{row.title}</p>
             <span className={`text-[11px] px-2.5 py-1 rounded-full whitespace-nowrap ${row.statusClass}`}>
               {row.status}
             </span>
-          </div>
+          </motion.div>
         ))}
       </div>
 
@@ -303,12 +320,61 @@ function IntegrationLogo({ logo }: { logo: IntegrationLogo }) {
   );
 }
 
+function AnimatedStatNumber({
+  value,
+  start,
+  delay,
+}: {
+  value: number;
+  start: boolean;
+  delay: number;
+}) {
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    if (!start) return;
+
+    let rafId = 0;
+    let timeoutId = 0;
+    const duration = 1500;
+
+    timeoutId = window.setTimeout(() => {
+      const startTime = performance.now();
+
+      const tick = (now: number) => {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        setDisplayValue(Math.round(value * eased));
+
+        if (progress < 1) {
+          rafId = window.requestAnimationFrame(tick);
+        }
+      };
+
+      rafId = window.requestAnimationFrame(tick);
+    }, delay);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      window.cancelAnimationFrame(rafId);
+    };
+  }, [delay, start, value]);
+
+  return (
+    <span className="hero-stat-value">
+      {displayValue}+
+    </span>
+  );
+}
+
 export default function Home() {
   const [calculatorHeight, setCalculatorHeight] = useState(460);
   const [activeAutomationIndex, setActiveAutomationIndex] = useState(0);
   const [automationPausedUntil, setAutomationPausedUntil] = useState(0);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [featuresInView, setFeaturesInView] = useState(false);
+  const [statsStarted, setStatsStarted] = useState(false);
+  const [heroTimingScale, setHeroTimingScale] = useState(1);
   const featuresSectionRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -324,6 +390,29 @@ export default function Home() {
 
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
+  }, []);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 767px)");
+
+    const updateTiming = () => {
+      setHeroTimingScale(media.matches ? 0.7 : 1);
+    };
+
+    updateTiming();
+    if (typeof media.addEventListener === "function") {
+      media.addEventListener("change", updateTiming);
+    } else {
+      media.addListener(updateTiming);
+    }
+
+    return () => {
+      if (typeof media.removeEventListener === "function") {
+        media.removeEventListener("change", updateTiming);
+      } else {
+        media.removeListener(updateTiming);
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -373,26 +462,49 @@ export default function Home() {
   const activeAutomation = automationCards[activeAutomationIndex];
   const ActiveAutomationIcon = featureIcons[activeAutomationIndex];
   const calculatorDisplayHeight = Math.max(360, calculatorHeight);
+  const heroTiming = (seconds: number) => Number((seconds * heroTimingScale).toFixed(3));
 
   return (
     <div className="min-h-screen text-white">
       <Navbar />
 
       <main className="pt-20">
-        <section className="relative overflow-hidden">
-          <div className="hero-mesh-bg absolute inset-0 pointer-events-none" />
+        <section className="relative overflow-hidden bg-[#050505]">
+          <div className="absolute inset-0 pointer-events-none">
+            <motion.div
+              className="hero-orb hero-orb-1"
+              animate={{ x: [0, 60, 0], y: [0, 36, 0] }}
+              transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+              className="hero-orb hero-orb-2"
+              animate={{ scale: [1, 1.3, 1] }}
+              transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+              className="hero-orb hero-orb-3"
+              animate={{ x: [0, -70, 0] }}
+              transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <div className="hero-grid-overlay" />
+            <div className="hero-noise-overlay" />
+          </div>
 
           <div className="max-w-6xl mx-auto px-6 pt-14 md:pt-20 pb-10 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-16 items-center">
               <div>
                 <motion.h1
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, ease: "easeOut" }}
-                  className="text-4xl md:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight"
+                  transition={{
+                    duration: heroTiming(0.8),
+                    delay: heroTiming(0.3),
+                    ease: [0.25, 0.4, 0.25, 1],
+                  }}
+                  className="text-4xl md:text-6xl lg:text-[4.5rem] leading-[1.05] font-bold tracking-[-0.02em] hero-headline-glow"
                 >
                   You didn't start a property management company to{" "}
-                  <span className="bg-gradient-to-r from-emerald-400 via-green-300 to-emerald-400 bg-clip-text text-transparent">
+                  <span className="hero-gradient-shimmer bg-gradient-to-r from-emerald-300 via-green-200 to-emerald-300 bg-clip-text text-transparent">
                     answer texts at 11 PM.
                   </span>
                 </motion.h1>
@@ -400,48 +512,99 @@ export default function Home() {
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                  transition={{
+                    duration: heroTiming(0.6),
+                    delay: heroTiming(0.9),
+                    ease: [0.25, 0.4, 0.25, 1],
+                  }}
                   className="text-lg text-gray-400 max-w-[480px] mt-6 leading-relaxed"
                 >
                   We handle your tenants, your maintenance requests, and your owner reports - so you can grow your portfolio without growing your team.
                 </motion.p>
 
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{
+                    duration: heroTiming(0.5),
+                    delay: heroTiming(1.2),
+                    ease: [0.25, 0.4, 0.25, 1],
+                  }}
                   className="mt-8"
                 >
                   <Button
                     onClick={openCalendly}
                     size="lg"
                     data-testid="button-hero-cta-primary"
-                    className="bg-emerald-500 text-black font-semibold text-lg px-8 py-4 rounded-full hover:scale-[1.02] hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-200 group"
+                    className="bg-emerald-500 text-black font-semibold text-lg px-8 py-4 rounded-full ring-1 ring-emerald-400/20 shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:shadow-[0_0_40px_rgba(52,211,153,0.4)] hover:scale-[1.03] transition-all duration-200 group"
                   >
                     Book a Free 15-Min Workflow Audit
                     <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
                   </Button>
                 </motion.div>
 
-                <div className="mt-6 inline-flex items-center gap-2 text-sm text-gray-500">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  Serving property managers across 15+ US markets
-                </div>
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: heroTiming(0.5),
+                    delay: heroTiming(1.8),
+                    ease: "easeOut",
+                  }}
+                  className="mt-8 max-w-[480px]"
+                >
+                  <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                  <div className="my-3 inline-flex items-center gap-2 text-sm text-gray-500 tracking-wide">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    Serving property managers across 15+ US markets
+                  </div>
+                  <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                </motion.div>
               </div>
 
-              <div className="relative mt-6 lg:mt-0">
-                <div className="absolute -top-5 right-6 z-20 rounded-full border border-emerald-500/30 bg-black/70 px-3 py-1.5 text-xs text-emerald-300 backdrop-blur">
-                  10+ hrs/week saved
-                </div>
-                <HeroDashboardMockup />
-              </div>
+              <motion.div
+                initial={{ opacity: 0, x: 60 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{
+                  duration: heroTiming(0.8),
+                  delay: heroTiming(1.5),
+                  type: "spring",
+                  stiffness: 90,
+                  damping: 20,
+                }}
+                className="relative mt-10 lg:mt-0 flex justify-center lg:justify-end"
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: [0, -4, 0] }}
+                  transition={{
+                    opacity: { duration: heroTiming(0.5), delay: heroTiming(1.8), ease: "easeOut" },
+                    y: { duration: 4.6, repeat: Infinity, ease: "easeInOut", delay: heroTiming(1.9) },
+                  }}
+                  className="absolute -top-6 right-0 z-20 rounded-full px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 backdrop-blur-sm text-sm font-medium text-emerald-400 -rotate-3"
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    10+ hrs/week saved
+                  </span>
+                </motion.div>
+                <HeroDashboardMockup timingScale={heroTimingScale} />
+              </motion.div>
             </div>
           </div>
         </section>
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
-        <section className="py-10 md:py-16">
+        <motion.section
+          className="py-10 md:py-16"
+          onViewportEnter={() => {
+            if (!statsStarted) {
+              setStatsStarted(true);
+            }
+          }}
+          viewport={{ once: true, margin: "-100px" }}
+        >
           <div className="max-w-5xl mx-auto px-6">
             <div className="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16">
               {statsData.map((stat, index) => (
@@ -453,7 +616,9 @@ export default function Home() {
                   transition={{ duration: 0.6, delay: index * 0.2 }}
                   className="text-center relative"
                 >
-                  <p className="text-4xl md:text-5xl font-bold text-white">{stat.value}</p>
+                  <p className="text-3xl md:text-5xl font-bold text-white">
+                    <AnimatedStatNumber value={stat.value} start={statsStarted} delay={index * 200} />
+                  </p>
                   <p className="text-sm text-gray-500 mt-1">{stat.label}</p>
                   {index < statsData.length - 1 && (
                     <span className="hidden md:block absolute -right-8 top-1/2 -translate-y-1/2 w-px h-12 bg-white/10" />
@@ -462,7 +627,7 @@ export default function Home() {
               ))}
             </div>
           </div>
-        </section>
+        </motion.section>
 
         <section className="relative py-12 border-y border-white/5 overflow-hidden">
           <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-28 bg-gradient-to-r from-[#0A0A0A] to-transparent z-10" />
