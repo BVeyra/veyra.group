@@ -773,12 +773,13 @@ export default function Home() {
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
         <section id="solution" className="py-16 md:py-28">
-          <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+          <div className="max-w-6xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6, ease: "easeOut" }}
+              className="max-w-3xl"
             >
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">What changes when the busywork handles itself.</h2>
               <div className="space-y-6 text-gray-400 leading-relaxed">
@@ -810,33 +811,25 @@ export default function Home() {
               </div>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-              className="flex justify-center lg:justify-end"
-            >
-              <div className="w-full max-w-5xl space-y-8">
-                <motion.div
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
-                >
-                  <DashboardMockup />
-                </motion.div>
+            <div className="mt-12 md:mt-16 w-full max-w-5xl mx-auto space-y-10">
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
+              >
+                <DashboardMockup />
+              </motion.div>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.6, delay: 0.25, ease: "easeOut" }}
-                >
-                  <TenantChatMockup />
-                </motion.div>
-              </div>
-            </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, delay: 0.25, ease: "easeOut" }}
+              >
+                <TenantChatMockup />
+              </motion.div>
+            </div>
           </div>
         </section>
 

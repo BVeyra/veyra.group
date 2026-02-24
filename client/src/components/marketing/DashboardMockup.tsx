@@ -45,8 +45,8 @@ export default function DashboardMockup() {
           </div>
         </div>
 
-        <div className="flex h-[640px] md:h-[580px] relative z-0">
-          <div className="hidden md:flex flex-col w-[220px] bg-[#0A0A0A] border-r border-white/5 py-6 shrink-0">
+        <div className="flex h-[560px] xl:h-[580px] relative z-0">
+          <div className="hidden xl:flex flex-col w-[220px] bg-[#0A0A0A] border-r border-white/5 py-6 shrink-0">
             <div className="px-4 mb-8">
               <span className="text-emerald-400 font-bold text-sm tracking-wide">VEYRA</span>
             </div>
@@ -69,16 +69,16 @@ export default function DashboardMockup() {
             </div>
           </div>
 
-          <div className="flex-1 bg-[#0C0C0C] p-6 overflow-y-auto scrollbar-hide">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          <div className="flex-1 bg-[#0C0C0C] p-4 md:p-6 overflow-y-auto scrollbar-hide">
+            <div className="grid grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4 mb-6">
               <StatCard title="Messages Today" value="24" subtext="↓ 18 auto-handled" subtextClass="text-emerald-400" />
               <StatCard title="Avg Response Time" value="47s" subtext="↓ 94% faster" subtextClass="text-emerald-400" />
               <StatCard title="Open Tickets" value="3" subtext="2 in progress" subtextClass="text-gray-500" />
               <StatCard title="Owner Reports Due" value="0" subtext="✓ All sent Feb 1" subtextClass="text-emerald-400" />
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 h-auto lg:h-[320px]">
-              <div className="lg:col-span-3 flex flex-col">
+            <div className="grid grid-cols-1 xl:grid-cols-5 gap-4 md:gap-6 h-auto xl:h-[320px]">
+              <div className="xl:col-span-3 flex flex-col">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="text-sm font-medium text-white flex items-center gap-2">
                     Approval Queue
@@ -126,7 +126,7 @@ export default function DashboardMockup() {
                 </div>
               </div>
 
-              <div className="lg:col-span-2 flex flex-col">
+              <div className="xl:col-span-2 flex flex-col">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="text-sm font-medium text-white flex items-center gap-2">
                     Maintenance
