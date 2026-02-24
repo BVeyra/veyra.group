@@ -25,49 +25,129 @@ import { AnimatePresence, motion } from "framer-motion";
 
 type IntegrationLogo = {
   name: string;
-  icon: string;
+  type: "icon" | "pill";
+  icon?: string;
+  fallback?: string;
 };
 
 const integrationLogos: IntegrationLogo[] = [
   {
     name: "AppFolio",
-    icon: "https://www.google.com/s2/favicons?domain=appfolio.com&sz=64",
+    type: "icon",
+    icon: "https://logo.clearbit.com/appfolio.com",
+    fallback: "https://www.google.com/s2/favicons?domain=appfolio.com&sz=64",
   },
   {
     name: "Buildium",
-    icon: "https://www.google.com/s2/favicons?domain=buildium.com&sz=64",
+    type: "icon",
+    icon: "https://logo.clearbit.com/buildium.com",
+    fallback: "https://www.google.com/s2/favicons?domain=buildium.com&sz=64",
   },
   {
     name: "Rent Manager",
-    icon: "https://www.google.com/s2/favicons?domain=rentmanager.com&sz=64",
+    type: "icon",
+    icon: "https://logo.clearbit.com/rentmanager.com",
+    fallback: "https://www.google.com/s2/favicons?domain=rentmanager.com&sz=64",
   },
   {
     name: "Yardi",
-    icon: "https://www.google.com/s2/favicons?domain=yardi.com&sz=64",
+    type: "icon",
+    icon: "https://logo.clearbit.com/yardi.com",
+    fallback: "https://www.google.com/s2/favicons?domain=yardi.com&sz=64",
   },
   {
     name: "Propertyware",
-    icon: "https://www.google.com/s2/favicons?domain=propertyware.com&sz=64",
+    type: "icon",
+    icon: "https://logo.clearbit.com/propertyware.com",
+    fallback: "https://www.google.com/s2/favicons?domain=propertyware.com&sz=64",
+  },
+  {
+    name: "Maintenance IQ",
+    type: "pill",
+  },
+  {
+    name: "RentVine",
+    type: "pill",
+  },
+  {
+    name: "Tenant Turner",
+    type: "pill",
   },
   {
     name: "QuickBooks",
-    icon: "https://www.google.com/s2/favicons?domain=quickbooks.intuit.com&sz=64",
+    type: "icon",
+    icon: "https://cdn.simpleicons.org/quickbooks/34D399",
+    fallback: "https://www.google.com/s2/favicons?domain=quickbooks.intuit.com&sz=64",
   },
   {
     name: "DocuSign",
-    icon: "https://www.google.com/s2/favicons?domain=docusign.com&sz=64",
+    type: "icon",
+    icon: "https://cdn.simpleicons.org/docusign/34D399",
+    fallback: "https://www.google.com/s2/favicons?domain=docusign.com&sz=64",
   },
   {
     name: "Twilio",
-    icon: "https://www.google.com/s2/favicons?domain=twilio.com&sz=64",
+    type: "icon",
+    icon: "https://cdn.simpleicons.org/twilio/34D399",
+    fallback: "https://www.google.com/s2/favicons?domain=twilio.com&sz=64",
   },
   {
     name: "Gmail",
-    icon: "https://www.google.com/s2/favicons?domain=mail.google.com&sz=64",
+    type: "icon",
+    icon: "https://cdn.simpleicons.org/gmail/34D399",
+    fallback: "https://www.google.com/s2/favicons?domain=mail.google.com&sz=64",
   },
   {
     name: "Outlook",
-    icon: "https://www.google.com/s2/favicons?domain=outlook.office.com&sz=64",
+    type: "icon",
+    icon: "https://cdn.simpleicons.org/microsoftoutlook/34D399",
+    fallback: "https://www.google.com/s2/favicons?domain=outlook.office.com&sz=64",
+  },
+  {
+    name: "Zillow Rental Manager",
+    type: "icon",
+    icon: "https://cdn.simpleicons.org/zillow/34D399",
+    fallback: "https://www.google.com/s2/favicons?domain=zillow.com&sz=64",
+  },
+  {
+    name: "Apartments.com",
+    type: "icon",
+    icon: "https://logo.clearbit.com/apartments.com",
+    fallback: "https://www.google.com/s2/favicons?domain=apartments.com&sz=64",
+  },
+  {
+    name: "Stripe",
+    type: "icon",
+    icon: "https://cdn.simpleicons.org/stripe/34D399",
+    fallback: "https://www.google.com/s2/favicons?domain=stripe.com&sz=64",
+  },
+  {
+    name: "Google Workspace",
+    type: "icon",
+    icon: "https://cdn.simpleicons.org/googleworkspace/34D399",
+    fallback: "https://www.google.com/s2/favicons?domain=workspace.google.com&sz=64",
+  },
+  {
+    name: "Microsoft 365",
+    type: "icon",
+    icon: "https://cdn.simpleicons.org/microsoft365/34D399",
+    fallback: "https://www.google.com/s2/favicons?domain=microsoft.com&sz=64",
+  },
+  {
+    name: "Zapier",
+    type: "icon",
+    icon: "https://cdn.simpleicons.org/zapier/34D399",
+    fallback: "https://www.google.com/s2/favicons?domain=zapier.com&sz=64",
+  },
+  {
+    name: "Gusto",
+    type: "icon",
+    icon: "https://cdn.simpleicons.org/gusto/34D399",
+    fallback: "https://www.google.com/s2/favicons?domain=gusto.com&sz=64",
+  },
+  {
+    name: "Latchel",
+    type: "pill",
   },
 ];
 
@@ -80,22 +160,27 @@ const statsData = [
 const problemTimeline = [
   {
     time: "6:47 AM",
+    icon: "📱",
     text: "You haven't had coffee yet, but you've already got 14 unread messages. Three tenants texted overnight about the same water heater. Your maintenance guy hasn't responded to the work order you sent yesterday. A prospect who inquired about unit 4B three days ago just followed up - and you realize you never replied.",
   },
   {
     time: "9:00 AM",
+    icon: "📧",
     text: "You're deep in email. Lease renewal for the Johnsons is due in 11 days and you haven't sent the notice. Two tenants are behind on rent and you need to send follow-ups - again. Your phone rings. It's Mrs. Chen, calling about the same HVAC issue for the third time this week.",
   },
   {
     time: "12:00 PM",
+    icon: "⏰",
     text: "You've handled 40 messages and completed zero of the things you actually planned to do today.",
   },
   {
     time: "6:00 PM",
+    icon: "📊",
     text: "You're behind on everything that matters - owner reports, move-in inspections, that marketing you keep saying you'll get to.",
   },
   {
     time: "11:00 PM",
+    icon: "🚽",
     text: "You're in bed when your phone buzzes. Toilet overflow in unit 12C.",
   },
 ];
@@ -262,10 +347,10 @@ function HeroDashboardMockup({ timingScale }: { timingScale: number }) {
     <motion.div
       animate={{ y: [0, -6, 0] }}
       transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-      className="w-full max-w-[340px] sm:max-w-[560px] rounded-2xl border border-white/[0.08] bg-[linear-gradient(135deg,rgba(255,255,255,0.05)_0%,rgba(255,255,255,0.02)_100%)] backdrop-blur-[20px] p-6 will-change-transform"
+      className="w-full max-w-[340px] sm:max-w-[560px] rounded-2xl border border-white/[0.1] bg-[linear-gradient(135deg,rgba(255,255,255,0.06)_0%,rgba(255,255,255,0.02)_100%)] backdrop-blur-[24px] p-6 will-change-transform"
       style={{
         boxShadow:
-          "0 0 0 1px rgba(52,211,153,0.1), 0 20px 50px -12px rgba(0,0,0,0.5), 0 0 100px rgba(52,211,153,0.07)",
+          "0 0 0 1px rgba(52,211,153,0.1), 0 25px 60px -12px rgba(0,0,0,0.6), 0 0 120px rgba(52,211,153,0.08)",
       }}
     >
       <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
@@ -280,16 +365,16 @@ function HeroDashboardMockup({ timingScale }: { timingScale: number }) {
         {rows.map((row, index) => (
           <motion.div
             key={row.title}
-            initial={{ opacity: 0, x: 10 }}
+            initial={{ opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{
-              duration: 0.35 * timingScale,
-              delay: rowEntranceDelay + index * 0.1 * timingScale,
+              duration: 0.4 * timingScale,
+              delay: rowEntranceDelay + index * 0.15 * timingScale,
               ease: "easeOut",
             }}
             className={`rounded-xl bg-white/[0.03] border border-white/5 p-4 flex items-center justify-between gap-4 ${
               index === 0
-                ? "border-l-2 border-l-emerald-400/50 shadow-[inset_4px_0_12px_-4px_rgba(52,211,153,0.1)]"
+                ? "border-l-2 border-l-emerald-400/50 shadow-[inset_4px_0_12px_-4px_rgba(52,211,153,0.15)]"
                 : ""
             }`}
           >
@@ -307,15 +392,40 @@ function HeroDashboardMockup({ timingScale }: { timingScale: number }) {
 }
 
 function IntegrationLogo({ logo }: { logo: IntegrationLogo }) {
+  const [iconSrc, setIconSrc] = useState(logo.type === "icon" ? logo.icon ?? "" : "");
+  const [showPillFallback, setShowPillFallback] = useState(logo.type === "pill");
+
+  if (logo.type === "pill") {
+    return (
+      <div className="logo-carousel-item" aria-label={logo.name}>
+        <span className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5 text-sm font-medium text-gray-400 hover:text-gray-200 hover:border-white/20 transition-colors">
+          {logo.name}
+        </span>
+      </div>
+    );
+  }
+
   return (
     <div className="logo-carousel-item group" aria-label={logo.name}>
-      <img
-        src={logo.icon}
-        alt={`${logo.name} logo`}
-        loading="lazy"
-        className="w-8 h-8 object-contain grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition duration-300"
-      />
-      <span className="text-[11px] text-gray-500 group-hover:text-gray-300 transition-colors">{logo.name}</span>
+      {showPillFallback ? (
+        <span className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5 text-sm font-medium text-gray-400">
+          {logo.name}
+        </span>
+      ) : (
+        <img
+          src={iconSrc}
+          alt={`${logo.name} logo`}
+          loading="lazy"
+          onError={() => {
+            if (logo.fallback && iconSrc !== logo.fallback) {
+              setIconSrc(logo.fallback);
+              return;
+            }
+            setShowPillFallback(true);
+          }}
+          className="h-7 w-auto object-contain grayscale opacity-35 group-hover:grayscale-0 group-hover:opacity-100 transition duration-300"
+        />
+      )}
     </div>
   );
 }
@@ -463,6 +573,41 @@ export default function Home() {
   const ActiveAutomationIcon = featureIcons[activeAutomationIndex];
   const calculatorDisplayHeight = Math.max(360, calculatorHeight);
   const heroTiming = (seconds: number) => Number((seconds * heroTimingScale).toFixed(3));
+  const pricingSteps = [
+    {
+      step: "Step 1",
+      name: "CUSTOM BUILD",
+      price: "$1,500 one-time",
+      description: "Founding-client introductory rate (first 5 clients).",
+      features: [
+        "Custom automations around your existing tools",
+        "Built and launched in 1-2 weeks",
+        "Approve every workflow before go-live",
+      ],
+    },
+    {
+      step: "Step 2",
+      name: "BASE OPERATIONS",
+      price: "$500/month",
+      description: "Base operations plan. Supports 50+ unit portfolios with no cap.",
+      features: [
+        "Monitoring + fast fixes",
+        "Continuous optimization",
+        "Direct support, no ticket queue",
+      ],
+    },
+    {
+      step: "Step 3",
+      name: "GROWTH SCALING",
+      price: "$5/unit above 50 (no cap)",
+      description: "Pricing grows with portfolio size and automation load.",
+      features: [
+        "Predictable unit-based scaling",
+        "No annual contracts",
+        "No hidden platform or seat fees",
+      ],
+    },
+  ];
 
   return (
     <div className="min-h-screen text-white">
@@ -581,7 +726,7 @@ export default function Home() {
                     opacity: { duration: heroTiming(0.5), delay: heroTiming(1.8), ease: "easeOut" },
                     y: { duration: 4.6, repeat: Infinity, ease: "easeInOut", delay: heroTiming(1.9) },
                   }}
-                  className="absolute -top-6 right-0 z-20 rounded-full px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 backdrop-blur-sm text-sm font-medium text-emerald-400 -rotate-3"
+                  className="absolute -top-6 right-0 z-20 rounded-full px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 backdrop-blur-sm text-sm font-medium text-emerald-400"
                 >
                   <span className="inline-flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -671,10 +816,13 @@ export default function Home() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
                   transition={{ duration: 0.6, delay: index * 0.15 }}
-                  className="pl-20 mb-12 relative"
+                  className="pl-20 pb-8 mb-8 border-b border-white/[0.03] last:border-b-0 last:pb-0 last:mb-0 relative"
                 >
                   <span className="w-3 h-3 rounded-full bg-emerald-400 absolute left-[26px] top-2 shadow-lg shadow-emerald-400/50" />
-                  <p className="text-2xl font-bold text-emerald-400 mb-2">{item.time}</p>
+                  <p className="text-2xl font-bold text-emerald-400 mb-2 inline-flex items-center">
+                    <span className="text-lg mr-2">{item.icon}</span>
+                    {item.time}
+                  </p>
                   <p className="text-gray-400 text-base leading-relaxed max-w-2xl">{item.text}</p>
                 </motion.div>
               ))}
@@ -715,6 +863,17 @@ export default function Home() {
                 <p>
                   <strong className="text-white">Rent is 3 days late?</strong> The follow-up sequence already started. Friendly, professional, on-brand - like you wrote it yourself. Because you did. Once.
                 </p>
+                <div className="grid sm:grid-cols-3 gap-4">
+                  <div className="rounded-xl border border-white/5 bg-white/[0.02] px-5 py-3 text-center">
+                    <p className="text-emerald-400 text-sm font-medium">⚡ 90-second response</p>
+                  </div>
+                  <div className="rounded-xl border border-white/5 bg-white/[0.02] px-5 py-3 text-center">
+                    <p className="text-emerald-400 text-sm font-medium">📉 80% fewer manual tasks</p>
+                  </div>
+                  <div className="rounded-xl border border-white/5 bg-white/[0.02] px-5 py-3 text-center">
+                    <p className="text-emerald-400 text-sm font-medium">🌙 24/7 coverage</p>
+                  </div>
+                </div>
                 <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.04] p-6">
                   <p className="text-gray-200 italic">
                     "Veyra doesn't replace your judgment. We automate everything between the decision and the doing."
@@ -733,11 +892,11 @@ export default function Home() {
               <motion.div
                 animate={{ scale: [1, 1.015, 1] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                className="w-[320px] rounded-[40px] border-2 border-white/10 bg-black p-3 shadow-2xl shadow-emerald-500/10 will-change-transform"
+                className="w-[300px] rounded-[36px] border-2 border-white/10 bg-[#0A0A0A] p-3 mx-auto shadow-[0_0_80px_rgba(52,211,153,0.06),0_24px_60px_-18px_rgba(0,0,0,0.55)] will-change-transform"
               >
-                <div className="w-24 h-5 bg-black rounded-full mx-auto mb-4 border border-white/5" />
+                <div className="w-20 h-4 bg-[#0A0A0A] rounded-full mx-auto mb-3 border border-white/5" />
 
-                <div className="rounded-[32px] overflow-hidden border border-white/10 bg-[#0D1110] p-5 space-y-4">
+                <div className="rounded-[28px] overflow-hidden border border-white/10 bg-[#0D1110] p-5 space-y-4">
                   <div className="flex items-center justify-between border-b border-white/10 pb-4">
                     <div className="flex items-center gap-2">
                       <div className="w-8 h-8 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center">
@@ -1026,68 +1185,75 @@ export default function Home() {
               <p className="text-gray-400 mt-4">Clear pricing. No annual contracts. No surprise charges.</p>
             </motion.div>
 
-            <div className="grid md:grid-cols-3 gap-6">
-              {[
-                {
-                  name: "CUSTOM BUILD",
-                  price: "$1,500 one-time",
-                  description: "Founding-client introductory rate (first 5 clients).",
-                  features: [
-                    "Custom automations around your existing tools",
-                    "Built and launched in 1-2 weeks",
-                    "Approve every workflow before go-live",
-                  ],
-                  popular: false,
-                },
-                {
-                  name: "BASE OPERATIONS",
-                  price: "$500/month",
-                  description: "Base operations plan. Supports 50+ unit portfolios with no cap.",
-                  features: [
-                    "Monitoring + fast fixes",
-                    "Continuous optimization",
-                    "Direct support, no ticket queue",
-                  ],
-                  popular: true,
-                },
-                {
-                  name: "GROWTH SCALING",
-                  price: "$5/unit above 50 (no cap)",
-                  description: "Pricing grows with portfolio size and automation load.",
-                  features: [
-                    "Predictable unit-based scaling",
-                    "No annual contracts",
-                    "No hidden platform or seat fees",
-                  ],
-                  popular: false,
-                },
-              ].map((plan, index) => (
-                <motion.div
-                  key={plan.name}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.6, delay: index * 0.15 }}
-                  whileHover={{ y: -4, borderColor: "rgba(52,211,153,0.2)" }}
-                  className={`relative rounded-2xl border p-8 ${
-                    plan.popular
-                      ? "md:scale-105 border-emerald-500/30 bg-white/[0.03] shadow-lg shadow-emerald-500/10"
-                      : "border-white/5 bg-white/[0.02]"
-                  }`}
-                >
-                  <h3 className="text-lg font-semibold text-white mb-3">{plan.name}</h3>
-                  <p className="text-3xl font-bold text-emerald-300 mb-2">{plan.price}</p>
-                  <p className="text-sm text-gray-500 mb-6">{plan.description}</p>
+            <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr_auto_1fr] gap-4 items-stretch">
+              {pricingSteps.map((plan, index) => (
+                <div key={plan.name} className="contents">
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.6, delay: index * 0.15 }}
+                    whileHover={{ y: -4, borderColor: "rgba(52,211,153,0.2)" }}
+                    className="rounded-2xl border border-white/5 bg-white/[0.02] p-8"
+                  >
+                    <p className="text-xs text-emerald-400 uppercase tracking-widest font-semibold mb-2">{plan.step}</p>
+                    <h3 className="text-lg font-semibold text-white mb-3">{plan.name}</h3>
+                    <p className="text-3xl font-bold text-emerald-300 mb-2">{plan.price}</p>
+                    <p className="text-sm text-gray-500 mb-6">{plan.description}</p>
 
-                  <ul className="space-y-3">
-                    {plan.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-2 text-gray-300 text-sm">
-                        <span className="text-emerald-400 mt-[1px]">✓</span>
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
+                    <ul className="space-y-3">
+                      {plan.features.map((feature) => (
+                        <li key={feature} className="flex items-start gap-2 text-gray-300 text-sm">
+                          <span className="text-emerald-400 mt-[1px]">✓</span>
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+
+                  {index < pricingSteps.length - 1 && (
+                    <div className="flex items-center justify-center relative min-w-[56px]">
+                      <span className="absolute left-0 right-0 top-1/2 -translate-y-1/2 border-t border-dashed border-emerald-500/20" />
+                      <span className="relative z-10 text-emerald-500/30 text-2xl bg-[#0A0A0A] px-2">→</span>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <div className="md:hidden">
+              {pricingSteps.map((plan, index) => (
+                <div key={plan.name}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.6, delay: index * 0.15 }}
+                    whileHover={{ y: -4, borderColor: "rgba(52,211,153,0.2)" }}
+                    className="rounded-2xl border border-white/5 bg-white/[0.02] p-8"
+                  >
+                    <p className="text-xs text-emerald-400 uppercase tracking-widest font-semibold mb-2">{plan.step}</p>
+                    <h3 className="text-lg font-semibold text-white mb-3">{plan.name}</h3>
+                    <p className="text-3xl font-bold text-emerald-300 mb-2">{plan.price}</p>
+                    <p className="text-sm text-gray-500 mb-6">{plan.description}</p>
+
+                    <ul className="space-y-3">
+                      {plan.features.map((feature) => (
+                        <li key={feature} className="flex items-start gap-2 text-gray-300 text-sm">
+                          <span className="text-emerald-400 mt-[1px]">✓</span>
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+
+                  {index < pricingSteps.length - 1 && (
+                    <div className="flex flex-col items-center py-3">
+                      <span className="w-px h-5 border-l border-dashed border-emerald-500/20" />
+                      <span className="text-emerald-500/30 text-2xl leading-none">↓</span>
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
 
