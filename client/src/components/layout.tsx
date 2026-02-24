@@ -4,48 +4,71 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { openCalendly } from "@/lib/calendly";
 
+const navLinks = [
+  { href: "#features", label: "Features" },
+  { href: "#process", label: "Process" },
+  { href: "#pricing", label: "Pricing" },
+  { href: "#faq", label: "FAQ" },
+];
+
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 20);
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleCTA = () => {
-    openCalendly();
+  const scrollToTarget = (href: string) => {
+    if (!href.startsWith("#")) return;
+    const node = document.querySelector(href);
+    if (node) {
+      node.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   };
 
   return (
-    <header 
+    <header
       className={cn(
-        "site-nav transition-all duration-300",
-        isScrolled ? "glass-shiny-nav is-scrolled py-3" : "glass-shiny-nav py-5"
+        "site-nav transition-all duration-300 z-50",
+        isScrolled ? "is-scrolled" : "is-top"
       )}
     >
-      <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
+      <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between gap-6">
         <Link href="/">
           <img
             src="/veyra-logo.svg"
             alt="Veyra Group"
-            className="h-12 w-auto cursor-pointer select-none"
-            loading="lazy"
+            className="h-11 w-auto cursor-pointer select-none"
+            loading="eager"
             draggable={false}
           />
         </Link>
 
+        <nav className="hidden md:flex items-center gap-8">
+          {navLinks.map((item) => (
+            <button
+              key={item.href}
+              type="button"
+              onClick={() => scrollToTarget(item.href)}
+              className="text-sm text-gray-400 hover:text-white transition-colors"
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
+
         <Button
-          onClick={handleCTA}
-          size="lg"
+          onClick={openCalendly}
+          size="sm"
           data-testid="button-nav-cta"
-          className="glow-button font-semibold h-10 sm:h-11 px-4 sm:px-6 whitespace-nowrap"
+          className="rounded-full bg-emerald-500 text-black font-semibold px-4 py-2 h-auto hover:bg-emerald-400 transition"
         >
-          <span className="sm:hidden">Book</span>
-          <span className="hidden sm:inline">Book Free Audit</span>
-          <span className="ml-1">→</span>
+          Book Free Audit
         </Button>
       </div>
     </header>
@@ -56,69 +79,99 @@ export function Footer() {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: "smooth" });
     }
   };
 
   return (
-    <footer className="relative z-10 mt-auto">
-      <div className="h-px bg-gradient-to-r from-transparent via-[var(--emerald)]/30 to-transparent" />
-      <div className="py-14 bg-white/[0.02]">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
-            <div className="text-center md:text-left">
-              <img
-                src="/veyra-logo.svg"
-                alt="Veyra Group"
-                className="h-16 w-auto mb-3 mx-auto md:mx-0 select-none"
-                loading="lazy"
-                draggable={false}
-              />
-              <p className="text-xs text-[#5F6972]">Built for independent property managers.</p>
-            </div>
-            
-            <div className="text-center">
-              <h4 className="text-sm font-semibold text-[#A7B1BA] mb-4 tracking-wide">NAVIGATE</h4>
-              <div className="flex flex-col gap-2">
-                <button onClick={() => scrollToSection('features')} className="text-[#7F8A95] hover:text-[var(--emerald)] text-sm transition-colors">Features</button>
-                <button onClick={() => scrollToSection('process')} className="text-[#7F8A95] hover:text-[var(--emerald)] text-sm transition-colors">Process</button>
-                <button onClick={() => scrollToSection('pricing')} className="text-[#7F8A95] hover:text-[var(--emerald)] text-sm transition-colors">Pricing</button>
-                <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-[#7F8A95] hover:text-[var(--emerald)] text-sm transition-colors">Back to Top ↑</button>
-              </div>
-            </div>
-            
-            <div className="text-center md:text-right">
-              <h4 className="text-sm font-semibold text-[#A7B1BA] mb-4 tracking-wide">CONTACT</h4>
-              <div className="flex flex-col gap-2">
-                <a href="mailto:contact@veyragroup.ai" className="text-[#7F8A95] hover:text-[var(--emerald)] text-sm font-medium transition-colors">
+    <footer className="border-t border-white/5 py-16">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+          <div>
+            <img
+              src="/veyra-logo.svg"
+              alt="Veyra Group"
+              className="h-14 w-auto mb-4 select-none"
+              loading="lazy"
+              draggable={false}
+            />
+            <p className="text-sm text-gray-400">Built for independent property managers.</p>
+          </div>
+
+          <div>
+            <h4 className="text-sm font-semibold text-white mb-4">Company</h4>
+            <ul className="space-y-2 text-sm text-gray-500">
+              <li>
+                <button onClick={() => scrollToSection("features")} className="hover:text-white transition-colors">
+                  Features
+                </button>
+              </li>
+              <li>
+                <button onClick={() => scrollToSection("process")} className="hover:text-white transition-colors">
+                  Process
+                </button>
+              </li>
+              <li>
+                <button onClick={() => scrollToSection("pricing")} className="hover:text-white transition-colors">
+                  Pricing
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-sm font-semibold text-white mb-4">Resources</h4>
+            <ul className="space-y-2 text-sm text-gray-500">
+              <li>
+                <button onClick={() => scrollToSection("calculator")} className="hover:text-white transition-colors">
+                  PM Efficiency Audit
+                </button>
+              </li>
+              <li>
+                <button onClick={() => scrollToSection("faq")} className="hover:text-white transition-colors">
+                  FAQ
+                </button>
+              </li>
+              <li>
+                <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="hover:text-white transition-colors">
+                  Back to Top
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-sm font-semibold text-white mb-4">Legal</h4>
+            <ul className="space-y-2 text-sm text-gray-500">
+              <li>
+                <a href="mailto:contact@veyragroup.ai" className="hover:text-white transition-colors">
                   contact@veyragroup.ai
                 </a>
-                <a href="tel:+13026002625" className="text-[#7F8A95] hover:text-[var(--emerald)] text-sm font-medium transition-colors">
+              </li>
+              <li>
+                <a href="tel:+13026002625" className="hover:text-white transition-colors">
                   (302) 600-2625
                 </a>
-                <div className="flex items-center justify-center md:justify-end gap-3 mt-2">
-                  <a href="https://www.linkedin.com/company/veyragroup/" target="_blank" rel="noopener noreferrer" className="text-[#7F8A95] hover:text-[var(--emerald)] transition-colors">
-                    <span className="sr-only">LinkedIn</span>
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path fillRule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clipRule="evenodd" />
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            </div>
+              </li>
+              <li>
+                <a
+                  href="https://www.linkedin.com/company/veyragroup/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  LinkedIn
+                </a>
+              </li>
+            </ul>
           </div>
-          
-          <div className="mt-10 pt-6 border-t border-white/5 text-center">
-            <p className="text-xs text-[#5F6972]">
-              © 2026 Veyra Group Inc. |{" "}
-              <a href="mailto:bruno@veyragroup.ai" className="text-[var(--emerald)] hover:underline">
-                bruno@veyragroup.ai
-              </a>
-            </p>
-            {import.meta.env.DEV && (
-              <p className="text-xs text-[#3F4952] mt-1 font-mono">Build: {new Date().toISOString().slice(0, 16)}</p>
-            )}
-          </div>
+        </div>
+
+        <div className="mt-10 pt-6 border-t border-white/5 text-xs text-gray-500">
+          © 2026 Veyra Group Inc. |{" "}
+          <a href="mailto:bruno@veyragroup.ai" className="text-emerald-400 hover:underline">
+            bruno@veyragroup.ai
+          </a>
         </div>
       </div>
     </footer>
