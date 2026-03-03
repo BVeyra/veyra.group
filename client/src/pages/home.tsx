@@ -189,7 +189,7 @@ const automationCards = [
 const processSteps = [
   {
     number: "1",
-    duration: "Free, 15 min",
+    duration: "Free, 30 min",
     title: "We audit your workflows",
     description:
       "You tell us where you're bleeding time. We map your current process and show you exactly what we'd automate first.",
@@ -611,7 +611,7 @@ export default function Home() {
                     data-testid="button-hero-cta-primary"
                     className="bg-emerald-500 text-black font-semibold text-lg px-8 py-4 rounded-full ring-1 ring-emerald-400/20 shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:shadow-[0_0_40px_rgba(52,211,153,0.4)] hover:scale-[1.03] transition-all duration-200 group"
                   >
-                    Book a Free 15-Min Workflow Audit
+                    Book a Free 30-Min Workflow Audit
                     <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
                   </Button>
                 </motion.div>
@@ -1224,7 +1224,7 @@ export default function Home() {
                 className="mt-7 bg-emerald-500 text-black font-semibold rounded-full px-8 py-4 hover:shadow-lg hover:shadow-emerald-500/25 transition-all"
                 data-testid="button-founding-cta"
               >
-                Book a Free 15-Min Workflow Audit
+                Book a Free 30-Min Workflow Audit
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </motion.div>
@@ -1366,7 +1366,7 @@ export default function Home() {
                   <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
                 </a>
               </Button>
-              <p className="text-gray-500 text-sm mt-4">15 minutes. We'll show you exactly which workflows to automate first.</p>
+              <p className="text-gray-500 text-sm mt-4">30 minutes. We'll show you exactly which workflows to automate first.</p>
             </motion.div>
           </div>
         </section>
