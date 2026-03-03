@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import { Play } from "lucide-react";
+import { Link } from "wouter";
 import DashboardMockup from "@/components/marketing/DashboardMockup";
 import TenantChatMockup from "@/components/marketing/TenantChatMockup";
 
@@ -12,6 +14,15 @@ export default function SolutionMockups() {
         transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
       >
         <DashboardMockup />
+        <div className="flex justify-center mt-6">
+          <Link
+            href="/demo"
+            className="inline-flex items-center gap-2 rounded-full bg-emerald-500 text-black font-semibold px-6 py-3 text-sm hover:bg-emerald-400 transition-colors shadow-lg shadow-emerald-500/20"
+          >
+            <Play className="w-4 h-4" />
+            Try Interactive Demo
+          </Link>
+        </div>
       </motion.div>
 
       <motion.div
