@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useLayoutEffect } from "react";
 import { Switch, Route, useLocation } from "wouter";
 
 const NotFound = lazy(() => import("@/pages/not-found"));
@@ -31,10 +31,19 @@ function CanonicalManager() {
 function ScrollManager() {
   const [location] = useLocation();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
+
+    if (window.location.hash) {
+      window.history.replaceState(
+        window.history.state,
+        "",
+        `${window.location.pathname}${window.location.search}`
+      );
+    }
+
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, [location]);
 

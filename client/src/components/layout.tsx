@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { openCalendly } from "@/lib/calendly";
@@ -15,6 +15,7 @@ const navLinks = [
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [location] = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,6 +55,13 @@ export function Navbar() {
     openCalendly();
   };
 
+  const handleLogoClick = () => {
+    setIsMenuOpen(false);
+    if (location === "/") {
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    }
+  };
+
   return (
     <header
       className={cn(
@@ -62,7 +70,7 @@ export function Navbar() {
       )}
     >
       <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between gap-6">
-        <Link href="/">
+        <Link href="/" onClick={handleLogoClick}>
           <img
             src="/veyra-logo.svg"
             alt="Veyra Group"

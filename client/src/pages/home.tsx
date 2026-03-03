@@ -18,7 +18,7 @@ import {
   Wrench,
   X,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { openCalendly } from "@/lib/calendly";
 import { AnimatePresence, motion } from "framer-motion";
 import SolutionMockups from "@/components/marketing/SolutionMockups";
@@ -413,6 +413,17 @@ export default function Home() {
   const [statsStarted, setStatsStarted] = useState(false);
   const [heroTimingScale, setHeroTimingScale] = useState(1);
   const featuresSectionRef = useRef<HTMLElement | null>(null);
+
+  useLayoutEffect(() => {
+    if (window.location.hash) {
+      window.history.replaceState(
+        window.history.state,
+        "",
+        `${window.location.pathname}${window.location.search}`
+      );
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
 
   useEffect(() => {
     const onMessage = (event: MessageEvent) => {
