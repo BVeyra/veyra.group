@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { openCalendly } from "@/lib/calendly";
+import { Menu, X } from "lucide-react";
 
 const navLinks = [
   { href: "#features", label: "Features" },
@@ -13,6 +14,7 @@ const navLinks = [
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,12 +25,33 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const scrollToTarget = (href: string) => {
     if (!href.startsWith("#")) return;
     const node = document.querySelector(href);
     if (node) {
       node.scrollIntoView({ behavior: "smooth", block: "start" });
     }
+  };
+
+  const handleMobileNavClick = (href: string) => {
+    scrollToTarget(href);
+    setIsMenuOpen(false);
+  };
+
+  const handleBookClick = () => {
+    setIsMenuOpen(false);
+    openCalendly();
   };
 
   return (
@@ -62,15 +85,52 @@ export function Navbar() {
           ))}
         </nav>
 
-        <Button
-          onClick={openCalendly}
-          size="sm"
-          data-testid="button-nav-cta"
-          className="rounded-full bg-emerald-500 text-black font-semibold px-4 py-2 h-auto hover:bg-emerald-400 transition"
-        >
-          Book a Free Audit
-        </Button>
+        <div className="flex items-center gap-3">
+          <Button
+            onClick={openCalendly}
+            size="sm"
+            data-testid="button-nav-cta"
+            className="hidden md:inline-flex rounded-full bg-emerald-500 text-black font-semibold px-4 py-2 h-auto hover:bg-emerald-400 transition"
+          >
+            Book a Free Audit
+          </Button>
+
+          <button
+            type="button"
+            className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full border border-white/15 bg-white/[0.03] text-gray-200 hover:text-white hover:border-white/30 transition-colors"
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+          >
+            {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
       </div>
+
+      {isMenuOpen && (
+        <div className="md:hidden border-t border-white/10 bg-black/85 backdrop-blur-xl">
+          <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-2">
+            {navLinks.map((item) => (
+              <button
+                key={`mobile-${item.href}`}
+                type="button"
+                onClick={() => handleMobileNavClick(item.href)}
+                className="w-full text-left rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-gray-200 hover:text-white hover:border-white/20 transition-colors"
+              >
+                {item.label}
+              </button>
+            ))}
+
+            <Button
+              onClick={handleBookClick}
+              size="sm"
+              className="mt-2 rounded-full bg-emerald-500 text-black font-semibold h-10 hover:bg-emerald-400 transition"
+              data-testid="button-nav-cta-mobile"
+            >
+              Book a Free Audit
+            </Button>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
@@ -162,6 +222,16 @@ export function Footer() {
                 >
                   LinkedIn
                 </a>
+              </li>
+              <li>
+                <Link href="/privacy-policy" className="hover:text-white transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms-of-service" className="hover:text-white transition-colors">
+                  Terms of Service
+                </Link>
               </li>
             </ul>
           </div>
