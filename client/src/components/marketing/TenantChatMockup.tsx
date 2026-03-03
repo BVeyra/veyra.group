@@ -47,7 +47,11 @@ function buildMockReply(input: string) {
   return "Got it. I logged that request and sent a confirmation. A property manager will review anything that needs human approval.";
 }
 
-export default function TenantChatMockup() {
+type TenantChatMockupProps = {
+  interactive?: boolean;
+};
+
+export default function TenantChatMockup({ interactive = false }: TenantChatMockupProps) {
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
   const [draft, setDraft] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -55,8 +59,9 @@ export default function TenantChatMockup() {
   const timeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
+    if (!interactive) return;
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [messages, isTyping]);
+  }, [interactive, messages, isTyping]);
 
   useEffect(() => {
     return () => {
@@ -67,6 +72,7 @@ export default function TenantChatMockup() {
   }, []);
 
   const sendMessage = () => {
+    if (!interactive) return;
     const trimmed = draft.trim();
     if (!trimmed || isTyping) return;
 
@@ -182,12 +188,13 @@ export default function TenantChatMockup() {
                   }
                 }}
                 placeholder="Type a message..."
+                disabled={!interactive}
                 className="flex-1 bg-transparent text-xs text-gray-200 placeholder:text-gray-500 outline-none"
               />
               <button
                 type="button"
                 onClick={sendMessage}
-                disabled={!draft.trim() || isTyping}
+                disabled={!interactive || !draft.trim() || isTyping}
                 className="w-7 h-7 rounded-full bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send className="w-3.5 h-3.5 text-black ml-0.5" />

@@ -78,7 +78,7 @@ export default function DemoPage() {
 
           <div className="space-y-6">
             <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-              <TenantChatMockup key={chatKey} />
+              <TenantChatMockup key={chatKey} interactive />
             </div>
 
             <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
