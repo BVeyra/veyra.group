@@ -279,7 +279,7 @@ export default function DemoPage() {
           </p>
         </section>
 
-        <section className="grid grid-cols-1 lg:grid-cols-[1fr_320px] xl:grid-cols-[1fr_360px] gap-6 xl:gap-8 items-start">
+        <section className="space-y-6">
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] overflow-hidden">
             <div className="h-12 bg-[#111] border-b border-white/10 px-4 flex items-center justify-between">
               <div className="flex items-center gap-3 min-w-0">
@@ -297,7 +297,7 @@ export default function DemoPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-[auto_1fr] min-h-[680px] md:min-h-[640px]">
+            <div className="grid grid-cols-[auto_1fr]">
               <Sidebar
                 currentView={state.currentView}
                 onViewChange={actions.setView}
@@ -342,7 +342,7 @@ export default function DemoPage() {
             </div>
           </div>
 
-          <div className="space-y-6 lg:sticky lg:top-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
               <div className="pb-3 border-b border-white/10">
                 <p className="text-sm text-white font-semibold">Tenant Chat Preview</p>
@@ -352,7 +352,7 @@ export default function DemoPage() {
               </div>
               <div
                 ref={chatContainerRef}
-                className="h-[460px] overflow-y-auto scrollbar-hide py-4 space-y-3"
+                className="h-[400px] overflow-y-auto scrollbar-hide py-4 space-y-3"
               >
                 {state.chatMessages.map((message) => (
                   <div
