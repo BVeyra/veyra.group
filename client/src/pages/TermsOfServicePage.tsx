@@ -88,8 +88,8 @@ export default function TermsOfServicePage() {
             <h2 className="text-xl font-semibold text-white">9. Contact</h2>
             <p className="text-gray-400 leading-relaxed mt-2">
               Questions about these Terms can be sent to{" "}
-              <a href="mailto:bruno@veyragroup.ai" className="text-emerald-400 hover:underline">
-                bruno@veyragroup.ai
+              <a href="mailto:contact@veyragroup.ai" className="text-emerald-400 hover:underline">
+                contact@veyragroup.ai
               </a>
               .
             </p>

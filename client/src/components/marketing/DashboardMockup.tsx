@@ -11,9 +11,22 @@ import {
   Settings,
   Wrench,
 } from "lucide-react";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
 export default function DashboardMockup() {
+  const [queueResolution, setQueueResolution] = useState<"pending" | "approved" | "edited">("pending");
+
+  const hasPendingReview = queueResolution === "pending";
+  const queueCount = hasPendingReview ? "3" : "2";
+  const openMaintenance = hasPendingReview ? "3 open" : "2 open";
+  const autoHandled = hasPendingReview ? "21 auto-handled" : "22 auto-handled";
+  const flaggedCount = hasPendingReview ? "3 flagged" : "2 flagged";
+  const confidenceLabel = hasPendingReview ? "94.2%" : "96.1%";
+
+  const handleApprove = () => setQueueResolution("approved");
+  const handleEdit = () => setQueueResolution("edited");
+  const handleReopen = () => setQueueResolution("pending");
+
   return (
     <div className="w-full max-w-5xl mx-auto">
       <div className="text-xs text-gray-500 uppercase tracking-widest mb-4 font-medium pl-1">What you see</div>
@@ -82,7 +95,7 @@ export default function DashboardMockup() {
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="text-sm font-medium text-white flex items-center gap-2">
                     Approval Queue
-                    <span className="bg-white/10 text-white text-[10px] px-1.5 py-0.5 rounded-full">3</span>
+                    <span className="bg-white/10 text-white text-[10px] px-1.5 py-0.5 rounded-full">{queueCount}</span>
                   </h3>
                 </div>
 
@@ -100,29 +113,64 @@ export default function DashboardMockup() {
                     time="8 min ago"
                   />
 
-                  <div className="rounded-xl border-l-2 border-yellow-400/50 bg-yellow-500/[0.03] border-y border-r border-white/5 p-3 group hover:bg-yellow-500/[0.05] transition-colors">
-                    <div className="flex items-start justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-yellow-400" />
-                        <span className="text-sm text-white font-medium">Unit 8A — Maria L.</span>
+                  {hasPendingReview ? (
+                    <div className="rounded-xl border-l-2 border-yellow-400/50 bg-yellow-500/[0.03] border-y border-r border-white/5 p-3 group hover:bg-yellow-500/[0.05] transition-colors">
+                      <div className="flex items-start justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full bg-yellow-400" />
+                          <span className="text-sm text-white font-medium">Unit 8A — Maria L.</span>
+                        </div>
+                        <span className="text-xs text-gray-600">12 min ago</span>
                       </div>
-                      <span className="text-xs text-gray-600">12 min ago</span>
+                      <div className="pl-3.5 mb-3">
+                        <p className="text-sm text-gray-300 mb-2">Noise complaint — requesting lease break</p>
+                        <span className="inline-flex items-center text-[10px] font-medium text-yellow-400 bg-yellow-500/10 rounded-full px-2 py-0.5 border border-yellow-500/20">
+                          Needs Review ⚠️
+                        </span>
+                      </div>
+                      <div className="pl-3.5 flex gap-2">
+                        <button
+                          type="button"
+                          onClick={handleApprove}
+                          className="text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-lg px-3 py-1.5 hover:bg-emerald-500/20 transition-colors"
+                        >
+                          Approve AI Draft
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleEdit}
+                          className="text-xs font-medium bg-white/5 text-gray-300 border border-white/10 rounded-lg px-3 py-1.5 hover:bg-white/10 transition-colors"
+                        >
+                          Edit & Send
+                        </button>
+                      </div>
                     </div>
-                    <div className="pl-3.5 mb-3">
-                      <p className="text-sm text-gray-300 mb-2">Noise complaint — requesting lease break</p>
-                      <span className="inline-flex items-center text-[10px] font-medium text-yellow-400 bg-yellow-500/10 rounded-full px-2 py-0.5 border border-yellow-500/20">
-                        Needs Review ⚠️
-                      </span>
+                  ) : (
+                    <div className="rounded-xl border-l-2 border-emerald-400/50 bg-emerald-500/[0.03] border-y border-r border-white/5 p-3">
+                      <div className="flex items-start justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                          <span className="text-sm text-white font-medium">Unit 8A — Maria L.</span>
+                        </div>
+                        <span className="text-xs text-gray-600">just now</span>
+                      </div>
+                      <div className="pl-3.5 mb-3">
+                        <p className="text-sm text-gray-300 mb-2">Noise complaint — requesting lease break</p>
+                        <span className="inline-flex items-center text-[10px] font-medium text-emerald-300 bg-emerald-500/10 rounded-full px-2 py-0.5 border border-emerald-500/20">
+                          {queueResolution === "approved" ? "Approved & Sent ✓" : "Edited & Sent ✓"}
+                        </span>
+                      </div>
+                      <div className="pl-3.5">
+                        <button
+                          type="button"
+                          onClick={handleReopen}
+                          className="text-xs font-medium bg-white/5 text-gray-300 border border-white/10 rounded-lg px-3 py-1.5 hover:bg-white/10 transition-colors"
+                        >
+                          Re-open for Review
+                        </button>
+                      </div>
                     </div>
-                    <div className="pl-3.5 flex gap-2">
-                      <button className="text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-lg px-3 py-1.5 hover:bg-emerald-500/20 transition-colors">
-                        Approve AI Draft
-                      </button>
-                      <button className="text-xs font-medium bg-white/5 text-gray-400 border border-white/5 rounded-lg px-3 py-1.5 hover:bg-white/10 transition-colors">
-                        Edit & Send
-                      </button>
-                    </div>
-                  </div>
+                  )}
                 </div>
               </div>
 
@@ -130,7 +178,7 @@ export default function DashboardMockup() {
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="text-sm font-medium text-white flex items-center gap-2">
                     Maintenance
-                    <span className="bg-white/10 text-white text-[10px] px-1.5 py-0.5 rounded-full">3 open</span>
+                    <span className="bg-white/10 text-white text-[10px] px-1.5 py-0.5 rounded-full">{openMaintenance}</span>
                   </h3>
                 </div>
 
@@ -167,11 +215,11 @@ export default function DashboardMockup() {
                 </span>
                 <span className="hidden sm:inline">·</span>
                 <span>
-                  <span className="text-gray-300">21 auto-handled</span>
+                  <span className="text-gray-300">{autoHandled}</span>
                 </span>
                 <span className="hidden sm:inline">·</span>
                 <span>
-                  <span className="text-gray-300">3 flagged</span>
+                  <span className="text-gray-300">{flaggedCount}</span>
                 </span>
                 <span className="hidden sm:inline">·</span>
                 <span>
@@ -180,7 +228,7 @@ export default function DashboardMockup() {
               </div>
               <div className="text-emerald-400 font-medium flex items-center gap-1.5">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                AI Confidence: 94.2%
+                AI Confidence: {confidenceLabel}
               </div>
             </div>
           </div>

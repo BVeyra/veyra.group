@@ -18,7 +18,7 @@ function getResendClient() {
     bookingUrl:
       process.env.BOOKING_URL || "https://veyragroup.ai/book",
     ownerNotificationEmail:
-      process.env.OWNER_NOTIFICATION_EMAIL || "bruno@veyragroup.ai",
+      process.env.OWNER_NOTIFICATION_EMAIL || "hello@veyragroup.ai",
   };
 }
 

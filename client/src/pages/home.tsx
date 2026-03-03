@@ -21,8 +21,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { openCalendly } from "@/lib/calendly";
 import { AnimatePresence, motion } from "framer-motion";
-import DashboardMockup from "@/components/marketing/DashboardMockup";
-import TenantChatMockup from "@/components/marketing/TenantChatMockup";
+import SolutionMockups from "@/components/marketing/SolutionMockups";
 
 type IntegrationLogo = {
   name: string;
@@ -811,24 +810,8 @@ export default function Home() {
               </div>
             </motion.div>
 
-            <div className="mt-12 md:mt-16 w-full max-w-5xl mx-auto space-y-10">
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
-              >
-                <DashboardMockup />
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6, delay: 0.25, ease: "easeOut" }}
-              >
-                <TenantChatMockup />
-              </motion.div>
+            <div className="mt-12 md:mt-16">
+              <SolutionMockups />
             </div>
           </div>
         </section>

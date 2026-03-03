@@ -1,6 +1,99 @@
 import { Send } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+
+type ChatMessage = {
+  id: number;
+  role: "assistant" | "user";
+  author: string;
+  text: string;
+};
+
+const initialMessages: ChatMessage[] = [
+  {
+    id: 1,
+    role: "assistant",
+    author: "V",
+    text: "Hi Sarah! I received your rent payment of $1,850 for Unit 12C. Thank you! Do you need anything else?",
+  },
+  {
+    id: 2,
+    role: "user",
+    author: "S",
+    text: "Thanks! Actually, when is the lease renewal coming up?",
+  },
+  {
+    id: 3,
+    role: "assistant",
+    author: "V",
+    text: "Your lease for Unit 12C ends on August 31, 2026. We'll send renewal options about 60 days before that. Would you like me to set a reminder?",
+  },
+];
+
+function buildMockReply(input: string) {
+  const value = input.toLowerCase();
+
+  if (value.includes("lease") || value.includes("renew")) {
+    return "Absolutely. I set a lease renewal reminder and logged this in your account. You'll get a follow-up 60 days before expiration.";
+  }
+
+  if (value.includes("rent") || value.includes("payment")) {
+    return "Got it. I pulled your rent ledger and sent a summary with due date, amount, and payment options.";
+  }
+
+  if (value.includes("maintenance") || value.includes("toilet") || value.includes("hvac")) {
+    return "Thanks for reporting that. I created a maintenance ticket and dispatched the correct vendor. You'll receive status updates automatically.";
+  }
+
+  return "Got it. I logged that request and sent a confirmation. A property manager will review anything that needs human approval.";
+}
 
 export default function TenantChatMockup() {
+  const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
+  const [draft, setDraft] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const timeoutRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [messages, isTyping]);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        window.clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  const sendMessage = () => {
+    const trimmed = draft.trim();
+    if (!trimmed || isTyping) return;
+
+    const userMessage: ChatMessage = {
+      id: Date.now(),
+      role: "user",
+      author: "S",
+      text: trimmed,
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setDraft("");
+    setIsTyping(true);
+
+    timeoutRef.current = window.setTimeout(() => {
+      const assistantMessage: ChatMessage = {
+        id: Date.now() + 1,
+        role: "assistant",
+        author: "V",
+        text: buildMockReply(trimmed),
+      };
+
+      setMessages((prev) => [...prev, assistantMessage]);
+      setIsTyping(false);
+    }, 850);
+  };
+
   return (
     <div className="w-full max-w-5xl mx-auto flex flex-col items-center">
       <div className="text-xs text-gray-500 uppercase tracking-widest mb-8 font-medium">What your tenants see</div>
@@ -33,40 +126,72 @@ export default function TenantChatMockup() {
           </div>
 
           <div className="flex-1 flex flex-col gap-4 py-6 overflow-y-auto scrollbar-hide">
-            <div className="flex gap-3 max-w-[85%]">
-              <div className="w-6 h-6 rounded-full bg-emerald-500/20 flex-shrink-0 flex items-center justify-center text-emerald-400 text-[10px] font-bold mt-1 ring-1 ring-emerald-500/20">
-                V
-              </div>
-              <div className="bg-white/10 rounded-2xl rounded-tl-none p-3 text-xs text-gray-200 leading-relaxed border border-white/5">
-                Hi Sarah! I received your rent payment of $1,850 for Unit 12C. Thank you! Do you need anything else?
-              </div>
-            </div>
+            {messages.map((message) => {
+              if (message.role === "assistant") {
+                return (
+                  <div key={message.id} className="flex gap-3 max-w-[85%]">
+                    <div className="w-6 h-6 rounded-full bg-emerald-500/20 flex-shrink-0 flex items-center justify-center text-emerald-400 text-[10px] font-bold mt-1 ring-1 ring-emerald-500/20">
+                      {message.author}
+                    </div>
+                    <div className="bg-white/10 rounded-2xl rounded-tl-none p-3 text-xs text-gray-200 leading-relaxed border border-white/5">
+                      {message.text}
+                    </div>
+                  </div>
+                );
+              }
 
-            <div className="flex gap-3 max-w-[85%] self-end flex-row-reverse">
-              <div className="w-6 h-6 rounded-full bg-gray-700 flex-shrink-0 flex items-center justify-center text-gray-300 text-[10px] font-bold mt-1 border border-white/10">
-                S
-              </div>
-              <div className="bg-emerald-600 rounded-2xl rounded-tr-none p-3 text-xs text-white leading-relaxed shadow-lg shadow-emerald-900/20">
-                Thanks! Actually, when is the lease renewal coming up?
-              </div>
-            </div>
+              return (
+                <div key={message.id} className="flex gap-3 max-w-[85%] self-end flex-row-reverse">
+                  <div className="w-6 h-6 rounded-full bg-gray-700 flex-shrink-0 flex items-center justify-center text-gray-300 text-[10px] font-bold mt-1 border border-white/10">
+                    {message.author}
+                  </div>
+                  <div className="bg-emerald-600 rounded-2xl rounded-tr-none p-3 text-xs text-white leading-relaxed shadow-lg shadow-emerald-900/20">
+                    {message.text}
+                  </div>
+                </div>
+              );
+            })}
 
-            <div className="flex gap-3 max-w-[85%]">
-              <div className="w-6 h-6 rounded-full bg-emerald-500/20 flex-shrink-0 flex items-center justify-center text-emerald-400 text-[10px] font-bold mt-1 ring-1 ring-emerald-500/20">
-                V
+            {isTyping && (
+              <div className="flex gap-3 max-w-[85%]">
+                <div className="w-6 h-6 rounded-full bg-emerald-500/20 flex-shrink-0 flex items-center justify-center text-emerald-400 text-[10px] font-bold mt-1 ring-1 ring-emerald-500/20">
+                  V
+                </div>
+                <div className="bg-white/10 rounded-2xl rounded-tl-none p-3 border border-white/5">
+                  <span className="inline-flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-300/80 animate-pulse" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-300/60 animate-pulse [animation-delay:120ms]" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-300/40 animate-pulse [animation-delay:240ms]" />
+                  </span>
+                </div>
               </div>
-              <div className="bg-white/10 rounded-2xl rounded-tl-none p-3 text-xs text-gray-200 leading-relaxed border border-white/5">
-                Your lease for Unit 12C ends on August 31, 2026. We'll send renewal options about 60 days before that. Would you like me to set a reminder?
-              </div>
-            </div>
+            )}
+            <div ref={messagesEndRef} />
           </div>
 
           <div className="mt-auto pt-2">
-            <div className="bg-white/5 rounded-full px-4 py-3 flex items-center justify-between border border-white/5 ring-1 ring-white/5">
-              <span className="text-xs text-gray-500">Type a message...</span>
-              <div className="w-7 h-7 rounded-full bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+            <div className="bg-white/5 rounded-full px-3 py-2 flex items-center gap-2 border border-white/5 ring-1 ring-white/5">
+              <input
+                type="text"
+                value={draft}
+                onChange={(event) => setDraft(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    event.preventDefault();
+                    sendMessage();
+                  }
+                }}
+                placeholder="Type a message..."
+                className="flex-1 bg-transparent text-xs text-gray-200 placeholder:text-gray-500 outline-none"
+              />
+              <button
+                type="button"
+                onClick={sendMessage}
+                disabled={!draft.trim() || isTyping}
+                className="w-7 h-7 rounded-full bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
                 <Send className="w-3.5 h-3.5 text-black ml-0.5" />
-              </div>
+              </button>
             </div>
           </div>
         </div>

@@ -5,6 +5,7 @@ const NotFound = lazy(() => import("@/pages/not-found"));
 const Home = lazy(() => import("@/pages/home"));
 const CalculatorPage = lazy(() => import("@/pages/CalculatorPage"));
 const BookPage = lazy(() => import("@/pages/BookPage"));
+const DemoPage = lazy(() => import("@/pages/DemoPage"));
 const PrivacyPolicyPage = lazy(() => import("@/pages/PrivacyPolicyPage"));
 const TermsOfServicePage = lazy(() => import("@/pages/TermsOfServicePage"));
 
@@ -34,6 +35,7 @@ function Router() {
 
       <Switch>
         <Route path="/" component={Home} />
+        <Route path="/demo" component={DemoPage} />
         <Route path="/book" component={BookPage} />
         <Route path="/calculator" component={CalculatorPage} />
         <Route path="/privacy-policy" component={PrivacyPolicyPage} />

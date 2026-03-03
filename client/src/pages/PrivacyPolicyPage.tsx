@@ -88,8 +88,8 @@ export default function PrivacyPolicyPage() {
             <h2 className="text-xl font-semibold text-white">9. Contact</h2>
             <p className="text-gray-400 leading-relaxed mt-2">
               Questions about this Privacy Policy can be sent to{" "}
-              <a href="mailto:bruno@veyragroup.ai" className="text-emerald-400 hover:underline">
-                bruno@veyragroup.ai
+              <a href="mailto:hello@veyragroup.ai" className="text-emerald-400 hover:underline">
+                hello@veyragroup.ai
               </a>
               .
             </p>
