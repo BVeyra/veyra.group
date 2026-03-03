@@ -55,6 +55,10 @@ export function Navbar() {
     openCalendly();
   };
 
+  const handleDemoClick = () => {
+    setIsMenuOpen(false);
+  };
+
   const handleLogoClick = () => {
     setIsMenuOpen(false);
     if (location === "/") {
@@ -95,6 +99,15 @@ export function Navbar() {
 
         <div className="flex items-center gap-3">
           <Button
+            asChild
+            size="sm"
+            data-testid="button-nav-demo"
+            className="hidden md:inline-flex rounded-full border border-white/15 bg-white/[0.02] text-gray-200 font-semibold px-4 py-2 h-auto hover:text-white hover:border-white/30 transition"
+          >
+            <Link href="/demo">Try Demo</Link>
+          </Button>
+
+          <Button
             onClick={openCalendly}
             size="sm"
             data-testid="button-nav-cta"
@@ -127,6 +140,17 @@ export function Navbar() {
                 {item.label}
               </button>
             ))}
+
+            <Button
+              asChild
+              size="sm"
+              className="mt-2 rounded-full border border-white/15 bg-white/[0.02] text-gray-200 font-semibold h-10 hover:text-white hover:border-white/30 transition"
+              data-testid="button-nav-demo-mobile"
+            >
+              <Link href="/demo" onClick={handleDemoClick}>
+                Try Demo
+              </Link>
+            </Button>
 
             <Button
               onClick={handleBookClick}
