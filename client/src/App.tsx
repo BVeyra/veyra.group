@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useLayoutEffect } from "react";
 import { Switch, Route, useLocation } from "wouter";
+import { Analytics } from "@vercel/analytics/react";
 
 const NotFound = lazy(() => import("@/pages/not-found"));
 const Home = lazy(() => import("@/pages/home"));
@@ -74,6 +75,7 @@ function App() {
   return (
     <Suspense fallback={null}>
       <Router />
+      <Analytics />
     </Suspense>
   );
 }
