@@ -212,7 +212,7 @@
 .logo-carousel-track {
   display: flex;
   width: max-content;
-  animation: logo-scroll 40s linear infinite;
+  animation: logo-scroll 80s linear infinite;
   will-change: transform;
 }
 

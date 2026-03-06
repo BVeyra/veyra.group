@@ -311,7 +311,6 @@ function IntegrationLogo({ logo }: { logo: IntegrationLogo }) {
         onError={() => setIsVisible(false)}
         className="h-7 w-auto object-contain opacity-75 group-hover:opacity-100 transition duration-300"
       />
-      <span className="text-[10px] text-gray-600 group-hover:text-gray-400 transition duration-300 whitespace-nowrap">{logo.name}</span>
     </div>
   );
 }
