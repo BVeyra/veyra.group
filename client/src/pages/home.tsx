@@ -100,9 +100,10 @@ const integrationLogos: IntegrationLogo[] = [
 ];
 
 const statsData = [
-  { value: 87, label: "PMs Researched" },
-  { value: 15, label: "US Markets" },
-  { value: 10, label: "Hours/Week Saved" },
+  { value: 87, suffix: "+", label: "PMs Researched" },
+  { value: 90, suffix: "s", label: "Avg Response Time" },
+  { value: 24, suffix: "/7", label: "Tenant Coverage" },
+  { value: 10, suffix: "+", label: "Hours/Week Saved" },
 ];
 
 const problemTimeline = [
@@ -359,10 +360,12 @@ function IntegrationLogo({ logo }: { logo: IntegrationLogo }) {
 
 function AnimatedStatNumber({
   value,
+  suffix = "+",
   start,
   delay,
 }: {
   value: number;
+  suffix?: string;
   start: boolean;
   delay: number;
 }) {
@@ -399,7 +402,7 @@ function AnimatedStatNumber({
 
   return (
     <span className="hero-stat-value">
-      {displayValue}+
+      {displayValue}{suffix}
     </span>
   );
 }
@@ -626,23 +629,6 @@ export default function Home() {
                   </Button>
                 </motion.div>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: heroTiming(0.5),
-                    delay: heroTiming(1.8),
-                    ease: "easeOut",
-                  }}
-                  className="mt-8 max-w-[480px]"
-                >
-                  <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-                  <div className="my-3 inline-flex items-center gap-2 text-sm text-gray-500 tracking-wide">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    Built for independent property managers across the US
-                  </div>
-                  <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-                </motion.div>
               </div>
 
               <motion.div
@@ -700,7 +686,7 @@ export default function Home() {
                   className="text-center relative"
                 >
                   <p className="text-3xl md:text-5xl font-bold text-white">
-                    <AnimatedStatNumber value={stat.value} start={statsStarted} delay={index * 200} />
+                    <AnimatedStatNumber value={stat.value} suffix={stat.suffix} start={statsStarted} delay={index * 200} />
                   </p>
                   <p className="text-sm text-gray-500 mt-1">{stat.label}</p>
                   {index < statsData.length - 1 && (
