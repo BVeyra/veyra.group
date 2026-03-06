@@ -63,11 +63,7 @@ const integrationLogos: IntegrationLogo[] = [
   },
   {
     name: "Gmail",
-    icon: "https://www.google.com/s2/favicons?domain=mail.google.com&sz=64",
-  },
-  {
-    name: "Outlook",
-    icon: "https://www.google.com/s2/favicons?domain=outlook.office.com&sz=64",
+    icon: "https://www.google.com/s2/favicons?domain=gmail.com&sz=64",
   },
   {
     name: "Zillow Rental Manager",
@@ -82,12 +78,8 @@ const integrationLogos: IntegrationLogo[] = [
     icon: "https://www.google.com/s2/favicons?domain=stripe.com&sz=64",
   },
   {
-    name: "Google Workspace",
-    icon: "https://www.google.com/s2/favicons?domain=workspace.google.com&sz=64",
-  },
-  {
     name: "Microsoft 365",
-    icon: "https://www.google.com/s2/favicons?domain=microsoft.com&sz=64",
+    icon: "https://www.google.com/s2/favicons?domain=microsoft365.com&sz=64",
   },
   {
     name: "Zapier",
@@ -370,7 +362,8 @@ function AnimatedStatNumber({
   delay: number;
 }) {
   const [displayValue, setDisplayValue] = useState(0);
-  const [shimmer, setShimmer] = useState(false);
+  const [countDone, setCountDone] = useState(false);
+  const [shimmerKey, setShimmerKey] = useState(0);
 
   useEffect(() => {
     if (!start) return;
@@ -390,7 +383,8 @@ function AnimatedStatNumber({
         if (progress < 1) {
           rafId = window.requestAnimationFrame(tick);
         } else {
-          setShimmer(true);
+          setCountDone(true);
+          setShimmerKey(1);
         }
       };
 
@@ -403,8 +397,16 @@ function AnimatedStatNumber({
     };
   }, [delay, start, value]);
 
+  useEffect(() => {
+    if (!countDone) return;
+    const interval = window.setInterval(() => {
+      setShimmerKey((k) => k + 1);
+    }, 5000);
+    return () => window.clearInterval(interval);
+  }, [countDone]);
+
   return (
-    <span className={`hero-stat-value relative inline-block ${shimmer ? "stat-shimmer" : ""}`}>
+    <span key={shimmerKey} className={`hero-stat-value relative inline-block ${countDone ? "stat-shimmer" : ""}`}>
       {displayValue}{suffix}
     </span>
   );
