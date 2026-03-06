@@ -29,31 +29,31 @@ type IntegrationLogo = {
 };
 
 const integrationLogos: IntegrationLogo[] = [
-  // Core PM Software
-  { name: "AppFolio", icon: "https://logo.clearbit.com/appfolio.com" },
-  { name: "Buildium", icon: "https://logo.clearbit.com/buildium.com" },
-  { name: "Rent Manager", icon: "https://logo.clearbit.com/rentmanager.com" },
-  { name: "Yardi Breeze", icon: "https://logo.clearbit.com/yardibreeze.com" },
-  { name: "Propertyware", icon: "https://logo.clearbit.com/propertyware.com" },
-  { name: "RentRedi", icon: "https://logo.clearbit.com/rentredi.com" },
-  { name: "TenantCloud", icon: "https://logo.clearbit.com/tenantcloud.com" },
-  // Communication
-  { name: "Twilio", icon: "https://logo.clearbit.com/twilio.com" },
-  { name: "Gmail", icon: "https://logo.clearbit.com/gmail.com" },
-  { name: "Outlook", icon: "https://logo.clearbit.com/outlook.com" },
-  { name: "Google Voice", icon: "https://logo.clearbit.com/voice.google.com" },
+  // Core PM Software — favicons (all visually distinct)
+  { name: "AppFolio", icon: "https://www.google.com/s2/favicons?domain=appfolio.com&sz=64" },
+  { name: "Buildium", icon: "https://www.google.com/s2/favicons?domain=buildium.com&sz=64" },
+  { name: "Rent Manager", icon: "https://www.google.com/s2/favicons?domain=rentmanager.com&sz=64" },
+  { name: "Yardi Breeze", icon: "https://www.google.com/s2/favicons?domain=yardibreeze.com&sz=64" },
+  { name: "Propertyware", icon: "https://www.google.com/s2/favicons?domain=propertyware.com&sz=64" },
+  { name: "RentRedi", icon: "https://www.google.com/s2/favicons?domain=rentredi.com&sz=64" },
+  { name: "TenantCloud", icon: "https://www.google.com/s2/favicons?domain=tenantcloud.com&sz=64" },
+  // Communication — brand icons to avoid Google "G" duplicates
+  { name: "Twilio", icon: "https://api.iconify.design/simple-icons:twilio.svg?color=%23F22F46" },
+  { name: "Gmail", icon: "https://cdn.simpleicons.org/gmail/EA4335" },
+  { name: "Outlook", icon: "https://api.iconify.design/simple-icons:microsoftoutlook.svg?color=%230078D4" },
+  { name: "Google Voice", icon: "https://www.google.com/s2/favicons?domain=voice.google.com&sz=64" },
   // Payments & Accounting
-  { name: "QuickBooks", icon: "https://logo.clearbit.com/quickbooks.intuit.com" },
-  { name: "Stripe", icon: "https://logo.clearbit.com/stripe.com" },
-  { name: "Plaid", icon: "https://logo.clearbit.com/plaid.com" },
+  { name: "QuickBooks", icon: "https://cdn.simpleicons.org/quickbooks/2CA01C" },
+  { name: "Stripe", icon: "https://cdn.simpleicons.org/stripe/635BFF" },
+  { name: "Plaid", icon: "https://www.google.com/s2/favicons?domain=plaid.com&sz=64" },
   // Operations
-  { name: "DocuSign", icon: "https://logo.clearbit.com/docusign.com" },
-  { name: "Google Workspace", icon: "https://logo.clearbit.com/workspace.google.com" },
-  { name: "Zapier", icon: "https://logo.clearbit.com/zapier.com" },
+  { name: "DocuSign", icon: "https://www.google.com/s2/favicons?domain=docusign.com&sz=64" },
+  { name: "Google Workspace", icon: "https://cdn.simpleicons.org/google/4285F4" },
+  { name: "Zapier", icon: "https://cdn.simpleicons.org/zapier/FF4A00" },
   // Listing/Marketing
-  { name: "Zillow", icon: "https://logo.clearbit.com/zillow.com" },
-  { name: "Apartments.com", icon: "https://logo.clearbit.com/apartments.com" },
-  { name: "Zumper", icon: "https://logo.clearbit.com/zumper.com" },
+  { name: "Zillow", icon: "https://cdn.simpleicons.org/zillow/006AFF" },
+  { name: "Apartments.com", icon: "https://www.google.com/s2/favicons?domain=apartments.com&sz=64" },
+  { name: "Zumper", icon: "https://www.google.com/s2/favicons?domain=zumper.com&sz=64" },
 ];
 
 const statsData = [
