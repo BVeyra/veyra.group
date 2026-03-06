@@ -38,20 +38,20 @@ const integrationLogos: IntegrationLogo[] = [
   { name: "RentRedi", icon: "https://www.google.com/s2/favicons?domain=rentredi.com&sz=64" },
   { name: "TenantCloud", icon: "https://www.google.com/s2/favicons?domain=tenantcloud.com&sz=64" },
   // Communication
-  { name: "Twilio", icon: "https://www.google.com/s2/favicons?domain=twilio.com&sz=64" },
-  { name: "Gmail", icon: "https://www.google.com/s2/favicons?domain=gmail.com&sz=64" },
-  { name: "Outlook", icon: "https://www.google.com/s2/favicons?domain=outlook.com&sz=64" },
+  { name: "Twilio", icon: "https://cdn.simpleicons.org/twilio/F22F46" },
+  { name: "Gmail", icon: "https://cdn.simpleicons.org/gmail/EA4335" },
+  { name: "Outlook", icon: "https://cdn.simpleicons.org/microsoftoutlook/0078D4" },
   { name: "Google Voice", icon: "https://www.google.com/s2/favicons?domain=voice.google.com&sz=64" },
   // Payments & Accounting
   { name: "QuickBooks", icon: "https://www.google.com/s2/favicons?domain=quickbooks.intuit.com&sz=64" },
-  { name: "Stripe", icon: "https://www.google.com/s2/favicons?domain=stripe.com&sz=64" },
+  { name: "Stripe", icon: "https://cdn.simpleicons.org/stripe/635BFF" },
   { name: "Plaid", icon: "https://www.google.com/s2/favicons?domain=plaid.com&sz=64" },
   // Operations
-  { name: "DocuSign", icon: "https://www.google.com/s2/favicons?domain=docusign.com&sz=64" },
-  { name: "Google Workspace", icon: "https://www.google.com/s2/favicons?domain=workspace.google.com&sz=64" },
-  { name: "Zapier", icon: "https://www.google.com/s2/favicons?domain=zapier.com&sz=64" },
+  { name: "DocuSign", icon: "https://cdn.simpleicons.org/docusign/FFCE00" },
+  { name: "Google Workspace", icon: "https://cdn.simpleicons.org/googleworkspace/4285F4" },
+  { name: "Zapier", icon: "https://cdn.simpleicons.org/zapier/FF4A00" },
   // Listing/Marketing
-  { name: "Zillow", icon: "https://www.google.com/s2/favicons?domain=zillow.com&sz=64" },
+  { name: "Zillow", icon: "https://cdn.simpleicons.org/zillow/006AFF" },
   { name: "Apartments.com", icon: "https://www.google.com/s2/favicons?domain=apartments.com&sz=64" },
   { name: "Zumper", icon: "https://www.google.com/s2/favicons?domain=zumper.com&sz=64" },
 ];
