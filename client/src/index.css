@@ -170,6 +170,31 @@
   text-shadow: 0 0 30px rgba(52, 211, 153, 0.15);
 }
 
+.stat-shimmer {
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-size: 300% 100%;
+  background-image: linear-gradient(
+    120deg,
+    currentColor 0%,
+    currentColor 40%,
+    rgba(255, 255, 255, 0.9) 50%,
+    currentColor 60%,
+    currentColor 100%
+  );
+  -webkit-text-fill-color: transparent;
+  animation: statShimmerSweep 0.8s ease-in-out forwards;
+}
+
+@keyframes statShimmerSweep {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 @keyframes heroShimmerSweep {
   0% {
     background-position: 0% 50%;

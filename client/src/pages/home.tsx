@@ -370,6 +370,7 @@ function AnimatedStatNumber({
   delay: number;
 }) {
   const [displayValue, setDisplayValue] = useState(0);
+  const [shimmer, setShimmer] = useState(false);
 
   useEffect(() => {
     if (!start) return;
@@ -388,6 +389,8 @@ function AnimatedStatNumber({
 
         if (progress < 1) {
           rafId = window.requestAnimationFrame(tick);
+        } else {
+          setShimmer(true);
         }
       };
 
@@ -401,7 +404,7 @@ function AnimatedStatNumber({
   }, [delay, start, value]);
 
   return (
-    <span className="hero-stat-value">
+    <span className={`hero-stat-value relative inline-block ${shimmer ? "stat-shimmer" : ""}`}>
       {displayValue}{suffix}
     </span>
   );
@@ -685,7 +688,7 @@ export default function Home() {
                   transition={{ duration: 0.6, delay: index * 0.2 }}
                   className="text-center relative"
                 >
-                  <p className="text-3xl md:text-5xl font-bold text-white">
+                  <p className="text-3xl md:text-5xl font-bold text-emerald-400">
                     <AnimatedStatNumber value={stat.value} suffix={stat.suffix} start={statsStarted} delay={index * 200} />
                   </p>
                   <p className="text-sm text-gray-500 mt-1">{stat.label}</p>
