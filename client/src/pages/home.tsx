@@ -352,7 +352,7 @@ function IntegrationLogo({ logo }: { logo: IntegrationLogo }) {
         alt={`${logo.name} logo`}
         loading="lazy"
         onError={() => setIsVisible(false)}
-        className="h-7 w-auto object-contain grayscale opacity-35 group-hover:grayscale-0 group-hover:opacity-100 transition duration-300"
+        className="h-7 w-auto object-contain opacity-75 hover:opacity-100 transition duration-300"
       />
     </div>
   );
