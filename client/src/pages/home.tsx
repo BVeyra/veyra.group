@@ -29,66 +29,31 @@ type IntegrationLogo = {
 };
 
 const integrationLogos: IntegrationLogo[] = [
-  {
-    name: "AppFolio",
-    icon: "https://www.google.com/s2/favicons?domain=appfolio.com&sz=64",
-  },
-  {
-    name: "Buildium",
-    icon: "https://www.google.com/s2/favicons?domain=buildium.com&sz=64",
-  },
-  {
-    name: "Rent Manager",
-    icon: "https://www.google.com/s2/favicons?domain=rentmanager.com&sz=64",
-  },
-  {
-    name: "Yardi",
-    icon: "https://www.google.com/s2/favicons?domain=yardi.com&sz=64",
-  },
-  {
-    name: "Propertyware",
-    icon: "https://www.google.com/s2/favicons?domain=propertyware.com&sz=64",
-  },
-  {
-    name: "QuickBooks",
-    icon: "https://www.google.com/s2/favicons?domain=quickbooks.intuit.com&sz=64",
-  },
-  {
-    name: "DocuSign",
-    icon: "https://www.google.com/s2/favicons?domain=docusign.com&sz=64",
-  },
-  {
-    name: "Twilio",
-    icon: "https://www.google.com/s2/favicons?domain=twilio.com&sz=64",
-  },
-  {
-    name: "Gmail",
-    icon: "https://www.google.com/s2/favicons?domain=gmail.com&sz=64",
-  },
-  {
-    name: "Zillow Rental Manager",
-    icon: "https://www.google.com/s2/favicons?domain=zillow.com&sz=64",
-  },
-  {
-    name: "Apartments.com",
-    icon: "https://www.google.com/s2/favicons?domain=apartments.com&sz=64",
-  },
-  {
-    name: "Stripe",
-    icon: "https://www.google.com/s2/favicons?domain=stripe.com&sz=64",
-  },
-  {
-    name: "Microsoft 365",
-    icon: "https://www.google.com/s2/favicons?domain=microsoft365.com&sz=64",
-  },
-  {
-    name: "Zapier",
-    icon: "https://www.google.com/s2/favicons?domain=zapier.com&sz=64",
-  },
-  {
-    name: "Gusto",
-    icon: "https://www.google.com/s2/favicons?domain=gusto.com&sz=64",
-  },
+  // Core PM Software
+  { name: "AppFolio", icon: "https://www.google.com/s2/favicons?domain=appfolio.com&sz=64" },
+  { name: "Buildium", icon: "https://www.google.com/s2/favicons?domain=buildium.com&sz=64" },
+  { name: "Rent Manager", icon: "https://www.google.com/s2/favicons?domain=rentmanager.com&sz=64" },
+  { name: "Yardi Breeze", icon: "https://www.google.com/s2/favicons?domain=yardibreeze.com&sz=64" },
+  { name: "Propertyware", icon: "https://www.google.com/s2/favicons?domain=propertyware.com&sz=64" },
+  { name: "RentRedi", icon: "https://www.google.com/s2/favicons?domain=rentredi.com&sz=64" },
+  { name: "TenantCloud", icon: "https://www.google.com/s2/favicons?domain=tenantcloud.com&sz=64" },
+  // Communication
+  { name: "Twilio", icon: "https://www.google.com/s2/favicons?domain=twilio.com&sz=64" },
+  { name: "Gmail", icon: "https://www.google.com/s2/favicons?domain=gmail.com&sz=64" },
+  { name: "Outlook", icon: "https://www.google.com/s2/favicons?domain=outlook.com&sz=64" },
+  { name: "Google Voice", icon: "https://www.google.com/s2/favicons?domain=voice.google.com&sz=64" },
+  // Payments & Accounting
+  { name: "QuickBooks", icon: "https://www.google.com/s2/favicons?domain=quickbooks.intuit.com&sz=64" },
+  { name: "Stripe", icon: "https://www.google.com/s2/favicons?domain=stripe.com&sz=64" },
+  { name: "Plaid", icon: "https://www.google.com/s2/favicons?domain=plaid.com&sz=64" },
+  // Operations
+  { name: "DocuSign", icon: "https://www.google.com/s2/favicons?domain=docusign.com&sz=64" },
+  { name: "Google Workspace", icon: "https://www.google.com/s2/favicons?domain=workspace.google.com&sz=64" },
+  { name: "Zapier", icon: "https://www.google.com/s2/favicons?domain=zapier.com&sz=64" },
+  // Listing/Marketing
+  { name: "Zillow", icon: "https://www.google.com/s2/favicons?domain=zillow.com&sz=64" },
+  { name: "Apartments.com", icon: "https://www.google.com/s2/favicons?domain=apartments.com&sz=64" },
+  { name: "Zumper", icon: "https://www.google.com/s2/favicons?domain=zumper.com&sz=64" },
 ];
 
 const statsData = [
@@ -344,8 +309,9 @@ function IntegrationLogo({ logo }: { logo: IntegrationLogo }) {
         alt={`${logo.name} logo`}
         loading="lazy"
         onError={() => setIsVisible(false)}
-        className="h-7 w-auto object-contain opacity-75 hover:opacity-100 transition duration-300"
+        className="h-7 w-auto object-contain opacity-75 group-hover:opacity-100 transition duration-300"
       />
+      <span className="text-[10px] text-gray-600 group-hover:text-gray-400 transition duration-300 whitespace-nowrap">{logo.name}</span>
     </div>
   );
 }
