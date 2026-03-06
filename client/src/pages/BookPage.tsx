@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Link } from "wouter";
 
 const CALENDLY_EMBED_URL =
-  "https://calendly.com/veyragroup/30min?background_color=050505&text_color=e5e7eb&primary_color=34d399&hide_gdpr_banner=1";
+  "https://calendly.com/veyragroup/15min?background_color=0d1d16&text_color=e8f0ec&primary_color=2dd4a0&hide_gdpr_banner=1";
 
 export default function BookPage() {
   useEffect(() => {
@@ -50,88 +50,164 @@ export default function BookPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="hero-orb hero-orb-1" />
-        <div className="hero-orb hero-orb-2" />
-        <div className="hero-orb hero-orb-3" />
-        <div className="hero-grid-overlay" />
-        <div className="hero-noise-overlay" />
-      </div>
-
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#0d1d16",
+        color: "#e8f0ec",
+        fontFamily: "'Outfit', 'Inter', sans-serif",
+      }}
+    >
       <style>
         {`
           .book-calendly-widget {
             min-width: 320px;
-            height: 760px;
+            height: 700px;
             color-scheme: light;
-            border-radius: 16px;
           }
-          @media (max-width: 900px) {
+          @media (max-width: 600px) {
             .book-calendly-widget {
-              height: 720px;
-            }
-          }
-          @media (max-width: 640px) {
-            .book-calendly-widget {
-              height: 690px;
+              height: 800px;
             }
           }
         `}
       </style>
 
-      <header className="sticky top-0 z-20 bg-black/70 backdrop-blur-xl border-b border-white/5">
-        <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between gap-4">
-          <Link href="/" className="inline-flex items-center">
-            <img
-              src="/veyra-logo.svg"
-              alt="Veyra Group"
-              className="h-11 w-auto"
-              loading="eager"
-              draggable={false}
-            />
+      <header
+        style={{
+          borderBottom: "1px solid rgba(45, 212, 160, 0.08)",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          backdropFilter: "blur(10px)",
+          background: "rgba(13, 29, 22, 0.88)",
+          zIndex: 20,
+        }}
+      >
+        <div
+          style={{
+            maxWidth: "1100px",
+            margin: "0 auto",
+            padding: "18px 20px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "16px",
+          }}
+        >
+          <Link href="/" style={{ textDecoration: "none", display: "inline-flex" }}>
+            <span style={{ color: "#2dd4a0", fontWeight: 800, fontSize: "28px", letterSpacing: "-0.03em" }}>
+              V
+            </span>
+            <span style={{ color: "#e8f0ec", fontWeight: 700, fontSize: "28px", letterSpacing: "-0.03em" }}>
+              EYRA GROUP
+            </span>
           </Link>
-          <Link href="/" className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.02] px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:border-white/20 transition-colors">
+          <Link
+            href="/"
+            style={{
+              color: "rgba(232, 240, 236, 0.7)",
+              textDecoration: "none",
+              fontSize: "15px",
+              fontWeight: 500,
+            }}
+          >
             ← Back to site
           </Link>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-6 pt-12 pb-16 relative z-10">
-        <section className="text-center mb-8">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-[-0.02em] leading-[1.06] text-white">
-            Let&apos;s Build Your{" "}
-            <span className="bg-gradient-to-r from-emerald-300 via-green-200 to-emerald-300 bg-clip-text text-transparent">
-              Automation System
-            </span>
+      <main style={{ maxWidth: "1100px", margin: "0 auto", padding: "120px 20px 64px" }}>
+        <section style={{ textAlign: "center", marginBottom: "28px" }}>
+          <h1
+            style={{
+              fontSize: "clamp(2rem, 5vw, 3.2rem)",
+              lineHeight: 1.1,
+              margin: 0,
+              fontWeight: 800,
+              letterSpacing: "-0.03em",
+            }}
+          >
+            Let&apos;s Build Your <span style={{ color: "#2dd4a0" }}>Automation System</span>
           </h1>
-          <p className="max-w-3xl mx-auto mt-5 text-lg leading-relaxed text-gray-400">
-            Pick a time that works for you. We&apos;ll spend 30 minutes mapping out exactly which
+          <p
+            style={{
+              maxWidth: "860px",
+              margin: "20px auto 0",
+              color: "rgba(232, 240, 236, 0.55)",
+              fontSize: "18px",
+              lineHeight: 1.6,
+            }}
+          >
+            Pick a time that works for you. We&apos;ll spend 15 minutes mapping out exactly which
             tasks are costing your team the most time — and how to fix them.
           </p>
         </section>
 
-        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-8">
-          {["Free, no obligation", "30 minutes", "Save 10+ hrs/week"].map((pill) => (
-            <div key={pill} className="inline-flex items-center gap-2 text-sm text-gray-400">
-              <Check size={14} className="text-emerald-400" />
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "14px 22px",
+            marginBottom: "26px",
+          }}
+        >
+          {["Free, no obligation", "15-minute workflow audit", "Save 10+ hrs/week"].map((pill) => (
+            <div
+              key={pill}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "7px",
+                color: "rgba(232, 240, 236, 0.4)",
+                fontSize: "14px",
+                fontWeight: 500,
+                letterSpacing: "0.01em",
+              }}
+            >
+              <Check size={14} color="#2dd4a0" />
               {pill}
             </div>
           ))}
         </div>
 
-        <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-2 md:p-4 shadow-[0_0_0_1px_rgba(52,211,153,0.08),0_30px_80px_-40px_rgba(0,0,0,0.9),0_0_120px_rgba(52,211,153,0.08)]">
+        <div
+          style={{
+            maxWidth: "1000px",
+            margin: "0 auto",
+            borderRadius: "16px",
+            overflow: "hidden",
+            border: "1px solid rgba(45, 212, 160, 0.08)",
+          }}
+        >
           <div
             id="book-calendly-widget"
             className="calendly-inline-widget book-calendly-widget"
             data-url={CALENDLY_EMBED_URL}
-            style={{ minWidth: "320px", colorScheme: "light" }}
+            style={{ minWidth: "320px", height: "700px", colorScheme: "light" }}
           />
         </div>
 
-        <p className="text-center mt-6 text-sm text-gray-500">
+        <p
+          style={{
+            textAlign: "center",
+            marginTop: "24px",
+            fontSize: "15px",
+            color: "rgba(232, 240, 236, 0.55)",
+          }}
+        >
           Not ready to talk? No problem.{" "}
-          <Link href="/" className="text-emerald-400 border-b border-emerald-400/35 hover:border-emerald-300 transition-colors">
+          <Link
+            href="/"
+            style={{
+              color: "#2dd4a0",
+              textDecoration: "none",
+              borderBottom: "1px solid rgba(45, 212, 160, 0.35)",
+            }}
+          >
             Explore how it works
           </Link>{" "}
           first.

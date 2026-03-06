@@ -418,7 +418,7 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
             Get your {hrsSavedMonthly} hours back.
           </Text>
           <Text style={{ fontSize: 8.5, color: C.text50, marginBottom: 3, textAlign: 'center' }}>
-            30-minute call. We'll show you the 2–3 workflows burning the most time
+            15-minute workflow audit. We'll show you the 2–3 workflows burning the most time
           </Text>
           <Text style={{ fontSize: 8.5, color: C.text50, marginBottom: 10, textAlign: 'center' }}>
             and exactly what it takes to fix them.
@@ -432,7 +432,7 @@ export const PDFReport: React.FC<PDFReportProps> = ({ data }) => {
               alignItems: 'center',
             }}>
               <Text style={{ fontSize: 11, fontWeight: 'bold', color: C.bg, letterSpacing: 0.3 }}>
-                Book a 30-Minute Walkthrough {'>'}
+                Book a 15-minute workflow audit {'>'}
               </Text>
             </View>
           </Link>

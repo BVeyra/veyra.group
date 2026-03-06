@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PM Efficiency Audit | Veyra Group</title>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#0a0f0a;--bg-2:#0d120d;
+--bg-card:rgba(20,30,20,0.6);--bg-card-hover:rgba(25,40,25,0.8);
+--surface:rgba(20,30,20,0.6);
+--border:rgba(5,150,105,0.15);--border-2:rgba(5,150,105,0.25);--border-hover:rgba(5,150,105,0.4);
+--text:#ffffff;--text-2:rgba(255,255,255,0.7);--muted:rgba(255,255,255,0.5);
+--emerald:#059669;--emerald-2:#047857;
+}
+body{
+font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);
+min-height:100vh;overflow-x:hidden;
+background-image:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(5,150,105,0.08),transparent);
+}
+body::before{
+content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+background-image:
+  linear-gradient(rgba(65,159,132,0.009) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(65,159,132,0.009) 1px,transparent 1px);
+background-size:96px 96px;
+}
+.container{max-width:720px;margin:0 auto;padding:24px 16px;position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+.logo{text-align:center;margin-bottom:32px}
+.logo .v{color:var(--emerald);font-weight:800;font-size:28px;letter-spacing:2px}
+.logo .eyra{color:#fff;font-weight:800;font-size:28px;letter-spacing:2px}
+.logo .group{display:block;color:rgba(255,255,255,0.4);font-weight:400;font-size:11px;letter-spacing:3px;margin-top:2px}
+
+/* Glass card */
+.glass-card{
+position:relative;
+background:linear-gradient(160deg,rgba(11,18,15,0.9),rgba(12,24,19,0.74) 50%,rgba(9,14,12,0.92));
+border:1px solid rgba(128,205,179,0.16);border-radius:24px;
+box-shadow:0 18px 50px rgba(0,0,0,0.35),0 0 38px rgba(39,122,101,0.08),inset 0 1px 0 rgba(255,255,255,0.08);
+backdrop-filter:blur(16px);padding:40px 32px;
+transition:transform .35s ease,border-color .35s ease,box-shadow .35s ease;
+overflow:hidden;
+}
+.glass-card::before{
+content:'';position:absolute;top:0;left:7%;right:7%;height:2px;
+background:linear-gradient(90deg,transparent,rgba(122,233,193,0.45),rgba(122,233,193,0.75),rgba(122,233,193,0.45),transparent);
+}
+.glass-card::after{
+content:'';position:absolute;top:-50%;left:-10%;width:60%;height:200%;
+background:linear-gradient(90deg,transparent,rgba(122,233,193,0.03),transparent);
+transform:skewX(-20deg) translateX(-100%);transition:transform .6s ease;
+}
+.glass-card:hover::after{transform:skewX(-20deg) translateX(250%)}
+.glass-card:hover{transform:translateY(-4px);border-color:rgba(128,205,179,0.28);box-shadow:0 24px 60px rgba(0,0,0,0.45),0 0 50px rgba(39,122,101,0.12),inset 0 1px 0 rgba(255,255,255,0.1)}
+
+/* Progress bar */
+.progress-bar{height:4px;background:rgba(5,150,105,0.15);border-radius:4px;margin-bottom:32px;overflow:hidden;opacity:0;transition:opacity .3s}
+.progress-bar.visible{opacity:1}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--emerald),#34d399);border-radius:4px;transition:width .4s ease;width:0}
+
+/* Screens */
+.screen{display:none;animation:fadeIn .4s ease}
+.screen.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+h1{font-size:clamp(44px,5vw,64px);font-weight:700;letter-spacing:-0.03em;text-align:center;line-height:1.1;margin-bottom:16px}
+h2{font-size:clamp(28px,3.5vw,38px);font-weight:650;letter-spacing:-0.02em;margin-bottom:12px}
+.subtitle{color:var(--text-2);text-align:center;font-size:18px;line-height:1.6;margin-bottom:32px;max-width:520px;margin-left:auto;margin-right:auto}
+.accent{color:#4f9a85}
+
+/* Pill button */
+.btn{
+display:inline-flex;align-items:center;gap:8px;
+border-radius:9999px;padding:14px 32px;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;
+cursor:pointer;transition:all .3s ease;text-decoration:none;
+background:linear-gradient(135deg,rgba(5,150,105,0.15),rgba(4,120,87,0.25));
+border:1.2px solid rgba(5,150,105,0.5);color:var(--emerald);
+}
+.btn:hover{color:#fff;background:linear-gradient(135deg,rgba(5,150,105,0.3),rgba(4,120,87,0.45));border-color:rgba(5,150,105,0.7)}
+.btn-center{display:flex;justify-content:center;margin-top:24px}
+
+/* Question */
+.q-number{color:var(--emerald);font-size:14px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.q-title{font-size:22px;font-weight:650;margin-bottom:24px;line-height:1.35}
+.options{display:flex;flex-direction:column;gap:12px}
+.option{
+padding:16px 20px;border-radius:16px;border:1px solid var(--border);
+background:rgba(15,22,15,0.6);cursor:pointer;transition:all .25s ease;
+font-size:15px;color:var(--text-2);line-height:1.4;
+}
+.option:hover{border-color:var(--border-hover);background:var(--bg-card-hover);color:var(--text)}
+.option.selected{border-color:var(--emerald);background:rgba(5,150,105,0.1);color:var(--text)}
+
+/* Results */
+.gauge-wrap{display:flex;justify-content:center;margin:24px 0}
+.gauge-wrap svg{filter:drop-shadow(0 0 20px rgba(5,150,105,0.3))}
+.score-label{text-align:center;font-size:14px;color:var(--muted);margin-bottom:32px}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px}
+.stat-card{text-align:center;padding:20px;border-radius:16px;background:rgba(15,22,15,0.6);border:1px solid var(--border)}
+.stat-val{font-size:32px;font-weight:700;color:var(--emerald)}
+.stat-lbl{font-size:13px;color:var(--muted);margin-top:4px}
+
+.cat-list{margin-bottom:32px}
+.cat-item{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+.cat-name{font-size:14px;color:var(--text-2)}
+.cat-badge{font-size:12px;font-weight:600;padding:4px 12px;border-radius:9999px}
+.cat-badge.green{background:rgba(5,150,105,0.15);color:#34d399}
+.cat-badge.amber{background:rgba(217,119,6,0.15);color:#fbbf24}
+.cat-badge.red{background:rgba(220,38,38,0.15);color:#f87171}
+
+.recs{margin-bottom:32px}
+.rec-item{padding:12px 16px;border-radius:12px;background:rgba(5,150,105,0.06);border-left:3px solid var(--emerald);margin-bottom:10px;font-size:14px;color:var(--text-2);line-height:1.5}
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.form-grid.full{grid-template-columns:1fr}
+.form-input{
+padding:12px 16px;border-radius:12px;border:1px solid var(--border);
+background:rgba(10,16,10,0.8);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;
+outline:none;transition:border-color .2s;
+}
+.form-input:focus{border-color:var(--emerald)}
+.form-input::placeholder{color:var(--muted)}
+
+@media(max-width:600px){
+.container{padding:16px 12px}
+.glass-card{padding:28px 20px;border-radius:18px}
+.stats-grid{grid-template-columns:1fr}
+.form-grid{grid-template-columns:1fr}
+h1{font-size:36px}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+
+  <!-- INTRO -->
+  <div class="screen active" id="screen-intro">
+    <div class="logo"><span class="v">V</span><span class="eyra">EYRA</span><span class="group">GROUP</span></div>
+    <h1>PM Efficiency <span class="accent">Audit</span></h1>
+    <p class="subtitle">Discover how much time and money your property management operation is leaving on the table. Takes 2 minutes.</p>
+    <div class="btn-center"><button class="btn" onclick="startAudit()">Start Assessment →</button></div>
+  </div>
+
+  <!-- QUESTIONS -->
+  <div class="screen" id="screen-questions">
+    <div class="glass-card" id="questionCard">
+      <div class="q-number" id="qNum"></div>
+      <div class="q-title" id="qTitle"></div>
+      <div class="options" id="qOptions"></div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="screen" id="screen-results">
+    <div class="logo"><span class="v">V</span><span class="eyra">EYRA</span><span class="group">GROUP</span></div>
+    <h2 style="text-align:center">Your Efficiency Score</h2>
+    <div class="gauge-wrap" id="gaugeWrap"></div>
+    <div class="score-label" id="scoreLbl"></div>
+    <div class="stats-grid" id="statsGrid"></div>
+
+    <div class="glass-card" style="margin-bottom:24px">
+      <h2 style="font-size:20px;margin-bottom:16px">Category Breakdown</h2>
+      <div class="cat-list" id="catList"></div>
+    </div>
+
+    <div class="glass-card" style="margin-bottom:24px">
+      <h2 style="font-size:20px;margin-bottom:16px">Recommendations</h2>
+      <div class="recs" id="recs"></div>
+    </div>
+
+    <div class="glass-card" style="margin-bottom:24px">
+      <h2 style="font-size:20px;margin-bottom:16px">Get Your Full Report</h2>
+      <p style="color:var(--text-2);font-size:14px;margin-bottom:20px">Enter your details and we'll send a detailed breakdown with personalized recommendations.</p>
+      <div class="form-grid">
+        <input class="form-input" placeholder="Full Name" id="fName">
+        <input class="form-input" placeholder="Email" id="fEmail" type="email">
+      </div>
+      <div class="form-grid">
+        <input class="form-input" placeholder="Company" id="fCompany">
+        <input class="form-input" placeholder="Units Managed" id="fUnits" type="number">
+      </div>
+      <div class="btn-center"><button class="btn" onclick="submitForm()">Send My Report →</button></div>
+    </div>
+
+    <div class="btn-center" style="margin-bottom:48px">
+      <a href="https://veyragroup.ai/book" target="_blank" class="btn" style="font-size:17px;padding:16px 36px">Book a Free 15-minute workflow audit →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const questions=[
+{cat:"Tenant Communications",q:"How does your team handle tenant communications?",opts:[
+"Phone calls, emails, texts — all manual, all day","We use email templates but still reply individually","Shared inbox or basic ticketing system","AI handles most inquiries; team handles escalations only"]},
+{cat:"Maintenance Coordination",q:"How are maintenance requests managed?",opts:[
+"Tenants call/text, we manually coordinate with vendors","Spreadsheet or email-based tracking","Basic work order software","Automated intake, vendor dispatch, and status updates"]},
+{cat:"Lease Renewals",q:"How do you track and process lease renewals?",opts:[
+"Manual calendar reminders, paper-heavy process","Spreadsheet tracking with manual outreach","PM software with basic renewal workflows","Automated reminders, digital signing, rent adjustment suggestions"]},
+{cat:"Rent Collection",q:"How is rent collected and reconciled?",opts:[
+"Checks, money orders, and manual ledger entry","Online portal but manual reconciliation","Automated collection with basic reporting","Full automation: collection, reconciliation, late notices, and reporting"]},
+{cat:"Owner Reporting",q:"How do you deliver reports to property owners?",opts:[
+"Manual Excel/PDF reports, sent individually","Template-based reports, still mostly manual","Auto-generated from PM software, basic metrics","Real-time dashboards with AI-generated insights and narratives"]},
+{cat:"After-Hours Support",q:"How are after-hours emergencies handled?",opts:[
+"Personal phone — you're always on call","Answering service that takes messages","After-hours team with basic protocols","AI triage with automated escalation paths and vendor dispatch"]},
+{cat:"Vacancy Marketing",q:"How do you market vacant units?",opts:[
+"Manual listings on a few sites, yard signs","Syndicated listings but manual updates","Automated syndication with lead capture","AI-optimized listings, dynamic pricing, automated showings"]},
+{cat:"Tenant Screening",q:"What does your tenant screening process look like?",opts:[
+"Manual reference checks, gut feeling","Basic credit check through a single provider","Integrated screening in PM software","Automated multi-factor screening with AI risk scoring"]},
+{cat:"Vendor Management",q:"How do you manage vendor relationships and billing?",opts:[
+"Phone calls, handshake deals, manual invoicing","Preferred vendor list but manual coordination","Vendor portal with work order integration","Automated bidding, performance tracking, and payment processing"]},
+{cat:"Documentation & Compliance",q:"How is documentation and compliance managed?",opts:[
+"Paper files, filing cabinets, manual tracking","Digital storage but manual organization","Document management system with basic workflows","Automated compliance tracking, digital audit trails, AI-organized filing"]}
+];
+
+let current=0, answers=[];
+
+function startAudit(){
+  show('screen-questions');
+  document.getElementById('progressBar').classList.add('visible');
+  renderQ();
+}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function renderQ(){
+  const q=questions[current];
+  document.getElementById('qNum').textContent=`Question ${current+1} of ${questions.length}`;
+  document.getElementById('qTitle').textContent=q.q;
+  const el=document.getElementById('qOptions');
+  el.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const d=document.createElement('div');
+    d.className='option';d.textContent=o;
+    d.onclick=()=>selectOption(i+1,d);
+    el.appendChild(d);
+  });
+  document.getElementById('progressFill').style.width=((current)/questions.length*100)+'%';
+  // re-trigger animation
+  const card=document.getElementById('questionCard');
+  card.style.animation='none';card.offsetHeight;card.style.animation='fadeIn .4s ease';
+}
+
+function selectOption(score,el){
+  document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  answers[current]=score;
+  setTimeout(()=>{
+    current++;
+    if(current<questions.length){renderQ()}
+    else{showResults()}
+  },350);
+}
+
+function showResults(){
+  document.getElementById('progressFill').style.width='100%';
+  setTimeout(()=>{
+    document.getElementById('progressBar').classList.remove('visible');
+    show('screen-results');
+    renderResults();
+  },400);
+}
+
+function renderResults(){
+  const total=answers.reduce((a,b)=>a+b,0);
+  const maxScore=questions.length*4;
+  const pct=Math.round((total/maxScore)*100);
+
+  // Gauge
+  const r=80,c=2*Math.PI*r;
+  const gaugeHTML=`<svg width="200" height="200" viewBox="0 0 200 200">
+    <circle cx="100" cy="100" r="${r}" fill="none" stroke="rgba(5,150,105,0.12)" stroke-width="12"/>
+    <circle cx="100" cy="100" r="${r}" fill="none" stroke="var(--emerald)" stroke-width="12"
+      stroke-dasharray="${c}" stroke-dashoffset="${c}" stroke-linecap="round"
+      transform="rotate(-90 100 100)" id="gaugeArc"/>
+    <text x="100" y="92" text-anchor="middle" fill="#fff" font-size="42" font-weight="700" font-family="Inter">${pct}</text>
+    <text x="100" y="116" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="14" font-family="Inter">out of 100</text>
+  </svg>`;
+  document.getElementById('gaugeWrap').innerHTML=gaugeHTML;
+  requestAnimationFrame(()=>{
+    const arc=document.getElementById('gaugeArc');
+    arc.style.transition='stroke-dashoffset 1.2s ease';
+    arc.style.strokeDashoffset=c-(c*(pct/100));
+  });
+
+  const rating=pct>=75?'Highly Efficient':pct>=50?'Moderately Efficient':'Needs Improvement';
+  document.getElementById('scoreLbl').textContent=rating;
+
+  // Stats
+  const hoursWasted=Math.round((1-pct/100)*120);
+  const annualCost=Math.round(hoursWasted*12*35);
+  document.getElementById('statsGrid').innerHTML=`
+    <div class="stat-card"><div class="stat-val">${hoursWasted}</div><div class="stat-lbl">Hours Wasted / Month</div></div>
+    <div class="stat-card"><div class="stat-val">$${annualCost.toLocaleString()}</div><div class="stat-lbl">Annual Cost of Inefficiency</div></div>`;
+
+  // Categories
+  const catEl=document.getElementById('catList');
+  catEl.innerHTML='';
+  questions.forEach((q,i)=>{
+    const s=answers[i];
+    const cls=s>=3?'green':s===2?'amber':'red';
+    const lbl=s>=3?'Efficient':s===2?'Needs Work':'Critical';
+    catEl.innerHTML+=`<div class="cat-item"><span class="cat-name">${q.cat}</span><span class="cat-badge ${cls}">${lbl}</span></div>`;
+  });
+
+  // Recommendations
+  const recMap={
+    "Tenant Communications":"Implement an automated communication hub to auto-respond to routine tenant inquiries, with results varying by portfolio size and current processes.",
+    "Maintenance Coordination":"Deploy automated work order intake with smart vendor routing to cut coordination time by an estimated 70%.",
+    "Lease Renewals":"Set up automated renewal pipelines with digital signing to significantly reduce manual tracking.",
+    "Rent Collection":"Move to fully automated collection with real-time reconciliation and intelligent late-notice workflows.",
+    "Owner Reporting":"Replace manual reports with AI-generated dashboards that update in real-time with narrative insights.",
+    "After-Hours Support":"Implement AI triage that resolves an estimated 60% of after-hours issues without human intervention.",
+    "Vacancy Marketing":"Use AI-optimized listings with dynamic pricing to reduce vacancy periods by a projected up to 40%.",
+    "Tenant Screening":"Adopt multi-factor AI screening projected to reduce bad tenant risk while speeding approvals to minutes.",
+    "Vendor Management":"Automate vendor bidding and performance tracking to reduce costs and improve service quality.",
+    "Documentation & Compliance":"Deploy AI-organized digital filing with automated compliance tracking to eliminate audit stress."
+  };
+  const recsEl=document.getElementById('recs');
+  recsEl.innerHTML='';
+  questions.forEach((q,i)=>{
+    if(answers[i]<=2){
+      recsEl.innerHTML+=`<div class="rec-item"><strong>${q.cat}:</strong> ${recMap[q.cat]}</div>`;
+    }
+  });
+  if(!recsEl.innerHTML) recsEl.innerHTML='<div class="rec-item">Great job! Your operations are highly efficient across the board. Let\'s talk about pushing to the next level.</div>';
+}
+
+function submitForm(){
+  const name=document.getElementById('fName').value;
+  const email=document.getElementById('fEmail').value;
+  if(!name||!email){alert('Please fill in your name and email.');return}
+  // In production, POST to backend
+  alert('Thanks, '+name+'! Your detailed report will be sent to '+email+' shortly.');
+}
+</script>
+<!-- Command Center Nav --><a href="/dashboard/" style="position:fixed;top:16px;left:16px;z-index:9999;display:flex;align-items:center;gap:8px;padding:10px 18px;background:rgba(5,150,105,0.15);border:1px solid rgba(5,150,105,0.3);border-radius:12px;color:#059669;font-family:Inter,system-ui,sans-serif;font-size:13px;font-weight:600;text-decoration:none;backdrop-filter:blur(12px);transition:all 0.2s;cursor:pointer" onmouseover="this.style.background='rgba(5,150,105,0.25)';this.style.borderColor='rgba(5,150,105,0.5)'" onmouseout="this.style.background='rgba(5,150,105,0.15)';this.style.borderColor='rgba(5,150,105,0.3)'">◂ Command Center</a></body>
+</html>
