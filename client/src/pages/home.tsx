@@ -1,981 +1,1372 @@
 import { Navbar, Footer } from "@/components/layout";
 import { Button } from "@/components/ui/button";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, X, ArrowRight, Zap, Bot, RefreshCw, Phone, Wrench, ShieldCheck } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import {
+  ArrowRight,
+  BarChart3,
+  Building2,
+  Check,
+  Clock,
+  DollarSign,
+  FileText,
+  Mail,
+  MessageSquare,
+  Minus,
+  Phone,
+  Plus,
+  ShieldCheck,
+  Users,
+  Wrench,
+  X,
+} from "lucide-react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { openCalendly } from "@/lib/calendly";
-import { SpinningWheel } from "@/components/SpinningWheel";
-import { SpotlightCard } from "@/components/SpotlightCard";
-import { StepSlider } from "@/components/StepSlider";
+import { AnimatePresence, motion } from "framer-motion";
+import SolutionMockups from "@/components/marketing/SolutionMockups";
 
-function ParallaxWheel() {
+type IntegrationLogo = {
+  name: string;
+  icon: string;
+};
+
+const integrationLogos: IntegrationLogo[] = [
+  {
+    name: "AppFolio",
+    icon: "https://www.google.com/s2/favicons?domain=appfolio.com&sz=64",
+  },
+  {
+    name: "Buildium",
+    icon: "https://www.google.com/s2/favicons?domain=buildium.com&sz=64",
+  },
+  {
+    name: "Rent Manager",
+    icon: "https://www.google.com/s2/favicons?domain=rentmanager.com&sz=64",
+  },
+  {
+    name: "Yardi",
+    icon: "https://www.google.com/s2/favicons?domain=yardi.com&sz=64",
+  },
+  {
+    name: "Propertyware",
+    icon: "https://www.google.com/s2/favicons?domain=propertyware.com&sz=64",
+  },
+  {
+    name: "QuickBooks",
+    icon: "https://www.google.com/s2/favicons?domain=quickbooks.intuit.com&sz=64",
+  },
+  {
+    name: "DocuSign",
+    icon: "https://www.google.com/s2/favicons?domain=docusign.com&sz=64",
+  },
+  {
+    name: "Twilio",
+    icon: "https://www.google.com/s2/favicons?domain=twilio.com&sz=64",
+  },
+  {
+    name: "Gmail",
+    icon: "https://www.google.com/s2/favicons?domain=mail.google.com&sz=64",
+  },
+  {
+    name: "Outlook",
+    icon: "https://www.google.com/s2/favicons?domain=outlook.office.com&sz=64",
+  },
+  {
+    name: "Zillow Rental Manager",
+    icon: "https://www.google.com/s2/favicons?domain=zillow.com&sz=64",
+  },
+  {
+    name: "Apartments.com",
+    icon: "https://www.google.com/s2/favicons?domain=apartments.com&sz=64",
+  },
+  {
+    name: "Stripe",
+    icon: "https://www.google.com/s2/favicons?domain=stripe.com&sz=64",
+  },
+  {
+    name: "Google Workspace",
+    icon: "https://www.google.com/s2/favicons?domain=workspace.google.com&sz=64",
+  },
+  {
+    name: "Microsoft 365",
+    icon: "https://www.google.com/s2/favicons?domain=microsoft.com&sz=64",
+  },
+  {
+    name: "Zapier",
+    icon: "https://www.google.com/s2/favicons?domain=zapier.com&sz=64",
+  },
+  {
+    name: "Gusto",
+    icon: "https://www.google.com/s2/favicons?domain=gusto.com&sz=64",
+  },
+];
+
+const statsData = [
+  { value: 87, label: "PMs Researched" },
+  { value: 15, label: "US Markets" },
+  { value: 10, label: "Hours/Week Saved" },
+];
+
+const problemTimeline = [
+  {
+    time: "6:47 AM",
+    icon: "📱",
+    text: "You haven't had coffee yet, but you've already got 14 unread messages. Three tenants texted overnight about the same water heater. Your maintenance guy hasn't responded to the work order you sent yesterday. A prospect who inquired about unit 4B three days ago just followed up - and you realize you never replied.",
+  },
+  {
+    time: "9:00 AM",
+    icon: "📧",
+    text: "You're deep in email. Lease renewal for the Johnsons is due in 11 days and you haven't sent the notice. Two tenants are behind on rent and you need to send follow-ups - again. Your phone rings. It's Mrs. Chen, calling about the same HVAC issue for the third time this week.",
+  },
+  {
+    time: "12:00 PM",
+    icon: "⏰",
+    text: "You've handled 40 messages and completed zero of the things you actually planned to do today.",
+  },
+  {
+    time: "6:00 PM",
+    icon: "📊",
+    text: "You're behind on everything that matters - owner reports, move-in inspections, that marketing you keep saying you'll get to.",
+  },
+  {
+    time: "11:00 PM",
+    icon: "🚽",
+    text: "You're in bed when your phone buzzes. Toilet overflow in unit 12C.",
+  },
+];
+
+const automationCards = [
+  {
+    title: "Tenant Communications",
+    before:
+      "You're personally responding to every text, email, and portal message. At 11 PM. On weekends. On vacation.",
+    after:
+      "AI drafts responses in your voice, triages by urgency, and handles routine questions automatically. You review and approve the ones that need you. The rest are done.",
+  },
+  {
+    title: "Maintenance Coordination",
+    before:
+      "Tenant texts you -> you call the vendor -> vendor doesn't answer -> tenant follows up -> you follow up with vendor -> vendor shows up two days late.",
+    after:
+      "Request comes in -> automatically categorized and dispatched to the right vendor -> tenant gets a status update -> you get notified only when something needs your attention.",
+  },
+  {
+    title: "Lease Tracking & Renewals",
+    before:
+      "You're checking a spreadsheet (or worse, trying to remember) when leases expire. Renewal notices go out late. Or not at all.",
+    after:
+      "Automated alerts 60/30/14 days before expiration. Renewal notices drafted and ready. Nothing falls through the cracks.",
+  },
+  {
+    title: "Rent Collection Follow-Ups",
+    before:
+      "Rent is late. You manually send a reminder. Then another. Then a firmer one. For 12 different tenants. Every month.",
+    after:
+      "Automated follow-up sequences - friendly at first, firmer over time. Consistent, professional, and on-brand. You wrote the messages once. They send themselves forever.",
+  },
+  {
+    title: "Vendor Management",
+    before:
+      "You're playing phone tag with 8 vendors, tracking who confirmed what on sticky notes, and apologizing to tenants for delays.",
+    after:
+      "Automated dispatch, follow-ups, and status tracking. Vendors get clear instructions. Tenants get updates. You get your afternoon back.",
+  },
+  {
+    title: "Prospect Auto-Response",
+    before:
+      "Someone inquires about a vacant unit at 9 PM on Saturday. You see it Monday. They've already signed a lease somewhere else.",
+    after:
+      "Instant, personalized response with unit details, availability, and a link to schedule a showing. 90 seconds, not 48 hours.",
+  },
+  {
+    title: "Owner Reporting",
+    before:
+      "Spending 12+ hours reformatting AppFolio exports for different owners - because every owner wants a slightly different format. It's your last weekend of every month, every month, forever.",
+    after:
+      "Every owner gets a custom report, automatically generated, on the 1st of every month. Financials, maintenance summaries, occupancy updates - formatted to their preferences, delivered without you lifting a finger.",
+  },
+];
+
+const processSteps = [
+  {
+    number: "1",
+    duration: "Free, 30 min",
+    title: "We audit your workflows",
+    description:
+      "You tell us where you're bleeding time. We map your current process and show you exactly what we'd automate first.",
+    icon: Phone,
+  },
+  {
+    number: "2",
+    duration: "1-2 weeks",
+    title: "We build your automations",
+    description:
+      "No templates. We build custom AI workflows around the tools you already use. You approve everything before it goes live.",
+    icon: Wrench,
+  },
+  {
+    number: "3",
+    duration: "Ongoing",
+    title: "We maintain and improve",
+    description:
+      "Things change. Tenants change. We monitor your automations, fix what breaks, and optimize what's working.",
+    icon: Check,
+  },
+];
+
+const socialProofQuotes = [
+  {
+    quote:
+      "\"I'm exporting to Excel and spending a full weekend reformatting everything. Every owner wants something different.\"",
+    attribution: "— Property Manager, 45 units",
+  },
+  {
+    quote:
+      "\"Our working theory is that 5% of the tenants cause 80% of your work. And that 5% always texts at midnight.\"",
+    attribution: "— Property Manager, 200+ units",
+  },
+  {
+    quote:
+      "\"We tried AppFolio's LISA. Instead of saving us time, it created a whole new set of headaches. Our closing ratio dropped 10%.\"",
+    attribution: "— Property Manager, 150 units",
+  },
+  {
+    quote:
+      "\"I'm a one-woman show managing 60 doors. I haven't had a weekend off in 3 months. Something has to give.\"",
+    attribution: "— Property Manager, 60 units",
+  },
+];
+
+const faqItems = [
+  {
+    q: "Is this just another SaaS platform I have to learn?",
+    a: "No. We build custom automations that plug into the tools you already use. No new dashboard, no new app, no training manual.",
+  },
+  {
+    q: "What property management software do you work with?",
+    a: "AppFolio, Buildium, Rent Manager, Yardi, Propertyware — plus everything else. If your PM software has email or an API, we connect to it.",
+  },
+  {
+    q: "Will my tenants know they're talking to AI?",
+    a: "Your call. Most automations draft messages for your review. Routine replies are indistinguishable from what you'd write - because they're trained on your voice.",
+  },
+  {
+    q: "What if something breaks?",
+    a: "That's what $500/month covers. Direct line to us, no ticket queues. If it breaks, we fix it fast.",
+  },
+  {
+    q: "What if I want to cancel?",
+    a: "Cancel anytime. No long-term contracts or penalties. If you cancel, access to the managed automations ends.",
+  },
+];
+
+const fitPositiveItems = [
+  { text: "You're an independent property manager who wears too many hats", icon: Building2 },
+  { text: "Tenant comms, maintenance, leases, and follow-ups run manually", icon: MessageSquare },
+  { text: "You want practical automation live in weeks, not quarters", icon: BarChart3 },
+];
+
+const fitNegativeItems = [
+  { text: "You're looking for a DIY tool with no implementation support", icon: Wrench },
+  { text: "You need long enterprise procurement and committee approvals", icon: Users },
+  { text: "You're not ready to execute workflow changes this month", icon: Clock },
+];
+
+function HeroDashboardMockup({ timingScale }: { timingScale: number }) {
+  const rows = [
+    {
+      title: "📱 Unit 12C — Toilet overflow",
+      status: "Auto-dispatched ✓",
+      statusClass: "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30",
+    },
+    {
+      title: "📱 Unit 4B — When is rent due?",
+      status: "Auto-replied ✓",
+      statusClass: "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30",
+    },
+    {
+      title: "📱 Unit 8A — Noise complaint",
+      status: "Flagged for review ⚠️",
+      statusClass: "bg-amber-500/20 text-amber-300 border border-amber-500/30",
+    },
+  ];
+
+  const rowEntranceDelay = 2.3 * timingScale;
+
   return (
-    <div className="hero-load-wheel relative z-10 flex justify-center items-center w-full h-[520px]">
-      <SpinningWheel />
+    <motion.div
+      animate={{ y: [0, -6, 0] }}
+      transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+      className="w-full max-w-[340px] sm:max-w-[560px] rounded-2xl border border-white/[0.1] bg-[linear-gradient(135deg,rgba(255,255,255,0.06)_0%,rgba(255,255,255,0.02)_100%)] backdrop-blur-[24px] p-6 will-change-transform"
+      style={{
+        boxShadow:
+          "0 0 0 1px rgba(52,211,153,0.1), 0 25px 60px -12px rgba(0,0,0,0.6), 0 0 120px rgba(52,211,153,0.08)",
+      }}
+    >
+      <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
+        <p className="text-sm text-gray-400">Veyra Dashboard</p>
+        <div className="inline-flex items-center gap-2 text-xs text-emerald-400">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          Live
+        </div>
+      </div>
+
+      <div className="space-y-3">
+        {rows.map((row, index) => (
+          <motion.div
+            key={row.title}
+            initial={{ opacity: 0, x: 12 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{
+              duration: 0.4 * timingScale,
+              delay: rowEntranceDelay + index * 0.15 * timingScale,
+              ease: "easeOut",
+            }}
+            className={`rounded-xl bg-white/[0.03] border border-white/5 p-4 flex items-center justify-between gap-4 ${
+              index === 0
+                ? "border-l-2 border-l-emerald-400/50 shadow-[inset_4px_0_12px_-4px_rgba(52,211,153,0.15)]"
+                : ""
+            }`}
+          >
+            <p className="text-sm text-gray-200">{row.title}</p>
+            <span className={`text-[11px] px-2.5 py-1 rounded-full whitespace-nowrap ${row.statusClass}`}>
+              {row.status}
+            </span>
+          </motion.div>
+        ))}
+      </div>
+
+      <p className="mt-4 text-xs text-gray-500">3 messages handled today · 0 requiring attention</p>
+    </motion.div>
+  );
+}
+
+function IntegrationLogo({ logo }: { logo: IntegrationLogo }) {
+  const [isVisible, setIsVisible] = useState(true);
+
+  if (!isVisible) return null;
+
+  return (
+    <div className="logo-carousel-item group" aria-label={logo.name}>
+      <img
+        src={logo.icon}
+        alt={`${logo.name} logo`}
+        loading="lazy"
+        onError={() => setIsVisible(false)}
+        className="h-7 w-auto object-contain grayscale opacity-35 group-hover:grayscale-0 group-hover:opacity-100 transition duration-300"
+      />
     </div>
   );
 }
 
-const logoData = [
-  {
-    name: "Slack",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24">
-        <path fill="#E01E5A" d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zm1.271 0a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313z"/>
-        <path fill="#36C5F0" d="M8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zm0 1.271a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312z"/>
-        <path fill="#2EB67D" d="M18.956 8.834a2.528 2.528 0 0 1 2.52-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.52V8.834zm-1.271 0a2.528 2.528 0 0 1-2.521 2.521 2.528 2.528 0 0 1-2.521-2.521V2.522A2.528 2.528 0 0 1 15.166 0a2.528 2.528 0 0 1 2.521 2.522v6.312z"/>
-        <path fill="#ECB22E" d="M15.166 18.956a2.528 2.528 0 0 1 2.521 2.52A2.528 2.528 0 0 1 15.166 24a2.528 2.528 0 0 1-2.521-2.522v-2.52h2.521zm0-1.271a2.528 2.528 0 0 1-2.521-2.521 2.528 2.528 0 0 1 2.521-2.521h6.312A2.528 2.528 0 0 1 24 15.166a2.528 2.528 0 0 1-2.522 2.521h-6.312z"/>
-      </svg>
-    )
-  },
-  {
-    name: "Gmail",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24">
-        <path fill="#EA4335" d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/>
-      </svg>
-    )
-  },
-  {
-    name: "Outlook",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24">
-        <path fill="#0078D4" d="M24 7.387v10.478c0 .23-.08.424-.238.576-.158.154-.352.23-.578.23h-8.547v-6.959l1.6 1.229c.102.086.229.127.379.127.148 0 .277-.041.379-.127l6.768-5.187c.059-.04.127-.065.202-.074.076-.01.143.003.201.04.065.038.113.085.143.143.03.057.046.12.048.189l-.357 2.52v-3.165z"/>
-        <path fill="#0078D4" d="M15.072 10.688L24 4.264v-.877c0-.23-.08-.424-.238-.578-.158-.153-.352-.23-.578-.23h-8.547v7.396l.435.713z"/>
-        <path fill="#0078D4" d="M0 6.109v11.578c0 .586.477 1.063 1.063 1.063h7.575c.586 0 1.063-.477 1.063-1.063V6.109c0-.586-.477-1.063-1.063-1.063H1.063C.477 5.046 0 5.523 0 6.109zm4.85 8.45c-2.092 0-3.395-1.639-3.395-3.687 0-2.148 1.357-3.787 3.45-3.787 2.147 0 3.395 1.693 3.395 3.687 0 2.148-1.357 3.787-3.45 3.787zm.027-6.082c-1.248 0-1.967 1.057-1.967 2.35 0 1.275.665 2.35 1.94 2.35 1.249 0 1.968-1.057 1.968-2.35 0-1.275-.665-2.35-1.94-2.35z"/>
-      </svg>
-    )
-  },
-  {
-    name: "Notion",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="white">
-        <path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.98-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466l1.823 1.447zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.84-.046.933-.56.933-1.167V6.354c0-.606-.233-.933-.746-.886l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952l1.448.327s0 .84-1.168.84l-3.22.186c-.094-.187 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-.98.7-1.027l3.459-.233 4.764 7.28v-6.44l-1.215-.14c-.093-.514.28-.887.747-.933l3.312-.187z"/>
-      </svg>
-    )
-  },
-  {
-    name: "Sheets",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24">
-        <path fill="#34A853" d="M19 11V9h-6V3h-2v6H5v2h6v10h2V11z"/>
-        <path fill="#188038" d="M19 3h-5v6h6V4a1 1 0 0 0-1-1z"/>
-        <path fill="#34A853" d="M19 9h-5v6h6V9z"/>
-        <path fill="#188038" d="M19 15h-5v6h5a1 1 0 0 0 1-1v-5z"/>
-        <path fill="#34A853" d="M5 21h5v-6H4v5a1 1 0 0 0 1 1z"/>
-        <path fill="#188038" d="M4 9v6h6V9H4z"/>
-        <path fill="#34A853" d="M5 3a1 1 0 0 0-1 1v5h6V3H5z"/>
-      </svg>
-    )
-  },
-  {
-    name: "Excel",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24">
-        <path fill="#217346" d="M23 1.5q.41 0 .7.3.3.29.3.7v19q0 .41-.3.7-.29.3-.7.3H7q-.41 0-.7-.3-.3-.29-.3-.7V18H1q-.41 0-.7-.3-.3-.29-.3-.7V7q0-.41.3-.7Q.58 6 1 6h5V2.5q0-.41.3-.7.29-.3.7-.3zM6 13.28l1.42 2.66h2.14l-2.38-3.87 2.34-3.8H7.46l-1.3 2.4-.05.08-.04.09-.64-1.28-.66-1.29H2.59l2.27 3.82-2.48 3.85h2.16zM14.25 21v-3H7.5v3zm0-4.5v-3.75H12v3.75zm0-5.25V7.5H12v3.75zm0-5.25V3H7.5v3zm8.25 15v-3h-6.75v3zm0-4.5v-3.75h-6.75v3.75zm0-5.25V7.5h-6.75v3.75zm0-5.25V3h-6.75v3z"/>
-      </svg>
-    )
-  },
-  {
-    name: "Airtable",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24">
-        <path fill="#FCB400" d="M11.992 0L1.59 4.222 12.008 8.79l10.4-4.554L11.992 0z"/>
-        <path fill="#18BFFF" d="M12 24l10.4-4.56V8.508l-10.4 4.557V24z"/>
-        <path fill="#F82B60" d="M0 19.44L10.4 24V13.065L.4 8.51l-.4.178v10.752z"/>
-      </svg>
-    )
-  },
-  {
-    name: "HubSpot",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="#FF7A59">
-        <path d="M18.164 7.93V5.084a2.198 2.198 0 0 0 1.267-1.984v-.066A2.2 2.2 0 0 0 17.231.835h-.065a2.2 2.2 0 0 0-2.2 2.199v.066a2.19 2.19 0 0 0 1.267 1.984V7.93a6.152 6.152 0 0 0-2.918 1.303l-7.7-5.996a2.596 2.596 0 1 0-1.003 1.455l7.463 5.808a6.222 6.222 0 0 0-.472 2.375c0 .903.196 1.76.545 2.533l-2.263 2.263a1.906 1.906 0 0 0-.558-.09 1.928 1.928 0 1 0 1.928 1.927c0-.2-.036-.39-.09-.569l2.227-2.227a6.223 6.223 0 1 0 4.693-10.782zm-.967 9.787a3.317 3.317 0 1 1 .034-6.634 3.317 3.317 0 0 1-.034 6.634z"/>
-      </svg>
-    )
-  },
-  {
-    name: "Salesforce",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="#00A1E0">
-        <path d="M10.006 5.415a4.195 4.195 0 0 1 3.045-1.306c1.56 0 2.954.9 3.69 2.205.63-.3 1.35-.45 2.1-.45 2.85 0 5.159 2.34 5.159 5.22s-2.31 5.22-5.16 5.22c-.45 0-.84-.06-1.26-.15-.63 1.41-2.04 2.4-3.69 2.4-1.05 0-2.01-.39-2.76-1.05a4.12 4.12 0 0 1-3.93 2.88c-1.62 0-3.06-.93-3.75-2.31-.42.09-.87.15-1.32.15C.93 18.225 0 15.885 0 13.005c0-2.88 2.28-5.22 5.13-5.22.48 0 .93.06 1.38.18.81-1.56 2.46-2.55 4.35-2.55.39 0 .75.03 1.146.105z"/>
-      </svg>
-    )
-  },
-  {
-    name: "Calendly",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="#006BFF">
-        <path d="M19.655 14.262c.281-.281.663-.438 1.061-.438h1.861c.276 0 .5-.224.5-.5V10.72c0-.276-.224-.5-.5-.5h-1.861c-.398 0-.78-.157-1.061-.438l-1.318-1.318c-.281-.281-.438-.663-.438-1.061V5.543c0-.276-.224-.5-.5-.5h-2.604c-.276 0-.5.224-.5.5v1.86c0 .398-.157.78-.438 1.061l-1.318 1.318c-.281.281-.663.438-1.061.438H9.617c-.398 0-.78.157-1.061.438l-1.318 1.318c-.281.281-.438.663-.438 1.061v1.86c0 .398.157.78.438 1.061l1.318 1.318c.281.281.438.663.438 1.061v1.861c0 .276.224.5.5.5h2.604c.276 0 .5-.224.5-.5v-1.861c0-.398.157-.78.438-1.061l1.318-1.318c.281-.281.663-.438 1.061-.438h1.861c.398 0 .78-.157 1.061-.438zM12 15.75c-2.071 0-3.75-1.679-3.75-3.75S9.929 8.25 12 8.25s3.75 1.679 3.75 3.75-1.679 3.75-3.75 3.75z"/>
-      </svg>
-    )
-  },
-  {
-    name: "Stripe",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="#635BFF">
-        <path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.591-7.305z"/>
-      </svg>
-    )
-  },
-  {
-    name: "QuickBooks",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="#2CA01C">
-        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm3.805 17.93h-1.65c-.276 0-.5-.224-.5-.5v-4.93h-3.31v4.93c0 .276-.224.5-.5.5H8.195c-.276 0-.5-.224-.5-.5V7.07c0-.276.224-.5.5-.5h1.65c.276 0 .5.224.5.5v4.43h3.31V7.07c0-.276.224-.5.5-.5h1.65c.276 0 .5.224.5.5v10.36c0 .276-.224.5-.5.5z"/>
-      </svg>
-    )
-  },
-  {
-    name: "DocuSign",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="#FFCC22">
-        <path d="M22.5 10.5h-4.125v-9h-12.75v9H1.5L12 21l10.5-10.5zM8.625 4.5h6.75v6h-6.75v-6z"/>
-      </svg>
-    )
-  },
-  {
-    name: "Zapier",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="#FF4A00">
-        <path d="M15.185 12l2.813-2.813a5.985 5.985 0 0 0 0-2.374l-2.813 2.813-2.813-2.813a5.985 5.985 0 0 0-2.374 0l2.813 2.813-2.813 2.813a5.985 5.985 0 0 0 0 2.374l2.813-2.813 2.813 2.813a5.985 5.985 0 0 0 2.374 0L15.185 12zm-3.187 5.998a6 6 0 1 1 0-12 6 6 0 0 1 0 12z"/>
-      </svg>
-    )
-  },
-  {
-    name: "Make",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="#6D00CC">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15H9V9h2v8zm4 0h-2V9h2v8z"/>
-      </svg>
-    )
-  },
-  {
-    name: "OpenAI",
-    svg: (
-      <svg className="w-6 h-6 opacity-60 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="white">
-        <path d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.676l5.815 3.355-2.02 1.168a.076.076 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.896zm16.597 3.855l-5.833-3.387L15.119 7.2a.076.076 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.407-.667zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08L8.704 5.46a.795.795 0 0 0-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.607-1.5z"/>
-      </svg>
-    )
-  },
-];
+function AnimatedStatNumber({
+  value,
+  start,
+  delay,
+}: {
+  value: number;
+  start: boolean;
+  delay: number;
+}) {
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    if (!start) return;
+
+    let rafId = 0;
+    let timeoutId = 0;
+    const duration = 1500;
+
+    timeoutId = window.setTimeout(() => {
+      const startTime = performance.now();
+
+      const tick = (now: number) => {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        setDisplayValue(Math.round(value * eased));
+
+        if (progress < 1) {
+          rafId = window.requestAnimationFrame(tick);
+        }
+      };
+
+      rafId = window.requestAnimationFrame(tick);
+    }, delay);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      window.cancelAnimationFrame(rafId);
+    };
+  }, [delay, start, value]);
+
+  return (
+    <span className="hero-stat-value">
+      {displayValue}+
+    </span>
+  );
+}
 
 export default function Home() {
-  const [teamSize, setTeamSize] = useState(5);
-  const [hoursPerPerson, setHoursPerPerson] = useState(8);
-  const [hourlyValue, setHourlyValue] = useState(35);
-  const [calculatorName, setCalculatorName] = useState("");
-  const [calculatorEmail, setCalculatorEmail] = useState("");
-  const [emailSubmitted, setEmailSubmitted] = useState(false);
-  const [emailSubmitting, setEmailSubmitting] = useState(false);
-  const [emailError, setEmailError] = useState("");
-  const [displayStats, setDisplayStats] = useState({ weekly: 0, monthly: 0, yearly: 0, payback: 0 });
+  const [calculatorHeight, setCalculatorHeight] = useState(460);
+  const [activeAutomationIndex, setActiveAutomationIndex] = useState(0);
+  const [automationPausedUntil, setAutomationPausedUntil] = useState(0);
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const [featuresInView, setFeaturesInView] = useState(false);
+  const [statsStarted, setStatsStarted] = useState(false);
+  const [heroTimingScale, setHeroTimingScale] = useState(1);
+  const featuresSectionRef = useRef<HTMLElement | null>(null);
 
-  const weeklyHours = teamSize * hoursPerPerson;
-  const monthlyCost = weeklyHours * 4 * hourlyValue;
-  const yearlyCost = monthlyCost * 12;
-  const paybackDays = monthlyCost > 0 ? Math.max(1, Math.ceil((2000 / monthlyCost) * 30)) : 30;
-  const countersPlayedRef = useRef(false);
-  const liveValuesRef = useRef({ weekly: weeklyHours, monthly: monthlyCost, yearly: yearlyCost, payback: paybackDays });
-
-  useEffect(() => {
-    liveValuesRef.current = { weekly: weeklyHours, monthly: monthlyCost, yearly: yearlyCost, payback: paybackDays };
-    if (countersPlayedRef.current) {
-      setDisplayStats(liveValuesRef.current);
+  useLayoutEffect(() => {
+    if (window.location.hash) {
+      window.history.replaceState(
+        window.history.state,
+        "",
+        `${window.location.pathname}${window.location.search}`
+      );
     }
-  }, [weeklyHours, monthlyCost, yearlyCost, paybackDays]);
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
 
   useEffect(() => {
-    const nodes = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const runCounters = (delay = 0) => {
-      if (countersPlayedRef.current) return;
-      const start = () => {
-        if (countersPlayedRef.current) return;
-        countersPlayedRef.current = true;
-        const targets = liveValuesRef.current;
-        const startTime = performance.now();
-        const tick = (now: number) => {
-          const p = Math.min((now - startTime) / 800, 1);
-          const e = 1 - Math.pow(1 - p, 3);
-          setDisplayStats({
-            weekly: Math.round(targets.weekly * e),
-            monthly: Math.round(targets.monthly * e),
-            yearly: Math.round(targets.yearly * e),
-            payback: Math.round(targets.payback * e),
-          });
-          if (p < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      };
-      delay ? window.setTimeout(start, delay) : start();
+    const onMessage = (event: MessageEvent) => {
+      if (event.origin !== window.location.origin) return;
+      const payload = event.data as { type?: string; height?: number } | null;
+      if (!payload || payload.type !== "roi-calculator-height") return;
+
+      const next = Number(payload.height);
+      if (!Number.isFinite(next)) return;
+      setCalculatorHeight(Math.max(360, Math.min(1800, Math.round(next))));
     };
 
-    if (prefersReduced) {
-      nodes.forEach((node) => node.classList.add("revealed"));
-      countersPlayedRef.current = true;
-      setDisplayStats(liveValuesRef.current);
-      return;
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 767px)");
+
+    const updateTiming = () => {
+      setHeroTimingScale(media.matches ? 0.7 : 1);
+    };
+
+    updateTiming();
+    if (typeof media.addEventListener === "function") {
+      media.addEventListener("change", updateTiming);
+    } else {
+      media.addListener(updateTiming);
     }
+
+    return () => {
+      if (typeof media.removeEventListener === "function") {
+        media.removeEventListener("change", updateTiming);
+      } else {
+        media.removeListener(updateTiming);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const target = featuresSectionRef.current;
+    if (!target) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            (entry.target as HTMLElement).classList.add("revealed");
-            if ((entry.target as HTMLElement).dataset.counterTrigger === "1") runCounters();
-            observer.unobserve(entry.target);
-          }
-        });
+        const [entry] = entries;
+        if (!entry) return;
+
+        if (entry.isIntersecting) {
+          setFeaturesInView(true);
+          setActiveAutomationIndex(0);
+          setAutomationPausedUntil(Date.now() + 5000);
+        } else {
+          setFeaturesInView(false);
+        }
       },
-      { threshold: 0.15 }
+      { threshold: 0.35 }
     );
 
-    nodes.forEach((node) => observer.observe(node));
-    const trigger = document.querySelector<HTMLElement>("[data-counter-trigger='1']");
-    if (trigger) {
-      const rect = trigger.getBoundingClientRect();
-      if (rect.top < window.innerHeight && rect.bottom > 0) runCounters(500);
-    }
+    observer.observe(target);
     return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
-    const content = document.querySelector<HTMLElement>(".how-it-works-content");
-    if (!content) return;
+    if (!featuresInView) return;
 
-    const column = content.querySelector<HTMLElement>(".journey-path-column");
-    const fill = content.querySelector<HTMLElement>(".journey-fill");
-    const cards = Array.from(content.querySelectorAll<HTMLElement>(".how-it-works-cards > .step-row"));
-    const nodes = Array.from(content.querySelectorAll<HTMLElement>(".journey-node"));
-    if (!column || !fill || cards.length === 0 || nodes.length === 0) return;
+    const now = Date.now();
+    const delay = automationPausedUntil > now ? automationPausedUntil - now : 5000;
 
-    const positionNodes = () => {
-      const columnRect = column.getBoundingClientRect();
-      cards.forEach((card, i) => {
-        if (!nodes[i]) return;
-        const cardRect = card.getBoundingClientRect();
-        const centerY = cardRect.top + cardRect.height / 2 - columnRect.top;
-        nodes[i].style.top = `${centerY}px`;
-      });
-    };
+    const timer = window.setTimeout(() => {
+      if (Date.now() < automationPausedUntil) return;
+      setActiveAutomationIndex((prev) => (prev + 1) % automationCards.length);
+    }, delay);
 
-    let resizeTimer: number | null = null;
-    const onResize = () => {
-      if (resizeTimer) window.clearTimeout(resizeTimer);
-      resizeTimer = window.setTimeout(positionNodes, 150);
-    };
+    return () => window.clearTimeout(timer);
+  }, [activeAutomationIndex, automationPausedUntil, featuresInView]);
 
-    positionNodes();
-    window.addEventListener("resize", onResize);
-
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduceMotion) {
-      fill.classList.add("active");
-      nodes.forEach((node) => node.classList.add("active"));
-      return () => window.removeEventListener("resize", onResize);
-    }
-
-    const timers: number[] = [];
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          fill.classList.add("active");
-          timers.push(window.setTimeout(() => nodes[0]?.classList.add("active"), 300));
-          timers.push(window.setTimeout(() => nodes[1]?.classList.add("active"), 750));
-          timers.push(window.setTimeout(() => nodes[2]?.classList.add("active"), 1200));
-          observer.unobserve(entry.target);
-        });
-      },
-      { threshold: 0.15 }
-    );
-
-    observer.observe(content);
-
-    return () => {
-      window.removeEventListener("resize", onResize);
-      if (resizeTimer) window.clearTimeout(resizeTimer);
-      timers.forEach((id) => window.clearTimeout(id));
-      observer.disconnect();
-    };
-  }, []);
-
-  useEffect(() => {
-    if ("ontouchstart" in window || navigator.maxTouchPoints > 0 || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-      return;
-    }
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-tilt]"));
-    const timers: number[] = [];
-    const listeners = cards.map((card) => {
-      const baseScale = card.dataset.tiltScale ? ` scale(${card.dataset.tiltScale})` : "";
-      const move = (e: MouseEvent) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 3;
-        const rotateX = (((rect.height / 2) - y) / (rect.height / 2)) * 3;
-        card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)${baseScale}`;
-      };
-      const enter = () => {
-        card.style.willChange = "transform";
-        card.style.transition = "transform 150ms ease-out";
-      };
-      const leave = () => {
-        card.style.transition = "transform 400ms ease-out";
-        card.style.transform = `perspective(800px) rotateX(0deg) rotateY(0deg)${baseScale}`;
-        timers.push(window.setTimeout(() => { card.style.willChange = "auto"; }, 400));
-      };
-      return { card, move, enter, leave };
-    });
-
-    listeners.forEach(({ card, move, enter, leave }) => {
-      card.addEventListener("mousemove", move);
-      card.addEventListener("mouseenter", enter);
-      card.addEventListener("mouseleave", leave);
-    });
-
-    return () => {
-      listeners.forEach(({ card, move, enter, leave }) => {
-        card.removeEventListener("mousemove", move);
-        card.removeEventListener("mouseenter", enter);
-        card.removeEventListener("mouseleave", leave);
-      });
-      timers.forEach((id) => window.clearTimeout(id));
-    };
-  }, []);
-
-  const handleCalculatorSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!calculatorEmail) return;
-    
-    setEmailError("");
-    setEmailSubmitting(true);
-    try {
-      const apiBase = ((import.meta.env.VITE_API_URL as string | undefined) || "").replace(/\/$/, "");
-      const response = await fetch(`${apiBase}/api/generate-report`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: calculatorName,
-          email: calculatorEmail,
-          licenses: teamSize,
-          hoursPerPerson,
-          hourlyValue,
-        }),
-      });
-
-      const payload = await response.json().catch(() => null);
-      if (!response.ok || !payload?.success) {
-        throw new Error(payload?.error || payload?.message || "Failed to send report");
-      }
-
-      setEmailSubmitted(true);
-    } catch (error) {
-      console.error("Error:", error);
-      setEmailError(error instanceof Error ? error.message : "Failed to send report");
-    } finally {
-      setEmailSubmitting(false);
-    }
+  const handleAutomationSelect = (index: number) => {
+    setActiveAutomationIndex(index);
+    setAutomationPausedUntil(Date.now() + 10000);
   };
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const featureIcons = [MessageSquare, Wrench, FileText, DollarSign, Users, Mail, BarChart3];
+  const activeAutomation = automationCards[activeAutomationIndex];
+  const ActiveAutomationIcon = featureIcons[activeAutomationIndex];
+  const calculatorDisplayHeight = Math.max(360, calculatorHeight);
+  const heroTiming = (seconds: number) => Number((seconds * heroTimingScale).toFixed(3));
+  const pricingSteps = [
+    {
+      step: "Step 1",
+      name: "CUSTOM BUILD",
+      price: "$1,500 one-time",
+      description: "Founding-client introductory rate (first 5 clients).",
+      features: [
+        "Custom automations around your existing tools",
+        "Built and launched in 1-2 weeks",
+        "Approve every workflow before go-live",
+      ],
+    },
+    {
+      step: "Step 2",
+      name: "BASE OPERATIONS",
+      price: "$500/month",
+      description: "Base operations plan. Supports 50+ unit portfolios with no cap.",
+      features: [
+        "Monitoring + fast fixes",
+        "Continuous optimization",
+        "Direct support, no ticket queue",
+      ],
+    },
+    {
+      step: "Step 3",
+      name: "GROWTH SCALING",
+      price: "$5/unit above 50 (no cap)",
+      description: "Pricing grows with portfolio size and automation load.",
+      features: [
+        "Predictable unit-based scaling",
+        "No annual contracts",
+        "No hidden platform or seat fees",
+      ],
+    },
+  ];
 
   return (
-      <div className="min-h-screen font-sans text-foreground flex flex-col">
+    <div className="min-h-screen text-white">
       <Navbar />
-      <main className="page-content-enter flex flex-col">
 
-      {/* HERO SECTION */}
-      <section className="hero-section relative min-h-screen flex items-center pt-24 pb-32 overflow-hidden">
-        <div className="hero-spotlight"></div>
-
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-7xl mx-auto">
-            <div className="relative z-20 space-y-6 text-center lg:text-left">
-              <h1 className="hero-title hero-load-headline">
-                Stop doing work that doesn't <span className="hero-accent">make you money.</span>
-              </h1>
-              
-              <div className="hero-copy hero-load-subtext text-lg text-[#7F8A95] leading-relaxed space-y-4">
-                <p>The repetitive tasks. The manual processes. The busy work that fills your calendar but never fills your pipeline.</p>
-                <p>We build systems that eliminate it. In <span className="gradient-accent">2 weeks</span>. For less than one month's salary.</p>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row items-center lg:items-start gap-4 pt-2">
-                <Button 
-                  onClick={openCalendly}
-                  size="lg"
-                  data-testid="button-hero-cta-primary"
-                  className="glow-button hero-cta hero-load-cta font-semibold group"
-                >
-                  Find My 10 Hours
-                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </div>
-              
-            </div>
-
-            <ParallaxWheel />
+      <main className="pt-20">
+        <section className="relative overflow-hidden bg-[#050505]">
+          <div className="absolute inset-0 pointer-events-none">
+            <motion.div
+              className="hero-orb hero-orb-1"
+              animate={{ x: [0, 60, 0], y: [0, 36, 0] }}
+              transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+              className="hero-orb hero-orb-2"
+              animate={{ scale: [1, 1.3, 1] }}
+              transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+              className="hero-orb hero-orb-3"
+              animate={{ x: [0, -70, 0] }}
+              transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <div className="hero-grid-overlay" />
+            <div className="hero-noise-overlay" />
           </div>
-        </div>
 
-        <div className="absolute bottom-0 left-0 right-0 border-t border-white/5 py-4">
+          <div className="max-w-6xl mx-auto px-6 pt-14 md:pt-20 pb-10 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-16 items-center">
+              <div>
+                <motion.h1
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: heroTiming(0.8),
+                    delay: heroTiming(0.3),
+                    ease: [0.25, 0.4, 0.25, 1],
+                  }}
+                  className="text-4xl md:text-6xl lg:text-[4.5rem] leading-[1.05] font-bold tracking-[-0.02em] hero-headline-glow"
+                >
+                  You didn't start a property management company to{" "}
+                  <span className="hero-gradient-shimmer bg-gradient-to-r from-emerald-300 via-green-200 to-emerald-300 bg-clip-text text-transparent">
+                    answer texts at 11 PM.
+                  </span>
+                </motion.h1>
+
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: heroTiming(0.6),
+                    delay: heroTiming(0.9),
+                    ease: [0.25, 0.4, 0.25, 1],
+                  }}
+                  className="text-lg text-gray-400 max-w-[480px] mt-6 leading-relaxed"
+                >
+                  We handle your tenants, your maintenance requests, and your owner reports - so you can grow your portfolio without growing your team.
+                </motion.p>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{
+                    duration: heroTiming(0.5),
+                    delay: heroTiming(1.2),
+                    ease: [0.25, 0.4, 0.25, 1],
+                  }}
+                  className="mt-8"
+                >
+                  <Button
+                    onClick={openCalendly}
+                    size="lg"
+                    data-testid="button-hero-cta-primary"
+                    className="bg-emerald-500 text-black font-semibold text-lg px-8 py-4 rounded-full ring-1 ring-emerald-400/20 shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:shadow-[0_0_40px_rgba(52,211,153,0.4)] hover:scale-[1.03] transition-all duration-200 group"
+                  >
+                    Book a Free 30-Min Workflow Audit
+                    <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
+                  </Button>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: heroTiming(0.5),
+                    delay: heroTiming(1.8),
+                    ease: "easeOut",
+                  }}
+                  className="mt-8 max-w-[480px]"
+                >
+                  <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                  <div className="my-3 inline-flex items-center gap-2 text-sm text-gray-500 tracking-wide">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    Serving property managers across 15+ US markets
+                  </div>
+                  <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                </motion.div>
+              </div>
+
+              <motion.div
+                initial={{ opacity: 0, x: 60 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{
+                  duration: heroTiming(0.8),
+                  delay: heroTiming(1.5),
+                  type: "spring",
+                  stiffness: 90,
+                  damping: 20,
+                }}
+                className="relative mt-10 lg:mt-0 flex justify-center lg:justify-end"
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: [0, -4, 0] }}
+                  transition={{
+                    opacity: { duration: heroTiming(0.5), delay: heroTiming(1.8), ease: "easeOut" },
+                    y: { duration: 4.6, repeat: Infinity, ease: "easeInOut", delay: heroTiming(1.9) },
+                  }}
+                  className="absolute -top-6 right-0 z-20 rounded-full px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 backdrop-blur-sm text-sm font-medium text-emerald-400"
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    10+ hrs/week saved
+                  </span>
+                </motion.div>
+                <HeroDashboardMockup timingScale={heroTimingScale} />
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+
+        <motion.section
+          className="py-10 md:py-16"
+          onViewportEnter={() => {
+            if (!statsStarted) {
+              setStatsStarted(true);
+            }
+          }}
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          <div className="max-w-5xl mx-auto px-6">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16">
+              {statsData.map((stat, index) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.6, delay: index * 0.2 }}
+                  className="text-center relative"
+                >
+                  <p className="text-3xl md:text-5xl font-bold text-white">
+                    <AnimatedStatNumber value={stat.value} start={statsStarted} delay={index * 200} />
+                  </p>
+                  <p className="text-sm text-gray-500 mt-1">{stat.label}</p>
+                  {index < statsData.length - 1 && (
+                    <span className="hidden md:block absolute -right-8 top-1/2 -translate-y-1/2 w-px h-12 bg-white/10" />
+                  )}
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.section>
+
+        <section className="relative py-12 border-y border-white/5 overflow-hidden">
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-28 bg-gradient-to-r from-[#0A0A0A] to-transparent z-10" />
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-28 bg-gradient-to-l from-[#0A0A0A] to-transparent z-10" />
+
           <div className="logo-carousel-wrapper">
             <div className="logo-carousel-track">
-            {logoData.map((logo, index) => (
-              <div key={index} className="logo-carousel-item group cursor-pointer">
-                {logo.svg}
-                <span className="text-[10px] text-[rgba(255,255,255,0.40)] group-hover:text-[var(--emerald)] transition-colors">{logo.name}</span>
-              </div>
-            ))}
-            {logoData.map((logo, index) => (
-              <div key={`dup-${index}`} className="logo-carousel-item group cursor-pointer" aria-hidden="true">
-                {logo.svg}
-                <span className="text-[10px] text-[rgba(255,255,255,0.40)] group-hover:text-[var(--emerald)] transition-colors">{logo.name}</span>
-              </div>
-            ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* AGITATION SECTION */}
-      <section className="section-wrapper section-open relative">
-        <div className="container mx-auto px-4 md:px-6">
-          <div 
-            className="max-w-3xl mx-auto"
-          >
-            <h2 data-reveal className="section-title text-center">Sound <span className="section-accent">Familiar?</span></h2>
-            
-            <div data-reveal data-reveal-delay="1" className="space-y-6 text-lg text-[#7F8A95] leading-relaxed">
-              <p className="text-[#A7B1BA]">Copying the same data into three different tools. <span className="text-[#7F8A95]">Again.</span></p>
-              <p className="text-[#A7B1BA]">Manually updating a spreadsheet that should update itself. <span className="text-[#7F8A95]">Again.</span></p>
-              <p className="text-[#A7B1BA]">Sending the same email you sent last week. And the week before. <span className="text-[#7F8A95]">Again.</span></p>
-              <p className="text-[#A7B1BA]">Walking a new client through onboarding step by step — while actual work piles up. <span className="text-[#7F8A95]">Again.</span></p>
-              
-              <p className="text-[#7F8A95] pt-4">It's not hard work. It's just endless work.</p>
-              
-              <p className="text-[#A7B1BA] font-medium pt-4">And the worst part? While you're buried in this — the deals you should be closing, the clients you should be serving, the growth you should be focused on — that's what's getting squeezed out.</p>
-              
-              <p className="text-[#C9D3D9] font-semibold text-xl pt-4">Busy work doesn't make you money. It costs you money.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* WHAT WE BUILD SECTION */}
-      <section id="what-i-build" className="section-wrapper section-dense relative">
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div data-reveal className="text-center mb-4">
-            <h2 className="section-title">What We <span className="section-accent">Build</span></h2>
-            <p className="section-subtitle text-[#7F8A95]">Not strategy decks. Not consulting reports. We build the systems that do the work — so you stop doing it.</p>
-          </div>
-
-          <div data-reveal data-reveal-delay="1" className="max-w-6xl mx-auto mt-16">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start gap-6">
-              <div
-                className=""
-              >
-                <SpotlightCard data-tilt className="bento-card feature-card feature-flagship p-8 md:p-10 group">
-                  <div className="feature-blob feature-blob-primary" />
-                  <div className="feature-icon-shell w-16 h-16 flex items-center justify-center mb-6">
-                    <Zap className="feature-icon w-8 h-8 text-[var(--emerald)]" />
-                  </div>
-                  <h3 className="feature-title text-2xl font-bold mb-4">AUTOMATIONS</h3>
-                  <p className="feature-description text-[#A7B1BA] mb-2">The stuff you keep saying you'll fix "when things slow down."</p>
-                  <p className="feature-description text-[#7F8A95] mb-4 italic">(Things never slow down.)</p>
-                  <ul className="space-y-3 mb-6">
-                    {[
-                      "New lead comes in? Sorted, tagged, routed. Before you see it. Before you forget it.",
-                      "Invoice hits 7 days overdue? Reminder sent. Then another at 14. You're not chasing anyone.",
-                      "Client signs on? Welcome email, intake form, calendar link — all out the door while you're still in the meeting.",
-                      "Follow-up due Thursday? Already in their inbox. You were slammed. Didn't matter."
-                    ].map((example, j) => (
-                      <li key={j} className="flex items-start gap-3 text-sm">
-                        <span className="text-[var(--emerald)] mt-0.5">→</span>
-                        <span className="text-[#7F8A95]">{example}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="feature-description text-[#A7B1BA] font-bold mb-2">You've been doing this manually because "it only takes a few minutes."</p>
-                  <p className="feature-description text-[#A7B1BA] font-bold">It's never a few minutes.</p>
-                </SpotlightCard>
-              </div>
-
-              <div
-                className=""
-              >
-                <SpotlightCard data-tilt className="bento-card feature-card p-8 group">
-                  <div className="feature-blob feature-blob-secondary" />
-                  <div className="feature-icon-shell w-14 h-14 flex items-center justify-center mb-5">
-                    <Bot className="feature-icon w-7 h-7 text-slate-400" />
-                  </div>
-                  <h3 className="feature-title text-xl font-bold mb-3">CUSTOM AI TOOLS</h3>
-                  <p className="feature-description text-[#A7B1BA] mb-4">You've answered the same question 100 times. Your AI should know the answer by now.</p>
-                  <ul className="space-y-2 mb-4">
-                    <li className="flex items-start gap-2 text-sm">
-                      <span className="text-[var(--emerald)] mt-0.5">→</span>
-                      <span className="text-[#7F8A95]">Support bot that actually knows your product? Built on your docs, your FAQs, your way of explaining things.</span>
-                    </li>
-                    <li className="flex items-start gap-2 text-sm">
-                      <span className="text-[var(--emerald)] mt-0.5">→</span>
-                      <span className="text-[#7F8A95]">Writing assistant that sounds like you? Trained on your voice, not generic AI slop.</span>
-                    </li>
-                    <li className="flex items-start gap-2 text-sm">
-                      <span className="text-[var(--emerald)] mt-0.5">→</span>
-                      <span className="text-[#7F8A95]">Internal tool your team keeps asking for? Built once. Used forever.</span>
-                    </li>
-                  </ul>
-                  <p className="feature-description text-[#A7B1BA] font-bold mb-2">Stop being the answer to every question.</p>
-                  <p className="feature-description text-[#A7B1BA] font-bold">Build the thing that answers for you.</p>
-                </SpotlightCard>
-              </div>
-
-              <div
-                className=""
-              >
-                <SpotlightCard data-tilt className="bento-card feature-card p-8 group">
-                  <div className="feature-blob feature-blob-tertiary" />
-                  <div className="feature-icon-shell w-14 h-14 flex items-center justify-center mb-5">
-                    <RefreshCw className="feature-icon w-7 h-7 text-slate-400" />
-                  </div>
-                  <h3 className="feature-title text-xl font-bold mb-3">MONTHLY PARTNERSHIP</h3>
-                  <p className="feature-description text-[#A7B1BA] mb-4">You don't need a full-time hire. You need someone on call.</p>
-                  <p className="feature-description text-[#7F8A95] mb-4">New automations as you need them. Maintenance when things change. Updates when tools break. One Slack message away.</p>
-                  <p className="feature-description text-[#A7B1BA] font-bold">Like having a tech team — without hiring one.</p>
-                </SpotlightCard>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CALCULATOR SECTION */}
-      <section id="calculator" className="section-wrapper section-dense relative overflow-hidden">
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="max-w-3xl mx-auto">
-            <div data-reveal className="text-center mb-12">
-              <h2 className="section-title">The <span className="section-accent">Math</span></h2>
-            </div>
-
-            <div data-reveal data-reveal-delay="1" data-counter-trigger="1" className="w-full">
-              <SpotlightCard data-tilt className="glass-card glow-border p-8 md:p-12">
-              <div className="space-y-10">
-                <div>
-                  <StepSlider
-                    value={teamSize}
-                    onChange={setTeamSize}
-                    min={1}
-                    max={30}
-                    step={1}
-                    label="Team size"
-                    suffix=" people"
-                  />
-                </div>
-
-                <div>
-                  <StepSlider
-                    value={hoursPerPerson}
-                    onChange={setHoursPerPerson}
-                    min={1}
-                    max={20}
-                    step={1}
-                    label="Hours/week on repetitive tasks per person"
-                    suffix=" hours"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[#A7B1BA] text-lg mb-4 font-semibold">
-                    Hourly cost per team member
-                  </label>
-                  <div className="flex gap-3 flex-wrap justify-center">
-                    {[25, 35, 50, 75, 100].map((value) => (
-                      <button 
-                        key={value}
-                        onClick={() => setHourlyValue(value)}
-                        data-testid={`button-hourly-${value}`}
-                        className={`px-6 py-3 rounded-xl text-sm font-medium transition-all border
-                          ${hourlyValue === value 
-                            ? 'border-[var(--emerald)] bg-[var(--emerald)]/15 text-[var(--emerald)]' 
-                            : 'border-white/10 text-muted-foreground hover:border-[var(--emerald)]/40 hover:text-foreground'
-                          }`}
-                      >
-                        ${value}/hr
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-12 pt-8 border-t border-white/10">
-                <div className="text-center mb-8">
-                  <p className="text-[#7F8A95] mb-4">Your team spends <span className="text-[var(--emerald)] font-bold text-2xl">{displayStats.weekly.toLocaleString()} hours/week</span> on robot work.</p>
-                  <p className="text-[#A7B1BA] font-semibold text-xl mb-4">That's costing you:</p>
-                  <div className="space-y-2">
-                    <p className="text-3xl font-bold">→ <span className="text-[var(--emerald)]">${displayStats.monthly.toLocaleString()}</span> <span className="text-[#A7B1BA]">per month</span></p>
-                    <p className="text-3xl font-bold">→ <span className="text-[var(--emerald)]">${displayStats.yearly.toLocaleString()}</span> <span className="text-[#A7B1BA]">per year</span></p>
-                  </div>
-                  <p className="text-[#7F8A95] mt-4">Plus the mistakes. The missed follow-ups. The deals that slipped because someone was too buried to notice.</p>
-                <p className="text-[#A7B1BA] italic mt-2">(What would ONE saved deal be worth to you?)</p>
-                </div>
-
-                <div className="rounded-2xl p-6 text-center border border-[var(--emerald)]/20 mb-8 bg-[rgba(10,18,14,0.32)]">
-                  <p className="text-[#A7B1BA] mb-2">Build pricing is <span className="text-[var(--emerald)] font-semibold">$1,500</span> for founding clients and <span className="text-[var(--emerald)] font-semibold">$2,500</span> standard.</p>
-                  <p className="text-[#A7B1BA] font-bold text-lg">Pays for itself in <span className="text-[var(--emerald)]">{displayStats.payback.toLocaleString()}</span> days.</p>
-                </div>
-
-                {emailSubmitted ? (
-                  <div className="flex items-center justify-center gap-2 text-[var(--emerald)] py-4">
-                    <Check className="w-5 h-5" />
-                    <span>We'll be in touch within 24 hours!</span>
-                  </div>
-                ) : (
-                  <>
-                    <p className="text-center text-muted-foreground text-sm mb-6">
-                      Free 15-minute workflow audit. No pitch. Just answers.
-                    </p>
-                    <form onSubmit={handleCalculatorSubmit} className="flex flex-col md:flex-row md:items-center gap-4">
-                      <input
-                        type="text"
-                        placeholder="Your name (optional)"
-                        value={calculatorName}
-                        onChange={(e) => setCalculatorName(e.target.value)}
-                        data-testid="input-calc-name"
-                        className="flex-1 h-12 px-4 bg-white/5 border border-white/10 rounded-xl text-foreground placeholder:text-muted-foreground focus:border-[var(--emerald)] focus:outline-none focus:ring-2 focus:ring-[var(--emerald)]/15 transition-all"
-                      />
-                      <input
-                        type="email"
-                        placeholder="your@email.com"
-                        value={calculatorEmail}
-                        onChange={(e) => setCalculatorEmail(e.target.value)}
-                        required
-                        data-testid="input-calc-email"
-                        className="flex-1 h-12 px-4 bg-white/5 border border-white/10 rounded-xl text-foreground placeholder:text-muted-foreground focus:border-[var(--emerald)] focus:outline-none focus:ring-2 focus:ring-[var(--emerald)]/15 transition-all"
-                      />
-                      <button
-                        type="submit"
-                        disabled={emailSubmitting}
-                        data-testid="button-calc-submit"
-                        className="glow-button h-12 px-6 inline-flex items-center justify-center whitespace-nowrap leading-none font-semibold disabled:opacity-50"
-                      >
-                        {emailSubmitting ? "Sending..." : "Find Your 10 Hours →"}
-                      </button>
-                    </form>
-                    {emailError && (
-                      <p className="mt-3 text-sm text-red-300">{emailError}</p>
-                    )}
-                  </>
-                )}
-              </div>
-              </SpotlightCard>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* HOW IT WORKS SECTION */}
-      <section id="how-it-works" className="section-wrapper section-prelude section-dense relative">
-        <div className="container mx-auto px-4 md:px-6">
-          <div data-reveal className="text-center mb-16">
-            <h2 className="section-title">How It <span className="section-accent">Works</span></h2>
-          </div>
-
-          <div data-reveal data-reveal-delay="1" className="how-it-works-content relative max-w-5xl mx-auto">
-            <div className="journey-path-column" aria-hidden="true">
-              <div className="journey-track" />
-              <div className="journey-fill" />
-              <div className="journey-node" data-step="1" />
-              <div className="journey-node" data-step="2" />
-              <div className="journey-node" data-step="3" />
-            </div>
-
-            <div className="how-it-works-cards">
-              {[
-                {
-                  step: "1",
-                  title: "WE TALK",
-                  badge: "15-minute workflow audit, free",
-                  desc: "You show us the mess. We tell you exactly what it costs to fix. No pitch. No pressure. If it doesn't make sense, we'll say so.",
-                  details: "",
-                  icon: Phone
-                },
-                {
-                  step: "2",
-                  title: "WE BUILD",
-                  badge: "1-2 weeks",
-                  desc: "You keep running your business. We build in the background. You'll see progress the whole way.",
-                  details: "",
-                  icon: Wrench
-                },
-                {
-                  step: "3",
-                  title: "IT RUNS",
-                  badge: "Day 1",
-                  desc: "Working system. Your team trained. 30-60 days of support included.",
-                  details: "No decks. No roadmaps. No 'discovery phases.' Just the fix.",
-                  icon: Check
-                }
-              ].map((item, i) => (
-                <div key={i} className="step-row relative">
-                  <SpotlightCard data-tilt className="step-card w-full p-6 md:p-7">
-                    <span className="step-watermark" aria-hidden="true">{item.step}</span>
-                    <div className="relative z-[2]">
-                      <div className="step-head">
-                        <div className="step-icon-shell">
-                          <item.icon className="w-5 h-5 text-[var(--emerald)]" />
-                        </div>
-                        <span className="step-badge">{item.badge}</span>
-                      </div>
-
-                      <h3 className="text-xl font-bold mb-3">
-                        {item.title}
-                      </h3>
-                      <p className={`text-[#A7B1BA] mb-3 ${i === 0 ? "md:pr-24" : ""}`}>{item.desc}</p>
-                      <p className="text-[#7F8A95] text-sm">{item.details}</p>
-                    </div>
-                  </SpotlightCard>
+              {integrationLogos.map((logo) => (
+                <IntegrationLogo key={logo.name} logo={logo} />
+              ))}
+              {integrationLogos.map((logo) => (
+                <div key={`${logo.name}-duplicate`} aria-hidden="true">
+                  <IntegrationLogo logo={logo} />
                 </div>
               ))}
             </div>
           </div>
-        </div>
-        <div className="h-32"></div>
-      </section>
+        </section>
 
-      {/* PRICING SECTION */}
-      <section className="section-wrapper section-dense section-pricing relative">
-        <div className="container mx-auto px-4 md:px-6">
-          <div data-reveal className="text-center mb-16">
-            <h2 className="section-title">Simple <span className="section-accent">Pricing</span></h2>
-            <p className="section-subtitle text-[#7F8A95]">No hourly rates. No surprise invoices. Just clear packages.</p>
+        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+
+        <section id="problem" className="py-16 md:py-32">
+          <div className="max-w-3xl mx-auto px-6">
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="text-3xl md:text-4xl font-bold text-white mb-16"
+            >
+              You know this day.
+            </motion.h2>
+
+            <div className="relative">
+              <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-emerald-500/50 via-emerald-500/20 to-transparent" />
+
+              {problemTimeline.map((item, index) => (
+                <motion.div
+                  key={item.time}
+                  initial={{ opacity: 0, x: -24 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.6, delay: index * 0.15 }}
+                  className="pl-20 pb-8 mb-8 border-b border-white/[0.03] last:border-b-0 last:pb-0 last:mb-0 relative"
+                >
+                  <span className="w-3 h-3 rounded-full bg-emerald-400 absolute left-[26px] top-2 shadow-lg shadow-emerald-400/50" />
+                  <p className="text-2xl font-bold text-emerald-400 mb-2 inline-flex items-center">
+                    <span className="text-lg mr-2">{item.icon}</span>
+                    {item.time}
+                  </p>
+                  <p className="text-gray-400 text-base leading-relaxed max-w-2xl">{item.text}</p>
+                </motion.div>
+              ))}
+
+              <motion.div
+                initial={{ opacity: 0, x: -24 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, delay: 0.75 }}
+                className="pl-20 relative"
+              >
+                <p className="text-gray-300 text-lg leading-relaxed">
+                  This is not a scaling problem. This is a "doing-everything-manually" problem. You're not bad at your job. You're doing three jobs - and two of them shouldn't require a human.
+                </p>
+              </motion.div>
+            </div>
           </div>
+        </section>
 
-          <div data-reveal data-reveal-delay="1" className="max-w-5xl mx-auto">
-            <div className="grid md:grid-cols-3 gap-6">
-              {[
-                {
-                  name: "FOUNDING",
-                  price: "$1,500 build + $500/mo",
-                  description: "First 5 clients.",
-                  features: ["$5/unit above 50", "1-2 weeks for full setup", "15-minute workflow audit first"],
-                  popular: false
-                },
-                {
-                  name: "STANDARD",
-                  price: "$2,500 build + $1,500/mo",
-                  description: "Client 6 and beyond.",
-                  features: ["$7/unit above 50", "1-2 weeks for full setup", "Walkthrough + documentation included", "Priority support"],
-                  popular: true
-                },
-                {
-                  name: "WHAT'S INCLUDED",
-                  price: "15-minute workflow audit",
-                  description: "Same core offer, different tier.",
-                  features: ["Tenant communications, maintenance coordination, lease tracking", "Owner reporting and follow-ups", "Built around your existing PM stack", "Month-to-month after setup"],
-                  popular: false
-                }
-              ].map((plan, i) => (
-                <div 
-                  key={i}
+        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+
+        <section id="solution" className="py-16 md:py-28">
+          <div className="max-w-6xl mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="max-w-3xl"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">What changes when the busywork handles itself.</h2>
+              <div className="space-y-6 text-gray-400 leading-relaxed">
+                <p>
+                  <strong className="text-white">You wake up and your inbox isn't a disaster.</strong> Tenant messages from overnight? Already drafted responses waiting for your review. Maintenance requests? Logged, categorized, and dispatched.
+                </p>
+                <p>
+                  <strong className="text-white">That prospect who inquired at 2 AM?</strong> They got a personalized response in 90 seconds. They're already scheduled for a showing.
+                </p>
+                <p>
+                  <strong className="text-white">Rent is 3 days late?</strong> The follow-up sequence already started. Friendly, professional, on-brand - like you wrote it yourself. Because you did. Once.
+                </p>
+                <div className="grid sm:grid-cols-3 gap-4">
+                  <div className="rounded-xl border border-white/5 bg-white/[0.02] px-5 py-3 text-center">
+                    <p className="text-emerald-400 text-sm font-medium">⚡ 90-second response</p>
+                  </div>
+                  <div className="rounded-xl border border-white/5 bg-white/[0.02] px-5 py-3 text-center">
+                    <p className="text-emerald-400 text-sm font-medium">📉 80% fewer manual tasks</p>
+                  </div>
+                  <div className="rounded-xl border border-white/5 bg-white/[0.02] px-5 py-3 text-center">
+                    <p className="text-emerald-400 text-sm font-medium">🌙 24/7 coverage</p>
+                  </div>
+                </div>
+                <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.04] p-6">
+                  <p className="text-gray-200 italic">
+                    "Veyra doesn't replace your judgment. We automate everything between the decision and the doing."
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+
+            <div className="mt-12 md:mt-16">
+              <SolutionMockups />
+            </div>
+          </div>
+        </section>
+
+        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+
+        <section id="features" ref={featuresSectionRef} className="py-16 md:py-28">
+          <div className="max-w-6xl mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="mb-12"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-white">Seven things eating your day.</h2>
+              <p className="text-gray-400 mt-3">Before and after Veyra.</p>
+            </motion.div>
+
+            <div className="lg:hidden flex gap-2 overflow-x-auto pb-4 scrollbar-hide">
+              {automationCards.map((item, index) => {
+                const Icon = featureIcons[index];
+                const isActive = activeAutomationIndex === index;
+                return (
+                  <button
+                    key={item.title}
+                    onClick={() => handleAutomationSelect(index)}
+                    className={`whitespace-nowrap px-4 py-2 rounded-full text-sm border transition-all ${
+                      isActive
+                        ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/30"
+                        : "bg-white/[0.02] text-gray-500 border-white/10 hover:text-gray-300"
+                    }`}
+                  >
+                    <span className="inline-flex items-center gap-2">
+                      <Icon className="w-4 h-4" />
+                      {item.title}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="grid lg:grid-cols-[0.35fr_0.65fr] gap-8 mt-2 lg:mt-0">
+              <div className="hidden lg:flex flex-col gap-2">
+                {automationCards.map((item, index) => {
+                  const Icon = featureIcons[index];
+                  const isActive = activeAutomationIndex === index;
+
+                  return (
+                    <button
+                      key={item.title}
+                      onClick={() => handleAutomationSelect(index)}
+                      className={`relative py-4 px-5 rounded-xl text-left transition-all duration-300 border-l-2 ${
+                        isActive
+                          ? "text-white bg-white/[0.05] border-l-emerald-400"
+                          : "text-gray-500 border-l-transparent hover:text-gray-300 hover:bg-white/[0.02]"
+                      }`}
+                    >
+                      <span className="inline-flex items-center gap-3">
+                        <Icon className={`w-4 h-4 ${isActive ? "text-emerald-300" : "text-gray-500"}`} />
+                        {item.title}
+                      </span>
+                      {isActive && (
+                        <motion.span
+                          key={`tab-progress-${index}-${automationPausedUntil}`}
+                          initial={{ scaleX: 0 }}
+                          animate={{ scaleX: 1 }}
+                          transition={{ duration: 5, ease: "linear" }}
+                          className="absolute left-3 right-3 bottom-1 h-0.5 bg-emerald-400/30 origin-left"
+                        />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeAutomation.title}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -12 }}
+                  transition={{ duration: 0.3 }}
+                  className="rounded-2xl border border-white/6 bg-white/[0.03] p-6 md:p-8"
+                >
+                  <div className="inline-flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 rounded-xl border border-emerald-500/30 bg-emerald-500/10 flex items-center justify-center">
+                      <ActiveAutomationIcon className="w-6 h-6 text-emerald-300" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white">{activeAutomation.title}</h3>
+                  </div>
+
+                  <div className="rounded-xl bg-red-500/[0.05] border border-red-500/10 p-6 mb-4">
+                    <p className="text-xs font-semibold text-red-400 uppercase tracking-[0.12em] mb-2">Before</p>
+                    <p className="text-gray-300 leading-relaxed">{activeAutomation.before}</p>
+                  </div>
+
+                  <div className="rounded-xl bg-emerald-500/[0.05] border border-emerald-500/10 p-6">
+                    <p className="text-xs font-semibold text-emerald-400 uppercase tracking-[0.12em] mb-2">After</p>
+                    <p className="text-gray-300 leading-relaxed">{activeAutomation.after}</p>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+        </section>
+
+        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+
+        <section id="process" className="py-16 md:py-28">
+          <div className="max-w-6xl mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="text-center mb-14"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-white">Three steps. You're up and running in two weeks.</h2>
+            </motion.div>
+
+            <div className="relative grid md:grid-cols-3 gap-6">
+              <div className="hidden md:block absolute left-[16%] right-[16%] top-8 border-t-2 border-dashed border-emerald-500/20" />
+
+              {processSteps.map((step, index) => (
+                <motion.div
+                  key={step.number}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.6, delay: index * 0.2 }}
                   className="relative"
                 >
-                  {plan.popular && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
-                      <span className="pricing-badge-pop text-xs font-semibold px-4 py-1.5 rounded-full">MOST COMMON</span>
+                  <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-2xl font-bold mx-auto">
+                    {step.number}
+                  </div>
+
+                  <div className="rounded-2xl border border-white/6 bg-white/[0.02] p-6 mt-4 hover:border-emerald-500/30 transition-colors">
+                    <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.1em] text-gray-500 mb-3">
+                      <Clock className="w-3.5 h-3.5" />
+                      {step.duration}
                     </div>
-                  )}
-                  <SpotlightCard data-tilt data-tilt-scale={plan.popular ? "1.03" : undefined} className={`glass-card glass-card-hover pricing-card p-8 h-full ${plan.popular ? 'border-[var(--emerald)]/30 pricing-card-spotlight full-build-card' : 'pricing-card-secondary'}`}>
-                    <h3 className="text-lg font-bold mb-2">{plan.name}</h3>
-                    <p className="text-3xl font-bold text-[var(--emerald)] mb-3">{plan.price}</p>
-                    <p className="text-[#7F8A95] text-sm mb-6">{plan.description}</p>
+                    <h3 className="text-xl font-semibold text-white mb-3 inline-flex items-center gap-2">
+                      <step.icon className="w-5 h-5 text-emerald-300" />
+                      {step.title}
+                    </h3>
+                    <p className="text-gray-400 leading-relaxed">{step.description}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+
+        <section id="social-proof" className="py-16 md:py-24">
+          <div className="max-w-6xl mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="text-center mb-10"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-white">Property managers are saying it out loud.</h2>
+              <p className="text-gray-400 mt-3">These are real posts from Reddit communities. We just built the fix.</p>
+            </motion.div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {socialProofQuotes.map((item, index) => (
+                <motion.div
+                  key={item.quote}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.6, delay: index * 0.2 }}
+                  className="relative rounded-2xl border border-white/5 bg-white/[0.02] p-6 hover:border-white/10 hover:bg-white/[0.04] transition"
+                >
+                  <span className="absolute top-2 left-4 text-4xl text-emerald-400/30">"</span>
+                  <p className="text-gray-300 text-base italic leading-relaxed pt-4">{item.quote}</p>
+                  <p className="text-sm text-gray-500 mt-4 not-italic">{item.attribution}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+
+        <section id="calculator" className="py-16 md:py-28">
+          <div className="max-w-5xl mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="text-center"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-white">PM Efficiency Audit</h2>
+              <p className="text-gray-400 mt-4">See how much time and money you're leaving on the table.</p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 md:p-8 mt-6"
+            >
+              <div className="rounded-2xl overflow-hidden border border-white/10 bg-[#0A0A0A]">
+                <iframe
+                  src="/roi-calculator.html?theme=dark"
+                  title="Veyra Group PM Efficiency Audit"
+                  loading="lazy"
+                  className="w-full bg-[#0A0A0A]"
+                  style={{ border: 0, height: `${calculatorDisplayHeight}px` }}
+                />
+              </div>
+
+              <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+                <Button
+                  onClick={openCalendly}
+                  size="lg"
+                  className="bg-emerald-500 text-black font-semibold rounded-full px-6"
+                  data-testid="button-calculator-book"
+                >
+                  Book a Free Audit
+                </Button>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+
+        <section id="pricing" className="py-16 md:py-28">
+          <div className="max-w-6xl mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="text-center mb-14"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-white max-w-4xl mx-auto">
+                Less than a part-time hire. More than a full-time employee could do.
+              </h2>
+              <p className="text-gray-400 mt-4">Clear pricing. No annual contracts. No surprise charges.</p>
+            </motion.div>
+
+            <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr_auto_1fr] gap-4 items-stretch">
+              {pricingSteps.map((plan, index) => (
+                <div key={plan.name} className="contents">
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.6, delay: index * 0.15 }}
+                    whileHover={{ y: -4, borderColor: "rgba(52,211,153,0.2)" }}
+                    className="rounded-2xl border border-white/5 bg-white/[0.02] p-8"
+                  >
+                    <p className="text-xs text-emerald-400 uppercase tracking-widest font-semibold mb-2">{plan.step}</p>
+                    <h3 className="text-lg font-semibold text-white mb-3">{plan.name}</h3>
+                    <p className="text-3xl font-bold text-emerald-300 mb-2">{plan.price}</p>
+                    <p className="text-sm text-gray-500 mb-6">{plan.description}</p>
+
                     <ul className="space-y-3">
-                      {plan.features.map((feature, j) => (
-                        <li key={j} className="flex items-start gap-2 text-sm">
-                          <Check className="w-4 h-4 text-[var(--emerald)] flex-shrink-0 mt-0.5" />
-                          <span className="text-[#A7B1BA]">{feature}</span>
+                      {plan.features.map((feature) => (
+                        <li key={feature} className="flex items-start gap-2 text-gray-300 text-sm">
+                          <span className="text-emerald-400 mt-[1px]">✓</span>
+                          <span>{feature}</span>
                         </li>
                       ))}
                     </ul>
-                  </SpotlightCard>
+                  </motion.div>
+
+                  {index < pricingSteps.length - 1 && (
+                    <div className="flex items-center justify-center relative min-w-[56px]">
+                      <span className="absolute left-0 right-0 top-1/2 -translate-y-1/2 border-t border-dashed border-emerald-500/20" />
+                      <span className="relative z-10 text-emerald-500/30 text-2xl bg-[#0A0A0A] px-2">→</span>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
-            <p className="text-center text-[#7F8A95] mt-8 text-lg">Still cheaper than one bad hire.</p>
-          </div>
-        </div>
-      </section>
 
-      {/* GUARANTEE SECTION */}
-      <section className="section-wrapper section-breathe relative">
-        <div className="container mx-auto px-4 md:px-6">
-          <div 
-            className="max-w-3xl mx-auto text-center"
-          >
-            <h2 data-reveal className="section-title">The <span className="section-accent">Guarantee</span></h2>
-            
-            <div data-reveal data-reveal-delay="1" className="guarantee-card text-center">
-              <div className="guarantee-seal mx-auto mt-8 mb-6">
-                <ShieldCheck className="w-14 h-14 text-[#d4a853]" />
-              </div>
-              <p className="guarantee-title text-[rgba(255,255,255,0.92)] font-semibold text-xl mb-3">If we don't hit your goals, we'll keep working on it at no extra charge until we do.</p>
-              <p className="text-[rgba(255,255,255,0.72)] text-lg mb-4">We don't succeed unless you do.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* WHO THIS IS FOR SECTION */}
-      <section className="section-wrapper section-dense relative">
-        <div className="container mx-auto px-4 md:px-6">
-          <div data-reveal className="text-center mb-16">
-            <h2 className="section-title">Is This a <span className="section-accent">Fit</span>?</h2>
-          </div>
-
-          <div data-reveal data-reveal-delay="1" className="max-w-3xl mx-auto grid md:grid-cols-2 gap-5">
-            <div 
-              className="h-full"
-            >
-              <SpotlightCard data-tilt className="fit-card h-full p-6" variant="fit">
-                <ul className="space-y-3">
-                  {[
-                    "Small team wearing a lot of hats",
-                    "Repetitive tasks eating your week",
-                    "Ready to hand it off and have it just... work"
-                  ].map((item, i) => (
-                    <li key={i} className="fit-item flex items-start gap-3">
-                      <span className="fit-status fit-status-good">
-                        <Check className="w-4 h-4" />
-                      </span>
-                      <span className="text-[#A7B1BA]">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </SpotlightCard>
-            </div>
-            
-            <div 
-              className="h-full"
-            >
-              <SpotlightCard data-tilt className="fit-card h-full p-6" variant="fit">
-                <ul className="space-y-3">
-                  {[
-                    "Large org with long procurement cycles",
-                    "Still exploring, not ready to build",
-                    "Need internal IT sign-off first"
-                  ].map((item, i) => (
-                    <li key={i} className="fit-item flex items-start gap-3">
-                      <span className="fit-status fit-status-neutral">
-                        <X className="w-4 h-4" />
-                      </span>
-                      <span className="text-[#7F8A95]">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </SpotlightCard>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ABOUT SECTION */}
-      <section className="section-wrapper section-statement relative">
-        <div className="container mx-auto px-4 md:px-6">
-          <div data-reveal className="max-w-3xl mx-auto">
-            <h2 className="section-title text-center">Who We <span className="section-accent">Are</span></h2>
-            <div className="statement-block text-center">
-              <div className="space-y-4 text-[#7F8A95] leading-relaxed max-w-xl mx-auto">
-                <p className="text-[#A7B1BA] font-medium text-lg">We work with businesses too small to hire a full-time automation specialist — and too busy to figure this out alone.</p>
-                <p className="text-[#A7B1BA] mt-4">You point at the problem. We make it go away.</p>
-              </div>
-              <p className="statement-attribution mt-8 text-[var(--emerald)] font-semibold text-lg">— Veyra Group</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ SECTION */}
-      <section className="section-wrapper section-prelude section-faq relative">
-        <div className="container mx-auto px-4 md:px-6 max-w-5xl">
-          <h2 
-            data-reveal
-            className="section-title text-center"
-          >
-            <span className="section-accent">FAQ</span>
-          </h2>
-          
-          <div data-reveal data-reveal-delay="1">
-            <Accordion type="single" collapsible className="faq-accordion mx-auto w-full max-w-[980px]">
-              {[
-                { q: "What exactly do you build?", a: "Two things. First — automations. The stuff you do over and over that doesn't require thinking. Lead routing, invoice reminders, client onboarding, data syncing between tools. We make it run without you. Second — custom AI tools. Think support bots that actually know your business, writing tools that sound like you, internal assistants that answer questions so you don't have to. If it's repetitive and doesn't need your brain, we can probably kill it." },
-                { q: "How much of my time does this take?", a: "One 15-minute workflow audit upfront. Maybe a few async questions during the build. That's it. You don't need to project-manage this. You don't need to learn new software. You keep running your business — we handle the rest." },
-                { q: "Is this just Zapier? Why can't I do this myself?", a: "You could. Same way you could do your own taxes or fix your own plumbing. The question is whether that's the best use of your time. We use tools like Zapier, Make, and custom code — but the value isn't the tool. It's knowing what to build, how to make it bulletproof, and getting it done in days instead of 'someday.' Most clients tried the DIY route. That's why they're here." },
-                { q: "Why is there a price range?", a: "Complexity. A two-step automation that sends a Slack message is simpler than a five-tool workflow with conditional logic and error handling. We scope everything on the first call, so you'll know the exact price before we start. No surprises." },
-                { q: "How long until it's running?", a: "Most builds are done in 1-2 weeks. Not a proposal. Not a project plan. A working system, live in your business." },
-                { q: "What if something breaks later?", a: "Every build includes 30 days of support. If something breaks, we fix it. After that, you can either grab a monthly partnership for ongoing maintenance — or we document everything so your team can handle it. Either way, you're not left hanging." }
-              ].map((item, i) => (
-                <div key={i}>
-                  <AccordionItem
-                    value={`item-${i}`}
-                    className="faq-card border-none px-0"
+            <div className="md:hidden">
+              {pricingSteps.map((plan, index) => (
+                <div key={plan.name}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.6, delay: index * 0.15 }}
+                    whileHover={{ y: -4, borderColor: "rgba(52,211,153,0.2)" }}
+                    className="rounded-2xl border border-white/5 bg-white/[0.02] p-8"
                   >
-                    <AccordionTrigger className="faq-question text-xl py-6 hover:no-underline text-left">
-                      {item.q}
-                    </AccordionTrigger>
-                    <AccordionContent className="faq-answer pb-7 text-base leading-relaxed">
-                      {item.a}
-                    </AccordionContent>
-                  </AccordionItem>
+                    <p className="text-xs text-emerald-400 uppercase tracking-widest font-semibold mb-2">{plan.step}</p>
+                    <h3 className="text-lg font-semibold text-white mb-3">{plan.name}</h3>
+                    <p className="text-3xl font-bold text-emerald-300 mb-2">{plan.price}</p>
+                    <p className="text-sm text-gray-500 mb-6">{plan.description}</p>
+
+                    <ul className="space-y-3">
+                      {plan.features.map((feature) => (
+                        <li key={feature} className="flex items-start gap-2 text-gray-300 text-sm">
+                          <span className="text-emerald-400 mt-[1px]">✓</span>
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+
+                  {index < pricingSteps.length - 1 && (
+                    <div className="flex flex-col items-center py-3">
+                      <span className="w-px h-5 border-l border-dashed border-emerald-500/20" />
+                      <span className="text-emerald-500/30 text-2xl leading-none">↓</span>
+                    </div>
+                  )}
                 </div>
               ))}
-            </Accordion>
-          </div>
-        </div>
-      </section>
+            </div>
 
-      {/* FINAL CTA SECTION */}
-      <section className="section-wrapper section-arrival relative">
-        <div className="container mx-auto px-4 md:px-6 max-w-3xl text-center">
-          <div className="w-full">
-            <div className="final-cta-shell p-12 md:p-16">
-            <h2 data-reveal className="section-title text-center mb-6">Let's <span className="section-accent">Talk</span></h2>
-            <div data-reveal data-reveal-delay="1">
-              <div className="text-[#7F8A95] text-lg mb-10 leading-relaxed space-y-4">
-                <p>15 minutes. That's it.</p>
-                <p>We'll map out exactly what's eating your week — and what it would cost to make it stop.</p>
-                <p>If automation isn't the right answer, we'll tell you. No hard sell.</p>
-              </div>
-              <Button 
+            <div className="rounded-2xl border border-white/6 bg-white/[0.02] p-8 mt-8 text-center">
+              <p className="text-gray-400 mb-4">A part-time admin costs about $2,500/month and still cannot handle tenant ops 24/7.</p>
+              <p className="text-white text-xl font-semibold">
+                The question isn't whether you can afford this. It's how much longer you can afford to do it all manually.
+              </p>
+              <Button
                 onClick={openCalendly}
                 size="lg"
-                data-testid="button-final-cta"
-                className="glow-button hero-cta final-cta-button font-semibold group"
+                className="mt-6 bg-emerald-500 text-black font-semibold rounded-full px-8 py-4 hover:shadow-lg hover:shadow-emerald-500/25 transition-all"
+                data-testid="button-pricing-cta"
               >
-                Book the Call
-                <ArrowRight className="ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                Book Your Free Workflow Audit
+                <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
-              <p className="text-[#5F6972] text-sm mt-8">
-                <a href="mailto:bruno@veyragroup.ai" className="text-[var(--emerald)] hover:underline">bruno@veyragroup.ai</a><br />
-                <a href="tel:+13026002625" className="text-[#5F6972] hover:text-[var(--emerald)]">(302) 600-2625</a><br />
-                We usually reply same day.
-              </p>
-            </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+
+        <section id="guarantee" className="py-16 md:py-24">
+          <div className="max-w-4xl mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="text-center"
+            >
+              <ShieldCheck className="w-12 h-12 text-emerald-400 mx-auto mb-4" />
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">Hit your goals or don't pay. Period.</h2>
+
+              <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.03] p-10 text-center max-w-2xl mx-auto">
+                <p className="text-xl text-white font-semibold mb-3">
+                  If we build it and it doesn't hit the goals we agreed on - we fix it. Free.
+                </p>
+                <p className="text-gray-300 text-lg mb-3">Still not working? You don't pay.</p>
+                <p className="text-gray-400 mb-4">
+                  Everything is fully managed while you're active. If you cancel, access to the managed automations ends.
+                </p>
+                <p className="text-white font-semibold">You risk nothing. We risk everything. That's how confident we are.</p>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+
+        <section id="founding" className="py-16 md:py-24">
+          <div className="max-w-4xl mx-auto px-6 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="rounded-2xl border border-white/6 bg-white/[0.02] p-8 md:p-10"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-5">Founding Client Program</h2>
+              <p className="text-gray-300 text-lg mb-4">
+                We're accepting 5 founding clients at our introductory build rate of $1,500 (increasing after).
+              </p>
+              <p className="text-gray-400 mb-2">
+                Founding clients get priority support, direct access to our automation team, and input on new features.
+              </p>
+              <p className="text-gray-400">Book your workflow audit to see if you qualify.</p>
+
+              <Button
+                onClick={openCalendly}
+                size="lg"
+                className="mt-7 bg-emerald-500 text-black font-semibold rounded-full px-8 py-4 hover:shadow-lg hover:shadow-emerald-500/25 transition-all"
+                data-testid="button-founding-cta"
+              >
+                Book a Free 30-Min Workflow Audit
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+            </motion.div>
+          </div>
+        </section>
+
+        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+
+        <section id="fit" className="py-16 md:py-24">
+          <div className="max-w-5xl mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="text-center mb-10"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-white">
+                Is This a <span className="text-emerald-400">Fit</span>?
+              </h2>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="rounded-2xl border border-white/6 bg-white/[0.02] p-6"
+              >
+                <ul className="space-y-4">
+                  {fitPositiveItems.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <li key={item.text} className="flex items-start gap-3">
+                        <span className="w-9 h-9 rounded-xl border border-emerald-500/35 bg-emerald-500/10 flex items-center justify-center text-emerald-400 flex-shrink-0">
+                          <Icon className="w-4 h-4" />
+                        </span>
+                        <span className="w-6 h-6 rounded-full border border-emerald-500/40 bg-emerald-500/20 text-emerald-200 flex items-center justify-center flex-shrink-0 mt-[3px]">
+                          <Check className="w-4 h-4" />
+                        </span>
+                        <span className="text-gray-300">{item.text}</span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="rounded-2xl border border-white/6 bg-white/[0.02] p-6"
+              >
+                <ul className="space-y-4">
+                  {fitNegativeItems.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <li key={item.text} className="flex items-start gap-3">
+                        <span className="w-9 h-9 rounded-xl border border-white/20 bg-white/[0.03] flex items-center justify-center text-gray-300 flex-shrink-0">
+                          <Icon className="w-4 h-4" />
+                        </span>
+                        <span className="w-6 h-6 rounded-full border border-gray-500/30 bg-gray-500/10 text-gray-300 flex items-center justify-center flex-shrink-0 mt-[3px]">
+                          <X className="w-4 h-4" />
+                        </span>
+                        <span className="text-gray-400">{item.text}</span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+
+        <section id="faq" className="py-16 md:py-24">
+          <div className="max-w-4xl mx-auto px-6">
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="text-3xl md:text-4xl font-bold text-white text-center mb-12"
+            >
+              FAQ
+            </motion.h2>
+
+            <div className="border-t border-white/5">
+              {faqItems.map((item, index) => {
+                const open = openFaqIndex === index;
+
+                return (
+                  <div key={item.q} className="border-b border-white/5 py-6">
+                    <button
+                      onClick={() => setOpenFaqIndex(open ? null : index)}
+                      className="w-full text-left text-lg text-white font-medium cursor-pointer flex justify-between items-center"
+                    >
+                      <span>{item.q}</span>
+                      <span className="ml-6 text-gray-400">
+                        {open ? <Minus className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
+                      </span>
+                    </button>
+
+                    <AnimatePresence initial={false}>
+                      {open && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0, y: -4 }}
+                          animate={{ opacity: 1, height: "auto", y: 0 }}
+                          exit={{ opacity: 0, height: 0, y: -4 }}
+                          transition={{ duration: 0.25 }}
+                          className="overflow-hidden"
+                        >
+                          <p className="text-gray-400 mt-4 leading-relaxed">{item.a}</p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        <section id="footer-cta" className="py-16 md:py-24 bg-gradient-to-t from-emerald-500/10 via-emerald-500/5 to-transparent">
+          <div className="max-w-4xl mx-auto px-6 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-white">Ready to stop being your own help desk?</h2>
+              <Button asChild size="lg" className="mt-7 bg-emerald-500 text-black font-semibold text-lg px-8 py-4 rounded-full hover:shadow-lg hover:shadow-emerald-500/25 transition-all group" data-testid="button-footer-final-cta">
+                <a href="/book">
+                  Book Your Free Workflow Audit
+                  <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
+                </a>
+              </Button>
+              <p className="text-gray-500 text-sm mt-4">30 minutes. We'll show you exactly which workflows to automate first.</p>
+            </motion.div>
+          </div>
+        </section>
+      </main>
 
       <Footer />
-      </main>
     </div>
   );
 }
