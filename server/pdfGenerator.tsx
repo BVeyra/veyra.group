@@ -95,7 +95,7 @@ export async function generateAndEmailPDF(data: CalculatorData) {
       </p>
 
       <p style="font-size: 15px; color: #b6b9b6; line-height: 1.7; margin: 0 0 28px 0;">
-        Most of it comes from 2–3 workflows. Scheduling, follow-ups, data entry — the stuff that feels small until you see the bill. We can show you exactly which ones and what the fix costs in a 30-minute call.
+        Most of it comes from 2–3 workflows. Scheduling, follow-ups, data entry — the stuff that feels small until you see the bill. We can show you exactly which ones and what the fix costs in a 15-minute workflow audit.
       </p>
 
       <!-- CTA Button -->
@@ -104,7 +104,7 @@ export async function generateAndEmailPDF(data: CalculatorData) {
            style="display: inline-block; background-color: #059669; color: #0a0f0a;
                   padding: 14px 36px; text-decoration: none; border-radius: 8px;
                   font-weight: 700; font-size: 15px; letter-spacing: 0.3px;">
-          Book a 30-min walkthrough →
+          Book a 15-minute workflow audit →
         </a>
       </div>
 

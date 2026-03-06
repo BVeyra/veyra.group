@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Link } from "wouter";
 
 const CALENDLY_EMBED_URL =
-  "https://calendly.com/veyragroup/30min?background_color=050505&text_color=e5e7eb&primary_color=34d399&hide_gdpr_banner=1";
+  "https://calendly.com/veyragroup/15min?background_color=050505&text_color=e5e7eb&primary_color=34d399&hide_gdpr_banner=1";
 
 export default function BookPage() {
   useEffect(() => {
@@ -106,13 +106,13 @@ export default function BookPage() {
             </span>
           </h1>
           <p className="max-w-3xl mx-auto mt-5 text-lg leading-relaxed text-gray-400">
-            Pick a time that works for you. We&apos;ll spend 30 minutes mapping out exactly which
+            Pick a time that works for you. We&apos;ll spend 15 minutes mapping out exactly which
             tasks are costing your team the most time — and how to fix them.
           </p>
         </section>
 
         <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-8">
-          {["Free, no obligation", "30 minutes", "Save 10+ hrs/week"].map((pill) => (
+          {["Free, no obligation", "15 minutes", "Save 10+ hrs/week"].map((pill) => (
             <div key={pill} className="inline-flex items-center gap-2 text-sm text-gray-400">
               <Check size={14} className="text-emerald-400" />
               {pill}
