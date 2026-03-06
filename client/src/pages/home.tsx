@@ -639,7 +639,7 @@ export default function Home() {
                   <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
                   <div className="my-3 inline-flex items-center gap-2 text-sm text-gray-500 tracking-wide">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    Serving property managers across 15+ US markets
+                    Built for independent property managers across the US
                   </div>
                   <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
                 </motion.div>
