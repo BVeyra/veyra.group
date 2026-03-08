@@ -270,10 +270,7 @@ export function Footer() {
         </div>
 
         <div className="mt-10 pt-6 border-t border-white/5 text-xs text-gray-500">
-          © 2026 Veyra Group Inc. |{" "}
-          <a href="mailto:hello@veyragroup.ai" className="text-emerald-400 hover:underline">
-            hello@veyragroup.ai
-          </a>
+          © 2026 Veyra Group Inc.
         </div>
       </div>
     </footer>

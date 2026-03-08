@@ -486,7 +486,7 @@ export default function Home() {
   const heroTiming = (seconds: number) => Number((seconds * heroTimingScale).toFixed(3));
   const pricingSteps = [
     {
-      step: "Step 1",
+      step: "ONE-TIME BUILD",
       name: "CUSTOM BUILD",
       price: "$1,500 one-time",
       description: "Founding-client introductory rate (first 5 clients).",
@@ -497,7 +497,7 @@ export default function Home() {
       ],
     },
     {
-      step: "Step 2",
+      step: "MONTHLY BASE",
       name: "BASE OPERATIONS",
       price: "$500/month",
       description: "Base operations plan. Supports 50+ unit portfolios with no cap.",
@@ -508,7 +508,7 @@ export default function Home() {
       ],
     },
     {
-      step: "Step 3",
+      step: "USAGE SCALING",
       name: "GROWTH SCALING",
       price: "$5/unit above 50 (no cap)",
       description: "Pricing grows with portfolio size and automation load.",
@@ -575,7 +575,7 @@ export default function Home() {
                   }}
                   className="text-lg text-gray-400 max-w-[480px] mt-6 leading-relaxed"
                 >
-                  We handle your tenants, your maintenance requests, and your owner reports - so you can grow your portfolio without growing your team.
+                  We automate everything between the decision and the doing — so you can grow your portfolio without growing your team.
                 </motion.p>
 
                 <motion.div
