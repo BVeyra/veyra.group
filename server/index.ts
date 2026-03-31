@@ -6,10 +6,22 @@ import { createServer } from "http";
 
 const app = express();
 const httpServer = createServer(app);
+app.set("trust proxy", "loopback");
 
 app.use(express.json());
 
-const corsOriginValues = (process.env.CORS_ORIGINS || "")
+const defaultCorsOrigins = [
+  "https://veyragroup.ai",
+  "https://www.veyragroup.ai",
+  "http://localhost:3000",
+  "http://127.0.0.1:3000",
+  "http://localhost:5000",
+  "http://127.0.0.1:5000",
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+];
+
+const corsOriginValues = (process.env.CORS_ORIGINS || defaultCorsOrigins.join(","))
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
@@ -116,9 +128,8 @@ app.use((req, res, next) => {
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
     console.error(err);
-    res.status(status).json({ message });
+    res.status(status).json({ message: "Internal server error" });
   });
 
   // importantly only setup vite in development and after
@@ -140,7 +151,6 @@ app.use((req, res, next) => {
     {
       port,
       host: "0.0.0.0",
-      reusePort: true,
     },
     () => {
       log(`serving on port ${port}`);

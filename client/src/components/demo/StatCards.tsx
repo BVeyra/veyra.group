@@ -79,13 +79,13 @@ export default function StatCards({
         <StatCard
           title="Avg Response Time"
           value={stats.avgResponse}
-          subtext="↓ 94% faster"
+          subtext="↓ significantly faster"
           icon={<Clock3 className="w-3.5 h-3.5" />}
           onClick={() => onSetAvgResponseInfo(!showAvgResponseInfo)}
         >
           {showAvgResponseInfo && (
             <div className="absolute z-20 left-3 right-3 top-[calc(100%+8px)] rounded-xl border border-white/10 bg-[#111] px-3 py-2 text-xs text-gray-300 shadow-2xl">
-              Average across all auto-replies today. 94% faster than manual response time.
+              Average across all auto-replies today. Significantly faster than typical manual response.
             </div>
           )}
         </StatCard>

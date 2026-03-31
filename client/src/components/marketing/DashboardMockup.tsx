@@ -85,7 +85,7 @@ export default function DashboardMockup() {
           <div className="flex-1 bg-[#0C0C0C] p-4 md:p-6 overflow-y-auto scrollbar-hide">
             <div className="grid grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4 mb-6">
               <StatCard title="Messages Today" value="24" subtext="↓ 18 auto-handled" subtextClass="text-emerald-400" />
-              <StatCard title="Avg Response Time" value="47s" subtext="↓ 94% faster" subtextClass="text-emerald-400" />
+              <StatCard title="Avg Response Time" value="47s" subtext="demo data" subtextClass="text-emerald-400" />
               <StatCard title="Open Tickets" value="3" subtext="2 in progress" subtextClass="text-gray-500" />
               <StatCard title="Owner Reports Due" value="0" subtext="✓ All sent Feb 1" subtextClass="text-emerald-400" />
             </div>

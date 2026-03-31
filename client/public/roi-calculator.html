@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PM Efficiency Audit | Veyra Group</title>
+<title>PM Workflow Audit | Veyra Group</title>
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--emerald:#059669;--emerald-light:rgba(5,150,105,0.15);--emerald-border:rgba(5,150,105,0.5);--card-bg:linear-gradient(160deg, rgba(11,18,15,0.9), rgba(12,24,19,0.74) 50%, rgba(9,14,12,0.92));--card-border:rgba(128,205,179,0.16);--card-border-hover:rgba(128,205,179,0.28);--card-shadow:0 18px 50px rgba(0,0,0,0.35), 0 0 38px rgba(39,122,101,0.08), inset 0 1px 0 rgba(255,255,255,0.08);--text-heading:#ffffff;--text-body:rgba(255,255,255,0.7);--text-muted:rgba(255,255,255,0.5);--bg:#0a0f0a}
+:root{--emerald:#059669;--emerald-light:rgba(5,150,105,0.15);--emerald-border:rgba(5,150,105,0.5);--card-bg:linear-gradient(160deg, rgba(11,18,15,0.9), rgba(12,24,19,0.74) 50%, rgba(9,14,12,0.92));--card-border:rgba(128,205,179,0.16);--card-shadow:0 18px 50px rgba(0,0,0,0.35),0 0 38px rgba(39,122,101,0.08),inset 0 1px 0 rgba(255,255,255,0.08);--text-heading:#ffffff;--text-body:rgba(255,255,255,0.7);--text-muted:rgba(255,255,255,0.5);--bg:#0a0f0a;--danger:#f87171}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text-body);line-height:1.6;min-height:0}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -20%, rgba(5,150,105,0.08), transparent),repeating-linear-gradient(0deg,transparent,transparent 95px,rgba(65,159,132,0.009) 95px,rgba(65,159,132,0.009) 96px),repeating-linear-gradient(90deg,transparent,transparent 95px,rgba(65,159,132,0.009) 95px,rgba(65,159,132,0.009) 96px);pointer-events:none;z-index:0}
 .container{max-width:640px;margin:0 auto;padding:20px;position:relative;z-index:2}
@@ -39,11 +39,13 @@ input[type=range]::-moz-range-thumb{width:24px;height:24px;background:var(--emer
 .btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
 .email-section{text-align:center}
 .email-section .question{font-size:22px}
-.email-input{width:100%;padding:14px 18px;border:1px solid var(--card-border);border-radius:16px;font-size:16px;outline:none;transition:border .2s;background:rgba(0,0,0,0.3);color:var(--text-heading);font-family:'Inter',sans-serif}
-.email-input:focus{border-color:var(--emerald-border)}
-.email-input::placeholder{color:var(--text-muted)}
+.field{width:100%;padding:14px 18px;border:1px solid var(--card-border);border-radius:16px;font-size:16px;outline:none;transition:border .2s;background:rgba(0,0,0,0.3);color:var(--text-heading);font-family:'Inter',sans-serif}
+.field:focus{border-color:var(--emerald-border)}
+.field::placeholder{color:var(--text-muted)}
+.field-stack{display:grid;gap:12px}
 .email-note{font-size:13px;color:var(--text-muted);margin-top:10px}
-/* Results */
+.error{margin-top:12px;color:var(--danger);font-size:13px}
+.status{margin-top:12px;color:#7dd3a8;font-size:13px}
 .results{animation:fadeIn .5s ease}
 .results-header{text-align:center;margin-bottom:36px}
 .results-header h1{font-size:28px;font-weight:800;color:var(--text-heading);margin-bottom:6px}
@@ -82,11 +84,35 @@ input[type=range]::-moz-range-thumb{width:24px;height:24px;background:var(--emer
 <div id="app"></div>
 </div>
 <script>
-const state={step:0,units:50,team:2,response:'',vacancy:'',afterhours:'',painpoints:[],email:''};
-const responseOptions=['Under 30 min','1-2 hours','3-6 hours','Same day','Next day or later'];
-const vacancyOptions=['Under 2 weeks','2-4 weeks','1-2 months','2+ months','Not sure'];
-const afterhoursOptions=['I respond personally','Team member on call','They wait until morning','Answering service','Automated system'];
-const painOptions=['Tenant communications','Maintenance coordination','Lease renewals','Rent collection','Prospect response time','Owner reporting','All of the above'];
+const query = new URLSearchParams(window.location.search);
+const pmSoftwareOptions=['AppFolio','Buildium','Rent Manager','Yardi / Breeze','Propertyware / another PM stack','Spreadsheets / inboxes / not sure'];
+const responseOptions=['Under 30 minutes','1-2 hours','Same day if someone is watching it','Next day is common'];
+const maintenanceOptions=['Texts, calls, and inboxes with manual vendor chase','Portal or PM software, but routing and follow-up are still manual','A coordinator handles it with SOPs, but it is still mostly manual','Clear system with documented rules and fast follow-up'];
+const ownerReportingOptions=['Manual exports and reformatting every month','Templates help, but the team still rebuilds the report','PM software sends a base report and we add context manually','Reporting is already consistent and low-touch'];
+const painOptions=['Tenant questions and status updates','Maintenance triage and vendor follow-up','Owner approvals and owner reporting','Leasing inquiry follow-up','Renewals and notices','After-hours messages land on me','Everyone is context-switching all day','All of the above'];
+const optionSets={pmSoftware:pmSoftwareOptions,responseTime:responseOptions,maintenanceFlow:maintenanceOptions,ownerReporting:ownerReportingOptions};
+const state={
+step:0,
+units:60,
+team:2,
+pmSoftware:'',
+responseTime:'',
+maintenanceFlow:'',
+ownerReporting:'',
+painPoints:[],
+name:'',
+company:'',
+email:'',
+loading:false,
+error:'',
+submitted:false,
+report:null,
+source:query.get('source')||'direct',
+entry:query.get('entry')||'embedded',
+utmSource:query.get('utm_source')||'',
+utmMedium:query.get('utm_medium')||'',
+utmCampaign:query.get('utm_campaign')||''
+};
 
 function postHeight(){
 requestAnimationFrame(()=>{
@@ -97,15 +123,24 @@ window.parent.postMessage({type:'roi-calculator-height',height:h},window.locatio
 });
 }
 
+function validEmail(value){
+return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((value||'').trim());
+}
+
+function escapeHtml(value){
+return String(value||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
 function render(){
 const app=document.getElementById('app');
 const progress=document.getElementById('progress');
 const totalSteps=8;
-progress.style.width=`${(state.step/totalSteps)*100}%`;
+const completedSteps=Math.min(state.step,totalSteps);
+progress.style.width=`${(completedSteps/totalSteps)*100}%`;
 
 if(state.step===0){app.innerHTML=`
 <div class="step active">
-<div class="step-label">Question 1 of 6</div>
+<div class="step-label">Question 1 of 7</div>
 <div class="question">How many rental units do you manage?</div>
 <div class="slider-container">
 <div class="slider-value" id="sv">${state.units}</div>
@@ -115,34 +150,40 @@ if(state.step===0){app.innerHTML=`
 </div>`}
 else if(state.step===1){app.innerHTML=`
 <div class="step active">
-<div class="step-label">Question 2 of 6</div>
-<div class="question">How many people are on your team (including you)?</div>
+<div class="step-label">Question 2 of 7</div>
+<div class="question">How many people handle operations, including you?</div>
 <div class="slider-container">
 <div class="slider-value" id="tv">${state.team}</div>
 <input type="range" min="1" max="20" value="${state.team}" oninput="state.team=+this.value;document.getElementById('tv').textContent=this.value">
 </div>
 <button class="btn" onclick="next()">Continue</button>
 </div>`}
-else if(state.step===2){renderSelect('Question 3 of 6','When a prospective tenant inquires, how quickly do you typically respond?',responseOptions,'response')}
-else if(state.step===3){renderSelect('Question 4 of 6',"What's your average vacancy time between tenants?",vacancyOptions,'vacancy')}
-else if(state.step===4){renderSelect('Question 5 of 6','How do you handle after-hours tenant messages?',afterhoursOptions,'afterhours')}
-else if(state.step===5){
-app.innerHTML=`
-<div class="step active">
-<div class="step-label">Question 6 of 6</div>
-<div class="question">What's your biggest operational headache?</div>
-<div class="options checkboxes">${painOptions.map(o=>`<div class="option ${state.painpoints.includes(o)?'selected':''}" onclick="togglePain('${o}')"><div class="check"></div>${o}</div>`).join('')}</div>
-<button class="btn" ${state.painpoints.length===0?'disabled':''} onclick="next()">Continue</button>
-</div>`}
+else if(state.step===2){renderSelect('Question 3 of 7','What PM system do you run on today?',pmSoftwareOptions,'pmSoftware')}
+else if(state.step===3){renderSelect('Question 4 of 7','What happens when a new message or leasing inquiry comes in?',responseOptions,'responseTime')}
+else if(state.step===4){renderSelect('Question 5 of 7','How are maintenance requests handled right now?',maintenanceOptions,'maintenanceFlow')}
+else if(state.step===5){renderSelect('Question 6 of 7','How are owner updates handled today?',ownerReportingOptions,'ownerReporting')}
 else if(state.step===6){
 app.innerHTML=`
-<div class="step active email-section">
-<div class="question">Your audit results are ready.<br>Where should we send them?</div>
-<input class="email-input" type="email" placeholder="you@company.com" value="${state.email}" oninput="state.email=this.value;document.getElementById('eb').disabled=!this.value.includes('@')">
-<button class="btn" id="eb" ${!state.email.includes('@')?'disabled':''} onclick="next()">Get My Audit Results</button>
-<div class="email-note">We'll also include 3 specific recommendations for your portfolio size.</div>
+<div class="step active">
+<div class="step-label">Question 7 of 7</div>
+<div class="question">Which repeated work is pulling the team backward right now?</div>
+<div class="options checkboxes">${painOptions.map((o,i)=>`<div class="option ${state.painPoints.includes(o)?'selected':''}" onclick="togglePain(${i})"><div class="check"></div>${escapeHtml(o)}</div>`).join('')}</div>
+<button class="btn" ${state.painPoints.length===0?'disabled':''} onclick="next()">Continue</button>
 </div>`}
-else if(state.step===7){renderResults()}
+else if(state.step===7){
+app.innerHTML=`
+<div class="step active email-section">
+<div class="question">Where should we send your PM Workflow Audit?</div>
+<div class="field-stack">
+<input class="field" type="text" placeholder="Your name" value="${escapeAttr(state.name)}" oninput="state.name=this.value">
+<input class="field" type="text" placeholder="Company name" value="${escapeAttr(state.company)}" oninput="state.company=this.value">
+<input class="field" type="email" placeholder="you@company.com" value="${escapeAttr(state.email)}" oninput="state.email=this.value">
+</div>
+<button class="btn" ${state.loading?'disabled':''} onclick="submitLead()">${state.loading?'Sending your report...':'Get My Audit Report'}</button>
+<div class="email-note">We will email the full report, show the summary here, and route the lead into Bruno's follow-up queue only if the workflow looks worth discussing.</div>
+${state.error?`<div class="error">${state.error}</div>`:''}
+</div>`}
+else if(state.step===8){renderResults()}
 postHeight();
 }
 
@@ -152,102 +193,164 @@ app.innerHTML=`
 <div class="step active">
 <div class="step-label">${label}</div>
 <div class="question">${q}</div>
-<div class="options">${opts.map(o=>`<div class="option ${state[key]===o?'selected':''}" onclick="state['${key}']='${o}';next()">${o}</div>`).join('')}</div>
+<div class="options">${opts.map((o,i)=>`<div class="option ${state[key]===o?'selected':''}" onclick="chooseOption('${key}',${i})">${escapeHtml(o)}</div>`).join('')}</div>
 </div>`;
 }
 
-function togglePain(p){
-if(p==='All of the above'){state.painpoints=state.painpoints.includes(p)?[]:[...painOptions]}
-else{const i=state.painpoints.indexOf(p);if(i>-1)state.painpoints.splice(i,1);else state.painpoints.push(p);state.painpoints=state.painpoints.filter(x=>x!=='All of the above')}
+function chooseOption(key,index){
+const options=optionSets[key]||[];
+state[key]=options[index]||'';
+next();
+}
+
+function togglePain(index){
+const p=painOptions[index];
+if(p==='All of the above'){state.painPoints=state.painPoints.includes(p)?[]:[...painOptions]}
+else{
+const i=state.painPoints.indexOf(p);
+if(i>-1)state.painPoints.splice(i,1);else state.painPoints.push(p);
+state.painPoints=state.painPoints.filter(x=>x!=='All of the above');
+}
 render();
 }
 
-function next(){state.step++;render();window.scrollTo({top:0,behavior:'smooth'})}
+function next(){state.step++;state.error='';render();window.scrollTo({top:0,behavior:'smooth'})}
+
+function escapeAttr(value){
+return String(value||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+}
+
+async function submitLead(){
+state.error='';
+if(!state.name.trim()||!state.company.trim()){
+state.error='Enter your name and company so the report can be routed correctly.';
+render();
+return;
+}
+if(!validEmail(state.email)){
+state.error='Enter a valid work email address.';
+render();
+return;
+}
+state.loading=true;
+render();
+try{
+const res=await fetch('/api/generate-report',{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+name:state.name.trim(),
+company:state.company.trim(),
+email:state.email.trim(),
+units:state.units,
+teamSize:state.team,
+pmSoftware:state.pmSoftware,
+responseTime:state.responseTime,
+maintenanceFlow:state.maintenanceFlow,
+ownerReporting:state.ownerReporting,
+painPoints:state.painPoints,
+source:state.source,
+entry:state.entry,
+referrer:document.referrer||'',
+pageUrl:window.location.href,
+utmSource:state.utmSource,
+utmMedium:state.utmMedium,
+utmCampaign:state.utmCampaign
+})
+});
+const payload=await res.json().catch(()=>({}));
+if(!res.ok||!payload.success){
+throw new Error(payload.error||'We could not send the report right now.');
+}
+state.loading=false;
+state.submitted=true;
+state.report=payload.insights||null;
+state.step=8;
+render();
+window.scrollTo({top:0,behavior:'smooth'});
+}catch(error){
+state.loading=false;
+state.error=error&&error.message?error.message:'We could not send the report right now.';
+render();
+}
+}
 
 function renderResults(){
 const app=document.getElementById('app');
-const ratio=Math.round(state.units/state.team);
-const ri=responseOptions.indexOf(state.response);
-const rScores=[
-{label:'Elite — Top 5% of PMs',cls:'green',msg:'You\'re in rare company. Most PMs take hours to respond to prospects.'},
-{label:'Good — but you\'re losing some prospects',cls:'yellow',msg:'You\'re ahead of most, but prospects reaching out to multiple PMs often go with whoever responds first.'},
-{label:'At Risk — 78% of tenants go with the first PM to respond',cls:'orange',msg:'At this speed, faster competitors are likely converting your prospects before you even reply.'},
-{label:'Critical — you\'re likely losing 3-5 prospects per vacancy',cls:'red',msg:'Same-day response means most interested renters have already moved on to another listing.'},
-{label:'Critical — you\'re likely losing 3-5 prospects per vacancy',cls:'red',msg:'By the next day, the best tenants have already signed elsewhere. Speed is the #1 factor.'}
-];
-const rs=rScores[ri]||rScores[4];
-
-let capLabel,capNote='';
-if(ratio<50){capLabel='Well-Staffed';capNote='You have room to grow your portfolio without adding headcount.'}
-else if(ratio<75){capLabel='Industry Typical';capNote='You\'re in the standard range. Automation could free up 8-12 hours per week for growth activities.'}
-else if(ratio<100){capLabel='Stretched Thin';capNote='Companies at your ratio typically spend 60%+ of their time on reactive tasks instead of growing the portfolio.'}
-else{capLabel='Burnout Zone';capNote='At this ratio, dropped balls and tenant churn become almost inevitable. Something has to give.'}
-
-const vacDays={0:10,1:21,2:45,3:75,4:30};
-const vd=vacDays[vacancyOptions.indexOf(state.vacancy)]||30;
-const turnover=state.units<50?.45:state.units<100?.40:.35;
-const annualTurns=Math.round(state.units*turnover);
-const annualVacCost=Math.round(annualTurns*vd*47);
-const low=Math.round(annualVacCost*.85);const high=Math.round(annualVacCost*1.15);
-const speedSavings=ri>=2?Math.round(7*47):0;
-
-const recs=[];const pp=state.painpoints;const allP=pp.includes('All of the above');
-if(allP||pp.includes('Tenant communications')||pp.includes('Prospect response time'))
-recs.push({title:'Automated Instant Response',desc:`Respond to every prospect inquiry in under 60 seconds, 24/7 — even at 2 AM. For ${state.units} units, this alone could cut vacancy by 5-10 days per turn.`});
-if(allP||pp.includes('Maintenance coordination'))
-recs.push({title:'Smart Maintenance Triage',desc:'Automatically categorize, prioritize, and route maintenance requests to the right vendor — no more playing phone tag.'});
-if(allP||pp.includes('Lease renewals'))
-recs.push({title:'Automated Renewal Pipeline',desc:`Start the renewal conversation 90 days out, automatically. At your turnover rate, keeping even 2-3 more tenants/year saves $${(vd*47*2.5).toLocaleString()}.`});
-if(allP||pp.includes('Rent collection'))
-recs.push({title:'Proactive Payment Reminders',desc:'Automated reminders before rent is due — not after. PMs using this see late payments drop by 35-50%.'});
-if(allP||pp.includes('Owner reporting'))
-recs.push({title:'Automated Owner Updates',desc:'Generate and send owner reports automatically. No more spending Sunday nights on spreadsheets.'});
-if(recs.length===0)
-recs.push({title:'Workflow Automation',desc:`At ${ratio} units per person, automating repetitive tasks could free up 10+ hours per week for your team.`});
-
-const timeSaved=ratio>=75?'15-20':ratio>=50?'10-15':'8-12';
+const report=state.report;
+if(!report){
+app.innerHTML=`
+<div class="results">
+  <div class="results-header">
+    <h1>Your PM Workflow Audit</h1>
+    <p>Your report is on the way to ${escapeHtml(state.email)}.</p>
+  </div>
+  <div class="card">
+    <div class="card-label">Report Status</div>
+    <h3>We sent the PDF, but could not load the on-page summary.</h3>
+    <p style="margin-top:12px;font-size:14px;color:var(--text-body)">Open the email report or book the audit call if you want Bruno to walk through the workflow with you.</p>
+  </div>
+  <div class="cta-section">
+    <h3>Want Bruno to map the workflow with you?</h3>
+    <p>The report is already in your inbox. The next step is optional.</p>
+    <a href="https://veyragroup.ai/book" class="btn-white">Book The Workflow Audit Call</a>
+  </div>
+</div>`;
+postHeight();
+return;
+}
+const nextBuilds=(report.roadmap||[]).slice(1,3);
 
 app.innerHTML=`
 <div class="results">
 <div class="results-header">
-<h1>Your PM Efficiency Audit</h1>
-<p>${state.units} units · ${state.team} team member${state.team>1?'s':''}</p>
+<h1>Your PM Workflow Audit</h1>
+<p>${escapeHtml(state.company)} · ${state.units} units · ${state.team} team member${state.team>1?'s':''}</p>
+${state.submitted?`<div class="status">Your full report is on the way to ${escapeHtml(state.email)}.</div>`:''}
 </div>
 <div class="card">
-<div class="card-label">Response Speed Score</div>
-<h3><span class="badge ${rs.cls}">${rs.label}</span></h3>
-<p style="margin-top:12px;font-size:14px;color:var(--text-body)">${rs.msg}</p>
-<div class="insight">📊 MIT research shows responding within 5 minutes makes you 21x more likely to qualify a lead vs. 30 minutes.<br><small style="color:var(--text-muted)">Source: MIT/InsideSales.com Lead Response Study</small></div>
+<div class="card-label">Operating Load</div>
+<h3>~${report.estimatedWeeklyBusyworkHours} hours/week of repeatable work</h3>
+<div class="stat-row"><span class="stat-label">Units per team member</span><span class="stat-value">${report.ratio}:1</span></div>
+<div class="stat-row"><span class="stat-label">Capacity read</span><span class="stat-value">${escapeHtml(report.capacityLabel)}</span></div>
+<div class="stat-row"><span class="stat-label">Part-time admin equivalent</span><span class="stat-value">${report.partTimeAdminEquivalent}x</span></div>
+<div class="stat-row"><span class="stat-label">Monthly admin load</span><span class="stat-value">$${Number(report.monthlyAdminEquivalent||0).toLocaleString()}</span></div>
+<div class="stat-row"><span class="stat-label">Estimated first-build giveback</span><span class="stat-value">${report.estimatedWeeklyTimeSaved} hrs/week</span></div>
+<div class="insight">${escapeHtml(report.capacityNote)}</div>
 </div>
 <div class="card">
-<div class="card-label">Capacity Analysis</div>
-<h3>You're managing <span style="color:var(--emerald)">${ratio} units per team member</span></h3>
-<div class="stat-row"><span class="stat-label">Your ratio</span><span class="stat-value">${ratio}:1</span></div>
-<div class="stat-row"><span class="stat-label">Category</span><span class="stat-value">${capLabel}</span></div>
-<div class="stat-row"><span class="stat-label">Industry benchmark</span><span class="stat-value">50-75 typical</span></div>
-<p style="margin-top:12px;font-size:14px;color:var(--text-body)">${capNote}</p>
+<div class="card-label">Workflow Signals</div>
+<h3>Where the pressure is showing up</h3>
+<div class="stat-row"><span class="stat-label">Response coverage</span><span class="stat-value"><span class="badge ${escapeAttr(report.responseScore.severity)}">${escapeHtml(report.responseScore.label)}</span></span></div>
+<div class="stat-row"><span class="stat-label">Maintenance workflow</span><span class="stat-value"><span class="badge ${escapeAttr(report.maintenanceScore.severity)}">${escapeHtml(report.maintenanceScore.label)}</span></span></div>
+<div class="stat-row"><span class="stat-label">Owner reporting</span><span class="stat-value"><span class="badge ${escapeAttr(report.ownerReportingScore.severity)}">${escapeHtml(report.ownerReportingScore.label)}</span></span></div>
+<div class="stat-row"><span class="stat-label">Current stack</span><span class="stat-value">${escapeHtml(state.pmSoftware)} · ${escapeHtml(report.stackLabel)}</span></div>
+<div class="insight">${escapeHtml(report.stackNote)}</div>
 </div>
 <div class="card">
-<div class="card-label">Revenue Leak Estimate</div>
-<h3>Estimated annual vacancy cost</h3>
-<div class="money">$${low.toLocaleString()} – $${high.toLocaleString()}</div>
-<div class="stat-row"><span class="stat-label">Avg vacancy period</span><span class="stat-value">~${vd} days</span></div>
-<div class="stat-row"><span class="stat-label">Est. annual turns</span><span class="stat-value">${annualTurns} units</span></div>
-<div class="stat-row"><span class="stat-label">Daily vacancy cost</span><span class="stat-value">~$47/unit</span></div>
-${speedSavings?`<div class="insight">⚡ Faster prospect response could reduce your vacancy by 5-10 days per turn — that's <strong>$${(speedSavings).toLocaleString()} per unit saved</strong>.</div>`:''}
-<p style="margin-top:10px;font-size:12px;color:var(--text-muted)">Based on $1,400/mo national median rent (Census/Zillow) and NARPM turnover benchmarks.</p>
+<div class="card-label">Best First Build</div>
+<h3>${escapeHtml(report.primaryRecommendation.title)}</h3>
+<p style="margin-top:12px;font-size:14px;color:var(--text-body)">${escapeHtml(report.primaryRecommendation.description)}</p>
+<div class="insight">${escapeHtml(report.primaryRecommendation.fitNote)}</div>
+<p style="margin-top:12px;font-size:14px;color:var(--text-body)">${escapeHtml(report.primaryRecommendation.whyThisFirst)}</p>
+<ul class="rec-list">${(report.primaryRecommendation.replaces||[]).map(item=>`<li><div><strong style="color:var(--text-heading)">Replace</strong><br><span style="color:var(--text-muted)">${escapeHtml(item)}</span></div></li>`).join('')}</ul>
 </div>
 <div class="card">
-<div class="card-label">Your Automation Opportunity</div>
-<h3>Recommended for your portfolio</h3>
-<ul class="rec-list">${recs.map(r=>`<li><div><strong style="color:var(--text-heading)">${r.title}</strong><br><span style="color:var(--text-muted)">${r.desc}</span></div></li>`).join('')}</ul>
-<div class="insight">📈 PMs your size who automate tenant comms typically handle 30-40% more units without adding staff. Estimated time savings: <strong>${timeSaved} hours/week</strong>.</div>
+<div class="card-label">What Good Looks Like In 30 Days</div>
+<h3>${report.estimatedWeeklyTimeSaved} hours back is realistic if the workflow gets scoped correctly.</h3>
+<ul class="rec-list">${(report.primaryRecommendation.first30Days||[]).map(item=>`<li><div><span style="color:var(--text-muted)">${escapeHtml(item)}</span></div></li>`).join('')}</ul>
+${nextBuilds.length?`<div class="insight"><strong style="color:var(--text-heading)">Next up after the first build:</strong> ${nextBuilds.map(item=>`${escapeHtml(item.title)}`).join(' · ')}</div>`:''}
+</div>
+<div class="card">
+<div class="card-label">Bring This To The Audit Call</div>
+<h3>Useful prep if the report feels directionally right</h3>
+<ul class="rec-list">${(report.primaryRecommendation.callPrep||[]).map(item=>`<li><div><span style="color:var(--text-muted)">${escapeHtml(item)}</span></div></li>`).join('')}</ul>
 </div>
 <div class="cta-section">
-<h3>Want to see exactly how this works for ${state.units} units?</h3>
-<p>We'll map your current workflow and show you where the hours are hiding.</p>
-<a href="https://veyragroup.ai/book" class="btn-white">Book Your Free 15-Minute Workflow Audit</a>
-<div class="cta-note">No pitch. Just your workflow, mapped and optimized.</div>
+<h3>Want to see exactly what this would look like at ${escapeHtml(state.company)}?</h3>
+<p>Bruno can take this report, map the current process behind ${escapeHtml(report.primaryAngle)}, and show what the first build should replace.</p>
+<a href="https://veyragroup.ai/book" class="btn-white">Book The Workflow Audit Call</a>
+<div class="cta-note">Directional diagnostic only. Book if the first-build recommendation feels right.</div>
 </div>
 </div>`;
 postHeight();

@@ -58,7 +58,7 @@ export default function SettingsView({
           {[
             ["Property", propertyName],
             ["Manager", "Bruno Johnson"],
-            ["Email", "hello@veyragroup.ai"],
+            ["Email", "contact@veyragroup.ai"],
             ["Phone", "(302) 600-2625"],
           ].map(([label, value]) => (
             <div
