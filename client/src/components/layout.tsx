@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { openCalendly } from "@/lib/calendly";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
@@ -39,6 +38,10 @@ export function Navbar() {
 
   const scrollToTarget = (href: string) => {
     if (!href.startsWith("#")) return;
+    if (location !== "/") {
+      window.location.assign(`/${href}`);
+      return;
+    }
     const node = document.querySelector(href);
     if (node) {
       node.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -48,11 +51,6 @@ export function Navbar() {
   const handleMobileNavClick = (href: string) => {
     scrollToTarget(href);
     setIsMenuOpen(false);
-  };
-
-  const handleBookClick = () => {
-    setIsMenuOpen(false);
-    openCalendly();
   };
 
   const handleDemoClick = () => {
@@ -108,12 +106,12 @@ export function Navbar() {
           </Button>
 
           <Button
-            onClick={openCalendly}
+            asChild
             size="sm"
             data-testid="button-nav-cta"
             className="hidden md:inline-flex rounded-full bg-emerald-500 text-black font-semibold px-4 py-2 h-auto hover:bg-emerald-400 transition"
           >
-            Book a Free Audit
+            <Link href="/audit?source=nav_cta">Get Free Audit Report</Link>
           </Button>
 
           <button
@@ -153,12 +151,14 @@ export function Navbar() {
             </Button>
 
             <Button
-              onClick={handleBookClick}
+              asChild
               size="sm"
               className="mt-2 rounded-full bg-emerald-500 text-black font-semibold h-10 hover:bg-emerald-400 transition"
               data-testid="button-nav-cta-mobile"
             >
-              Book a Free Audit
+              <Link href="/audit?source=nav_cta_mobile" onClick={handleDemoClick}>
+                Get Free Audit Report
+              </Link>
             </Button>
           </div>
         </div>
@@ -168,7 +168,13 @@ export function Navbar() {
 }
 
 export function Footer() {
+  const [location] = useLocation();
+
   const scrollToSection = (id: string) => {
+    if (location !== "/") {
+      window.location.assign(`/#${id}`);
+      return;
+    }
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
@@ -215,9 +221,29 @@ export function Footer() {
             <h4 className="text-sm font-semibold text-white mb-4">Resources</h4>
             <ul className="space-y-2 text-sm text-gray-500">
               <li>
-                <button onClick={() => scrollToSection("calculator")} className="hover:text-white transition-colors">
-                  PM Efficiency Audit
-                </button>
+                <Link href="/audit?source=footer_resources" className="hover:text-white transition-colors">
+                  PM Workflow Audit
+                </Link>
+              </li>
+              <li>
+                <Link href="/property-management-automation-roi" className="hover:text-white transition-colors">
+                  Automation ROI
+                </Link>
+              </li>
+              <li>
+                <Link href="/automated-owner-reporting-for-property-managers" className="hover:text-white transition-colors">
+                  Owner Reporting
+                </Link>
+              </li>
+              <li>
+                <Link href="/automate-maintenance-coordination-property-management" className="hover:text-white transition-colors">
+                  Maintenance Coordination
+                </Link>
+              </li>
+              <li>
+                <Link href="/automate-tenant-communication-property-management" className="hover:text-white transition-colors">
+                  Tenant Communication
+                </Link>
               </li>
               <li>
                 <button onClick={() => scrollToSection("faq")} className="hover:text-white transition-colors">
@@ -256,7 +282,7 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <Link href="/privacy-policy" className="hover:text-white transition-colors">
+                <Link href="/privacy" className="hover:text-white transition-colors">
                   Privacy Policy
                 </Link>
               </li>

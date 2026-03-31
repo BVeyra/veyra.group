@@ -1,6 +1,13 @@
 import { build as esbuild } from "esbuild";
 import { build as viteBuild } from "vite";
-import { rm, readFile } from "fs/promises";
+import { mkdir, readFile, rm, writeFile } from "fs/promises";
+import path from "path";
+import {
+  buildRobotsTxt,
+  buildSitemapXml,
+  getRenderableSeoPaths,
+  renderSeoHtml,
+} from "../server/seo";
 
 // server deps to bundle to reduce openat(2) syscalls
 // which helps cold start times
@@ -37,6 +44,28 @@ async function buildAll() {
 
   console.log("building client...");
   await viteBuild();
+
+  console.log("generating seo pages...");
+  const distPath = path.resolve("dist", "public");
+  const baseTemplate = await readFile(path.join(distPath, "index.html"), "utf-8");
+
+  for (const routePath of getRenderableSeoPaths()) {
+    const { html } = renderSeoHtml(baseTemplate, routePath);
+    const outputPath =
+      routePath === "/"
+        ? path.join(distPath, "index.html")
+        : path.join(distPath, `${routePath.slice(1)}.html`);
+
+    await mkdir(path.dirname(outputPath), { recursive: true });
+    await writeFile(outputPath, html, "utf-8");
+  }
+
+  const { html: notFoundHtml } = renderSeoHtml(baseTemplate, "/not-found");
+  await writeFile(path.join(distPath, "404.html"), notFoundHtml, "utf-8");
+  await writeFile(path.join(distPath, "not-found.html"), notFoundHtml, "utf-8");
+
+  await writeFile(path.join(distPath, "robots.txt"), buildRobotsTxt(), "utf-8");
+  await writeFile(path.join(distPath, "sitemap.xml"), buildSitemapXml(), "utf-8");
 
   console.log("building server...");
   const pkg = JSON.parse(await readFile("package.json", "utf-8"));

@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
+import { SeoHead } from "@/components/SeoHead";
 import { openCalendly } from "@/lib/calendly";
 
 const sections = [
@@ -40,6 +41,11 @@ const sections = [
 export default function TermsOfServicePage() {
   return (
     <div className="min-h-screen bg-[#050505] text-white relative overflow-hidden">
+      <SeoHead
+        title="Terms of Service"
+        description="Read the Veyra Group terms covering workflow audits, automation build services, billing, cancellation, and support."
+        canonicalPath="/terms-of-service"
+      />
       <div className="absolute inset-0 pointer-events-none">
         <div className="hero-orb hero-orb-1" />
         <div className="hero-orb hero-orb-2" />
@@ -97,7 +103,7 @@ export default function TermsOfServicePage() {
         </div>
 
         <div className="mt-10 pt-6 border-t border-white/10 flex flex-wrap gap-4 text-sm">
-          <Link href="/privacy-policy" className="text-gray-300 hover:text-white transition-colors">
+          <Link href="/privacy" className="text-gray-300 hover:text-white transition-colors">
             Privacy Policy
           </Link>
           <Link href="/" className="text-gray-300 hover:text-white transition-colors">

@@ -1,10 +1,16 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
+import { SeoHead } from "@/components/SeoHead";
 import { openCalendly } from "@/lib/calendly";
 
 export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen bg-[#050505] text-white relative overflow-hidden">
+      <SeoHead
+        title="Privacy Policy"
+        description="Review how Veyra Group collects, uses, and protects information across the website, audits, and connected services."
+        canonicalPath="/privacy"
+      />
       <div className="absolute inset-0 pointer-events-none">
         <div className="hero-orb hero-orb-1" />
         <div className="hero-orb hero-orb-2" />
@@ -291,8 +297,8 @@ export default function PrivacyPolicyPage() {
             <p className="text-gray-400 leading-relaxed mt-3">
               If you have questions about this Privacy Policy, your data, or wish to exercise
               any of your rights, please contact us at{" "}
-              <a href="mailto:hello@veyragroup.ai" className="text-emerald-400 hover:underline">
-                hello@veyragroup.ai
+              <a href="mailto:contact@veyragroup.ai" className="text-emerald-400 hover:underline">
+                contact@veyragroup.ai
               </a>.
             </p>
           </section>

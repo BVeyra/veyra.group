@@ -1,5 +1,7 @@
 import { Navbar, Footer } from "@/components/layout";
+import { SeoHead } from "@/components/SeoHead";
 import { Button } from "@/components/ui/button";
+import { resourceArticles } from "@/content/resources";
 import {
   ArrowRight,
   BarChart3,
@@ -484,6 +486,20 @@ export default function Home() {
   const ActiveAutomationIcon = featureIcons[activeAutomationIndex];
   const calculatorDisplayHeight = Math.max(360, calculatorHeight);
   const heroTiming = (seconds: number) => Number((seconds * heroTimingScale).toFixed(3));
+  const homeStructuredData = [
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faqItems.map((item) => ({
+        "@type": "Question",
+        name: item.q,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.a,
+        },
+      })),
+    },
+  ];
   const pricingSteps = [
     {
       step: "ONE-TIME BUILD",
@@ -522,6 +538,12 @@ export default function Home() {
 
   return (
     <div className="min-h-screen text-white">
+      <SeoHead
+        title="The Operating System for Property Managers"
+        description="Run the free PM Workflow Audit, get the report by email, and see which workflow Veyra should fix first."
+        canonicalPath="/"
+        structuredData={homeStructuredData}
+      />
       <Navbar />
 
       <main className="pt-20">
@@ -588,15 +610,30 @@ export default function Home() {
                   }}
                   className="mt-8"
                 >
-                  <Button
-                    onClick={openCalendly}
-                    size="lg"
-                    data-testid="button-hero-cta-primary"
-                    className="bg-emerald-500 text-black font-semibold text-lg px-8 py-4 rounded-full ring-1 ring-emerald-400/20 shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:shadow-[0_0_40px_rgba(52,211,153,0.4)] hover:scale-[1.03] transition-all duration-200 group"
-                  >
-                    Book a Free 15-Min Workflow Audit
-                    <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
-                  </Button>
+                  <div className="flex flex-col gap-3 sm:flex-row">
+                    <Button
+                      asChild
+                      size="lg"
+                      data-testid="button-hero-cta-primary"
+                      className="bg-emerald-500 text-black font-semibold text-lg px-8 py-4 rounded-full ring-1 ring-emerald-400/20 shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:shadow-[0_0_40px_rgba(52,211,153,0.4)] hover:scale-[1.03] transition-all duration-200 group"
+                    >
+                      <a href="/audit?source=hero_primary">
+                        Get Your Free PM Audit Report
+                        <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">
+                          →
+                        </span>
+                      </a>
+                    </Button>
+                    <Button
+                      onClick={openCalendly}
+                      size="lg"
+                      variant="outline"
+                      data-testid="button-hero-cta-secondary"
+                      className="rounded-full border border-white/15 bg-white/[0.02] px-8 py-4 text-gray-100 hover:bg-white/[0.05]"
+                    >
+                      Book The Audit Call
+                    </Button>
+                  </div>
                 </motion.div>
 
               </div>
@@ -978,8 +1015,8 @@ export default function Home() {
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="text-center"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-white">PM Efficiency Audit</h2>
-              <p className="text-gray-400 mt-4">See how much time and money you're leaving on the table.</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-white">PM Workflow Audit</h2>
+              <p className="text-gray-400 mt-4">See where repeatable work is piling up and what Veyra should fix first.</p>
             </motion.div>
 
             <motion.div
@@ -992,7 +1029,7 @@ export default function Home() {
               <div className="rounded-2xl overflow-hidden border border-white/10 bg-[#0A0A0A]">
                 <iframe
                   src="/roi-calculator.html?theme=dark"
-                  title="Veyra Group PM Efficiency Audit"
+                  title="Veyra Group PM Workflow Audit"
                   loading="lazy"
                   className="w-full bg-[#0A0A0A]"
                   style={{ border: 0, height: `${calculatorDisplayHeight}px` }}
@@ -1001,12 +1038,21 @@ export default function Home() {
 
               <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
                 <Button
-                  onClick={openCalendly}
+                  asChild
                   size="lg"
                   className="bg-emerald-500 text-black font-semibold rounded-full px-6"
+                  data-testid="button-calculator-report"
+                >
+                  <a href="/audit?source=home_embed">Open the full audit</a>
+                </Button>
+                <Button
+                  onClick={openCalendly}
+                  size="lg"
+                  variant="outline"
+                  className="rounded-full border border-white/15 bg-white/[0.02] px-6 text-gray-100 hover:bg-white/[0.05]"
                   data-testid="button-calculator-book"
                 >
-                  Book a Free Audit
+                  Book The Audit Call
                 </Button>
               </div>
             </motion.div>
@@ -1169,13 +1215,15 @@ export default function Home() {
               <p className="text-gray-400">Book your workflow audit to see if you qualify.</p>
 
               <Button
-                onClick={openCalendly}
+                asChild
                 size="lg"
                 className="mt-7 bg-emerald-500 text-black font-semibold rounded-full px-8 py-4 hover:shadow-lg hover:shadow-emerald-500/25 transition-all"
                 data-testid="button-founding-cta"
               >
-                Book a Free 15-Min Workflow Audit
-                <ArrowRight className="ml-2 w-5 h-5" />
+                <a href="/audit?source=founding_program">
+                  Get the Free PM Audit Report
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </a>
               </Button>
             </motion.div>
           </div>
@@ -1253,6 +1301,50 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
+        <section id="resources" className="py-16 md:py-24">
+          <div className="max-w-6xl mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="text-center mb-10"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-white">
+                Questions PM owners ask before they book
+              </h2>
+              <p className="text-gray-400 mt-4 max-w-3xl mx-auto">
+                High-intent guides built for property managers who already know the workflow is the problem and want
+                the right place to start.
+              </p>
+            </motion.div>
+
+            <div className="grid gap-6 md:grid-cols-2">
+              {resourceArticles.map((article, index) => (
+                <motion.a
+                  key={article.path}
+                  href={article.path}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.5, delay: index * 0.08 }}
+                  className="rounded-3xl border border-white/6 bg-white/[0.02] p-7 hover:border-emerald-500/25 hover:bg-white/[0.04] transition-colors"
+                >
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300">Guide</p>
+                  <h3 className="mt-4 text-2xl font-semibold text-white">{article.title}</h3>
+                  <p className="mt-4 text-gray-400 leading-relaxed">{article.description}</p>
+                  <span className="mt-6 inline-flex items-center gap-2 text-emerald-300 font-medium">
+                    Read the guide
+                    <ArrowRight className="w-4 h-4" />
+                  </span>
+                </motion.a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+
         <section id="faq" className="py-16 md:py-24">
           <div className="max-w-4xl mx-auto px-6">
             <motion.h2
@@ -1311,12 +1403,12 @@ export default function Home() {
             >
               <h2 className="text-3xl md:text-4xl font-bold text-white">Ready to stop being your own help desk?</h2>
               <Button asChild size="lg" className="mt-7 bg-emerald-500 text-black font-semibold text-lg px-8 py-4 rounded-full hover:shadow-lg hover:shadow-emerald-500/25 transition-all group" data-testid="button-footer-final-cta">
-                <a href="/book">
-                  Book Your Free Workflow Audit
+                <a href="/audit?source=footer_final">
+                  Get Your Free PM Audit Report
                   <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
                 </a>
               </Button>
-              <p className="text-gray-500 text-sm mt-4">15 minutes. We'll show you exactly which workflows to automate first.</p>
+              <p className="text-gray-500 text-sm mt-4">Get the report first. Book the call if the numbers say it is worth it.</p>
             </motion.div>
           </div>
         </section>

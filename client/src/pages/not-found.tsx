@@ -1,9 +1,16 @@
 import { Link } from "wouter";
 import { ArrowLeft, Home } from "lucide-react";
+import { SeoHead } from "@/components/SeoHead";
 
 export default function NotFound() {
   return (
     <div className="min-h-screen bg-[#050505] text-white relative overflow-hidden flex flex-col">
+      <SeoHead
+        title="Page Not Found"
+        description="The page you requested does not exist. Return to the Veyra homepage or start the workflow audit instead."
+        canonicalPath="/not-found"
+        robots="noindex, nofollow"
+      />
       <div className="absolute inset-0 pointer-events-none">
         <div className="hero-orb hero-orb-1" />
         <div className="hero-orb hero-orb-2" />

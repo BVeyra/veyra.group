@@ -5,6 +5,7 @@ import viteConfig from "../vite.config";
 import fs from "fs";
 import path from "path";
 import { nanoid } from "nanoid";
+import { getSeoRedirect, normalizeSeoPath, renderSeoHtml } from "./seo";
 
 const viteLogger = createLogger();
 
@@ -33,6 +34,24 @@ export async function setupVite(server: Server, app: Express) {
 
   app.use("*", async (req, res, next) => {
     const url = req.originalUrl;
+    const pathname = normalizeSeoPath(req.path);
+
+    if (req.method !== "GET" && req.method !== "HEAD") {
+      next();
+      return;
+    }
+
+    const redirectTarget = getSeoRedirect(pathname);
+    if (redirectTarget) {
+      const suffix = url.includes("?") ? url.slice(url.indexOf("?")) : "";
+      res.redirect(301, `${redirectTarget}${suffix}`);
+      return;
+    }
+
+    if (path.extname(pathname)) {
+      next();
+      return;
+    }
 
     try {
       const clientTemplate = path.resolve(
@@ -48,8 +67,10 @@ export async function setupVite(server: Server, app: Express) {
         `src="/src/main.tsx"`,
         `src="/src/main.tsx?v=${nanoid()}"`,
       );
-      const page = await vite.transformIndexHtml(url, template);
-      res.status(200).set({ "Content-Type": "text/html" }).end(page);
+      const { html, page } = renderSeoHtml(template, pathname);
+      const transformedPage = await vite.transformIndexHtml(url, html);
+      const status = page.path === "/not-found" ? 404 : 200;
+      res.status(status).set({ "Content-Type": "text/html" }).end(transformedPage);
     } catch (e) {
       vite.ssrFixStacktrace(e as Error);
       next(e);

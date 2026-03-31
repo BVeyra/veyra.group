@@ -7,24 +7,20 @@ const Home = lazy(() => import("@/pages/home"));
 const CalculatorPage = lazy(() => import("@/pages/CalculatorPage"));
 const BookPage = lazy(() => import("@/pages/BookPage"));
 const DemoPage = lazy(() => import("@/pages/DemoPage"));
+const PropertyManagementAutomationROIPage = lazy(() => import("@/pages/PropertyManagementAutomationROIPage"));
+const OwnerReportingAutomationPage = lazy(() => import("@/pages/OwnerReportingAutomationPage"));
+const MaintenanceCoordinationAutomationPage = lazy(() => import("@/pages/MaintenanceCoordinationAutomationPage"));
+const TenantCommunicationAutomationPage = lazy(() => import("@/pages/TenantCommunicationAutomationPage"));
 const PrivacyPolicyPage = lazy(() => import("@/pages/PrivacyPolicyPage"));
 const TermsOfServicePage = lazy(() => import("@/pages/TermsOfServicePage"));
 
-function CanonicalManager() {
-  const [location] = useLocation();
+function RedirectPage({ to }: { to: string }) {
+  const [, navigate] = useLocation();
 
   useEffect(() => {
-    const canonicalHref = `https://veyragroup.ai${location === "/" ? "/" : location}`;
-    let canonical = document.querySelector<HTMLLinkElement>("link[rel='canonical']");
-
-    if (!canonical) {
-      canonical = document.createElement("link");
-      canonical.setAttribute("rel", "canonical");
-      document.head.appendChild(canonical);
-    }
-
-    canonical.href = canonicalHref;
-  }, [location]);
+    const search = window.location.search;
+    navigate(`${to}${search}`, { replace: true });
+  }, [navigate, to]);
 
   return null;
 }
@@ -54,15 +50,32 @@ function ScrollManager() {
 function Router() {
   return (
     <>
-      <CanonicalManager />
       <ScrollManager />
 
       <Switch>
         <Route path="/demo" component={DemoPage} />
         <Route path="/book" component={BookPage} />
-        <Route path="/calculator" component={CalculatorPage} />
+        <Route path="/audit" component={CalculatorPage} />
+        <Route path="/calculator">
+          {() => <RedirectPage to="/audit" />}
+        </Route>
+        <Route path="/property-management-automation-roi" component={PropertyManagementAutomationROIPage} />
+        <Route
+          path="/automated-owner-reporting-for-property-managers"
+          component={OwnerReportingAutomationPage}
+        />
+        <Route
+          path="/automate-maintenance-coordination-property-management"
+          component={MaintenanceCoordinationAutomationPage}
+        />
+        <Route
+          path="/automate-tenant-communication-property-management"
+          component={TenantCommunicationAutomationPage}
+        />
         <Route path="/privacy" component={PrivacyPolicyPage} />
-        <Route path="/privacy-policy" component={PrivacyPolicyPage} />
+        <Route path="/privacy-policy">
+          {() => <RedirectPage to="/privacy" />}
+        </Route>
         <Route path="/terms-of-service" component={TermsOfServicePage} />
         <Route path="/" component={Home} />
         <Route component={NotFound} />

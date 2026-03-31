@@ -2,6 +2,7 @@ import EditModal from "@/components/demo/EditModal";
 import NotificationToasts from "@/components/demo/NotificationToasts";
 import Sidebar from "@/components/demo/Sidebar";
 import StatCards from "@/components/demo/StatCards";
+import { SeoHead } from "@/components/SeoHead";
 import { NOTIFICATION_SEQUENCE, getAIResponse } from "@/components/demo/demoData";
 import { PROPERTY_DATA } from "@/components/demo/demoData";
 import { useDemoState } from "@/components/demo/useDemoState";
@@ -224,6 +225,11 @@ export default function DemoPage() {
 
   return (
     <div className="min-h-screen bg-[#050505] text-white relative overflow-hidden pb-20 md:pb-0">
+      <SeoHead
+        title="Property Management Automation Demo"
+        description="Explore Veyra's interactive property management automation demo for messaging, maintenance, and owner reporting."
+        canonicalPath="/demo"
+      />
       <div className="absolute inset-0 pointer-events-none">
         <div className="hero-orb hero-orb-1" />
         <div className="hero-orb hero-orb-2" />

@@ -1,6 +1,7 @@
 import { Check } from "lucide-react";
 import { useEffect } from "react";
 import { Link } from "wouter";
+import { SeoHead } from "@/components/SeoHead";
 
 const CALENDLY_EMBED_URL =
   "https://calendly.com/veyragroup/15min?background_color=050505&text_color=e5e7eb&primary_color=34d399&hide_gdpr_banner=1";
@@ -51,6 +52,11 @@ export default function BookPage() {
 
   return (
     <div className="min-h-screen bg-[#050505] text-white relative overflow-hidden">
+      <SeoHead
+        title="Book a Workflow Audit Call"
+        description="Schedule a 15-minute workflow audit call with Veyra to map where your property management team is bleeding time."
+        canonicalPath="/book"
+      />
       <div className="absolute inset-0 pointer-events-none">
         <div className="hero-orb hero-orb-1" />
         <div className="hero-orb hero-orb-2" />
@@ -112,7 +118,7 @@ export default function BookPage() {
         </section>
 
         <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-8">
-          {["Free, no obligation", "15 minutes", "Save 10+ hrs/week"].map((pill) => (
+          {["Free, no obligation", "15 minutes", "See how it works"].map((pill) => (
             <div key={pill} className="inline-flex items-center gap-2 text-sm text-gray-400">
               <Check size={14} className="text-emerald-400" />
               {pill}
