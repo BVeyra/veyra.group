@@ -378,6 +378,99 @@ export const resourceArticles: ResourceArticle[] = [
       },
     ],
   },
+  {
+    path: "/how-many-properties-can-one-manager-handle",
+    title: "How Many Properties Can One Manager Handle? The Real Numbers",
+    description:
+      "How many rental properties one manager can realistically handle depends on workflow efficiency, automation, and portfolio complexity. Here are the real operational numbers most firms won't share.",
+    directAnswer:
+      "A single property manager can typically handle 50 to 75 doors using manual processes, 100 to 150 doors with modern PM software and some workflow optimization, and 150 to 200+ doors when core workflows like maintenance coordination, tenant communication, and owner reporting are automated. The actual number depends on portfolio complexity, team support structure, and how much repeated administrative work has been removed from the manager's day.",
+    intro: [
+      "The question of how many properties one manager can handle comes up every time a PM firm is deciding whether to hire, promote, or invest in tools. The answer matters because it directly determines your cost per door, your service quality ceiling, and whether you can take on new management contracts without blowing up your team's capacity. Get this number wrong in either direction and you either burn out staff or leave revenue on the table.",
+      "Industry benchmarks often cite a range of 100 to 200 units per manager, but that range is so wide it is almost useless. A manager handling 100 single-family homes spread across three counties faces a completely different workload than a manager handling 100 units in two multifamily buildings on the same block. Portfolio mix, tenant profile, owner expectations, maintenance volume, and the tools available to the team all shift the number significantly.",
+      "This guide breaks down the real operational factors that determine capacity, what the numbers actually look like across different portfolio types, where the bottlenecks typically appear as the ratio climbs, and how automation changes the math in ways that hiring alone cannot. If you are running an independent PM operation between 50 and 500 doors, these numbers should help you make better decisions about growth, staffing, and where to invest next.",
+    ],
+    summaryBullets: [
+      "Manual-process firms typically max out at 50 to 75 doors per manager before service quality visibly degrades.",
+      "PM software alone pushes the ceiling to 100 to 150 doors, but the gains plateau without workflow automation.",
+      "Automation of maintenance coordination, tenant communication, and owner reporting can push a single manager past 200 doors without sacrificing response times.",
+      "The binding constraint is almost never knowledge or skill — it is the number of manual touches per workflow that eat the manager's day.",
+    ],
+    sections: [
+      {
+        title: "What the real numbers look like by operation type",
+        paragraphs: [
+          "For independent PM firms running primarily single-family homes with manual processes — phone calls, spreadsheets, email threads — the realistic ceiling is 50 to 75 doors per manager. Beyond that point, response times start stretching, maintenance follow-up gets inconsistent, and owner reporting becomes the thing that gets done at 10 PM or not at all. This is not a reflection of the manager's ability. It is a math problem: each door generates a baseline of recurring tasks, and manual execution of those tasks has a hard time limit.",
+          "Firms using modern PM software like AppFolio, Buildium, or Rent Manager push that number to 100 to 150 doors. The software centralizes data, reduces duplicate entry, and standardizes some communication. But the manager is still the bottleneck for decision-making, follow-up, and anything that requires a judgment call or a manual handoff. The software makes the information faster to access but does not reduce the number of times the manager has to touch each workflow.",
+          "The firms that consistently operate above 150 doors per manager have automated the high-repetition workflows entirely. Maintenance requests route to vendors automatically based on type and location. Tenant communication for routine inquiries — rent questions, policy clarifications, showing requests — gets handled without human involvement. Owner reports generate and send themselves on schedule. The manager's role shifts from executing tasks to handling exceptions and managing relationships.",
+          "Multifamily portfolios tend to support higher ratios than scattered-site single-family because of geographic density and shared systems. A manager handling 200 units across two apartment complexes deals with fewer unique vendor relationships, shorter drive times, and more standardized maintenance patterns than a manager handling 100 single-family homes across a metro area.",
+        ],
+      },
+      {
+        title: "Where the bottlenecks actually appear",
+        paragraphs: [
+          "The first bottleneck is almost always maintenance coordination. A portfolio of 100 doors generates roughly 40 to 80 work orders per month depending on property age and tenant profile. Each work order involves intake, categorization, vendor selection, scheduling, tenant communication, status updates, invoice review, and owner notification. That is 6 to 10 touches per work order, multiplied by 40 to 80 work orders. The math gets ugly fast.",
+          "The second bottleneck is tenant communication volume. Across 100 doors, a manager fields 15 to 30 messages per day. Most are routine — payment questions, lease policy clarifications, maintenance status checks — but each one requires reading, context-switching, composing a response, and sending. Even at 5 minutes per message, that is 75 to 150 minutes of the manager's day consumed by communication that follows predictable patterns.",
+          "The third bottleneck is owner reporting and relationship management. Owners expect consistent, timely reporting. For a portfolio of 100 doors with 30 to 50 owners, monthly reporting alone can consume 20 to 40 hours if done manually. Add in ad-hoc owner questions, quarterly reviews, and the occasional difficult conversation about capital expenses, and owner management becomes a significant time sink.",
+          "What makes these bottlenecks especially destructive is that they are invisible until service quality drops. The manager does not realize they have hit capacity until tenants start complaining about response times, owners start asking why reports are late, and maintenance requests start falling through the cracks. By that point, the firm is already losing goodwill.",
+        ],
+      },
+      {
+        title: "How automation changes the capacity equation",
+        paragraphs: [
+          "Automation does not make managers work faster. It removes entire categories of work from their plate. When maintenance coordination is automated, the manager is not doing the same 10 touches per work order more efficiently — they are doing 1 or 2 touches instead of 10, only stepping in for exceptions that require judgment. That is not a marginal improvement. It is a structural change in how much one person can handle.",
+          "Consider the math. If automation reduces maintenance touches from 10 per work order to 2, a manager handling 60 work orders per month goes from 600 manual touches to 120. If tenant communication automation handles 70 percent of routine messages, the manager goes from 20 messages per day to 6. If owner reports auto-generate, the 30 hours per month spent on reporting drops to 3 hours of review and exception handling.",
+          "The combined effect is dramatic. A manager who was maxed out at 75 doors suddenly has 15 to 20 hours per week of recovered capacity. That is enough to take on another 50 to 75 doors without any degradation in service quality. And because the automated workflows are consistent and immediate, the service quality on the existing portfolio often improves at the same time.",
+          "This is why the automation ROI conversation is really a capacity conversation. The question is not just whether automation saves time — it is whether automation allows you to grow revenue without proportionally growing headcount. For most independent PM firms, the answer is yes, and the impact is measurable within the first month of implementation.",
+        ],
+      },
+      {
+        title: "The hire-versus-automate decision",
+        paragraphs: [
+          "When a PM firm hits capacity, the default instinct is to hire. And sometimes hiring is the right call — especially when the bottleneck is relationship management, business development, or strategic decisions that require human judgment. But for operational bottlenecks driven by repetitive task volume, hiring adds cost without fixing the underlying problem.",
+          "A new property manager costs $45,000 to $65,000 per year in salary, plus benefits, training, ramp-up time, and management overhead. They typically take 3 to 6 months to reach full productivity. If they leave, the cycle starts over. Meanwhile, the workflows they execute are the same ones the previous manager struggled with — the firm has added capacity but not efficiency.",
+          "Automation addresses the efficiency side. The cost is typically a fraction of a full-time salary, there is no ramp-up period after implementation, and the capacity gain is permanent. More importantly, automation handles the tasks that humans are worst at: consistent follow-up, timely status updates, and repetitive data entry. It frees the existing team to focus on the work that actually requires a human — problem-solving, negotiation, and relationship management.",
+          "The smartest operators do both, in the right order. They automate first to maximize what the current team can handle, then hire when the bottleneck shifts to work that genuinely requires human judgment. This sequence means each new hire is doing high-value work from day one instead of drowning in the same administrative overhead that was already overwhelming the team.",
+        ],
+      },
+      {
+        title: "How to figure out your team's real capacity right now",
+        paragraphs: [
+          "Before you decide whether to hire, automate, or restructure, you need to know where your team actually stands. The fastest way to find out is a one-week time audit. Have each manager track, roughly, how many times they touch each major workflow category and how long each touch takes. You are not looking for perfect data. You need directional accuracy: is maintenance eating 10 hours a week or 25? Is tenant communication taking 30 minutes a day or 3 hours?",
+          "Once you have the time audit, calculate your effective doors-per-manager ratio. Take the total doors under management, divide by the number of managers, and then look at the time data to see where each manager's day is going. If 40 percent of their time is spent on maintenance coordination, that tells you exactly where to focus. If owner reporting is consuming every Friday afternoon, that is a clear automation candidate.",
+          "Compare your ratio to the benchmarks. If you are below 75 doors per manager with significant manual process overhead, you have room to grow capacity through workflow improvements before hiring. If you are at 100+ doors per manager and service quality is solid, your team is operating well and the question is whether automation can push the ceiling higher for future growth.",
+          "The firms that grow most efficiently treat this analysis as a recurring exercise, not a one-time event. Every quarter, reassess where time is going, what workflows have the highest touch counts, and whether the team's capacity is being spent on the right things. A workflow audit is the starting point for any serious conversation about scaling — whether through hiring, automation, or both.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How many properties can one property manager handle without any software?",
+        answer:
+          "Without PM software or automation, a single property manager can typically handle 30 to 50 doors before service quality starts to decline. The limiting factors are communication tracking, maintenance follow-up, and owner reporting — all of which become unreliable when managed through spreadsheets, email, and phone calls. Some experienced managers push to 60 or 70, but usually at the cost of longer response times and inconsistent reporting.",
+      },
+      {
+        question: "What is the ideal property manager to unit ratio?",
+        answer:
+          "There is no single ideal ratio because it depends on portfolio type, geographic spread, and operational tools. For single-family scattered-site portfolios with modern software, 100 to 125 doors per manager is a healthy target. For multifamily, 150 to 200 units per manager is achievable. The ratio should be set where response times remain under 2 hours for routine requests and under 15 minutes for urgent maintenance, without the manager consistently working overtime.",
+      },
+      {
+        question: "Does portfolio type affect how many properties one manager can handle?",
+        answer:
+          "Significantly. Multifamily units in a single location are much easier to manage at scale than the same number of scattered-site single-family homes. Geographic density reduces drive time, shared building systems simplify maintenance coordination, and tenant communication patterns are more predictable. A manager who handles 100 scattered-site homes would likely handle 150 to 180 multifamily units at the same effort level.",
+      },
+      {
+        question: "When should a property management company hire versus automate?",
+        answer:
+          "Automate first when the bottleneck is repetitive task volume — maintenance coordination, routine tenant messages, owner reporting. Hire when the bottleneck is relationship management, business development, or judgment-heavy decisions that cannot be systematized. The most efficient growth path is to automate the high-repetition workflows to maximize current team capacity, then hire when the remaining work genuinely requires human judgment and time.",
+      },
+      {
+        question: "How does automation affect property management staffing costs?",
+        answer:
+          "Automation typically reduces the need for additional hires by 30 to 50 percent during growth phases. A firm that would have needed to hire two new managers to go from 100 to 250 doors might only need one if core workflows are automated. At a loaded cost of $55,000 to $75,000 per manager per year including benefits and overhead, that represents significant savings — usually enough to cover the automation investment multiple times over in the first year.",
+      },
+    ],
+  },
 ];
 
 export function getResourceArticle(path: string) {
