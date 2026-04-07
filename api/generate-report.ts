@@ -1,4 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import React from "react";
+import { Document, Link, Page, StyleSheet, Text, View, renderToBuffer } from "@react-pdf/renderer";
 
 // ─── Audit Types & Constants (inlined from server/auditReport.ts) ───
 
@@ -247,6 +249,175 @@ function buildAuditInsights(data: AuditLeadData) {
   };
 }
 
+// ─── PDF Report Template (inlined from server/pdfTemplate.tsx) ───
+
+const colors = {
+  bg: "#0A0F0A", card: "#0F1712", border: "#173224", green: "#22C55E",
+  greenSoft: "#0E2A1B", text: "#E9F4ED", muted: "#98A59B", faint: "#415247", white: "#FFFFFF",
+};
+
+const pdfStyles = StyleSheet.create({
+  page: { padding: 40, backgroundColor: colors.bg, color: colors.text, fontFamily: "Helvetica" },
+  logo: { fontSize: 14, fontWeight: "bold", color: colors.white, marginBottom: 20 },
+  green: { color: colors.green },
+  heading: { fontSize: 26, fontWeight: "bold", lineHeight: 1.2, marginBottom: 8 },
+  subtitle: { fontSize: 10, color: colors.muted, lineHeight: 1.6, marginBottom: 18 },
+  prepared: { fontSize: 11, color: colors.muted, marginBottom: 18 },
+  grid: { flexDirection: "row" as const, gap: 10, marginBottom: 14 },
+  statCard: { flex: 1, backgroundColor: colors.card, borderRadius: 14, borderWidth: 1, borderColor: colors.border, padding: 14 },
+  statLabel: { fontSize: 7, textTransform: "uppercase" as const, color: colors.faint, letterSpacing: 1.2, marginBottom: 6 },
+  statValue: { fontSize: 18, fontWeight: "bold", color: colors.green },
+  statValueCompact: { fontSize: 13, fontWeight: "bold", color: colors.green, lineHeight: 1.35 },
+  statMeta: { fontSize: 8, color: colors.muted, marginTop: 6, lineHeight: 1.4 },
+  section: { backgroundColor: colors.card, borderRadius: 16, borderWidth: 1, borderColor: colors.border, padding: 18, marginBottom: 14 },
+  sectionLabel: { fontSize: 7, textTransform: "uppercase" as const, color: colors.green, letterSpacing: 1.4, marginBottom: 8 },
+  sectionTitle: { fontSize: 15, fontWeight: "bold", marginBottom: 8 },
+  body: { fontSize: 9.5, color: colors.muted, lineHeight: 1.6 },
+  row: { flexDirection: "row" as const, justifyContent: "space-between" as const, borderBottomWidth: 1, borderBottomColor: "#132218", paddingVertical: 7 },
+  rowLast: { flexDirection: "row" as const, justifyContent: "space-between" as const, paddingTop: 7 },
+  rowLabel: { fontSize: 9, color: colors.muted, marginRight: 12 },
+  rowValue: { fontSize: 9.5, fontWeight: "bold", color: colors.text, maxWidth: 240, textAlign: "right" as const },
+  badge: { alignSelf: "flex-start" as const, backgroundColor: colors.greenSoft, borderRadius: 999, paddingVertical: 4, paddingHorizontal: 10, color: colors.green, fontSize: 8, fontWeight: "bold", marginBottom: 8 },
+  listItem: { borderTopWidth: 1, borderTopColor: "#132218", paddingTop: 10, marginTop: 10 },
+  listTitle: { fontSize: 10, fontWeight: "bold", color: colors.white, marginBottom: 4 },
+  listBody: { fontSize: 9, color: colors.muted, lineHeight: 1.55 },
+  bullet: { flexDirection: "row" as const, alignItems: "flex-start" as const, gap: 8, marginTop: 8 },
+  bulletMark: { fontSize: 10, color: colors.green, marginTop: 1 },
+  bulletText: { flex: 1, fontSize: 9, color: colors.muted, lineHeight: 1.55 },
+  footer: { marginTop: 18, paddingTop: 12, borderTopWidth: 1, borderTopColor: "#132218", fontSize: 8, color: colors.faint, flexDirection: "row" as const, justifyContent: "space-between" as const },
+  cta: { backgroundColor: colors.greenSoft, borderRadius: 16, borderWidth: 1.5, borderColor: colors.green, padding: 18, marginTop: 10 },
+  ctaTitle: { fontSize: 16, fontWeight: "bold", color: colors.white, marginBottom: 8, textAlign: "center" as const },
+  ctaBody: { fontSize: 9.5, color: colors.muted, lineHeight: 1.6, textAlign: "center" as const, marginBottom: 12 },
+  ctaButton: { backgroundColor: colors.green, color: colors.bg, fontSize: 10, fontWeight: "bold", paddingVertical: 10, paddingHorizontal: 20, borderRadius: 999, textAlign: "center" as const, marginHorizontal: 90, textDecoration: "none" },
+});
+
+function fmtMoney(value: number) { return `$${Math.round(value).toLocaleString()}`; }
+
+// Use React.createElement instead of JSX (this is a .ts file, not .tsx)
+const h = React.createElement;
+
+function buildPDFDocument(data: AuditLeadData) {
+  const insights = buildAuditInsights(data);
+  const painText = insights.topPainPoints.length > 0 ? insights.topPainPoints.join(", ") : "Repeated work across maintenance, communication, and reporting";
+  const nextBuilds = insights.roadmap.slice(1);
+
+  return h(Document, null,
+    // Page 1: Overview
+    h(Page, { size: "A4", style: pdfStyles.page },
+      h(Text, { style: pdfStyles.logo }, "VEYRA ", h(Text, { style: pdfStyles.green }, "GROUP")),
+      h(Text, { style: pdfStyles.heading }, "Your PM Workflow Audit for ", h(Text, { style: pdfStyles.green }, data.company)),
+      h(Text, { style: pdfStyles.subtitle }, "This is a directional diagnostic built from your audit inputs. The goal is to identify the first workflow Veyra should fix, not to force a broad platform decision."),
+      h(Text, { style: pdfStyles.prepared }, `Prepared for ${data.name} · ${data.email}`),
+
+      // Stat cards
+      h(View, { style: pdfStyles.grid },
+        h(View, { style: pdfStyles.statCard },
+          h(Text, { style: pdfStyles.statLabel }, "Units / Team"),
+          h(Text, { style: pdfStyles.statValue }, `${data.units} / ${data.teamSize}`),
+          h(Text, { style: pdfStyles.statMeta }, `${insights.ratio} units per team member`),
+        ),
+        h(View, { style: pdfStyles.statCard },
+          h(Text, { style: pdfStyles.statLabel }, "Repeatable Admin Load"),
+          h(Text, { style: pdfStyles.statValue }, `${insights.estimatedWeeklyBusyworkHours} hrs/wk`),
+          h(Text, { style: pdfStyles.statMeta }, `${fmtMoney(insights.monthlyAdminEquivalent)} / month of part-time admin equivalent`),
+        ),
+        h(View, { style: pdfStyles.statCard },
+          h(Text, { style: pdfStyles.statLabel }, "Best First Build"),
+          h(Text, { style: pdfStyles.statValueCompact }, insights.primaryRecommendation.title),
+          h(Text, { style: pdfStyles.statMeta }, `${insights.estimatedWeeklyTimeSaved} hours/week back if the first build is scoped correctly`),
+        ),
+      ),
+
+      // Operational Load
+      h(View, { style: pdfStyles.section },
+        h(Text, { style: pdfStyles.sectionLabel }, "Operational Load"),
+        h(Text, { style: pdfStyles.sectionTitle }, insights.capacityLabel),
+        h(Text, { style: pdfStyles.body }, insights.capacityNote),
+        h(View, { style: pdfStyles.row }, h(Text, { style: pdfStyles.rowLabel }, "Response coverage"), h(Text, { style: pdfStyles.rowValue }, insights.responseScore.label)),
+        h(View, { style: pdfStyles.row }, h(Text, { style: pdfStyles.rowLabel }, "Maintenance workflow"), h(Text, { style: pdfStyles.rowValue }, insights.maintenanceScore.label)),
+        h(View, { style: pdfStyles.row }, h(Text, { style: pdfStyles.rowLabel }, "Owner reporting"), h(Text, { style: pdfStyles.rowValue }, insights.ownerReportingScore.label)),
+        h(View, { style: pdfStyles.row }, h(Text, { style: pdfStyles.rowLabel }, "Current stack"), h(Text, { style: pdfStyles.rowValue }, `${data.pmSoftware} · ${insights.stackLabel}`)),
+        h(View, { style: pdfStyles.rowLast }, h(Text, { style: pdfStyles.rowLabel }, "Pressure points surfaced"), h(Text, { style: pdfStyles.rowValue }, painText)),
+      ),
+
+      // What The Inputs Suggest
+      h(View, { style: pdfStyles.section },
+        h(Text, { style: pdfStyles.sectionLabel }, "What The Inputs Suggest"),
+        h(Text, { style: pdfStyles.sectionTitle }, "The first win is removing repeated handoffs, not adding more software."),
+        h(View, { style: pdfStyles.bullet }, h(Text, { style: pdfStyles.bulletMark }, "•"), h(Text, { style: pdfStyles.bulletText }, `Response note: ${insights.responseScore.message}`)),
+        h(View, { style: pdfStyles.bullet }, h(Text, { style: pdfStyles.bulletMark }, "•"), h(Text, { style: pdfStyles.bulletText }, `Maintenance note: ${insights.maintenanceScore.message}`)),
+        h(View, { style: pdfStyles.bullet }, h(Text, { style: pdfStyles.bulletMark }, "•"), h(Text, { style: pdfStyles.bulletText }, `Reporting note: ${insights.ownerReportingScore.message}`)),
+        h(View, { style: pdfStyles.bullet }, h(Text, { style: pdfStyles.bulletMark }, "•"), h(Text, { style: pdfStyles.bulletText }, `Stack note: ${insights.stackNote}`)),
+      ),
+
+      h(View, { style: pdfStyles.footer },
+        h(Text, null, "veyragroup.ai · contact@veyragroup.ai"),
+        h(Text, { render: ({ pageNumber, totalPages }: { pageNumber: number; totalPages: number }) => `${pageNumber} / ${totalPages}` }),
+      ),
+    ),
+
+    // Page 2: Recommendation
+    h(Page, { size: "A4", style: pdfStyles.page },
+      h(Text, { style: pdfStyles.logo }, "VEYRA ", h(Text, { style: pdfStyles.green }, "GROUP")),
+      h(Text, { style: pdfStyles.heading }, "Start with the workflow that removes the ", h(Text, { style: pdfStyles.green }, "most drag"), "."),
+      h(Text, { style: pdfStyles.subtitle }, "The best first build should be narrow, concrete, and easy for your team to feel within the first month."),
+
+      h(View, { style: pdfStyles.section },
+        h(Text, { style: pdfStyles.sectionLabel }, "Recommended First Build"),
+        h(Text, { style: pdfStyles.sectionTitle }, insights.primaryRecommendation.title),
+        h(Text, { style: pdfStyles.badge }, insights.primaryAngle),
+        h(Text, { style: pdfStyles.body }, insights.primaryRecommendation.description),
+        h(View, { style: pdfStyles.listItem },
+          h(Text, { style: pdfStyles.listTitle }, "Why this first"),
+          h(Text, { style: pdfStyles.listBody }, insights.primaryRecommendation.whyThisFirst),
+        ),
+        h(View, { style: pdfStyles.listItem },
+          h(Text, { style: pdfStyles.listTitle }, "Why it matches Veyra"),
+          h(Text, { style: pdfStyles.listBody }, insights.primaryRecommendation.fitNote),
+        ),
+      ),
+
+      h(View, { style: pdfStyles.section },
+        h(Text, { style: pdfStyles.sectionLabel }, "What It Should Replace"),
+        ...insights.primaryRecommendation.replaces.map((item) =>
+          h(View, { key: item, style: pdfStyles.bullet }, h(Text, { style: pdfStyles.bulletMark }, "•"), h(Text, { style: pdfStyles.bulletText }, item)),
+        ),
+      ),
+
+      h(View, { style: pdfStyles.section },
+        h(Text, { style: pdfStyles.sectionLabel }, "What Good Looks Like In 30 Days"),
+        ...insights.primaryRecommendation.first30Days.map((item) =>
+          h(View, { key: item, style: pdfStyles.bullet }, h(Text, { style: pdfStyles.bulletMark }, "•"), h(Text, { style: pdfStyles.bulletText }, item)),
+        ),
+        ...(nextBuilds.length > 0 ? [
+          h(View, { key: "next-builds", style: pdfStyles.listItem },
+            h(Text, { style: pdfStyles.listTitle }, "Next in line after the first build"),
+            ...nextBuilds.map((item) => h(Text, { key: item.title, style: pdfStyles.listBody }, `${item.title}: ${item.description}`)),
+          ),
+        ] : []),
+      ),
+
+      h(View, { style: pdfStyles.section },
+        h(Text, { style: pdfStyles.sectionLabel }, "Useful Prep For The Audit Call"),
+        ...insights.primaryRecommendation.callPrep.map((item) =>
+          h(View, { key: item, style: pdfStyles.bullet }, h(Text, { style: pdfStyles.bulletMark }, "•"), h(Text, { style: pdfStyles.bulletText }, item)),
+        ),
+      ),
+
+      h(View, { style: pdfStyles.cta },
+        h(Text, { style: pdfStyles.ctaTitle }, "Next step: a 15-minute workflow audit call."),
+        h(Text, { style: pdfStyles.ctaBody }, "Bruno will map the current process, show what the first build should replace, and pressure-test whether the time back is real enough to justify moving."),
+        h(Link, { src: "https://veyragroup.ai/book", style: pdfStyles.ctaButton }, "Book the workflow audit"),
+      ),
+
+      h(View, { style: pdfStyles.footer },
+        h(Text, null, "veyragroup.ai · contact@veyragroup.ai"),
+        h(Text, { render: ({ pageNumber, totalPages }: { pageNumber: number; totalPages: number }) => `${pageNumber} / ${totalPages}` }),
+      ),
+    ),
+  );
+}
+
 // ─── Email (Resend) ───
 
 function escapeHtml(v: string) {
@@ -268,6 +439,19 @@ async function sendReportEmail(data: AuditLeadData, insights: ReturnType<typeof 
   const safeFitNote = escapeHtml(insights.primaryRecommendation.fitNote);
   const safePrep = escapeHtml(insights.primaryRecommendation.callPrep.slice(0, 2).join(" · "));
 
+  // Generate PDF
+  let pdfBase64: string | null = null;
+  let pdfFilename = "pm_workflow_audit_report.pdf";
+  try {
+    const pdfDoc = buildPDFDocument(data);
+    const pdfBuffer = await renderToBuffer(pdfDoc);
+    pdfBase64 = Buffer.from(pdfBuffer).toString("base64");
+    const safeFileBase = data.company.replace(/[^a-z0-9]+/gi, "_").replace(/^_+|_+$/g, "").toLowerCase();
+    pdfFilename = `${safeFileBase || "pm_workflow_audit"}_pm_workflow_audit_report.pdf`;
+  } catch (pdfErr) {
+    console.error("PDF generation failed, sending email without attachment:", pdfErr);
+  }
+
   const html = `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:600px;margin:0 auto;background-color:#0a0f0a;">
     <div style="padding:28px 32px 20px;border-bottom:1px solid #1a2a1f;">
       <span style="font-size:16px;font-weight:800;letter-spacing:-0.3px;">
@@ -277,7 +461,7 @@ async function sendReportEmail(data: AuditLeadData, insights: ReturnType<typeof 
     <div style="padding:32px;">
       <p style="font-size:16px;font-weight:600;color:#e9f4ed;margin:0 0 20px 0;">${safeName},</p>
       <p style="font-size:15px;color:#9fb0a5;line-height:1.7;margin:0 0 20px 0;">
-        Your PM Workflow Audit for <strong style="color:#ffffff;">${safeCompany}</strong> is ready.
+        Your PM Workflow Audit for <strong style="color:#ffffff;">${safeCompany}</strong> is ${pdfBase64 ? "attached" : "ready"}.
       </p>
       <div style="background:#0f1712;border:1px solid #173224;border-radius:14px;padding:18px;margin:0 0 20px 0;">
         <div style="font-size:11px;color:#22c55e;text-transform:uppercase;letter-spacing:1.4px;margin-bottom:8px;">What jumped out</div>
@@ -297,15 +481,21 @@ async function sendReportEmail(data: AuditLeadData, insights: ReturnType<typeof 
     </div>
   </div>`;
 
+  const emailPayload: Record<string, unknown> = {
+    from: fromEmail,
+    to: data.email,
+    subject: sanitizeSubject(`${data.company}: your PM Workflow Audit is ready`),
+    html,
+  };
+
+  if (pdfBase64) {
+    emailPayload.attachments = [{ filename: pdfFilename, content: pdfBase64 }];
+  }
+
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      from: fromEmail,
-      to: data.email,
-      subject: sanitizeSubject(`${data.company}: your PM Workflow Audit is ready`),
-      html,
-    }),
+    body: JSON.stringify(emailPayload),
   });
   const result = await res.json();
   if (!res.ok) throw new Error(result?.message || "Email send failed");
