@@ -290,6 +290,17 @@
   }
 }
 
+/* Safety net: ensure scroll-triggered elements become visible even for fast scrollers */
+[style*="opacity: 0"] {
+  animation: ensure-visible 0s 3s forwards;
+}
+@keyframes ensure-visible {
+  to {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

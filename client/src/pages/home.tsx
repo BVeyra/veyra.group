@@ -618,20 +618,11 @@ export default function Home() {
                       className="bg-emerald-500 text-black font-semibold text-lg px-8 py-4 rounded-full ring-1 ring-emerald-400/20 shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:shadow-[0_0_40px_rgba(52,211,153,0.4)] hover:scale-[1.03] transition-all duration-200 group"
                     >
                       <a href="/audit?source=hero_primary">
-                        Get Your Free PM Audit Report
+                        Get Your Free Audit
                         <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">
                           →
                         </span>
                       </a>
-                    </Button>
-                    <Button
-                      onClick={openCalendly}
-                      size="lg"
-                      variant="outline"
-                      data-testid="button-hero-cta-secondary"
-                      className="rounded-full border border-white/15 bg-white/[0.02] px-8 py-4 text-gray-100 hover:bg-white/[0.05]"
-                    >
-                      Book The Audit Call
                     </Button>
                   </div>
                 </motion.div>
@@ -679,7 +670,7 @@ export default function Home() {
               setStatsStarted(true);
             }
           }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-20px" }}
         >
           <div className="max-w-5xl mx-auto px-6">
             <div className="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16">
@@ -688,7 +679,7 @@ export default function Home() {
                   key={stat.label}
                   initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
+                  viewport={{ once: true, margin: "-20px" }}
                   transition={{ duration: 0.6, delay: index * 0.2 }}
                   className="text-center relative"
                 >
@@ -725,12 +716,12 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
-        <section id="problem" className="py-16 md:py-32">
+        <section id="problem" className="py-12 md:py-24">
           <div className="max-w-3xl mx-auto px-6">
             <motion.h2
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-20px" }}
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="text-3xl md:text-4xl font-bold text-white mb-16"
             >
@@ -745,7 +736,7 @@ export default function Home() {
                   key={item.time}
                   initial={{ opacity: 0, x: -24 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
+                  viewport={{ once: true, margin: "-20px" }}
                   transition={{ duration: 0.6, delay: index * 0.15 }}
                   className="pl-20 pb-8 mb-8 border-b border-white/[0.03] last:border-b-0 last:pb-0 last:mb-0 relative"
                 >
@@ -761,7 +752,7 @@ export default function Home() {
               <motion.div
                 initial={{ opacity: 0, x: -24 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
+                viewport={{ once: true, margin: "-20px" }}
                 transition={{ duration: 0.6, delay: 0.75 }}
                 className="pl-20 relative"
               >
@@ -775,12 +766,12 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
-        <section id="solution" className="py-16 md:py-28">
+        <section id="solution" className="py-12 md:py-20">
           <div className="max-w-6xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-20px" }}
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="max-w-3xl"
             >
@@ -822,12 +813,12 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
-        <section id="features" ref={featuresSectionRef} className="py-16 md:py-28">
+        <section id="features" ref={featuresSectionRef} className="py-12 md:py-20">
           <div className="max-w-6xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-20px" }}
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="mb-12"
             >
@@ -925,12 +916,12 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
-        <section id="process" className="py-16 md:py-28">
+        <section id="process" className="py-12 md:py-20">
           <div className="max-w-6xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-20px" }}
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="text-center mb-14"
             >
@@ -945,7 +936,7 @@ export default function Home() {
                   key={step.number}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
+                  viewport={{ once: true, margin: "-20px" }}
                   transition={{ duration: 0.6, delay: index * 0.2 }}
                   className="relative"
                 >
@@ -972,12 +963,12 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
-        <section id="social-proof" className="py-16 md:py-24">
+        <section id="social-proof" className="py-12 md:py-16">
           <div className="max-w-6xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-20px" }}
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="text-center mb-10"
             >
@@ -991,7 +982,7 @@ export default function Home() {
                   key={item.quote}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
+                  viewport={{ once: true, margin: "-20px" }}
                   transition={{ duration: 0.6, delay: index * 0.2 }}
                   className="relative rounded-2xl border border-white/5 bg-white/[0.02] p-6 hover:border-white/10 hover:bg-white/[0.04] transition"
                 >
@@ -1006,12 +997,12 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
-        <section id="calculator" className="py-16 md:py-28">
+        <section id="calculator" className="py-12 md:py-20">
           <div className="max-w-5xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-20px" }}
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="text-center"
             >
@@ -1022,7 +1013,7 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-20px" }}
               transition={{ duration: 0.5, ease: "easeOut" }}
               className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 md:p-8 mt-6"
             >
@@ -1036,23 +1027,17 @@ export default function Home() {
                 />
               </div>
 
-              <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+              <div className="mt-6 flex justify-center">
                 <Button
                   asChild
                   size="lg"
-                  className="bg-emerald-500 text-black font-semibold rounded-full px-6"
+                  className="bg-emerald-500 text-black font-semibold rounded-full px-8 py-4 hover:shadow-lg hover:shadow-emerald-500/25 transition-all group"
                   data-testid="button-calculator-report"
                 >
-                  <a href="/audit?source=home_embed">Open the full audit</a>
-                </Button>
-                <Button
-                  onClick={openCalendly}
-                  size="lg"
-                  variant="outline"
-                  className="rounded-full border border-white/15 bg-white/[0.02] px-6 text-gray-100 hover:bg-white/[0.05]"
-                  data-testid="button-calculator-book"
-                >
-                  Book The Audit Call
+                  <a href="/audit?source=home_embed">
+                    Get Your Free Audit
+                    <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
+                  </a>
                 </Button>
               </div>
             </motion.div>
@@ -1061,12 +1046,12 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
-        <section id="pricing" className="py-16 md:py-28">
+        <section id="pricing" className="py-12 md:py-20">
           <div className="max-w-6xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-20px" }}
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="text-center mb-14"
             >
@@ -1082,7 +1067,7 @@ export default function Home() {
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
+                    viewport={{ once: true, margin: "-20px" }}
                     transition={{ duration: 0.6, delay: index * 0.15 }}
                     whileHover={{ y: -4, borderColor: "rgba(52,211,153,0.2)" }}
                     className="rounded-2xl border border-white/5 bg-white/[0.02] p-8"
@@ -1118,7 +1103,7 @@ export default function Home() {
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
+                    viewport={{ once: true, margin: "-20px" }}
                     transition={{ duration: 0.6, delay: index * 0.15 }}
                     whileHover={{ y: -4, borderColor: "rgba(52,211,153,0.2)" }}
                     className="rounded-2xl border border-white/5 bg-white/[0.02] p-8"
@@ -1159,7 +1144,7 @@ export default function Home() {
                 className="mt-6 bg-emerald-500 text-black font-semibold rounded-full px-8 py-4 hover:shadow-lg hover:shadow-emerald-500/25 transition-all"
                 data-testid="button-pricing-cta"
               >
-                Book Your Free Workflow Audit
+                Book Your Audit Call
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </div>
@@ -1168,12 +1153,12 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
-        <section id="guarantee" className="py-16 md:py-24">
+        <section id="guarantee" className="py-12 md:py-16">
           <div className="max-w-4xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-20px" }}
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="text-center"
             >
@@ -1196,12 +1181,12 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
-        <section id="founding" className="py-16 md:py-24">
+        <section id="founding" className="py-12 md:py-16">
           <div className="max-w-4xl mx-auto px-6 text-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-20px" }}
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="rounded-2xl border border-white/6 bg-white/[0.02] p-8 md:p-10"
             >
@@ -1221,7 +1206,7 @@ export default function Home() {
                 data-testid="button-founding-cta"
               >
                 <a href="/audit?source=founding_program">
-                  Get the Free PM Audit Report
+                  Get Your Free Audit
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </a>
               </Button>
@@ -1231,12 +1216,12 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
-        <section id="fit" className="py-16 md:py-24">
+        <section id="fit" className="py-12 md:py-16">
           <div className="max-w-5xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-20px" }}
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="text-center mb-10"
             >
@@ -1249,7 +1234,7 @@ export default function Home() {
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
+                viewport={{ once: true, margin: "-20px" }}
                 transition={{ duration: 0.6, delay: 0.1 }}
                 className="rounded-2xl border border-white/6 bg-white/[0.02] p-6"
               >
@@ -1274,7 +1259,7 @@ export default function Home() {
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
+                viewport={{ once: true, margin: "-20px" }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="rounded-2xl border border-white/6 bg-white/[0.02] p-6"
               >
@@ -1301,12 +1286,12 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
-        <section id="resources" className="py-16 md:py-24">
+        <section id="resources" className="py-12 md:py-16">
           <div className="max-w-6xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-20px" }}
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="text-center mb-10"
             >
@@ -1326,7 +1311,7 @@ export default function Home() {
                   href={article.path}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
+                  viewport={{ once: true, margin: "-20px" }}
                   transition={{ duration: 0.5, delay: index * 0.08 }}
                   className="rounded-3xl border border-white/6 bg-white/[0.02] p-7 hover:border-emerald-500/25 hover:bg-white/[0.04] transition-colors"
                 >
@@ -1345,12 +1330,12 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
-        <section id="faq" className="py-16 md:py-24">
+        <section id="faq" className="py-12 md:py-16">
           <div className="max-w-4xl mx-auto px-6">
             <motion.h2
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-20px" }}
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="text-3xl md:text-4xl font-bold text-white text-center mb-12"
             >
@@ -1393,18 +1378,18 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="footer-cta" className="py-16 md:py-24 bg-gradient-to-t from-emerald-500/10 via-emerald-500/5 to-transparent">
+        <section id="footer-cta" className="py-12 md:py-16 bg-gradient-to-t from-emerald-500/10 via-emerald-500/5 to-transparent">
           <div className="max-w-4xl mx-auto px-6 text-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-20px" }}
               transition={{ duration: 0.6, ease: "easeOut" }}
             >
               <h2 className="text-3xl md:text-4xl font-bold text-white">Ready to stop being your own help desk?</h2>
               <Button asChild size="lg" className="mt-7 bg-emerald-500 text-black font-semibold text-lg px-8 py-4 rounded-full hover:shadow-lg hover:shadow-emerald-500/25 transition-all group" data-testid="button-footer-final-cta">
                 <a href="/audit?source=footer_final">
-                  Get Your Free PM Audit Report
+                  Get Your Free Audit
                   <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
                 </a>
               </Button>

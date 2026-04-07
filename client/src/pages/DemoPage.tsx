@@ -269,7 +269,7 @@ export default function DemoPage() {
               href="/book"
               className="inline-flex items-center rounded-full bg-emerald-500 text-black font-semibold px-3 sm:px-4 py-2 min-h-11 text-sm hover:bg-emerald-400 transition"
             >
-              Book a Free Audit
+              Book Your Audit Call
             </Link>
           </div>
         </div>

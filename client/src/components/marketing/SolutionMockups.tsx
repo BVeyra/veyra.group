@@ -10,7 +10,7 @@ export default function SolutionMockups() {
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, margin: "-20px" }}
         transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
       >
         <DashboardMockup />
@@ -28,7 +28,7 @@ export default function SolutionMockups() {
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, margin: "-20px" }}
         transition={{ duration: 0.6, delay: 0.25, ease: "easeOut" }}
       >
         <TenantChatMockup />

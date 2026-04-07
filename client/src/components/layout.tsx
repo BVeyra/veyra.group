@@ -96,14 +96,12 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Button
-            asChild
-            size="sm"
-            data-testid="button-nav-demo"
-            className="hidden md:inline-flex rounded-full border border-white/15 bg-white/[0.02] text-gray-200 font-semibold px-4 py-2 h-auto hover:text-white hover:border-white/30 transition"
+          <Link
+            href="/demo"
+            className="hidden md:inline-flex text-sm text-gray-400 hover:text-white transition-colors"
           >
-            <Link href="/demo">Try Demo</Link>
-          </Button>
+            Try Demo
+          </Link>
 
           <Button
             asChild
@@ -111,7 +109,7 @@ export function Navbar() {
             data-testid="button-nav-cta"
             className="hidden md:inline-flex rounded-full bg-emerald-500 text-black font-semibold px-4 py-2 h-auto hover:bg-emerald-400 transition"
           >
-            <Link href="/audit?source=nav_cta">Get Free Audit Report</Link>
+            <Link href="/audit?source=nav_cta">Get Your Free Audit</Link>
           </Button>
 
           <button
@@ -139,16 +137,13 @@ export function Navbar() {
               </button>
             ))}
 
-            <Button
-              asChild
-              size="sm"
-              className="mt-2 rounded-full border border-white/15 bg-white/[0.02] text-gray-200 font-semibold h-10 hover:text-white hover:border-white/30 transition"
-              data-testid="button-nav-demo-mobile"
+            <Link
+              href="/demo"
+              onClick={handleDemoClick}
+              className="w-full text-left rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-gray-200 hover:text-white hover:border-white/20 transition-colors"
             >
-              <Link href="/demo" onClick={handleDemoClick}>
-                Try Demo
-              </Link>
-            </Button>
+              Try Demo
+            </Link>
 
             <Button
               asChild
@@ -157,7 +152,7 @@ export function Navbar() {
               data-testid="button-nav-cta-mobile"
             >
               <Link href="/audit?source=nav_cta_mobile" onClick={handleDemoClick}>
-                Get Free Audit Report
+                Get Your Free Audit
               </Link>
             </Button>
           </div>

@@ -83,7 +83,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
                 className="rounded-full bg-emerald-500 px-8 py-4 font-semibold text-black hover:bg-emerald-400"
               >
                 <a href={`/audit?source=${encodeURIComponent(article.path.replace(/^\//, ""))}`}>
-                  Get the Free PM Audit Report
+                  Get Your Free Audit
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </a>
               </Button>
@@ -93,7 +93,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
                 variant="outline"
                 className="rounded-full border-white/15 bg-white/[0.02] px-8 py-4 text-gray-100 hover:bg-white/[0.05]"
               >
-                <a href={BOOKING_URL}>Book the Workflow Audit Call</a>
+                <a href={BOOKING_URL}>Book Your Audit Call</a>
               </Button>
             </div>
           </div>
@@ -153,7 +153,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
                     className="mt-5 w-full rounded-full bg-emerald-500 font-semibold text-black hover:bg-emerald-400"
                   >
                     <a href={`/audit?source=${encodeURIComponent(`${article.path}-sidebar`)}`}>
-                      Start The PM Audit
+                      Get Your Free Audit
                     </a>
                   </Button>
                 </div>
@@ -191,7 +191,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
                 className="rounded-full bg-emerald-500 px-8 py-4 font-semibold text-black hover:bg-emerald-400"
               >
                 <a href={`/audit?source=${encodeURIComponent(`${article.path}-footer`)}`}>
-                  Get The Free Audit Report
+                  Get Your Free Audit
                 </a>
               </Button>
               <Button
