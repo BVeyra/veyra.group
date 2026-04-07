@@ -1,6 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/api/generate-report",
+      "destination": "/api/generate-report"
+    }
+  ],
   "redirects": [
     {
       "source": "/calculator",
