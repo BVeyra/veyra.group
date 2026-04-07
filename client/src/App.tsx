@@ -14,6 +14,7 @@ const TenantCommunicationAutomationPage = lazy(() => import("@/pages/TenantCommu
 const PrivacyPolicyPage = lazy(() => import("@/pages/PrivacyPolicyPage"));
 const TermsOfServicePage = lazy(() => import("@/pages/TermsOfServicePage"));
 const HowManyPropertiesCanOneManagerHandlePage = lazy(() => import("@/pages/HowManyPropertiesCanOneManagerHandlePage"));
+const PropertyManagementChallenges2026Page = lazy(() => import("@/pages/PropertyManagementChallenges2026Page"));
 
 function RedirectPage({ to }: { to: string }) {
   const [, navigate] = useLocation();
@@ -76,6 +77,10 @@ function Router() {
         <Route
           path="/how-many-properties-can-one-manager-handle"
           component={HowManyPropertiesCanOneManagerHandlePage}
+        />
+        <Route
+          path="/property-management-challenges-2026"
+          component={PropertyManagementChallenges2026Page}
         />
         <Route path="/privacy" component={PrivacyPolicyPage} />
         <Route path="/privacy-policy">
