@@ -1,11 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
-  "functions": {
-    "api/generate-report.ts": {
-      "includeFiles": "server/**"
-    }
-  },
   "rewrites": [
     {
       "source": "/api/generate-report",
