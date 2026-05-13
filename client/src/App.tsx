@@ -18,6 +18,7 @@ const PropertyManagementChallenges2026Page = lazy(() => import("@/pages/Property
 const HowToReduceTenantTurnoverPage = lazy(() => import("@/pages/HowToReduceTenantTurnoverPage"));
 const ScalePropertyManagementBusinessPage = lazy(() => import("@/pages/ScalePropertyManagementBusinessPage"));
 const MaintenanceResponseTimeBenchmarkPage = lazy(() => import("@/pages/MaintenanceResponseTimeBenchmarkPage"));
+const PropertyManagementKpisPage = lazy(() => import("@/pages/PropertyManagementKpisPage"));
 
 function RedirectPage({ to }: { to: string }) {
   const [, navigate] = useLocation();
@@ -96,6 +97,10 @@ function Router() {
         <Route
           path="/maintenance-response-time-benchmark"
           component={MaintenanceResponseTimeBenchmarkPage}
+        />
+        <Route
+          path="/property-management-kpis"
+          component={PropertyManagementKpisPage}
         />
         <Route path="/privacy" component={PrivacyPolicyPage} />
         <Route path="/privacy-policy">

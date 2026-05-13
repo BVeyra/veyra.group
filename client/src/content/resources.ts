@@ -839,6 +839,99 @@ export const resourceArticles: ResourceArticle[] = [
       },
     ],
   },
+  {
+    path: "/property-management-kpis",
+    title: "Property Management KPIs That Actually Matter for Independent Operators",
+    description:
+      "The 6-8 property management KPIs that independent operators running 50-500 doors should track every month, why each one matters, and how automation makes the data trustworthy without manual spreadsheet work.",
+    directAnswer:
+      "The property management KPIs that actually matter for independent operators running 50-500 doors are vacancy rate, days-to-lease, rent collection rate, maintenance cost per door, average response time, owner retention, and team workload per door. These seven numbers tell you whether the portfolio is healthy, whether the team is operating efficiently, and whether owners are likely to stick around — and they are the same metrics that signal which workflows are ready for automation.",
+    intro: [
+      "Independent property managers running 50 to 500 doors do not need 40 KPIs. They need 6 to 8 that they can actually pull, trust, and act on every month. Most of the dashboards being sold to PM operators today are built for 5,000-door corporate firms with full analytics teams. They look impressive in a demo and then go unused because nobody on a 4-person ops team has time to keep them current.",
+      "The right property management KPIs share three traits: they tie directly to revenue or retention, they are simple enough to calculate consistently every month, and they reveal which part of the operation is leaking time or money. Vague metrics like 'tenant satisfaction score' or 'portfolio efficiency index' do not pass that bar. Hard operational numbers — vacancy rate, days-to-lease, rent collection rate, maintenance cost per door, response time, owner retention, and team workload per door — do.",
+      "This guide breaks down the 7 KPIs that matter most for independent operators, what each one actually measures, the benchmarks worth comparing against, and how automation turns these numbers from a once-a-quarter scramble into a live picture of the business. The goal is not more dashboards. The goal is fewer, better metrics that the team checks every Monday and uses to make decisions on Tuesday.",
+    ],
+    summaryBullets: [
+      "Track 7 KPIs, not 40: vacancy rate, days-to-lease, rent collection rate, maintenance cost per door, response time, owner retention, and team workload per door.",
+      "Property management KPIs are only useful if they update automatically — manual spreadsheet rollups always drift, get stale, and lose the team's trust within 60 days.",
+      "Every KPI should connect to a decision: which property to push leasing on, which owner needs a check-in call, which workflow is ready for automation.",
+      "Benchmarks matter less than your own trendline — a 6 percent vacancy rate trending up is a bigger problem than an 8 percent vacancy rate trending down.",
+    ],
+    sections: [
+      {
+        title: "The 7 property management KPIs every independent operator should track",
+        paragraphs: [
+          "Vacancy rate is the first KPI on the list because it is the most expensive number in the business. A 100-unit portfolio at $1,400 average rent loses $1,400 per month for every additional point of vacancy. Most independent operators target 4-6 percent physical vacancy, with anything above 8 percent signaling a real problem in either leasing operations, pricing, or property condition. Track it monthly, by property type, and by submarket.",
+          "Days-to-lease (also called days vacant or days on market) measures how long a unit sits empty between tenants. Healthy independent operators run 18-30 days for typical units in a balanced market. Numbers north of 45 days usually point to one of three things: listing photos and pricing that need work, slow prospect response, or a unit-condition issue that is not being addressed during turnover.",
+          "Rent collection rate is the percentage of expected rent collected by the 5th of the month, the 15th, and the end of the month. The healthy benchmark is 95+ percent by the 5th and 98+ percent by month-end. Below that, you have a process problem (inconsistent reminders, unclear payment options) or a tenant-screening problem from earlier in the year. Either way, the number tells you where to look.",
+          "Maintenance cost per door is total annual maintenance spend divided by total doors. The range for typical multifamily ranges from $400 to $900 per door per year depending on age and condition. A trend that is moving up faster than rent growth is a warning sign — either the portfolio is aging into a higher capex cycle, vendor costs are creeping, or work orders are getting double-touched because of weak coordination.",
+        ],
+      },
+      {
+        title: "Response time, retention, and workload — the operational KPIs that drive everything else",
+        paragraphs: [
+          "Average response time covers two distinct numbers: time-to-first-touch on new prospect inquiries, and time-to-acknowledgment on tenant maintenance requests. The benchmarks are tighter than most operators realize. For prospects, anything slower than 15 minutes during business hours measurably reduces lease conversion. For maintenance, tenants expect acknowledgment within the same business day — not necessarily a fix, but confirmation that the request was received and a clear next step.",
+          "These two response-time KPIs are leading indicators for vacancy rate and tenant retention. If response times are slipping, vacancy and turnover will get worse 60-90 days later. Watching response time is how you catch the problem before it shows up as lost revenue. Most teams that have not yet automated their intake see first-touch numbers in the 2-6 hour range during business hours and 12+ hours overnight, which is where the biggest improvement opportunity sits.",
+          "Owner retention is the single most important long-term KPI for a property management business. Calculate it as the percentage of management agreements still active 12 months later. Healthy independent firms hold 90+ percent annual owner retention. A drop below 85 percent signals communication, reporting, or service-quality issues — usually all three. Owner churn is also the most expensive kind of churn because each lost owner represents not one unit but an entire account.",
+          "Team workload per door is doors-managed divided by full-time operations staff. The healthy range for independent PM is roughly 80-150 doors per ops FTE depending on the level of automation in place. Below 80, you are likely overstaffed or under-utilizing the team. Above 150 without automation, you are heading into burnout, slow response times, and inevitable service-quality decline. This KPI is the cleanest test of whether automation investments are actually paying off.",
+        ],
+      },
+      {
+        title: "Why manual KPI tracking always fails within 60 days",
+        paragraphs: [
+          "Almost every independent PM operator has tried the same thing: build a Google Sheet or Excel dashboard, fill it in once with current numbers, and commit to updating it every Monday morning. It works for about six weeks. Then the operations coordinator gets pulled into a heavy maintenance week, the update gets skipped, the data falls behind, and within two months nobody on the team trusts the dashboard anymore. The team goes back to making decisions by gut feel.",
+          "The reason manual tracking fails is not discipline. It is that KPI data lives in three or four different systems — the property management software for vacancy and rent collection, the communication tools for response time, the accounting system for maintenance costs, the CRM for owner activity. Pulling those together manually every week is a 2-3 hour job. Nobody on a lean ops team has those hours to spare, especially when they are also the person fielding tenant calls and approving work orders.",
+          "The fix is not more discipline or a better template. It is removing the manual pull entirely. Automation that connects directly to the source systems and updates the KPI numbers automatically every night turns the dashboard from a chore into a live operational tool. The connection between automation and KPI tracking is why the same ROI conversation that drives automation investment (see /property-management-automation-roi for the full breakdown) also drives KPI visibility — both problems get solved with the same infrastructure.",
+          "Once the data updates automatically, the team's relationship with the numbers changes. Instead of dreading the Monday dashboard update, they start checking it before standup. Instead of guessing whether response times got worse last week, they can see the trendline. Instead of waiting for a quarterly review to spot owner churn risk, they catch the warning signs in the monthly retention number. The metrics start driving decisions instead of describing the past.",
+        ],
+      },
+      {
+        title: "How automation makes each KPI trustworthy",
+        paragraphs: [
+          "Vacancy rate and days-to-lease automate the easiest because the data already lives in the PM software. A simple nightly pull from AppFolio, Buildium, or Rent Manager produces clean numbers by property and by portfolio. The only manual step worth keeping is reviewing the trendline weekly — the calculation itself should never require human effort.",
+          "Rent collection rate works the same way and is one of the more useful KPIs to push into a live dashboard because it changes daily during the first week of the month. Knowing on the 3rd that you are tracking 12 points behind the same date last month gives you a full week to act before the number is locked in. Manual monthly rollups always miss that window.",
+          "Maintenance cost per door requires connecting the work-order system to the accounting system, which is where most manual processes get sloppy. Automation handles the join cleanly: every invoice gets attached to the right property, the right category, and the right time period, with no someone-forgot-to-tag situations dragging the number off-trend. Combine this with the automated owner reporting workflow (covered in detail at /owner-reporting-automation) and the same data infrastructure that powers your KPI dashboard also powers your monthly owner updates.",
+          "Response time KPIs are the metric that almost nobody tracks manually because it would mean timestamping every inbound prospect inquiry and every maintenance request by hand. Automated intake captures those timestamps automatically and turns response time from an aspirational goal into a number on the dashboard that the team can actually improve week over week. This is also where the biggest operational improvements show up first — most firms cut first-touch time by 80-95 percent in the first 30 days after automating intake.",
+        ],
+      },
+      {
+        title: "Turning KPIs into weekly operational decisions",
+        paragraphs: [
+          "KPIs are only valuable if they change what the team does on Monday. The way to make that happen is to tie each metric to a specific decision rule. Vacancy rate above 7 percent triggers a leasing review on those properties. Days-to-lease above 35 triggers a listing audit (photos, pricing, description). Rent collection below 94 percent by the 5th triggers a process review on reminders and payment options. Maintenance cost per door trending up 15 percent year over year triggers a vendor and work-order audit.",
+          "Response time above the threshold (15 minutes for prospects, 4 business hours for maintenance) for two consecutive weeks triggers a process and tooling review. Owner retention dropping below 90 percent triggers a check-in call with the three owners closest to renewal. Team workload above 150 doors per ops FTE without automation in place triggers a serious conversation about either hiring or accelerating an automation rollout. Each KPI becomes a tripwire that surfaces issues before they become revenue or retention problems.",
+          "The other thing that turns KPIs into decisions is sharing them with the whole team, not just the owner. When a leasing coordinator can see that the average days-to-lease on their properties dropped from 28 to 21, they own that improvement. When a maintenance coordinator can see that first-touch response time dropped from 4 hours to 12 minutes, they see their own work reflected in the metric. KPIs that stay locked in the owner's spreadsheet do not change behavior. KPIs that the team sees and discusses every Monday do.",
+          "The fastest way to get from where most operators are today — manual, late, untrusted KPI tracking — to a live, automated, decision-driving dashboard is a workflow audit. The audit identifies which data sources you have, which KPIs are most underserved by the current process, and what the realistic first 30 days of automation should focus on. Book one at /audit if the manual spreadsheet has stopped working and you want a concrete plan for replacing it.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How many property management KPIs should an independent operator actually track?",
+        answer:
+          "Six to eight. The 7-KPI set covered in this guide — vacancy rate, days-to-lease, rent collection rate, maintenance cost per door, response time, owner retention, and team workload per door — is enough to run an independent PM business well. Adding more KPIs usually decreases the chance that any of them get reviewed consistently. The right move is to pick the 6-8 that matter most for your operation and update them automatically every night.",
+      },
+      {
+        question: "What is a healthy vacancy rate for an independent property manager?",
+        answer:
+          "Four to six percent physical vacancy is healthy for typical multifamily and single-family portfolios in a balanced market. Anything above 8 percent is a real operational issue that needs immediate attention — usually a combination of slow prospect response, listing quality, or unit-condition issues that are not being addressed during turnover. The trend matters more than the absolute number: 6 percent trending up is worse than 8 percent trending down.",
+      },
+      {
+        question: "How is days-to-lease different from vacancy rate?",
+        answer:
+          "Vacancy rate is a portfolio-level snapshot — what percentage of units are empty right now. Days-to-lease is a per-unit operational metric — how long the typical empty unit takes to fill. They move together but reveal different problems. Vacancy rate going up while days-to-lease stays flat means you have more units coming open, not slower leasing. Days-to-lease going up while vacancy rate stays flat means leasing has slowed and the problem is about to show up in vacancy next month.",
+      },
+      {
+        question: "Why is response time considered a property management KPI?",
+        answer:
+          "Because it is the single best leading indicator for both vacancy rate and tenant retention. Slow prospect response time directly reduces lease conversion, which shows up as higher vacancy 60-90 days later. Slow maintenance response time directly reduces renewal rates, which shows up as higher turnover 6-12 months later. Tracking response time weekly lets you catch these problems before they become revenue problems. It is also one of the easiest KPIs to improve with automation, often by 80-95 percent in the first 30 days.",
+      },
+      {
+        question: "Can I track property management KPIs without leaving my existing PM software?",
+        answer:
+          "Some of them — vacancy rate, days-to-lease, and rent collection rate are built into most modern PM platforms (AppFolio, Buildium, Rent Manager). Maintenance cost per door, response time, owner retention, and team workload per door usually require pulling data from multiple systems and joining it together, which is where most teams hit a wall with manual tracking. Automation that connects to the source systems and updates the dashboard nightly is the difference between a dashboard the team trusts and one that goes stale within two months.",
+      },
+    ],
+  },
 ];
 
 export function getResourceArticle(path: string) {
