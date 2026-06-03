@@ -59,10 +59,10 @@ const integrationLogos: IntegrationLogo[] = [
 ];
 
 const statsData = [
-  { value: 87, suffix: "+", label: "PMs Researched" },
-  { value: 90, suffix: "s", label: "Avg Response Time" },
-  { value: 24, suffix: "/7", label: "Tenant Coverage" },
-  { value: 10, suffix: "+", label: "Hours/Week Saved" },
+  { value: 7, suffix: "", label: "Workflows we automate" },
+  { value: 2, suffix: " wk", label: "Typical setup time" },
+  { value: 24, suffix: "/7", label: "Coverage once it's live" },
+  { value: 5, suffix: "", label: "Founding client spots" },
 ];
 
 const problemTimeline = [
@@ -185,7 +185,7 @@ const socialProofQuotes = [
   },
   {
     quote:
-      "\"We tried AppFolio's LISA. Instead of saving us time, it created a whole new set of headaches. Our closing ratio dropped 10%.\"",
+      "\"By the time I finish owner reports, the month is already over and I'm behind on everything else. There's never a break.\"",
     attribution: "— Property Manager, 150 units",
   },
   {
@@ -539,7 +539,7 @@ export default function Home() {
   return (
     <div className="min-h-screen text-white">
       <SeoHead
-        title="The Operating System for Property Managers"
+        title="Done-For-You Workflow Automation for Property Managers"
         description="Run the free PM Workflow Audit, get the report by email, and see which workflow Veyra should fix first."
         canonicalPath="/"
         structuredData={homeStructuredData}
@@ -652,7 +652,7 @@ export default function Home() {
                 >
                   <span className="inline-flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    10+ hrs/week saved
+                    No platform migration
                   </span>
                 </motion.div>
                 <HeroDashboardMockup timingScale={heroTimingScale} />
@@ -788,10 +788,10 @@ export default function Home() {
                 </p>
                 <div className="grid sm:grid-cols-3 gap-4">
                   <div className="rounded-xl border border-white/5 bg-white/[0.02] px-5 py-3 text-center">
-                    <p className="text-emerald-400 text-sm font-medium">⚡ 90-second response</p>
+                    <p className="text-emerald-400 text-sm font-medium">⚡ Replies in seconds, not days</p>
                   </div>
                   <div className="rounded-xl border border-white/5 bg-white/[0.02] px-5 py-3 text-center">
-                    <p className="text-emerald-400 text-sm font-medium">📉 80% fewer manual tasks</p>
+                    <p className="text-emerald-400 text-sm font-medium">📉 Less manual busywork</p>
                   </div>
                   <div className="rounded-xl border border-white/5 bg-white/[0.02] px-5 py-3 text-center">
                     <p className="text-emerald-400 text-sm font-medium">🌙 24/7 coverage</p>
@@ -1163,17 +1163,16 @@ export default function Home() {
               className="text-center"
             >
               <ShieldCheck className="w-12 h-12 text-emerald-400 mx-auto mb-4" />
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">Hit your goals or don't pay. Period.</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">We don't stop until it actually works.</h2>
 
               <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.03] p-10 text-center max-w-2xl mx-auto">
                 <p className="text-xl text-white font-semibold mb-3">
-                  If we build it and it doesn't hit the goals we agreed on - we fix it. Free.
+                  We agree on what a workflow should do before we build it — then we keep refining it until it does, at no extra cost.
                 </p>
-                <p className="text-gray-300 text-lg mb-3">Still not working? You don't pay.</p>
-                <p className="text-gray-400 mb-4">
-                  Everything is fully managed while you're active. If you cancel, access to the managed automations ends.
+                <p className="text-gray-300 text-lg mb-3">You approve every workflow before it goes live. Nothing runs without your sign-off.</p>
+                <p className="text-gray-400">
+                  Everything is fully managed while you're active. Cancel anytime; if you cancel, access to the managed automations ends.
                 </p>
-                <p className="text-white font-semibold">You risk nothing. We risk everything. That's how confident we are.</p>
               </div>
             </motion.div>
           </div>
@@ -1195,7 +1194,7 @@ export default function Home() {
                 We're accepting 5 founding clients at our introductory build rate of $1,500 (increasing after).
               </p>
               <p className="text-gray-400 mb-2">
-                Founding clients get priority support, direct access to our automation team, and input on new features.
+                Veyra is founder-led — you work directly with me, not a sales rep or a ticket queue. Founding clients get priority support and a say in what we build next.
               </p>
               <p className="text-gray-400">Book your workflow audit to see if you qualify.</p>
 
