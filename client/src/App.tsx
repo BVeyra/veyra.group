@@ -19,6 +19,9 @@ const HowToReduceTenantTurnoverPage = lazy(() => import("@/pages/HowToReduceTena
 const ScalePropertyManagementBusinessPage = lazy(() => import("@/pages/ScalePropertyManagementBusinessPage"));
 const MaintenanceResponseTimeBenchmarkPage = lazy(() => import("@/pages/MaintenanceResponseTimeBenchmarkPage"));
 const PropertyManagementKpisPage = lazy(() => import("@/pages/PropertyManagementKpisPage"));
+const AppfolioVsBuildiumSmallPmPage = lazy(() => import("@/pages/AppfolioVsBuildiumSmallPmPage"));
+const OwnerCommunicationBestPracticesPage = lazy(() => import("@/pages/OwnerCommunicationBestPracticesPage"));
+const PropertyManagementWorkflowAutomationPage = lazy(() => import("@/pages/PropertyManagementWorkflowAutomationPage"));
 
 function RedirectPage({ to }: { to: string }) {
   const [, navigate] = useLocation();
@@ -101,6 +104,18 @@ function Router() {
         <Route
           path="/property-management-kpis"
           component={PropertyManagementKpisPage}
+        />
+        <Route
+          path="/appfolio-vs-buildium-small-pm"
+          component={AppfolioVsBuildiumSmallPmPage}
+        />
+        <Route
+          path="/owner-communication-best-practices"
+          component={OwnerCommunicationBestPracticesPage}
+        />
+        <Route
+          path="/property-management-workflow-automation"
+          component={PropertyManagementWorkflowAutomationPage}
         />
         <Route path="/privacy" component={PrivacyPolicyPage} />
         <Route path="/privacy-policy">
