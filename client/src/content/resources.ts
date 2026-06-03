@@ -108,9 +108,9 @@ export const resourceArticles: ResourceArticle[] = [
   },
   {
     path: "/automated-owner-reporting-for-property-managers",
-    title: "Automated Owner Reporting For Property Managers",
+    title: "Automated Owner Reporting: How to Cut 30 Hours of Monthly Report Prep",
     description:
-      "What automated owner reporting should actually replace, what a good workflow looks like, and how PM teams should evaluate the ROI of automating their monthly reports.",
+      "How to cut 30+ hours of monthly owner report prep without losing the personal touch — what a real automated reporting workflow looks like for independent PM firms managing 50-500 doors.",
     directAnswer:
       "Automated owner reporting should replace the monthly scramble to export data, reformat spreadsheets, rewrite notes, and resend the same updates by hand across every owner in the portfolio. The goal is not prettier reports alone. The goal is consistent delivery on a predictable schedule, fewer admin hours lost to report prep, and owner communication that no longer steals evenings from the operations team at the end of every month.",
     intro: [
@@ -198,9 +198,9 @@ export const resourceArticles: ResourceArticle[] = [
   },
   {
     path: "/automate-maintenance-coordination-property-management",
-    title: "Automate Maintenance Coordination In Property Management",
+    title: "Automate Maintenance Coordination: Where Independent PMs Save 8-12 Hours/Week",
     description:
-      "How PM teams should approach maintenance coordination automation, what it should handle, what stays manual, and where the first time and cost savings come from.",
+      "How independent property management firms save 8-12 hours per week on maintenance coordination — what to automate, what to keep manual, and how to ship the first workflow in 30 days.",
     directAnswer:
       "Maintenance coordination should be automated where the work is repetitive: intake, triage, vendor routing, status updates, and follow-up. The goal is not to remove judgment from repair decisions or vendor negotiations. It is to stop burning team hours on the same handoffs, missed updates, and vendor chasing every single week. For most independent PM firms, maintenance coordination is the single most time-consuming workflow, and even partial automation can recover 10 to 20 hours per week.",
     intro: [
@@ -290,9 +290,9 @@ export const resourceArticles: ResourceArticle[] = [
   },
   {
     path: "/automate-tenant-communication-property-management",
-    title: "Automate Tenant Communication In Property Management",
+    title: "Automate Tenant Communication: What to Automate First (and What Still Needs a Human)",
     description:
-      "How property managers should think about tenant communication automation, what to automate first, what still needs a human, and how it impacts leasing and retention.",
+      "What to automate in tenant communication, what still needs a human, and how the right setup cuts leasing time and tenant churn for independent property management firms.",
     directAnswer:
       "Tenant communication should be automated where the questions are repeated, the response patterns are predictable, and the team is wasting time typing the same answers day after day. The best systems handle routine responses in minutes rather than hours, escalate exceptions cleanly to a human reviewer, and keep the property manager in control of anything sensitive, legal, or judgment-heavy. For most independent PM firms, automating routine tenant communication recovers 8 to 15 hours per week and cuts average response times from hours to minutes.",
     intro: [
@@ -473,9 +473,9 @@ export const resourceArticles: ResourceArticle[] = [
   },
   {
     path: "/property-management-challenges-2026",
-    title: "Property Management Challenges in 2026: What's Changed and What Hasn't",
+    title: "Property Management Challenges 2026: 7 Pressures Independent Operators Are Navigating",
     description:
-      "The biggest property management challenges in 2026 — from staffing pressure and rising tenant expectations to insurance costs and maintenance backlogs — and what operators running 50-500 doors are doing differently.",
+      "The 7 biggest challenges hitting independent property management firms in 2026 — staffing, tenant expectations, insurance, vendor reliability — and how operators running 50-500 doors are actually responding.",
     directAnswer:
       "The biggest property management challenges in 2026 are staffing constraints that make scaling without automation nearly impossible, tenant expectations that now include instant digital communication, maintenance costs that have risen 18 to 25 percent since 2023, and insurance premiums that are forcing operators to rethink their margin math on every new door. What has not changed is that the firms managing these pressures best are the ones with tight operational systems, not the ones with the biggest teams.",
     intro: [
