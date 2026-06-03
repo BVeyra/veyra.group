@@ -22,6 +22,7 @@ const PropertyManagementKpisPage = lazy(() => import("@/pages/PropertyManagement
 const AppfolioVsBuildiumSmallPmPage = lazy(() => import("@/pages/AppfolioVsBuildiumSmallPmPage"));
 const OwnerCommunicationBestPracticesPage = lazy(() => import("@/pages/OwnerCommunicationBestPracticesPage"));
 const PropertyManagementWorkflowAutomationPage = lazy(() => import("@/pages/PropertyManagementWorkflowAutomationPage"));
+const GuidesPage = lazy(() => import("@/pages/GuidesPage"));
 
 function RedirectPage({ to }: { to: string }) {
   const [, navigate] = useLocation();
@@ -117,6 +118,7 @@ function Router() {
           path="/property-management-workflow-automation"
           component={PropertyManagementWorkflowAutomationPage}
         />
+        <Route path="/guides" component={GuidesPage} />
         <Route path="/privacy" component={PrivacyPolicyPage} />
         <Route path="/privacy-policy">
           {() => <RedirectPage to="/privacy" />}

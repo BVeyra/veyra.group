@@ -230,6 +230,17 @@ const fitNegativeItems = [
   { text: "You're not ready to execute workflow changes this month", icon: Clock },
 ];
 
+// A curated set of guides for the homepage. The full list lives on /guides.
+const featuredGuidePaths = [
+  "/automated-owner-reporting-for-property-managers",
+  "/automate-maintenance-coordination-property-management",
+  "/automate-tenant-communication-property-management",
+  "/property-management-workflow-automation",
+];
+const featuredArticles = featuredGuidePaths
+  .map((path) => resourceArticles.find((article) => article.path === path))
+  .filter((article): article is (typeof resourceArticles)[number] => Boolean(article));
+
 function HeroDashboardMockup({ timingScale }: { timingScale: number }) {
   const rows = [
     {
@@ -1304,7 +1315,7 @@ export default function Home() {
             </motion.div>
 
             <div className="grid gap-6 md:grid-cols-2">
-              {resourceArticles.map((article, index) => (
+              {featuredArticles.map((article, index) => (
                 <motion.a
                   key={article.path}
                   href={article.path}
@@ -1323,6 +1334,16 @@ export default function Home() {
                   </span>
                 </motion.a>
               ))}
+            </div>
+
+            <div className="mt-10 text-center">
+              <a
+                href="/guides"
+                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.02] px-6 py-3 text-emerald-300 font-medium hover:border-emerald-500/30 hover:bg-white/[0.04] transition-colors"
+              >
+                View all guides
+                <ArrowRight className="w-4 h-4" />
+              </a>
             </div>
           </div>
         </section>

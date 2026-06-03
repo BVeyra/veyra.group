@@ -38,9 +38,16 @@ type SnapshotConfig = {
 const STATIC_PAGES: SeoPage[] = [
   {
     path: "/",
-    title: "The Operating System for Property Managers",
+    title: "Done-For-You Workflow Automation for Property Managers",
     description:
       "Run the free PM Workflow Audit, get the report by email, and see which workflow Veyra should fix first.",
+    type: "website",
+  },
+  {
+    path: "/guides",
+    title: "Property Management Automation Guides",
+    description:
+      "Operator guides for independent property managers running 50-500 doors — where the hours leak, what to automate first, and how to scope it before buying any software.",
     type: "website",
   },
   {
@@ -437,6 +444,28 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
           },
           {
             title: "Bottom-funnel guides",
+            links: resourceArticles.map((article) => ({
+              href: article.path,
+              label: article.title,
+              description: article.description,
+            })),
+          },
+        ],
+      };
+    case "/guides":
+      return {
+        eyebrow: "Guides",
+        title: "Guides for independent property managers",
+        description:
+          "Practical, operator-level breakdowns for firms running 50-500 doors — where the hours leak, what to automate first, and how to scope it before you buy any software.",
+        primaryLink: { href: "/audit", label: "Get the free PM audit report" },
+        secondaryLinks: [
+          { href: "/book", label: "Book the workflow audit call" },
+          { href: "/", label: "Back to the homepage" },
+        ],
+        sections: [
+          {
+            title: "All guides",
             links: resourceArticles.map((article) => ({
               href: article.path,
               label: article.title,
