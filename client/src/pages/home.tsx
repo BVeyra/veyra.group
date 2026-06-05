@@ -173,6 +173,29 @@ const socialProofQuotes = [
   },
 ];
 
+const whyVeyra = [
+  {
+    icon: MessageSquare,
+    title: "Direct access to the founder",
+    text: "You work with me — not a sales rep, not a ticket queue.",
+  },
+  {
+    icon: Wrench,
+    title: "No platform migration",
+    text: "We build around AppFolio, Buildium, or whatever you already run.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "You approve everything",
+    text: "No workflow goes live until you sign off on it.",
+  },
+  {
+    icon: Check,
+    title: "We don't stop until it works",
+    text: "We refine the build until it does what we agreed — at no extra cost.",
+  },
+];
+
 const faqItems = [
   {
     q: "Who is this best for?",
@@ -488,6 +511,9 @@ export default function Home() {
                       </a>
                     </Button>
                   </div>
+                  <p className="mt-4 text-sm text-gray-500">
+                    Founder-led · works with the software you already use · no platform migration
+                  </p>
                 </motion.div>
               </div>
 
@@ -763,6 +789,45 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
+        {/* WHY VEYRA */}
+        <section id="why" className="py-12 md:py-16">
+          <div className="max-w-6xl mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-20px" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="text-center mb-10"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-white">Why operators choose Veyra.</h2>
+            </motion.div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {whyVeyra.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <motion.div
+                    key={item.title}
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-20px" }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="rounded-2xl border border-white/6 bg-white/[0.02] p-6"
+                  >
+                    <div className="w-10 h-10 rounded-xl border border-emerald-500/30 bg-emerald-500/10 flex items-center justify-center mb-4">
+                      <Icon className="w-5 h-5 text-emerald-300" />
+                    </div>
+                    <h3 className="text-base font-semibold text-white">{item.title}</h3>
+                    <p className="text-sm text-gray-400 mt-2 leading-relaxed">{item.text}</p>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+
         {/* PROOF */}
         <section id="social-proof" className="py-12 md:py-16">
           <div className="max-w-6xl mx-auto px-6">
@@ -773,9 +838,36 @@ export default function Home() {
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="text-center mb-10"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-white">Property managers are saying it out loud.</h2>
-              <p className="text-gray-400 mt-3">These are real posts from Reddit communities. We just built the fix.</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-white">Proof, not promises.</h2>
+              <p className="text-gray-400 mt-3">Real founding-client results will be published here exactly as measured — no inflated numbers.</p>
             </motion.div>
+
+            {/* Founding-client case study scaffold — fill with real numbers after the first pilot */}
+            <div className="rounded-2xl border border-dashed border-emerald-500/30 bg-emerald-500/[0.03] p-8 text-center max-w-3xl mx-auto">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300">Founding-client case study</p>
+              <h3 className="text-xl md:text-2xl font-semibold text-white mt-3">First results, coming soon.</h3>
+              <p className="text-gray-400 mt-2 max-w-2xl mx-auto">
+                We're onboarding our first founding clients now. Hours saved, response times, and owner-report turnaround will be posted here exactly as measured — never estimated, never inflated.
+              </p>
+              <div className="grid grid-cols-3 gap-3 sm:gap-4 mt-6 max-w-xl mx-auto">
+                <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
+                  <p className="text-2xl sm:text-3xl font-bold text-emerald-300">—</p>
+                  <p className="text-[11px] sm:text-xs text-gray-500 mt-1">Hours saved / mo</p>
+                </div>
+                <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
+                  <p className="text-2xl sm:text-3xl font-bold text-emerald-300">—</p>
+                  <p className="text-[11px] sm:text-xs text-gray-500 mt-1">Response time</p>
+                </div>
+                <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
+                  <p className="text-2xl sm:text-3xl font-bold text-emerald-300">—</p>
+                  <p className="text-[11px] sm:text-xs text-gray-500 mt-1">Report turnaround</p>
+                </div>
+              </div>
+            </div>
+
+            <p className="text-center text-gray-400 mt-12 mb-6 max-w-2xl mx-auto">
+              Until those land, here's what property managers say out loud in public Reddit communities — real posts, <span className="text-gray-300">not Veyra clients</span>. They're the exact problems we build for.
+            </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {socialProofQuotes.map((item, index) => (
@@ -789,7 +881,7 @@ export default function Home() {
                 >
                   <span className="absolute top-2 left-4 text-4xl text-emerald-400/30">"</span>
                   <p className="text-gray-300 text-base italic leading-relaxed pt-4">{item.quote}</p>
-                  <p className="text-sm text-gray-500 mt-4 not-italic">{item.attribution}</p>
+                  <p className="text-sm text-gray-500 mt-4 not-italic">{item.attribution} · via Reddit</p>
                 </motion.div>
               ))}
             </div>
