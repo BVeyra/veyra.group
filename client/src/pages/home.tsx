@@ -1,11 +1,9 @@
 import { Navbar, Footer } from "@/components/layout";
 import { SeoHead } from "@/components/SeoHead";
 import { Button } from "@/components/ui/button";
-import { resourceArticles } from "@/content/resources";
 import {
   ArrowRight,
   BarChart3,
-  Building2,
   Check,
   Clock,
   DollarSign,
@@ -18,12 +16,9 @@ import {
   ShieldCheck,
   Users,
   Wrench,
-  X,
 } from "lucide-react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { openCalendly } from "@/lib/calendly";
 import { AnimatePresence, motion } from "framer-motion";
-import SolutionMockups from "@/components/marketing/SolutionMockups";
 
 type IntegrationLogo = {
   name: string;
@@ -58,38 +53,21 @@ const integrationLogos: IntegrationLogo[] = [
   { name: "Zumper", icon: "https://www.google.com/s2/favicons?domain=zumper.com&sz=64" },
 ];
 
-const statsData = [
-  { value: 7, suffix: "", label: "Workflows we automate" },
-  { value: 2, suffix: " wk", label: "Typical setup time" },
-  { value: 24, suffix: "/7", label: "Coverage once it's live" },
-  { value: 5, suffix: "", label: "Founding client spots" },
-];
-
 const problemTimeline = [
   {
     time: "6:47 AM",
     icon: "📱",
-    text: "You haven't had coffee yet, but you've already got 14 unread messages. Three tenants texted overnight about the same water heater. Your maintenance guy hasn't responded to the work order you sent yesterday. A prospect who inquired about unit 4B three days ago just followed up - and you realize you never replied.",
-  },
-  {
-    time: "9:00 AM",
-    icon: "📧",
-    text: "You're deep in email. Lease renewal for the Johnsons is due in 11 days and you haven't sent the notice. Two tenants are behind on rent and you need to send follow-ups - again. Your phone rings. It's Mrs. Chen, calling about the same HVAC issue for the third time this week.",
+    text: "You haven't had coffee yet, but you've already got 14 unread messages. Three tenants texted overnight about the same water heater. A prospect who inquired three days ago just followed up - and you realize you never replied.",
   },
   {
     time: "12:00 PM",
     icon: "⏰",
-    text: "You've handled 40 messages and completed zero of the things you actually planned to do today.",
-  },
-  {
-    time: "6:00 PM",
-    icon: "📊",
-    text: "You're behind on everything that matters - owner reports, move-in inspections, that marketing you keep saying you'll get to.",
+    text: "You've handled 40 messages and completed zero of the things you actually planned to do today. Two lease renewals are overdue and Mrs. Chen has called about the same HVAC issue three times this week.",
   },
   {
     time: "11:00 PM",
     icon: "🚽",
-    text: "You're in bed when your phone buzzes. Toilet overflow in unit 12C.",
+    text: "You're in bed when your phone buzzes. Toilet overflow in unit 12C. Owner reports are still due, and that's tomorrow's problem - again.",
   },
 ];
 
@@ -134,12 +112,12 @@ const automationCards = [
     before:
       "Someone inquires about a vacant unit at 9 PM on Saturday. You see it Monday. They've already signed a lease somewhere else.",
     after:
-      "Instant, personalized response with unit details, availability, and a link to schedule a showing. 90 seconds, not 48 hours.",
+      "Instant, personalized response with unit details, availability, and a link to schedule a showing. Seconds, not 48 hours.",
   },
   {
     title: "Owner Reporting",
     before:
-      "Spending 12+ hours reformatting AppFolio exports for different owners - because every owner wants a slightly different format. It's your last weekend of every month, every month, forever.",
+      "Spending 12+ hours reformatting exports for different owners - because every owner wants a slightly different format. It's your last weekend of every month, every month, forever.",
     after:
       "Every owner gets a custom report, automatically generated, on the 1st of every month. Financials, maintenance summaries, occupancy updates - formatted to their preferences, delivered without you lifting a finger.",
   },
@@ -197,6 +175,14 @@ const socialProofQuotes = [
 
 const faqItems = [
   {
+    q: "Who is this best for?",
+    a: "Independent property managers running roughly 50-500 doors who wear too many hats — tenant comms, maintenance, leases, and follow-ups all run manually — and want practical automation live in weeks, not a quarter-long software rollout.",
+  },
+  {
+    q: "Who is this not for?",
+    a: "It's not a fit if you want a DIY tool with no implementation support, you need long enterprise procurement and committee approvals, or you're not ready to change a workflow this month.",
+  },
+  {
     q: "Is this just another SaaS platform I have to learn?",
     a: "No. We build custom automations that plug into the tools you already use. No new dashboard, no new app, no training manual.",
   },
@@ -209,37 +195,14 @@ const faqItems = [
     a: "Your call. Most automations draft messages for your review. Routine replies are indistinguishable from what you'd write - because they're trained on your voice.",
   },
   {
-    q: "What if something breaks?",
-    a: "That's what $500/month covers. Direct line to us, no ticket queues. If it breaks, we fix it fast.",
+    q: "What does it cost?",
+    a: "Founding builds start at $1,500 one-time, with ongoing management from $500/month — most owners spend less than a part-time admin. Full breakdown is on the pricing page, and the audit and first call are always free.",
   },
   {
     q: "What if I want to cancel?",
     a: "Cancel anytime. No long-term contracts or penalties. If you cancel, access to the managed automations ends.",
   },
 ];
-
-const fitPositiveItems = [
-  { text: "You're an independent property manager who wears too many hats", icon: Building2 },
-  { text: "Tenant comms, maintenance, leases, and follow-ups run manually", icon: MessageSquare },
-  { text: "You want practical automation live in weeks, not quarters", icon: BarChart3 },
-];
-
-const fitNegativeItems = [
-  { text: "You're looking for a DIY tool with no implementation support", icon: Wrench },
-  { text: "You need long enterprise procurement and committee approvals", icon: Users },
-  { text: "You're not ready to execute workflow changes this month", icon: Clock },
-];
-
-// A curated set of guides for the homepage. The full list lives on /guides.
-const featuredGuidePaths = [
-  "/automated-owner-reporting-for-property-managers",
-  "/automate-maintenance-coordination-property-management",
-  "/automate-tenant-communication-property-management",
-  "/property-management-workflow-automation",
-];
-const featuredArticles = featuredGuidePaths
-  .map((path) => resourceArticles.find((article) => article.path === path))
-  .filter((article): article is (typeof resourceArticles)[number] => Boolean(article));
 
 function HeroDashboardMockup({ timingScale }: { timingScale: number }) {
   const rows = [
@@ -328,75 +291,12 @@ function IntegrationLogo({ logo }: { logo: IntegrationLogo }) {
   );
 }
 
-function AnimatedStatNumber({
-  value,
-  suffix = "+",
-  start,
-  delay,
-}: {
-  value: number;
-  suffix?: string;
-  start: boolean;
-  delay: number;
-}) {
-  const [displayValue, setDisplayValue] = useState(0);
-  const [countDone, setCountDone] = useState(false);
-  const [shimmerKey, setShimmerKey] = useState(0);
-
-  useEffect(() => {
-    if (!start) return;
-
-    let rafId = 0;
-    let timeoutId = 0;
-    const duration = 1500;
-
-    timeoutId = window.setTimeout(() => {
-      const startTime = performance.now();
-
-      const tick = (now: number) => {
-        const progress = Math.min((now - startTime) / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        setDisplayValue(Math.round(value * eased));
-
-        if (progress < 1) {
-          rafId = window.requestAnimationFrame(tick);
-        } else {
-          setCountDone(true);
-          setShimmerKey(1);
-        }
-      };
-
-      rafId = window.requestAnimationFrame(tick);
-    }, delay);
-
-    return () => {
-      window.clearTimeout(timeoutId);
-      window.cancelAnimationFrame(rafId);
-    };
-  }, [delay, start, value]);
-
-  useEffect(() => {
-    if (!countDone) return;
-    const interval = window.setInterval(() => {
-      setShimmerKey((k) => k + 1);
-    }, 5000);
-    return () => window.clearInterval(interval);
-  }, [countDone]);
-
-  return (
-    <span key={shimmerKey} className={`hero-stat-value relative inline-block ${countDone ? "stat-shimmer" : ""}`}>
-      {displayValue}{suffix}
-    </span>
-  );
-}
-
 export default function Home() {
   const [calculatorHeight, setCalculatorHeight] = useState(460);
   const [activeAutomationIndex, setActiveAutomationIndex] = useState(0);
   const [automationPausedUntil, setAutomationPausedUntil] = useState(0);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [featuresInView, setFeaturesInView] = useState(false);
-  const [statsStarted, setStatsStarted] = useState(false);
   const [heroTimingScale, setHeroTimingScale] = useState(1);
   const featuresSectionRef = useRef<HTMLElement | null>(null);
 
@@ -511,41 +411,6 @@ export default function Home() {
       })),
     },
   ];
-  const pricingSteps = [
-    {
-      step: "ONE-TIME BUILD",
-      name: "CUSTOM BUILD",
-      price: "$1,500 one-time",
-      description: "Founding-client introductory rate (first 5 clients).",
-      features: [
-        "Custom automations around your existing tools",
-        "Built and launched in 1-2 weeks",
-        "Approve every workflow before go-live",
-      ],
-    },
-    {
-      step: "MONTHLY BASE",
-      name: "BASE OPERATIONS",
-      price: "$500/month",
-      description: "Base operations plan. Supports 50+ unit portfolios with no cap.",
-      features: [
-        "Monitoring + fast fixes",
-        "Continuous optimization",
-        "Direct support, no ticket queue",
-      ],
-    },
-    {
-      step: "USAGE SCALING",
-      name: "GROWTH SCALING",
-      price: "$5/unit above 50 (no cap)",
-      description: "Pricing grows with portfolio size and automation load.",
-      features: [
-        "Predictable unit-based scaling",
-        "No annual contracts",
-        "No hidden platform or seat fees",
-      ],
-    },
-  ];
 
   return (
     <div className="min-h-screen text-white">
@@ -558,6 +423,7 @@ export default function Home() {
       <Navbar />
 
       <main className="pt-20">
+        {/* HERO */}
         <section className="relative overflow-hidden bg-[#050505]">
           <div className="absolute inset-0 pointer-events-none">
             <motion.div
@@ -585,11 +451,7 @@ export default function Home() {
                 <motion.h1
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: heroTiming(0.8),
-                    delay: heroTiming(0.3),
-                    ease: [0.25, 0.4, 0.25, 1],
-                  }}
+                  transition={{ duration: heroTiming(0.8), delay: heroTiming(0.3), ease: [0.25, 0.4, 0.25, 1] }}
                   className="text-4xl md:text-6xl lg:text-[4.5rem] leading-[1.05] font-bold tracking-[-0.02em] hero-headline-glow"
                 >
                   You didn't start a property management company to{" "}
@@ -601,11 +463,7 @@ export default function Home() {
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: heroTiming(0.6),
-                    delay: heroTiming(0.9),
-                    ease: [0.25, 0.4, 0.25, 1],
-                  }}
+                  transition={{ duration: heroTiming(0.6), delay: heroTiming(0.9), ease: [0.25, 0.4, 0.25, 1] }}
                   className="text-lg text-gray-400 max-w-[480px] mt-6 leading-relaxed"
                 >
                   We automate everything between the decision and the doing — so you can grow your portfolio without growing your team.
@@ -614,11 +472,7 @@ export default function Home() {
                 <motion.div
                   initial={{ opacity: 0, y: 20, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{
-                    duration: heroTiming(0.5),
-                    delay: heroTiming(1.2),
-                    ease: [0.25, 0.4, 0.25, 1],
-                  }}
+                  transition={{ duration: heroTiming(0.5), delay: heroTiming(1.2), ease: [0.25, 0.4, 0.25, 1] }}
                   className="mt-8"
                 >
                   <div className="flex flex-col gap-3 sm:flex-row">
@@ -630,26 +484,17 @@ export default function Home() {
                     >
                       <a href="/audit?source=hero_primary">
                         Get Your Free Audit
-                        <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">
-                          →
-                        </span>
+                        <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
                       </a>
                     </Button>
                   </div>
                 </motion.div>
-
               </div>
 
               <motion.div
                 initial={{ opacity: 0, x: 60 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{
-                  duration: heroTiming(0.8),
-                  delay: heroTiming(1.5),
-                  type: "spring",
-                  stiffness: 90,
-                  damping: 20,
-                }}
+                transition={{ duration: heroTiming(0.8), delay: heroTiming(1.5), type: "spring", stiffness: 90, damping: 20 }}
                 className="relative mt-10 lg:mt-0 flex justify-center lg:justify-end"
               >
                 <motion.div
@@ -672,45 +517,10 @@ export default function Home() {
           </div>
         </section>
 
-        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
-
-        <motion.section
-          className="py-10 md:py-16"
-          onViewportEnter={() => {
-            if (!statsStarted) {
-              setStatsStarted(true);
-            }
-          }}
-          viewport={{ once: true, margin: "-20px" }}
-        >
-          <div className="max-w-5xl mx-auto px-6">
-            <div className="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16">
-              {statsData.map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-20px" }}
-                  transition={{ duration: 0.6, delay: index * 0.2 }}
-                  className="text-center relative"
-                >
-                  <p className="text-3xl md:text-5xl font-bold text-emerald-400">
-                    <AnimatedStatNumber value={stat.value} suffix={stat.suffix} start={statsStarted} delay={index * 200} />
-                  </p>
-                  <p className="text-sm text-gray-500 mt-1">{stat.label}</p>
-                  {index < statsData.length - 1 && (
-                    <span className="hidden md:block absolute -right-8 top-1/2 -translate-y-1/2 w-px h-12 bg-white/10" />
-                  )}
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </motion.section>
-
+        {/* TRUST STRIP */}
         <section className="relative py-12 border-y border-white/5 overflow-hidden">
           <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-28 bg-gradient-to-r from-[#0A0A0A] to-transparent z-10" />
           <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-28 bg-gradient-to-l from-[#0A0A0A] to-transparent z-10" />
-
           <div className="logo-carousel-wrapper">
             <div className="logo-carousel-track">
               {integrationLogos.map((logo) => (
@@ -727,6 +537,7 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
+        {/* PROBLEM */}
         <section id="problem" className="py-12 md:py-24">
           <div className="max-w-3xl mx-auto px-6">
             <motion.h2
@@ -764,8 +575,8 @@ export default function Home() {
                 initial={{ opacity: 0, x: -24 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-20px" }}
-                transition={{ duration: 0.6, delay: 0.75 }}
-                className="pl-20 relative"
+                transition={{ duration: 0.6, delay: 0.5 }}
+                className="pl-20 relative mt-8"
               >
                 <p className="text-gray-300 text-lg leading-relaxed">
                   This is not a scaling problem. This is a "doing-everything-manually" problem. You're not bad at your job. You're doing three jobs - and two of them shouldn't require a human.
@@ -777,7 +588,8 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
-        <section id="solution" className="py-12 md:py-20">
+        {/* WHAT WE TAKE OFF YOUR PLATE (solution + the seven workflows, merged) */}
+        <section id="features" ref={featuresSectionRef} className="py-12 md:py-20">
           <div className="max-w-6xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -786,18 +598,12 @@ export default function Home() {
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="max-w-3xl"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">What changes when the busywork handles itself.</h2>
-              <div className="space-y-6 text-gray-400 leading-relaxed">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Here's what we take off your plate.</h2>
+              <div className="space-y-4 text-gray-400 leading-relaxed">
                 <p>
-                  <strong className="text-white">You wake up and your inbox isn't a disaster.</strong> Tenant messages from overnight? Already drafted responses waiting for your review. Maintenance requests? Logged, categorized, and dispatched.
+                  <strong className="text-white">You wake up and your inbox isn't a disaster.</strong> Overnight tenant messages already have drafted replies waiting for your review. Maintenance requests are logged, categorized, and dispatched. The prospect who inquired at 2 AM got a personalized response in seconds and is already scheduled for a showing.
                 </p>
-                <p>
-                  <strong className="text-white">That prospect who inquired at 2 AM?</strong> They got a personalized response in 90 seconds. They're already scheduled for a showing.
-                </p>
-                <p>
-                  <strong className="text-white">Rent is 3 days late?</strong> The follow-up sequence already started. Friendly, professional, on-brand - like you wrote it yourself. Because you did. Once.
-                </p>
-                <div className="grid sm:grid-cols-3 gap-4">
+                <div className="grid sm:grid-cols-3 gap-4 pt-2">
                   <div className="rounded-xl border border-white/5 bg-white/[0.02] px-5 py-3 text-center">
                     <p className="text-emerald-400 text-sm font-medium">⚡ Replies in seconds, not days</p>
                   </div>
@@ -816,117 +622,100 @@ export default function Home() {
               </div>
             </motion.div>
 
-            <div className="mt-12 md:mt-16">
-              <SolutionMockups />
-            </div>
-          </div>
-        </section>
+            <div className="mt-12">
+              <p className="text-gray-400 mb-6">Seven workflows, before and after Veyra:</p>
 
-        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
-
-        <section id="features" ref={featuresSectionRef} className="py-12 md:py-20">
-          <div className="max-w-6xl mx-auto px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-20px" }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="mb-12"
-            >
-              <h2 className="text-3xl md:text-4xl font-bold text-white">Seven things eating your day.</h2>
-              <p className="text-gray-400 mt-3">Before and after Veyra.</p>
-            </motion.div>
-
-            <div className="lg:hidden flex gap-2 overflow-x-auto pb-4 scrollbar-hide">
-              {automationCards.map((item, index) => {
-                const Icon = featureIcons[index];
-                const isActive = activeAutomationIndex === index;
-                return (
-                  <button
-                    key={item.title}
-                    onClick={() => handleAutomationSelect(index)}
-                    className={`whitespace-nowrap px-4 py-2 rounded-full text-sm border transition-all ${
-                      isActive
-                        ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/30"
-                        : "bg-white/[0.02] text-gray-500 border-white/10 hover:text-gray-300"
-                    }`}
-                  >
-                    <span className="inline-flex items-center gap-2">
-                      <Icon className="w-4 h-4" />
-                      {item.title}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="grid lg:grid-cols-[0.35fr_0.65fr] gap-8 mt-2 lg:mt-0">
-              <div className="hidden lg:flex flex-col gap-2">
+              <div className="lg:hidden flex gap-2 overflow-x-auto pb-4 scrollbar-hide">
                 {automationCards.map((item, index) => {
                   const Icon = featureIcons[index];
                   const isActive = activeAutomationIndex === index;
-
                   return (
                     <button
                       key={item.title}
                       onClick={() => handleAutomationSelect(index)}
-                      className={`relative py-4 px-5 rounded-xl text-left transition-all duration-300 border-l-2 ${
+                      className={`whitespace-nowrap px-4 py-2 rounded-full text-sm border transition-all ${
                         isActive
-                          ? "text-white bg-white/[0.05] border-l-emerald-400"
-                          : "text-gray-500 border-l-transparent hover:text-gray-300 hover:bg-white/[0.02]"
+                          ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/30"
+                          : "bg-white/[0.02] text-gray-500 border-white/10 hover:text-gray-300"
                       }`}
                     >
-                      <span className="inline-flex items-center gap-3">
-                        <Icon className={`w-4 h-4 ${isActive ? "text-emerald-300" : "text-gray-500"}`} />
+                      <span className="inline-flex items-center gap-2">
+                        <Icon className="w-4 h-4" />
                         {item.title}
                       </span>
-                      {isActive && (
-                        <motion.span
-                          key={`tab-progress-${index}-${automationPausedUntil}`}
-                          initial={{ scaleX: 0 }}
-                          animate={{ scaleX: 1 }}
-                          transition={{ duration: 5, ease: "linear" }}
-                          className="absolute left-3 right-3 bottom-1 h-0.5 bg-emerald-400/30 origin-left"
-                        />
-                      )}
                     </button>
                   );
                 })}
               </div>
 
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeAutomation.title}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -12 }}
-                  transition={{ duration: 0.3 }}
-                  className="rounded-2xl border border-white/6 bg-white/[0.03] p-6 md:p-8"
-                >
-                  <div className="inline-flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 rounded-xl border border-emerald-500/30 bg-emerald-500/10 flex items-center justify-center">
-                      <ActiveAutomationIcon className="w-6 h-6 text-emerald-300" />
+              <div className="grid lg:grid-cols-[0.35fr_0.65fr] gap-8 mt-2 lg:mt-0">
+                <div className="hidden lg:flex flex-col gap-2">
+                  {automationCards.map((item, index) => {
+                    const Icon = featureIcons[index];
+                    const isActive = activeAutomationIndex === index;
+                    return (
+                      <button
+                        key={item.title}
+                        onClick={() => handleAutomationSelect(index)}
+                        className={`relative py-4 px-5 rounded-xl text-left transition-all duration-300 border-l-2 ${
+                          isActive
+                            ? "text-white bg-white/[0.05] border-l-emerald-400"
+                            : "text-gray-500 border-l-transparent hover:text-gray-300 hover:bg-white/[0.02]"
+                        }`}
+                      >
+                        <span className="inline-flex items-center gap-3">
+                          <Icon className={`w-4 h-4 ${isActive ? "text-emerald-300" : "text-gray-500"}`} />
+                          {item.title}
+                        </span>
+                        {isActive && (
+                          <motion.span
+                            key={`tab-progress-${index}-${automationPausedUntil}`}
+                            initial={{ scaleX: 0 }}
+                            animate={{ scaleX: 1 }}
+                            transition={{ duration: 5, ease: "linear" }}
+                            className="absolute left-3 right-3 bottom-1 h-0.5 bg-emerald-400/30 origin-left"
+                          />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeAutomation.title}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -12 }}
+                    transition={{ duration: 0.3 }}
+                    className="rounded-2xl border border-white/6 bg-white/[0.03] p-6 md:p-8"
+                  >
+                    <div className="inline-flex items-center gap-3 mb-6">
+                      <div className="w-12 h-12 rounded-xl border border-emerald-500/30 bg-emerald-500/10 flex items-center justify-center">
+                        <ActiveAutomationIcon className="w-6 h-6 text-emerald-300" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-white">{activeAutomation.title}</h3>
                     </div>
-                    <h3 className="text-2xl font-bold text-white">{activeAutomation.title}</h3>
-                  </div>
 
-                  <div className="rounded-xl bg-red-500/[0.05] border border-red-500/10 p-6 mb-4">
-                    <p className="text-xs font-semibold text-red-400 uppercase tracking-[0.12em] mb-2">Before</p>
-                    <p className="text-gray-300 leading-relaxed">{activeAutomation.before}</p>
-                  </div>
+                    <div className="rounded-xl bg-red-500/[0.05] border border-red-500/10 p-6 mb-4">
+                      <p className="text-xs font-semibold text-red-400 uppercase tracking-[0.12em] mb-2">Before</p>
+                      <p className="text-gray-300 leading-relaxed">{activeAutomation.before}</p>
+                    </div>
 
-                  <div className="rounded-xl bg-emerald-500/[0.05] border border-emerald-500/10 p-6">
-                    <p className="text-xs font-semibold text-emerald-400 uppercase tracking-[0.12em] mb-2">After</p>
-                    <p className="text-gray-300 leading-relaxed">{activeAutomation.after}</p>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
+                    <div className="rounded-xl bg-emerald-500/[0.05] border border-emerald-500/10 p-6">
+                      <p className="text-xs font-semibold text-emerald-400 uppercase tracking-[0.12em] mb-2">After</p>
+                      <p className="text-gray-300 leading-relaxed">{activeAutomation.after}</p>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
             </div>
           </div>
         </section>
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
+        {/* HOW IT WORKS */}
         <section id="process" className="py-12 md:py-20">
           <div className="max-w-6xl mx-auto px-6">
             <motion.div
@@ -974,6 +763,7 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
+        {/* PROOF */}
         <section id="social-proof" className="py-12 md:py-16">
           <div className="max-w-6xl mx-auto px-6">
             <motion.div
@@ -1008,6 +798,7 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
+        {/* THE AUDIT (primary offer) */}
         <section id="calculator" className="py-12 md:py-20">
           <div className="max-w-5xl mx-auto px-6">
             <motion.div
@@ -1017,8 +808,8 @@ export default function Home() {
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="text-center"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-white">PM Workflow Audit</h2>
-              <p className="text-gray-400 mt-4">See where repeatable work is piling up and what Veyra should fix first.</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-white">See where your hours are leaking.</h2>
+              <p className="text-gray-400 mt-4">Run the free PM Workflow Audit and get a first-build recommendation — no pitch, no software talk.</p>
             </motion.div>
 
             <motion.div
@@ -1057,114 +848,8 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
-        <section id="pricing" className="py-12 md:py-20">
-          <div className="max-w-6xl mx-auto px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-20px" }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="text-center mb-14"
-            >
-              <h2 className="text-3xl md:text-4xl font-bold text-white max-w-4xl mx-auto">
-                Less than a part-time hire. More than a full-time employee could do.
-              </h2>
-              <p className="text-gray-400 mt-4">Clear pricing. No annual contracts. No surprise charges.</p>
-            </motion.div>
-
-            <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr_auto_1fr] gap-4 items-stretch">
-              {pricingSteps.map((plan, index) => (
-                <div key={plan.name} className="contents">
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-20px" }}
-                    transition={{ duration: 0.6, delay: index * 0.15 }}
-                    whileHover={{ y: -4, borderColor: "rgba(52,211,153,0.2)" }}
-                    className="rounded-2xl border border-white/5 bg-white/[0.02] p-8"
-                  >
-                    <p className="text-xs text-emerald-400 uppercase tracking-widest font-semibold mb-2">{plan.step}</p>
-                    <h3 className="text-lg font-semibold text-white mb-3">{plan.name}</h3>
-                    <p className="text-3xl font-bold text-emerald-300 mb-2">{plan.price}</p>
-                    <p className="text-sm text-gray-500 mb-6">{plan.description}</p>
-
-                    <ul className="space-y-3">
-                      {plan.features.map((feature) => (
-                        <li key={feature} className="flex items-start gap-2 text-gray-300 text-sm">
-                          <span className="text-emerald-400 mt-[1px]">✓</span>
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </motion.div>
-
-                  {index < pricingSteps.length - 1 && (
-                    <div className="flex items-center justify-center relative min-w-[56px]">
-                      <span className="absolute left-0 right-0 top-1/2 -translate-y-1/2 border-t border-dashed border-emerald-500/20" />
-                      <span className="relative z-10 text-emerald-500/30 text-2xl bg-[#0A0A0A] px-2">→</span>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            <div className="md:hidden">
-              {pricingSteps.map((plan, index) => (
-                <div key={plan.name}>
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-20px" }}
-                    transition={{ duration: 0.6, delay: index * 0.15 }}
-                    whileHover={{ y: -4, borderColor: "rgba(52,211,153,0.2)" }}
-                    className="rounded-2xl border border-white/5 bg-white/[0.02] p-8"
-                  >
-                    <p className="text-xs text-emerald-400 uppercase tracking-widest font-semibold mb-2">{plan.step}</p>
-                    <h3 className="text-lg font-semibold text-white mb-3">{plan.name}</h3>
-                    <p className="text-3xl font-bold text-emerald-300 mb-2">{plan.price}</p>
-                    <p className="text-sm text-gray-500 mb-6">{plan.description}</p>
-
-                    <ul className="space-y-3">
-                      {plan.features.map((feature) => (
-                        <li key={feature} className="flex items-start gap-2 text-gray-300 text-sm">
-                          <span className="text-emerald-400 mt-[1px]">✓</span>
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </motion.div>
-
-                  {index < pricingSteps.length - 1 && (
-                    <div className="flex flex-col items-center py-3">
-                      <span className="w-px h-5 border-l border-dashed border-emerald-500/20" />
-                      <span className="text-emerald-500/30 text-2xl leading-none">↓</span>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            <div className="rounded-2xl border border-white/6 bg-white/[0.02] p-8 mt-8 text-center">
-              <p className="text-gray-400 mb-4">A part-time admin costs about $2,500/month and still cannot handle tenant ops 24/7.</p>
-              <p className="text-white text-xl font-semibold">
-                The question isn't whether you can afford this. It's how much longer you can afford to do it all manually.
-              </p>
-              <Button
-                onClick={openCalendly}
-                size="lg"
-                className="mt-6 bg-emerald-500 text-black font-semibold rounded-full px-8 py-4 hover:shadow-lg hover:shadow-emerald-500/25 transition-all"
-                data-testid="button-pricing-cta"
-              >
-                Book Your Audit Call
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-            </div>
-          </div>
-        </section>
-
-        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
-
-        <section id="guarantee" className="py-12 md:py-16">
+        {/* WHY IT'S SAFE TO START (guarantee + founding scarcity + price anchor) */}
+        <section id="guarantee" className="py-12 md:py-20">
           <div className="max-w-4xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -1174,16 +859,41 @@ export default function Home() {
               className="text-center"
             >
               <ShieldCheck className="w-12 h-12 text-emerald-400 mx-auto mb-4" />
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">We don't stop until it actually works.</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">Why it's safe to start.</h2>
 
-              <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.03] p-10 text-center max-w-2xl mx-auto">
-                <p className="text-xl text-white font-semibold mb-3">
-                  We agree on what a workflow should do before we build it — then we keep refining it until it does, at no extra cost.
+              <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.03] p-8 md:p-10 text-left max-w-2xl mx-auto space-y-4">
+                <p className="text-lg text-white font-semibold">We don't stop until it actually works.</p>
+                <p className="text-gray-300">
+                  We agree on what a workflow should do before we build it — then we keep refining it until it does, at no extra cost. You approve every workflow before it goes live; nothing runs without your sign-off.
                 </p>
-                <p className="text-gray-300 text-lg mb-3">You approve every workflow before it goes live. Nothing runs without your sign-off.</p>
                 <p className="text-gray-400">
-                  Everything is fully managed while you're active. Cancel anytime; if you cancel, access to the managed automations ends.
+                  Veyra is founder-led — you work directly with me, not a sales rep or a ticket queue. Cancel anytime; if you cancel, access to the managed automations ends.
                 </p>
+
+                <div className="pt-2 border-t border-white/10">
+                  <p className="text-white font-semibold">Veyra is taking on 5 founding clients.</p>
+                  <p className="text-gray-400 mt-1">
+                    Founding builds start at $1,500, with ongoing management from $500/month — most owners spend less than a part-time admin and get more.{" "}
+                    <a href="/pricing" className="text-emerald-300 hover:text-emerald-200 underline underline-offset-2">
+                      See full pricing
+                    </a>
+                    .
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-8">
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-emerald-500 text-black font-semibold rounded-full px-8 py-4 hover:shadow-lg hover:shadow-emerald-500/25 transition-all group"
+                  data-testid="button-guarantee-cta"
+                >
+                  <a href="/audit?source=guarantee">
+                    Get Your Free Audit
+                    <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
+                  </a>
+                </Button>
               </div>
             </motion.div>
           </div>
@@ -1191,165 +901,7 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
-        <section id="founding" className="py-12 md:py-16">
-          <div className="max-w-4xl mx-auto px-6 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-20px" }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="rounded-2xl border border-white/6 bg-white/[0.02] p-8 md:p-10"
-            >
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-5">Founding Client Program</h2>
-              <p className="text-gray-300 text-lg mb-4">
-                We're accepting 5 founding clients at our introductory build rate of $1,500 (increasing after).
-              </p>
-              <p className="text-gray-400 mb-2">
-                Veyra is founder-led — you work directly with me, not a sales rep or a ticket queue. Founding clients get priority support and a say in what we build next.
-              </p>
-              <p className="text-gray-400">Book your workflow audit to see if you qualify.</p>
-
-              <Button
-                asChild
-                size="lg"
-                className="mt-7 bg-emerald-500 text-black font-semibold rounded-full px-8 py-4 hover:shadow-lg hover:shadow-emerald-500/25 transition-all"
-                data-testid="button-founding-cta"
-              >
-                <a href="/audit?source=founding_program">
-                  Get Your Free Audit
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </a>
-              </Button>
-            </motion.div>
-          </div>
-        </section>
-
-        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
-
-        <section id="fit" className="py-12 md:py-16">
-          <div className="max-w-5xl mx-auto px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-20px" }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="text-center mb-10"
-            >
-              <h2 className="text-3xl md:text-4xl font-bold text-white">
-                Is This a <span className="text-emerald-400">Fit</span>?
-              </h2>
-            </motion.div>
-
-            <div className="grid md:grid-cols-2 gap-6">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-20px" }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="rounded-2xl border border-white/6 bg-white/[0.02] p-6"
-              >
-                <ul className="space-y-4">
-                  {fitPositiveItems.map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <li key={item.text} className="flex items-start gap-3">
-                        <span className="w-9 h-9 rounded-xl border border-emerald-500/35 bg-emerald-500/10 flex items-center justify-center text-emerald-400 flex-shrink-0">
-                          <Icon className="w-4 h-4" />
-                        </span>
-                        <span className="w-6 h-6 rounded-full border border-emerald-500/40 bg-emerald-500/20 text-emerald-200 flex items-center justify-center flex-shrink-0 mt-[3px]">
-                          <Check className="w-4 h-4" />
-                        </span>
-                        <span className="text-gray-300">{item.text}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-20px" }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="rounded-2xl border border-white/6 bg-white/[0.02] p-6"
-              >
-                <ul className="space-y-4">
-                  {fitNegativeItems.map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <li key={item.text} className="flex items-start gap-3">
-                        <span className="w-9 h-9 rounded-xl border border-white/20 bg-white/[0.03] flex items-center justify-center text-gray-300 flex-shrink-0">
-                          <Icon className="w-4 h-4" />
-                        </span>
-                        <span className="w-6 h-6 rounded-full border border-gray-500/30 bg-gray-500/10 text-gray-300 flex items-center justify-center flex-shrink-0 mt-[3px]">
-                          <X className="w-4 h-4" />
-                        </span>
-                        <span className="text-gray-400">{item.text}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
-        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
-
-        <section id="resources" className="py-12 md:py-16">
-          <div className="max-w-6xl mx-auto px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-20px" }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="text-center mb-10"
-            >
-              <h2 className="text-3xl md:text-4xl font-bold text-white">
-                Questions PM owners ask before they book
-              </h2>
-              <p className="text-gray-400 mt-4 max-w-3xl mx-auto">
-                High-intent guides built for property managers who already know the workflow is the problem and want
-                the right place to start.
-              </p>
-            </motion.div>
-
-            <div className="grid gap-6 md:grid-cols-2">
-              {featuredArticles.map((article, index) => (
-                <motion.a
-                  key={article.path}
-                  href={article.path}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-20px" }}
-                  transition={{ duration: 0.5, delay: index * 0.08 }}
-                  className="rounded-3xl border border-white/6 bg-white/[0.02] p-7 hover:border-emerald-500/25 hover:bg-white/[0.04] transition-colors"
-                >
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300">Guide</p>
-                  <h3 className="mt-4 text-2xl font-semibold text-white">{article.title}</h3>
-                  <p className="mt-4 text-gray-400 leading-relaxed">{article.description}</p>
-                  <span className="mt-6 inline-flex items-center gap-2 text-emerald-300 font-medium">
-                    Read the guide
-                    <ArrowRight className="w-4 h-4" />
-                  </span>
-                </motion.a>
-              ))}
-            </div>
-
-            <div className="mt-10 text-center">
-              <a
-                href="/guides"
-                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.02] px-6 py-3 text-emerald-300 font-medium hover:border-emerald-500/30 hover:bg-white/[0.04] transition-colors"
-              >
-                View all guides
-                <ArrowRight className="w-4 h-4" />
-              </a>
-            </div>
-          </div>
-        </section>
-
-        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
-
+        {/* FAQ */}
         <section id="faq" className="py-12 md:py-16">
           <div className="max-w-4xl mx-auto px-6">
             <motion.h2
@@ -1365,7 +917,6 @@ export default function Home() {
             <div className="border-t border-white/5">
               {faqItems.map((item, index) => {
                 const open = openFaqIndex === index;
-
                 return (
                   <div key={item.q} className="border-b border-white/5 py-6">
                     <button
@@ -1398,6 +949,7 @@ export default function Home() {
           </div>
         </section>
 
+        {/* FINAL CTA */}
         <section id="footer-cta" className="py-12 md:py-16 bg-gradient-to-t from-emerald-500/10 via-emerald-500/5 to-transparent">
           <div className="max-w-4xl mx-auto px-6 text-center">
             <motion.div

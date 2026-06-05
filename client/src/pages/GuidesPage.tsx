@@ -1,8 +1,45 @@
 import { Footer, Navbar } from "@/components/layout";
 import { SeoHead } from "@/components/SeoHead";
 import { Button } from "@/components/ui/button";
-import { resourceArticles } from "@/content/resources";
+import { resourceArticles, type ResourceArticle } from "@/content/resources";
 import { ArrowRight } from "lucide-react";
+
+// The 5 articles tied directly to what Veyra sells.
+const automationGuidePaths = [
+  "/property-management-automation-roi",
+  "/automated-owner-reporting-for-property-managers",
+  "/automate-maintenance-coordination-property-management",
+  "/automate-tenant-communication-property-management",
+  "/property-management-workflow-automation",
+];
+
+const byPath = (paths: string[]) =>
+  paths
+    .map((path) => resourceArticles.find((article) => article.path === path))
+    .filter((article): article is ResourceArticle => Boolean(article));
+
+const automationGuides = byPath(automationGuidePaths);
+// Everything else — broader PM operating content. Order preserved from resources.ts.
+const operatingResources = resourceArticles.filter(
+  (article) => !automationGuidePaths.includes(article.path),
+);
+
+function GuideCard({ article }: { article: ResourceArticle }) {
+  return (
+    <a
+      href={article.path}
+      className="rounded-3xl border border-white/6 bg-white/[0.02] p-7 hover:border-emerald-500/25 hover:bg-white/[0.04] transition-colors"
+    >
+      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300">Guide</p>
+      <h3 className="mt-4 text-2xl font-semibold text-white">{article.title}</h3>
+      <p className="mt-4 text-gray-400 leading-relaxed">{article.description}</p>
+      <span className="mt-6 inline-flex items-center gap-2 text-emerald-300 font-medium">
+        Read the guide
+        <ArrowRight className="w-4 h-4" />
+      </span>
+    </a>
+  );
+}
 
 export default function GuidesPage() {
   const structuredData = [
@@ -60,21 +97,27 @@ export default function GuidesPage() {
 
         <section className="py-12 md:py-16">
           <div className="max-w-6xl mx-auto px-6">
+            <div className="mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-white">Automation guides</h2>
+              <p className="text-gray-400 mt-2">
+                Tied directly to what we build — start here if you already know a workflow is the problem.
+              </p>
+            </div>
             <div className="grid gap-6 md:grid-cols-2">
-              {resourceArticles.map((article) => (
-                <a
-                  key={article.path}
-                  href={article.path}
-                  className="rounded-3xl border border-white/6 bg-white/[0.02] p-7 hover:border-emerald-500/25 hover:bg-white/[0.04] transition-colors"
-                >
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300">Guide</p>
-                  <h2 className="mt-4 text-2xl font-semibold text-white">{article.title}</h2>
-                  <p className="mt-4 text-gray-400 leading-relaxed">{article.description}</p>
-                  <span className="mt-6 inline-flex items-center gap-2 text-emerald-300 font-medium">
-                    Read the guide
-                    <ArrowRight className="w-4 h-4" />
-                  </span>
-                </a>
+              {automationGuides.map((article) => (
+                <GuideCard key={article.path} article={article} />
+              ))}
+            </div>
+
+            <div className="mt-16 mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-white">PM operating resources</h2>
+              <p className="text-gray-400 mt-2">
+                Broader operator playbooks and benchmarks for running a tighter 50–500 door operation.
+              </p>
+            </div>
+            <div className="grid gap-6 md:grid-cols-2">
+              {operatingResources.map((article) => (
+                <GuideCard key={article.path} article={article} />
               ))}
             </div>
           </div>

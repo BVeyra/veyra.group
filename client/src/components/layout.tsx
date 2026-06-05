@@ -7,7 +7,8 @@ import { Menu, X } from "lucide-react";
 const navLinks = [
   { href: "#features", label: "Features" },
   { href: "#process", label: "Process" },
-  { href: "#pricing", label: "Pricing" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/guides", label: "Guides" },
   { href: "#faq", label: "FAQ" },
 ];
 
@@ -83,16 +84,26 @@ export function Navbar() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((item) => (
-            <button
-              key={item.href}
-              type="button"
-              onClick={() => scrollToTarget(item.href)}
-              className="text-sm text-gray-400 hover:text-white transition-colors"
-            >
-              {item.label}
-            </button>
-          ))}
+          {navLinks.map((item) =>
+            item.href.startsWith("#") ? (
+              <button
+                key={item.href}
+                type="button"
+                onClick={() => scrollToTarget(item.href)}
+                className="text-sm text-gray-400 hover:text-white transition-colors"
+              >
+                {item.label}
+              </button>
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="text-sm text-gray-400 hover:text-white transition-colors"
+              >
+                {item.label}
+              </Link>
+            )
+          )}
         </nav>
 
         <div className="flex items-center gap-3">
@@ -126,16 +137,27 @@ export function Navbar() {
       {isMenuOpen && (
         <div className="md:hidden border-t border-white/10 bg-black/85 backdrop-blur-xl">
           <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-2">
-            {navLinks.map((item) => (
-              <button
-                key={`mobile-${item.href}`}
-                type="button"
-                onClick={() => handleMobileNavClick(item.href)}
-                className="w-full text-left rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-gray-200 hover:text-white hover:border-white/20 transition-colors"
-              >
-                {item.label}
-              </button>
-            ))}
+            {navLinks.map((item) =>
+              item.href.startsWith("#") ? (
+                <button
+                  key={`mobile-${item.href}`}
+                  type="button"
+                  onClick={() => handleMobileNavClick(item.href)}
+                  className="w-full text-left rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-gray-200 hover:text-white hover:border-white/20 transition-colors"
+                >
+                  {item.label}
+                </button>
+              ) : (
+                <Link
+                  key={`mobile-${item.href}`}
+                  href={item.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="w-full text-left rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-gray-200 hover:text-white hover:border-white/20 transition-colors"
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
 
             <Link
               href="/demo"
@@ -205,9 +227,9 @@ export function Footer() {
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollToSection("pricing")} className="hover:text-white transition-colors">
+                <Link href="/pricing" className="hover:text-white transition-colors">
                   Pricing
-                </button>
+                </Link>
               </li>
             </ul>
           </div>
@@ -215,6 +237,11 @@ export function Footer() {
           <div>
             <h4 className="text-sm font-semibold text-white mb-4">Resources</h4>
             <ul className="space-y-2 text-sm text-gray-500">
+              <li>
+                <Link href="/guides" className="hover:text-white transition-colors">
+                  All Guides
+                </Link>
+              </li>
               <li>
                 <Link href="/audit?source=footer_resources" className="hover:text-white transition-colors">
                   PM Workflow Audit

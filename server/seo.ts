@@ -51,6 +51,13 @@ const STATIC_PAGES: SeoPage[] = [
     type: "website",
   },
   {
+    path: "/pricing",
+    title: "Pricing",
+    description:
+      "Veyra pricing for independent property managers: a one-time custom build, a flat monthly base, and simple per-unit scaling. No annual contracts. The audit and first call are free.",
+    type: "website",
+  },
+  {
     path: "/audit",
     title: "Free PM Workflow Audit",
     description:
@@ -452,7 +459,19 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
           },
         ],
       };
-    case "/guides":
+    case "/guides": {
+      const automationPaths = [
+        "/property-management-automation-roi",
+        "/automated-owner-reporting-for-property-managers",
+        "/automate-maintenance-coordination-property-management",
+        "/automate-tenant-communication-property-management",
+        "/property-management-workflow-automation",
+      ];
+      const toLink = (article: { path: string; title: string; description: string }) => ({
+        href: article.path,
+        label: article.title,
+        description: article.description,
+      });
       return {
         eyebrow: "Guides",
         title: "Guides for independent property managers",
@@ -465,12 +484,43 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
         ],
         sections: [
           {
-            title: "All guides",
-            links: resourceArticles.map((article) => ({
-              href: article.path,
-              label: article.title,
-              description: article.description,
-            })),
+            title: "Automation guides",
+            paragraphs: ["Tied directly to what we build — start here if you already know a workflow is the problem."],
+            links: resourceArticles.filter((a) => automationPaths.includes(a.path)).map(toLink),
+          },
+          {
+            title: "PM operating resources",
+            paragraphs: ["Broader operator playbooks and benchmarks for running a tighter 50-500 door operation."],
+            links: resourceArticles.filter((a) => !automationPaths.includes(a.path)).map(toLink),
+          },
+        ],
+      };
+    }
+    case "/pricing":
+      return {
+        eyebrow: "Pricing",
+        title: "Less than a part-time hire. More than a full-time employee could do.",
+        description:
+          "Clear pricing with no annual contracts: a one-time custom build, a flat monthly base, and simple per-unit scaling. The audit and your first call are always free.",
+        primaryLink: { href: "/audit", label: "Get the free PM audit report" },
+        secondaryLinks: [
+          { href: "/book", label: "Book the workflow audit call" },
+          { href: "/", label: "Back to the homepage" },
+        ],
+        sections: [
+          {
+            title: "How pricing works",
+            bullets: [
+              "Custom build: $1,500 one-time (founding-client introductory rate, first 5 clients) — built and launched in 1-2 weeks.",
+              "Base operations: $500/month — monitoring, fast fixes, continuous optimization, and direct support.",
+              "Growth scaling: $5/unit above 50 doors, no cap — predictable, no hidden platform or seat fees.",
+            ],
+          },
+          {
+            title: "Why it pays for itself",
+            paragraphs: [
+              "A part-time admin costs about $2,500/month and still cannot handle tenant ops 24/7. The question isn't whether you can afford this — it's how much longer you can afford to do it all manually.",
+            ],
           },
         ],
       };

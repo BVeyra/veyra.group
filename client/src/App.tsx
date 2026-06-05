@@ -23,6 +23,7 @@ const AppfolioVsBuildiumSmallPmPage = lazy(() => import("@/pages/AppfolioVsBuild
 const OwnerCommunicationBestPracticesPage = lazy(() => import("@/pages/OwnerCommunicationBestPracticesPage"));
 const PropertyManagementWorkflowAutomationPage = lazy(() => import("@/pages/PropertyManagementWorkflowAutomationPage"));
 const GuidesPage = lazy(() => import("@/pages/GuidesPage"));
+const PricingPage = lazy(() => import("@/pages/PricingPage"));
 
 function RedirectPage({ to }: { to: string }) {
   const [, navigate] = useLocation();
@@ -119,6 +120,7 @@ function Router() {
           component={PropertyManagementWorkflowAutomationPage}
         />
         <Route path="/guides" component={GuidesPage} />
+        <Route path="/pricing" component={PricingPage} />
         <Route path="/privacy" component={PrivacyPolicyPage} />
         <Route path="/privacy-policy">
           {() => <RedirectPage to="/privacy" />}
