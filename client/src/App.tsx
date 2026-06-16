@@ -22,6 +22,8 @@ const PropertyManagementKpisPage = lazy(() => import("@/pages/PropertyManagement
 const AppfolioVsBuildiumSmallPmPage = lazy(() => import("@/pages/AppfolioVsBuildiumSmallPmPage"));
 const OwnerCommunicationBestPracticesPage = lazy(() => import("@/pages/OwnerCommunicationBestPracticesPage"));
 const PropertyManagementWorkflowAutomationPage = lazy(() => import("@/pages/PropertyManagementWorkflowAutomationPage"));
+const HandleMaintenanceEmergenciesPage = lazy(() => import("@/pages/HandleMaintenanceEmergenciesPage"));
+const ReducePropertyManagementOverheadPage = lazy(() => import("@/pages/ReducePropertyManagementOverheadPage"));
 const GuidesPage = lazy(() => import("@/pages/GuidesPage"));
 const PricingPage = lazy(() => import("@/pages/PricingPage"));
 
@@ -118,6 +120,14 @@ function Router() {
         <Route
           path="/property-management-workflow-automation"
           component={PropertyManagementWorkflowAutomationPage}
+        />
+        <Route
+          path="/handle-maintenance-emergencies"
+          component={HandleMaintenanceEmergenciesPage}
+        />
+        <Route
+          path="/reduce-property-management-overhead"
+          component={ReducePropertyManagementOverheadPage}
         />
         <Route path="/guides" component={GuidesPage} />
         <Route path="/pricing" component={PricingPage} />
