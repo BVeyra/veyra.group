@@ -4,10 +4,64 @@ import type { ResourceArticle } from "@/content/resources";
 import { Button } from "@/components/ui/button";
 import { BOOKING_URL } from "@/lib/calendly";
 import { ArrowRight, FileText } from "lucide-react";
+import { Link } from "wouter";
+import type { ReactNode } from "react";
 
 type ResourceArticlePageProps = {
   article: ResourceArticle;
 };
+
+const INLINE_LINK_CLASS =
+  "text-emerald-400 underline underline-offset-2 transition-colors hover:text-emerald-300";
+
+// Parses inline links inside article copy. Supports both markdown `[text](/path)`
+// and raw `<a href="...">text</a>`. Internal paths (starting with "/") render as
+// wouter <Link> for client-side nav; external URLs render as standard anchors.
+// Anything that isn't a link is returned as plain text.
+const INLINE_LINK_RE =
+  /\[([^\]]+)\]\(([^)]+)\)|<a\s+href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g;
+
+function renderRichText(text: string): ReactNode {
+  const nodes: ReactNode[] = [];
+  let lastIndex = 0;
+  let key = 0;
+  let match: RegExpExecArray | null;
+  INLINE_LINK_RE.lastIndex = 0;
+
+  while ((match = INLINE_LINK_RE.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      nodes.push(text.slice(lastIndex, match.index));
+    }
+    const label = match[1] ?? match[4] ?? "";
+    const href = match[2] ?? match[3] ?? "";
+    if (href.startsWith("/")) {
+      nodes.push(
+        <Link key={key++} href={href} className={INLINE_LINK_CLASS}>
+          {label}
+        </Link>,
+      );
+    } else {
+      nodes.push(
+        <a
+          key={key++}
+          href={href}
+          className={INLINE_LINK_CLASS}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {label}
+        </a>,
+      );
+    }
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    nodes.push(text.slice(lastIndex));
+  }
+
+  return nodes.length ? nodes : text;
+}
 
 export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
   const articleUrl = `https://veyragroup.ai${article.path}`;
@@ -73,7 +127,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-300">
                 Direct Answer
               </p>
-              <p className="mt-4 text-lg leading-relaxed text-gray-100">{article.directAnswer}</p>
+              <p className="mt-4 text-lg leading-relaxed text-gray-100">{renderRichText(article.directAnswer)}</p>
             </div>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -106,7 +160,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
                 <div className="space-y-5 text-gray-300">
                   {article.intro.map((paragraph) => (
                     <p key={paragraph} className="text-lg leading-relaxed">
-                      {paragraph}
+                      {renderRichText(paragraph)}
                     </p>
                   ))}
                 </div>
@@ -117,7 +171,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
                     <div className="mt-4 space-y-4">
                       {section.paragraphs.map((paragraph) => (
                         <p key={paragraph} className="leading-7 text-gray-400">
-                          {paragraph}
+                          {renderRichText(paragraph)}
                         </p>
                       ))}
                     </div>
@@ -133,7 +187,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
                   <ul className="mt-4 space-y-3 text-sm leading-6 text-gray-300">
                     {article.summaryBullets.map((bullet) => (
                       <li key={bullet} className="rounded-2xl border border-white/5 bg-black/20 px-4 py-3">
-                        {bullet}
+                        {renderRichText(bullet)}
                       </li>
                     ))}
                   </ul>
@@ -169,7 +223,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
               {article.faqs.map((faq) => (
                 <div key={faq.question} className="rounded-3xl border border-white/6 bg-white/[0.02] p-6">
                   <h3 className="text-lg font-semibold text-white">{faq.question}</h3>
-                  <p className="mt-3 leading-7 text-gray-400">{faq.answer}</p>
+                  <p className="mt-3 leading-7 text-gray-400">{renderRichText(faq.answer)}</p>
                 </div>
               ))}
             </div>
