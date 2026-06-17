@@ -63,7 +63,7 @@ export default function GuidesPage() {
     <div className="min-h-screen text-white">
       <SeoHead
         title="Property Management Automation Guides"
-        description="Operator guides for independent property managers running 50-500 doors — where the hours leak, what to automate first, and how to scope it before buying any software."
+        description="Operator guides for independent property managers running 50-500 doors: where the hours leak, what to automate first, and how to scope it before buying any software."
         canonicalPath="/guides"
         structuredData={structuredData}
       />
@@ -77,7 +77,7 @@ export default function GuidesPage() {
               Guides for independent property managers
             </h1>
             <p className="mt-5 max-w-3xl text-lg leading-relaxed text-gray-400">
-              Practical, operator-level breakdowns for firms running 50–500 doors — where the hours leak, what to
+              Practical, operator-level breakdowns for firms running 50–500 doors. Where the hours leak, what to
               automate first, and how to scope it before you buy any software.
             </p>
             <div className="mt-8">
@@ -100,7 +100,7 @@ export default function GuidesPage() {
             <div className="mb-8">
               <h2 className="text-2xl md:text-3xl font-bold text-white">Automation guides</h2>
               <p className="text-gray-400 mt-2">
-                Tied directly to what we build — start here if you already know a workflow is the problem.
+                Tied directly to what we build. Start here if you already know a workflow is the problem.
               </p>
             </div>
             <div className="grid gap-6 md:grid-cols-2">
@@ -127,7 +127,7 @@ export default function GuidesPage() {
           <div className="max-w-4xl mx-auto px-6 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white">Know the workflow that's costing you? Let's map it.</h2>
             <p className="text-gray-400 mt-4">
-              Run the free PM Workflow Audit and see which workflow Veyra should fix first — no pitch, no software talk.
+              Run the free PM Workflow Audit and see which workflow Veyra should fix first. No pitch, no software talk.
             </p>
             <Button
               asChild

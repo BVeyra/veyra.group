@@ -87,8 +87,8 @@ export default function PrivacyPolicyPage() {
                 <h3 className="text-white/80 font-medium mb-1">LinkedIn data</h3>
                 <p>
                   When you connect your LinkedIn account, we access your LinkedIn post and content
-                  engagement metrics — such as impressions, reactions, comments, shares, and follower
-                  analytics — through the LinkedIn API. We only access the data you explicitly authorize
+                  engagement metrics (impressions, reactions, comments, shares, and follower
+                  analytics) through the LinkedIn API. We only access the data you explicitly authorize
                   during the LinkedIn OAuth consent flow. We do not access your private messages, connections
                   list, or any data beyond the scopes you approve.
                 </p>

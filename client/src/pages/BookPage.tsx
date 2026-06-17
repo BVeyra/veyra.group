@@ -113,7 +113,7 @@ export default function BookPage() {
           </h1>
           <p className="max-w-3xl mx-auto mt-5 text-lg leading-relaxed text-gray-400">
             Pick a time that works for you. We&apos;ll spend 15 minutes mapping out exactly which
-            tasks are costing your team the most time — and how to fix them.
+            tasks are costing your team the most time, and how to fix them.
           </p>
         </section>
 

@@ -26,7 +26,7 @@ const problemTimeline = [
   {
     time: "6:47 AM",
     icon: "📱",
-    text: "You haven't had coffee yet, but you've already got 14 unread messages. Three tenants texted overnight about the same water heater. A prospect who inquired three days ago just followed up — and you realize you never replied.",
+    text: "You haven't had coffee yet, but you've already got 14 unread messages. Three tenants texted overnight about the same water heater. A prospect who inquired three days ago just followed up, and you realize you never replied.",
   },
   {
     time: "12:00 PM",
@@ -36,7 +36,7 @@ const problemTimeline = [
   {
     time: "11:00 PM",
     icon: "🚽",
-    text: "You're in bed when your phone buzzes. Toilet overflow in unit 12C. Owner reports are still due, and that's tomorrow's problem — again.",
+    text: "You're in bed when your phone buzzes. Toilet overflow in unit 12C. Owner reports are still due, and that's tomorrow's problem. Again.",
   },
 ];
 
@@ -67,7 +67,7 @@ const automationCards = [
     before:
       "Rent is late. You manually send a reminder. Then another. Then a firmer one. For 12 different tenants. Every month.",
     after:
-      "Automated follow-up sequences — friendly at first, firmer over time. Consistent, professional, and on-brand. You wrote the messages once. They send themselves forever.",
+      "Automated follow-up sequences that start friendly and get firmer over time. Consistent, professional, on-brand. You wrote the messages once. They send themselves forever.",
   },
   {
     title: "Vendor Management",
@@ -86,9 +86,9 @@ const automationCards = [
   {
     title: "Owner Reporting",
     before:
-      "Spending 12+ hours reformatting exports for different owners — because every owner wants a slightly different format. It's your last weekend of every month, every month, forever.",
+      "Spending 12+ hours reformatting exports because every owner wants a slightly different format. It's your last weekend of every month, every month, forever.",
     after:
-      "Every owner gets a custom report, automatically generated, on the 1st of every month. Financials, maintenance summaries, occupancy updates — formatted to their preferences, delivered without you lifting a finger.",
+      "Every owner gets a custom report, automatically generated, on the 1st of every month. Financials, maintenance summaries, occupancy updates, all formatted to their preferences and delivered without you lifting a finger.",
   },
 ];
 
@@ -502,7 +502,7 @@ export default function Home() {
                 className="pl-20 relative mt-8"
               >
                 <p className="text-gray-300 text-lg leading-relaxed">
-                  This isn't a scaling problem — it's a "doing-everything-manually" problem. You're doing three jobs, and two of them shouldn't require a human.
+                  This isn't a scaling problem. It's a doing-everything-manually problem. You're doing three jobs, and two of them shouldn't need a human.
                 </p>
               </motion.div>
             </div>
@@ -742,7 +742,7 @@ export default function Home() {
                 {caseStudyMetrics.length > 0 ? "Proof, not promises." : "What operators are dealing with."}
               </h2>
               {caseStudyMetrics.length > 0 && (
-                <p className="text-gray-400 mt-3">Real founding-client results will be published here exactly as measured — no inflated numbers.</p>
+                <p className="text-gray-400 mt-3">Real founding-client results will be published here exactly as measured, with no inflated numbers.</p>
               )}
             </motion.div>
 

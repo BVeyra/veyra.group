@@ -47,7 +47,7 @@ const STATIC_PAGES: SeoPage[] = [
     path: "/guides",
     title: "Property Management Automation Guides",
     description:
-      "Operator guides for independent property managers running 50-500 doors — where the hours leak, what to automate first, and how to scope it before buying any software.",
+      "Operator guides for independent property managers running 50-500 doors: where the hours leak, what to automate first, and how to scope it before buying any software.",
     type: "website",
   },
   {
@@ -470,7 +470,7 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
         eyebrow: "Guides",
         title: "Guides for independent property managers",
         description:
-          "Practical, operator-level breakdowns for firms running 50-500 doors — where the hours leak, what to automate first, and how to scope it before you buy any software.",
+          "Practical, operator-level breakdowns for firms running 50-500 doors. Where the hours leak, what to automate first, and how to scope it before you buy any software.",
         primaryLink: { href: "/audit", label: "Get the free PM audit report" },
         secondaryLinks: [
           { href: "/book", label: "Book the workflow audit call" },
@@ -479,7 +479,7 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
         sections: [
           {
             title: "Automation guides",
-            paragraphs: ["Tied directly to what we build — start here if you already know a workflow is the problem."],
+            paragraphs: ["Tied directly to what we build. Start here if you already know a workflow is the problem."],
             links: resourceArticles.filter((a) => automationPaths.includes(a.path)).map(toLink),
           },
           {
@@ -493,9 +493,9 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
     case "/pricing":
       return {
         eyebrow: "Pricing",
-        title: "Less than a part-time hire. More than a full-time employee could do.",
+        title: "Every build is different. So is the price.",
         description:
-          "Clear pricing with no annual contracts: a one-time custom build, a flat monthly base, and simple per-unit scaling. The audit and your first call are always free.",
+          "Custom, value-based pricing. We scope your build and monthly management to the workflows you need and the size of your operation, then quote it on a free audit. No annual contracts.",
         primaryLink: { href: "/audit", label: "Get the free PM audit report" },
         secondaryLinks: [
           { href: "/book", label: "Book the workflow audit call" },
@@ -505,15 +505,15 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
           {
             title: "How pricing works",
             bullets: [
-              "Custom build: $1,500 one-time (founding-client introductory rate, first 5 clients) — built and launched in 1-2 weeks.",
-              "Base operations: $500/month — monitoring, fast fixes, continuous optimization, and direct support.",
-              "Growth scaling: $5/unit above 50 doors, no cap — predictable, no hidden platform or seat fees.",
+              "Pricing is custom. Your build and monthly management are scoped to the workflows you need and the size of your operation.",
+              "We don't post a flat rate. The free audit maps your workflows and gives you an exact build and monthly quote.",
+              "No annual contract. You only pay once we agree on a workflow worth building.",
             ],
           },
           {
-            title: "Why it pays for itself",
+            title: "What we automate",
             paragraphs: [
-              "A part-time admin costs about $2,500/month and still cannot handle tenant ops 24/7. The question isn't whether you can afford this — it's how much longer you can afford to do it all manually.",
+              "Tenant communications, maintenance coordination, lease tracking and renewals, rent-collection follow-ups, vendor management, prospect auto-response, and owner reporting. Build any combination, and we scope the setup and monthly management to the ones you need.",
             ],
           },
         ],
