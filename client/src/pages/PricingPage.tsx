@@ -8,7 +8,9 @@ const pricingSteps = [
   {
     step: "ONE-TIME BUILD",
     name: "CUSTOM BUILD",
-    price: "$1,500 one-time",
+    prefix: "Starting at",
+    price: "$1,500",
+    priceMeta: "one-time build",
     description: "Founding-client introductory rate (first 5 clients).",
     features: [
       "Custom automations around your existing tools",
@@ -19,15 +21,19 @@ const pricingSteps = [
   {
     step: "MONTHLY BASE",
     name: "BASE OPERATIONS",
-    price: "$500/month",
-    description: "Base operations plan. Supports 50+ unit portfolios with no cap.",
+    prefix: "Starting at",
+    price: "$500",
+    priceMeta: "per month · covers your first 50 units",
+    description: "Monitoring, fixes, and optimization — no per-seat or platform fees.",
     features: ["Monitoring + fast fixes", "Continuous optimization", "Direct support, no ticket queue"],
   },
   {
     step: "USAGE SCALING",
     name: "GROWTH SCALING",
-    price: "$5/unit above 50 (no cap)",
-    description: "Pricing grows with portfolio size and automation load.",
+    prefix: "Then",
+    price: "+$5 / unit",
+    priceMeta: "above 50 units · no cap",
+    description: "Example: a 120-unit portfolio is about $850/mo, all in.",
     features: ["Predictable unit-based scaling", "No annual contracts", "No hidden platform or seat fees"],
   },
 ];
@@ -65,6 +71,10 @@ export default function PricingPage() {
               Clear pricing. No annual contracts. No surprise charges. The audit and your first call are always free —
               you only pay once we agree on a workflow worth building.
             </p>
+            <p className="mt-4 max-w-2xl mx-auto text-sm leading-relaxed text-gray-500">
+              The numbers below are starting points. Your exact build and monthly are scoped on the free audit — you see the
+              number before you commit to anything.
+            </p>
           </div>
         </section>
 
@@ -76,7 +86,9 @@ export default function PricingPage() {
                   <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-8">
                     <p className="text-xs text-emerald-400 uppercase tracking-widest font-semibold mb-2">{plan.step}</p>
                     <h3 className="text-lg font-semibold text-white mb-3">{plan.name}</h3>
-                    <p className="text-3xl font-bold text-emerald-300 mb-2">{plan.price}</p>
+                    <p className="text-[11px] uppercase tracking-wider text-gray-500 mb-1">{plan.prefix}</p>
+                    <p className="text-3xl font-bold text-emerald-300 mb-1">{plan.price}</p>
+                    <p className="text-sm text-gray-400 mb-4">{plan.priceMeta}</p>
                     <p className="text-sm text-gray-500 mb-6">{plan.description}</p>
                     <ul className="space-y-3">
                       {plan.features.map((feature) => (
@@ -103,7 +115,9 @@ export default function PricingPage() {
                 <div key={plan.name} className="rounded-2xl border border-white/5 bg-white/[0.02] p-8">
                   <p className="text-xs text-emerald-400 uppercase tracking-widest font-semibold mb-2">{plan.step}</p>
                   <h3 className="text-lg font-semibold text-white mb-3">{plan.name}</h3>
-                  <p className="text-3xl font-bold text-emerald-300 mb-2">{plan.price}</p>
+                  <p className="text-[11px] uppercase tracking-wider text-gray-500 mb-1">{plan.prefix}</p>
+                  <p className="text-3xl font-bold text-emerald-300 mb-1">{plan.price}</p>
+                  <p className="text-sm text-gray-400 mb-4">{plan.priceMeta}</p>
                   <p className="text-sm text-gray-500 mb-6">{plan.description}</p>
                   <ul className="space-y-3">
                     {plan.features.map((feature) => (

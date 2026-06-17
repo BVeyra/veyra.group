@@ -46,12 +46,10 @@ function ScrollManager() {
       window.history.scrollRestoration = "manual";
     }
 
-    if (window.location.hash) {
-      window.history.replaceState(
-        window.history.state,
-        "",
-        `${window.location.pathname}${window.location.search}`
-      );
+    // If we arrived with an anchor (e.g. /#features), keep the hash and let the
+    // target page scroll to that section — don't strip it or jump to the top.
+    if (window.location.hash && window.location.hash.length > 1) {
+      return;
     }
 
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
