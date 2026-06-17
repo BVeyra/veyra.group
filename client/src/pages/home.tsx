@@ -262,22 +262,42 @@ export default function Home() {
   useLayoutEffect(() => {
     const hash = window.location.hash;
 
-    // Arriving with an anchor (e.g. /#features from another page): scroll to
-    // that section once it's in the DOM, accounting for the fixed header via
-    // the scroll-margin-top set in CSS. Keep the hash so the URL stays shareable.
-    if (hash && hash.length > 1) {
-      const id = decodeURIComponent(hash.slice(1));
-      // Double rAF so the section has mounted and laid out before we scroll.
-      requestAnimationFrame(() =>
-        requestAnimationFrame(() => {
-          const el = document.getElementById(id);
-          if (el) el.scrollIntoView({ behavior: "auto", block: "start" });
-        })
-      );
+    // No anchor: start at the top.
+    if (!(hash && hash.length > 1)) {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
       return;
     }
 
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    // Arriving with an anchor (e.g. /#features from another page): jump to that
+    // section. We use an INSTANT scroll (temporarily overriding the global
+    // `scroll-behavior: smooth`, which otherwise animates from the top and gets
+    // cancelled by layout shifts as fonts/images load) and re-correct the
+    // position a few times as the page settles. The 96px offset matches the
+    // fixed header (mirrors scroll-margin-top in CSS).
+    const id = decodeURIComponent(hash.slice(1));
+
+    const scrollToTarget = () => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const root = document.documentElement;
+      const prevBehavior = root.style.scrollBehavior;
+      root.style.scrollBehavior = "auto";
+      const top = el.getBoundingClientRect().top + window.scrollY - 96;
+      window.scrollTo(0, Math.max(0, top));
+      root.style.scrollBehavior = prevBehavior;
+    };
+
+    requestAnimationFrame(scrollToTarget);
+    const timers = [
+      window.setTimeout(scrollToTarget, 150),
+      window.setTimeout(scrollToTarget, 500),
+    ];
+    window.addEventListener("load", scrollToTarget);
+
+    return () => {
+      timers.forEach((t) => window.clearTimeout(t));
+      window.removeEventListener("load", scrollToTarget);
+    };
   }, []);
 
   useEffect(() => {
