@@ -8,6 +8,7 @@ const CalculatorPage = lazy(() => import("@/pages/CalculatorPage"));
 const BookPage = lazy(() => import("@/pages/BookPage"));
 const DemoPage = lazy(() => import("@/pages/DemoPage"));
 const PropertyManagementAutomationROIPage = lazy(() => import("@/pages/PropertyManagementAutomationROIPage"));
+const PropertyManagementAIPage = lazy(() => import("@/pages/PropertyManagementAIPage"));
 const OwnerReportingAutomationPage = lazy(() => import("@/pages/OwnerReportingAutomationPage"));
 const MaintenanceCoordinationAutomationPage = lazy(() => import("@/pages/MaintenanceCoordinationAutomationPage"));
 const TenantCommunicationAutomationPage = lazy(() => import("@/pages/TenantCommunicationAutomationPage"));
@@ -73,6 +74,7 @@ function Router() {
           {() => <RedirectPage to="/audit" />}
         </Route>
         <Route path="/property-management-automation-roi" component={PropertyManagementAutomationROIPage} />
+        <Route path="/property-management-ai" component={PropertyManagementAIPage} />
         <Route
           path="/automated-owner-reporting-for-property-managers"
           component={OwnerReportingAutomationPage}
