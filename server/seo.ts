@@ -54,7 +54,7 @@ const STATIC_PAGES: SeoPage[] = [
     path: "/pricing",
     title: "Pricing",
     description:
-      "Veyra pricing for independent property managers: a one-time custom build, a flat monthly base, and simple per-unit scaling. No annual contracts. The audit and first call are free.",
+      "Veyra pricing is custom and value-based. We scope your build and monthly management to the workflows you need and quote it on a free audit. No annual contracts. The audit and first call are free.",
     type: "website",
   },
   {
