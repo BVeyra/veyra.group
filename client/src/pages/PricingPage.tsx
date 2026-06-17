@@ -2,39 +2,43 @@ import { Footer, Navbar } from "@/components/layout";
 import { SeoHead } from "@/components/SeoHead";
 import { Button } from "@/components/ui/button";
 import { openCalendly } from "@/lib/calendly";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, BarChart3, DollarSign, FileText, Mail, MessageSquare, Users, Wrench } from "lucide-react";
 
-const pricingSteps = [
+const workflowValue = [
   {
-    step: "ONE-TIME BUILD",
-    name: "CUSTOM BUILD",
-    prefix: "Starting at",
-    price: "$1,500",
-    priceMeta: "one-time build",
-    description: "Founding-client introductory rate (first 5 clients).",
-    features: [
-      "Custom automations around your existing tools",
-      "Built and launched in 1-2 weeks",
-      "Approve every workflow before go-live",
-    ],
+    icon: MessageSquare,
+    name: "Tenant communications",
+    value: "Replies in seconds instead of hours. Your evenings and weekends back.",
   },
   {
-    step: "MONTHLY BASE",
-    name: "BASE OPERATIONS",
-    prefix: "Starting at",
-    price: "$500",
-    priceMeta: "per month · covers your first 50 units",
-    description: "Monitoring, fixes, and optimization — no per-seat or platform fees.",
-    features: ["Monitoring + fast fixes", "Continuous optimization", "Direct support, no ticket queue"],
+    icon: Wrench,
+    name: "Maintenance coordination",
+    value: "8–12 hours a week back. Intake, dispatch, and updates handled.",
   },
   {
-    step: "USAGE SCALING",
-    name: "GROWTH SCALING",
-    prefix: "Then",
-    price: "+$5 / unit",
-    priceMeta: "above 50 units · no cap",
-    description: "Example: a 120-unit portfolio is about $850/mo, all in.",
-    features: ["Predictable unit-based scaling", "No annual contracts", "No hidden platform or seat fees"],
+    icon: FileText,
+    name: "Lease tracking & renewals",
+    value: "Renewals triggered early and automatically. Protects occupancy.",
+  },
+  {
+    icon: DollarSign,
+    name: "Rent-collection follow-ups",
+    value: "On-time, on-brand reminders. Fewer late payments to chase.",
+  },
+  {
+    icon: Users,
+    name: "Vendor management",
+    value: "Coordinate vendors without the phone tag.",
+  },
+  {
+    icon: Mail,
+    name: "Prospect auto-response",
+    value: "Leads answered in seconds. More showings booked.",
+  },
+  {
+    icon: BarChart3,
+    name: "Owner reporting",
+    value: "30+ hours a month of report prep, gone.",
   },
 ];
 
@@ -45,16 +49,16 @@ export default function PricingPage() {
       "@type": "WebPage",
       name: "Pricing | Veyra Group",
       description:
-        "Veyra pricing for independent property managers: a one-time custom build, a flat monthly base, and simple per-unit scaling. No annual contracts.",
+        "Veyra pricing is custom and value-based. We scope your build and monthly management to the workflows you need and quote it on a free audit. No annual contracts.",
       url: "https://veyragroup.ai/pricing",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white">
+    <div className="min-h-screen text-white">
       <SeoHead
         title="Pricing"
-        description="Veyra pricing for independent property managers: a one-time custom build, a flat monthly base, and simple per-unit scaling. No annual contracts. The audit and first call are free."
+        description="Veyra pricing is custom and value-based. We scope your build and monthly management to the workflows you need and quote it on a free audit. No annual contracts. The audit and first call are free."
         canonicalPath="/pricing"
         structuredData={structuredData}
       />
@@ -65,78 +69,51 @@ export default function PricingPage() {
           <div className="max-w-5xl mx-auto px-6 py-14 md:py-20 text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300">Pricing</p>
             <h1 className="mt-4 text-4xl font-bold leading-tight tracking-[-0.02em] md:text-6xl">
-              Less than a part-time hire. More than a full-time employee could do.
+              Every build is different. So is the price.
             </h1>
             <p className="mt-5 max-w-2xl mx-auto text-lg leading-relaxed text-gray-400">
-              Clear pricing. No annual contracts. No surprise charges. The audit and your first call are always free —
-              you only pay once we agree on a workflow worth building.
-            </p>
-            <p className="mt-4 max-w-2xl mx-auto text-sm leading-relaxed text-gray-500">
-              The numbers below are starting points. Your exact build and monthly are scoped on the free audit — you see the
-              number before you commit to anything.
+              Your price depends on which workflows you build and the size of your operation. We scope it on your free
+              audit and give you an exact quote. No annual contract.
             </p>
           </div>
         </section>
 
         <section className="py-12 md:py-20">
           <div className="max-w-6xl mx-auto px-6">
-            <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr_auto_1fr] gap-4 items-stretch">
-              {pricingSteps.map((plan, index) => (
-                <div key={plan.name} className="contents">
-                  <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-8">
-                    <p className="text-xs text-emerald-400 uppercase tracking-widest font-semibold mb-2">{plan.step}</p>
-                    <h3 className="text-lg font-semibold text-white mb-3">{plan.name}</h3>
-                    <p className="text-[11px] uppercase tracking-wider text-gray-500 mb-1">{plan.prefix}</p>
-                    <p className="text-3xl font-bold text-emerald-300 mb-1">{plan.price}</p>
-                    <p className="text-sm text-gray-400 mb-4">{plan.priceMeta}</p>
-                    <p className="text-sm text-gray-500 mb-6">{plan.description}</p>
-                    <ul className="space-y-3">
-                      {plan.features.map((feature) => (
-                        <li key={feature} className="flex items-start gap-2 text-gray-300 text-sm">
-                          <span className="text-emerald-400 mt-[1px]">✓</span>
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {index < pricingSteps.length - 1 && (
-                    <div className="flex items-center justify-center relative min-w-[56px]">
-                      <span className="absolute left-0 right-0 top-1/2 -translate-y-1/2 border-t border-dashed border-emerald-500/20" />
-                      <span className="relative z-10 text-emerald-500/30 text-2xl bg-[#050505] px-2">→</span>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            <div className="md:hidden space-y-4">
-              {pricingSteps.map((plan) => (
-                <div key={plan.name} className="rounded-2xl border border-white/5 bg-white/[0.02] p-8">
-                  <p className="text-xs text-emerald-400 uppercase tracking-widest font-semibold mb-2">{plan.step}</p>
-                  <h3 className="text-lg font-semibold text-white mb-3">{plan.name}</h3>
-                  <p className="text-[11px] uppercase tracking-wider text-gray-500 mb-1">{plan.prefix}</p>
-                  <p className="text-3xl font-bold text-emerald-300 mb-1">{plan.price}</p>
-                  <p className="text-sm text-gray-400 mb-4">{plan.priceMeta}</p>
-                  <p className="text-sm text-gray-500 mb-6">{plan.description}</p>
-                  <ul className="space-y-3">
-                    {plan.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-2 text-gray-300 text-sm">
-                        <span className="text-emerald-400 mt-[1px]">✓</span>
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-
-            <div className="rounded-2xl border border-white/6 bg-white/[0.02] p-8 mt-8 text-center">
-              <p className="text-gray-400 mb-4">A part-time admin costs about $2,500/month and still cannot handle tenant ops 24/7.</p>
-              <p className="text-white text-xl font-semibold">
-                The question isn't whether you can afford this. It's how much longer you can afford to do it all manually.
+            <div className="mb-10 text-center">
+              <h2 className="text-2xl md:text-3xl font-bold text-white">What we automate</h2>
+              <p className="text-gray-400 mt-3 max-w-2xl mx-auto">
+                Build any combination. We scope your setup and monthly management to the ones you need.
               </p>
-              <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {workflowValue.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <div key={item.name} className="glass-card rounded-2xl p-6">
+                    <div className="w-10 h-10 rounded-xl border border-emerald-500/30 bg-emerald-500/10 flex items-center justify-center mb-4">
+                      <Icon className="w-5 h-5 text-emerald-300" />
+                    </div>
+                    <h3 className="text-base font-semibold text-white">{item.name}</h3>
+                    <p className="text-sm text-gray-400 mt-2 leading-relaxed">{item.value}</p>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="glass-card rounded-2xl p-8 md:p-10 mt-10 max-w-3xl mx-auto text-center">
+              <h2 className="text-2xl font-bold text-white">How pricing works</h2>
+              <p className="text-gray-300 mt-4 leading-relaxed">
+                Every build is different, so we don't post a flat rate. On the free audit we map your workflows, recommend
+                where to start, and give you an exact build and monthly quote. You only pay once we agree it's worth building.
+              </p>
+              <p className="text-sm text-gray-500 mt-4">
+                Veyra is built for independent firms running 50–500 doors ready to automate real operations, not a
+                $20-a-month app.
+              </p>
+
+              <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
                 <Button
                   asChild
                   size="lg"

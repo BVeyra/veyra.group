@@ -28,7 +28,7 @@ function GuideCard({ article }: { article: ResourceArticle }) {
   return (
     <a
       href={article.path}
-      className="rounded-3xl border border-white/6 bg-white/[0.02] p-7 hover:border-emerald-500/25 hover:bg-white/[0.04] transition-colors"
+      className="glass-card rounded-2xl p-7"
     >
       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300">Guide</p>
       <h3 className="mt-4 text-2xl font-semibold text-white">{article.title}</h3>
@@ -60,10 +60,10 @@ export default function GuidesPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white">
+    <div className="min-h-screen text-white">
       <SeoHead
         title="Property Management Automation Guides"
-        description="Operator guides for independent property managers running 50–500 doors — where the hours leak, what to automate first, and how to scope it before buying any software."
+        description="Operator guides for independent property managers running 50-500 doors — where the hours leak, what to automate first, and how to scope it before buying any software."
         canonicalPath="/guides"
         structuredData={structuredData}
       />

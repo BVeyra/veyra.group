@@ -4,7 +4,7 @@ import { SeoHead } from "@/components/SeoHead";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-[#050505] text-white relative overflow-hidden flex flex-col">
+    <div className="min-h-screen text-white relative overflow-hidden flex flex-col">
       <SeoHead
         title="Page Not Found"
         description="The page you requested does not exist. Return to the Veyra homepage or start the workflow audit instead."
@@ -64,7 +64,7 @@ export default function NotFound() {
       </main>
 
       <footer className="relative z-10 py-6 text-center">
-        <p className="text-xs text-gray-600">
+        <p className="text-xs text-gray-500">
           &copy; {new Date().getFullYear()} Veyra Group Inc.
         </p>
       </footer>

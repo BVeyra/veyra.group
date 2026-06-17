@@ -99,7 +99,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white">
+    <div className="min-h-screen text-white">
       <SeoHead
         title={article.title}
         description={article.description}
@@ -123,7 +123,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
               {article.description}
             </p>
 
-            <div className="mt-8 rounded-3xl border border-emerald-500/20 bg-emerald-500/[0.05] p-6 md:p-8">
+            <div className="mt-8 rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.05] p-6 md:p-8">
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-300">
                 Direct Answer
               </p>
@@ -153,7 +153,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
           </div>
         </section>
 
-        <section className="py-14 md:py-18">
+        <section className="py-12 md:py-20">
           <div className="max-w-5xl mx-auto px-6">
             <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr]">
               <div className="space-y-10">
@@ -166,7 +166,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
                 </div>
 
                 {article.sections.map((section) => (
-                  <section key={section.title} className="rounded-3xl border border-white/6 bg-white/[0.02] p-7">
+                  <section key={section.title} className="glass-card rounded-2xl p-7">
                     <h2 className="text-2xl font-semibold text-white">{section.title}</h2>
                     <div className="mt-4 space-y-4">
                       {section.paragraphs.map((paragraph) => (
@@ -180,7 +180,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
               </div>
 
               <aside className="space-y-6">
-                <div className="rounded-3xl border border-white/6 bg-white/[0.02] p-7">
+                <div className="glass-card rounded-2xl p-7">
                   <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-300">
                     What To Keep In Mind
                   </p>
@@ -193,7 +193,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
                   </ul>
                 </div>
 
-                <div className="rounded-3xl border border-emerald-500/20 bg-emerald-500/[0.05] p-7">
+                <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.05] p-7">
                   <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-300">
                     Use Veyra's Audit First
                   </p>
@@ -216,12 +216,12 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
           </div>
         </section>
 
-        <section className="border-t border-white/5 py-14 md:py-18">
+        <section className="border-t border-white/5 py-12 md:py-20">
           <div className="max-w-4xl mx-auto px-6">
             <h2 className="text-3xl font-bold text-white">FAQ</h2>
             <div className="mt-8 space-y-4">
               {article.faqs.map((faq) => (
-                <div key={faq.question} className="rounded-3xl border border-white/6 bg-white/[0.02] p-6">
+                <div key={faq.question} className="glass-card rounded-2xl p-6">
                   <h3 className="text-lg font-semibold text-white">{faq.question}</h3>
                   <p className="mt-3 leading-7 text-gray-400">{renderRichText(faq.answer)}</p>
                 </div>

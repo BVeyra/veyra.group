@@ -1,5 +1,7 @@
 import { Navbar, Footer } from "@/components/layout";
 import { SeoHead } from "@/components/SeoHead";
+import { TiltCard } from "@/components/TiltCard";
+import { HeroOrbit } from "@/components/HeroOrbit";
 import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
@@ -20,44 +22,11 @@ import {
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-type IntegrationLogo = {
-  name: string;
-  icon: string;
-};
-
-const integrationLogos: IntegrationLogo[] = [
-  // Core PM Software — favicons (all visually distinct)
-  { name: "AppFolio", icon: "https://www.google.com/s2/favicons?domain=appfolio.com&sz=64" },
-  { name: "Buildium", icon: "https://www.google.com/s2/favicons?domain=buildium.com&sz=64" },
-  { name: "Rent Manager", icon: "https://www.google.com/s2/favicons?domain=rentmanager.com&sz=64" },
-  { name: "Yardi Breeze", icon: "https://www.google.com/s2/favicons?domain=yardibreeze.com&sz=64" },
-  { name: "Propertyware", icon: "https://www.google.com/s2/favicons?domain=propertyware.com&sz=64" },
-  { name: "RentRedi", icon: "https://www.google.com/s2/favicons?domain=rentredi.com&sz=64" },
-  { name: "TenantCloud", icon: "https://www.google.com/s2/favicons?domain=tenantcloud.com&sz=64" },
-  // Communication — brand icons to avoid Google "G" duplicates
-  { name: "Twilio", icon: "https://api.iconify.design/simple-icons:twilio.svg?color=%23F22F46" },
-  { name: "Gmail", icon: "https://cdn.simpleicons.org/gmail/EA4335" },
-  { name: "Outlook", icon: "https://api.iconify.design/simple-icons:microsoftoutlook.svg?color=%230078D4" },
-  { name: "Google Voice", icon: "https://www.google.com/s2/favicons?domain=voice.google.com&sz=64" },
-  // Payments & Accounting
-  { name: "QuickBooks", icon: "https://cdn.simpleicons.org/quickbooks/2CA01C" },
-  { name: "Stripe", icon: "https://cdn.simpleicons.org/stripe/635BFF" },
-  { name: "Plaid", icon: "https://www.google.com/s2/favicons?domain=plaid.com&sz=64" },
-  // Operations
-  { name: "DocuSign", icon: "https://www.google.com/s2/favicons?domain=docusign.com&sz=64" },
-  { name: "Google Workspace", icon: "https://cdn.simpleicons.org/google/4285F4" },
-  { name: "Zapier", icon: "https://cdn.simpleicons.org/zapier/FF4A00" },
-  // Listing/Marketing
-  { name: "Zillow", icon: "https://cdn.simpleicons.org/zillow/006AFF" },
-  { name: "Apartments.com", icon: "https://www.google.com/s2/favicons?domain=apartments.com&sz=64" },
-  { name: "Zumper", icon: "https://www.google.com/s2/favicons?domain=zumper.com&sz=64" },
-];
-
 const problemTimeline = [
   {
     time: "6:47 AM",
     icon: "📱",
-    text: "You haven't had coffee yet, but you've already got 14 unread messages. Three tenants texted overnight about the same water heater. A prospect who inquired three days ago just followed up - and you realize you never replied.",
+    text: "You haven't had coffee yet, but you've already got 14 unread messages. Three tenants texted overnight about the same water heater. A prospect who inquired three days ago just followed up — and you realize you never replied.",
   },
   {
     time: "12:00 PM",
@@ -67,7 +36,7 @@ const problemTimeline = [
   {
     time: "11:00 PM",
     icon: "🚽",
-    text: "You're in bed when your phone buzzes. Toilet overflow in unit 12C. Owner reports are still due, and that's tomorrow's problem - again.",
+    text: "You're in bed when your phone buzzes. Toilet overflow in unit 12C. Owner reports are still due, and that's tomorrow's problem — again.",
   },
 ];
 
@@ -98,7 +67,7 @@ const automationCards = [
     before:
       "Rent is late. You manually send a reminder. Then another. Then a firmer one. For 12 different tenants. Every month.",
     after:
-      "Automated follow-up sequences - friendly at first, firmer over time. Consistent, professional, and on-brand. You wrote the messages once. They send themselves forever.",
+      "Automated follow-up sequences — friendly at first, firmer over time. Consistent, professional, and on-brand. You wrote the messages once. They send themselves forever.",
   },
   {
     title: "Vendor Management",
@@ -117,9 +86,9 @@ const automationCards = [
   {
     title: "Owner Reporting",
     before:
-      "Spending 12+ hours reformatting exports for different owners - because every owner wants a slightly different format. It's your last weekend of every month, every month, forever.",
+      "Spending 12+ hours reformatting exports for different owners — because every owner wants a slightly different format. It's your last weekend of every month, every month, forever.",
     after:
-      "Every owner gets a custom report, automatically generated, on the 1st of every month. Financials, maintenance summaries, occupancy updates - formatted to their preferences, delivered without you lifting a finger.",
+      "Every owner gets a custom report, automatically generated, on the 1st of every month. Financials, maintenance summaries, occupancy updates — formatted to their preferences, delivered without you lifting a finger.",
   },
 ];
 
@@ -180,9 +149,9 @@ const socialProofQuotes = [
 
 const whyVeyra = [
   {
-    icon: MessageSquare,
-    title: "Direct access to the founder",
-    text: "You work with me — not a sales rep, not a ticket queue.",
+    icon: Clock,
+    title: "Live in weeks, not a quarter",
+    text: "Custom workflows built and launched in one to two weeks. No long software rollout.",
   },
   {
     icon: Wrench,
@@ -197,14 +166,14 @@ const whyVeyra = [
   {
     icon: Check,
     title: "We don't stop until it works",
-    text: "We refine the build until it does what we agreed — at no extra cost.",
+    text: "We refine the build until it does what we agreed. No extra cost.",
   },
 ];
 
 const faqItems = [
   {
     q: "Who is this best for?",
-    a: "Independent property managers running roughly 50-500 doors who wear too many hats — tenant comms, maintenance, leases, and follow-ups all run manually — and want practical automation live in weeks, not a quarter-long software rollout.",
+    a: "Independent property managers running roughly 50-500 doors who wear too many hats. Tenant comms, maintenance, leases, and follow-ups all still run by hand, and they want practical automation live in weeks, not a quarter-long rollout.",
   },
   {
     q: "Who is this not for?",
@@ -216,39 +185,21 @@ const faqItems = [
   },
   {
     q: "What property management software do you work with?",
-    a: "AppFolio, Buildium, Rent Manager, Yardi, Propertyware — plus everything else. If your PM software has email or an API, we connect to it.",
+    a: "AppFolio, Buildium, Rent Manager, Yardi, Propertyware, and most others. If your PM software has email or an API, we connect to it.",
   },
   {
     q: "Will my tenants know they're talking to AI?",
-    a: "Your call. Most automations draft messages for your review. Routine replies are indistinguishable from what you'd write - because they're trained on your voice.",
+    a: "Your call. Most automations draft messages for your review. Routine replies are indistinguishable from what you'd write. They're trained on your voice.",
   },
   {
     q: "What does it cost?",
-    a: "Founding builds start at $1,500 one-time, with ongoing management from $500/month — most owners spend less than a part-time admin. Full breakdown is on the pricing page, and the audit and first call are always free.",
+    a: "Pricing is custom. It depends on which workflows you build and the size of your operation, so we scope it and give you an exact quote on the free audit. The audit and first call are free.",
   },
   {
     q: "What if I want to cancel?",
     a: "Cancel anytime. No long-term contracts or penalties. If you cancel, access to the managed automations ends.",
   },
 ];
-
-function IntegrationLogo({ logo }: { logo: IntegrationLogo }) {
-  const [isVisible, setIsVisible] = useState(true);
-
-  if (!isVisible) return null;
-
-  return (
-    <div className="logo-carousel-item group" aria-label={logo.name}>
-      <img
-        src={logo.icon}
-        alt={`${logo.name} logo`}
-        loading="lazy"
-        onError={() => setIsVisible(false)}
-        className="h-7 w-auto object-contain opacity-75 group-hover:opacity-100 transition duration-300"
-      />
-    </div>
-  );
-}
 
 export default function Home() {
   const [calculatorHeight, setCalculatorHeight] = useState(460);
@@ -415,6 +366,7 @@ export default function Home() {
         {/* HERO */}
         <section className="relative overflow-hidden bg-[#050505]">
           <div className="absolute inset-0 pointer-events-none">
+            <div className="hero-aurora" />
             <motion.div
               className="hero-orb hero-orb-1"
               animate={{ x: [0, 60, 0], y: [0, 36, 0] }}
@@ -435,13 +387,24 @@ export default function Home() {
           </div>
 
           <div className="max-w-6xl mx-auto px-6 pt-14 md:pt-20 pb-10 relative z-10">
-            <div className="max-w-3xl mx-auto text-center">
-              <div>
+            <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+              <div className="text-center lg:text-left">
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: heroTiming(0.5), delay: heroTiming(0.1), ease: [0.25, 0.4, 0.25, 1] }}
+                  className="mb-6 flex justify-center lg:justify-start"
+                >
+                  <span className="hero-pill">
+                    <span className="pill-dot" />
+                    Done-for-you automation for property managers
+                  </span>
+                </motion.div>
                 <motion.h1
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: heroTiming(0.8), delay: heroTiming(0.3), ease: [0.25, 0.4, 0.25, 1] }}
-                  className="text-4xl md:text-6xl lg:text-[4.5rem] leading-[1.05] font-bold tracking-[-0.02em] hero-headline-glow"
+                  className="text-4xl md:text-5xl lg:text-[3.5rem] leading-[1.08] font-bold tracking-[-0.02em] hero-headline-glow"
                 >
                   You didn't start a property management company to{" "}
                   <span className="hero-gradient-shimmer bg-gradient-to-r from-emerald-300 via-green-200 to-emerald-300 bg-clip-text text-transparent">
@@ -453,9 +416,9 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: heroTiming(0.6), delay: heroTiming(0.9), ease: [0.25, 0.4, 0.25, 1] }}
-                  className="text-lg text-gray-400 max-w-[560px] mx-auto mt-6 leading-relaxed"
+                  className="text-lg text-gray-400 max-w-[540px] mx-auto lg:mx-0 mt-6 leading-relaxed"
                 >
-                  We automate everything between the decision and the doing — so you can grow your portfolio without growing your team.
+                  We build the automations that handle your busywork, so you can grow your portfolio without growing your team.
                 </motion.p>
 
                 <motion.div
@@ -464,7 +427,7 @@ export default function Home() {
                   transition={{ duration: heroTiming(0.5), delay: heroTiming(1.2), ease: [0.25, 0.4, 0.25, 1] }}
                   className="mt-8"
                 >
-                  <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
                     <Button
                       asChild
                       size="lg"
@@ -478,28 +441,19 @@ export default function Home() {
                     </Button>
                   </div>
                   <p className="mt-4 text-sm text-gray-500">
-                    Founder-led · works with the software you already use · no platform migration
+                    Works with the software you already run · no new platform · live in weeks
                   </p>
                 </motion.div>
               </div>
-            </div>
-          </div>
-        </section>
 
-        {/* TRUST STRIP */}
-        <section className="relative py-12 border-y border-white/5 overflow-hidden">
-          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-28 bg-gradient-to-r from-[#0A0A0A] to-transparent z-10" />
-          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-28 bg-gradient-to-l from-[#0A0A0A] to-transparent z-10" />
-          <div className="logo-carousel-wrapper">
-            <div className="logo-carousel-track">
-              {integrationLogos.map((logo) => (
-                <IntegrationLogo key={logo.name} logo={logo} />
-              ))}
-              {integrationLogos.map((logo) => (
-                <div key={`${logo.name}-duplicate`} aria-hidden="true">
-                  <IntegrationLogo logo={logo} />
-                </div>
-              ))}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.92 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: heroTiming(1), delay: heroTiming(0.6), ease: [0.25, 0.4, 0.25, 1] }}
+                className="hidden lg:flex justify-center items-center"
+              >
+                <HeroOrbit />
+              </motion.div>
             </div>
           </div>
         </section>
@@ -548,7 +502,7 @@ export default function Home() {
                 className="pl-20 relative mt-8"
               >
                 <p className="text-gray-300 text-lg leading-relaxed">
-                  This is not a scaling problem. This is a "doing-everything-manually" problem. You're not bad at your job. You're doing three jobs - and two of them shouldn't require a human.
+                  This isn't a scaling problem — it's a "doing-everything-manually" problem. You're doing three jobs, and two of them shouldn't require a human.
                 </p>
               </motion.div>
             </div>
@@ -657,7 +611,7 @@ export default function Home() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -12 }}
                     transition={{ duration: 0.3 }}
-                    className="rounded-2xl border border-white/6 bg-white/[0.03] p-6 md:p-8"
+                    className="glass-card rounded-2xl p-6 md:p-8"
                   >
                     <div className="inline-flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-xl border border-emerald-500/30 bg-emerald-500/10 flex items-center justify-center">
@@ -713,7 +667,7 @@ export default function Home() {
                     {step.number}
                   </div>
 
-                  <div className="rounded-2xl border border-white/6 bg-white/[0.02] p-6 mt-4 hover:border-emerald-500/30 transition-colors">
+                  <div className="glass-card rounded-2xl p-6 mt-4">
                     <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.1em] text-gray-500 mb-3">
                       <Clock className="w-3.5 h-3.5" />
                       {step.duration}
@@ -754,14 +708,16 @@ export default function Home() {
                     initial={{ opacity: 0, y: 24 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-20px" }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="rounded-2xl border border-white/6 bg-white/[0.02] p-6"
+                    transition={{ duration: 0.5, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                    className="h-full"
                   >
-                    <div className="w-10 h-10 rounded-xl border border-emerald-500/30 bg-emerald-500/10 flex items-center justify-center mb-4">
-                      <Icon className="w-5 h-5 text-emerald-300" />
-                    </div>
-                    <h3 className="text-base font-semibold text-white">{item.title}</h3>
-                    <p className="text-sm text-gray-400 mt-2 leading-relaxed">{item.text}</p>
+                    <TiltCard className="glass-card group h-full rounded-2xl p-6">
+                      <div className="w-10 h-10 rounded-xl border border-emerald-500/30 bg-emerald-500/10 flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110">
+                        <Icon className="w-5 h-5 text-emerald-300" />
+                      </div>
+                      <h3 className="text-base font-semibold text-white">{item.title}</h3>
+                      <p className="text-sm text-gray-400 mt-2 leading-relaxed">{item.text}</p>
+                    </TiltCard>
                   </motion.div>
                 );
               })}
@@ -806,7 +762,7 @@ export default function Home() {
             )}
 
             <p className="text-center text-gray-400 mt-2 mb-6 max-w-2xl mx-auto">
-              Here's what property managers say out loud in public Reddit communities — real posts, <span className="text-gray-300">not Veyra clients</span>. They're the exact problems we build for.
+              Here's what property managers say in public Reddit threads. Real posts, <span className="text-gray-300">not Veyra clients</span>. They're the exact problems we build for.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -815,9 +771,10 @@ export default function Home() {
                   key={item.quote}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
+                  whileHover={{ y: -4 }}
                   viewport={{ once: true, margin: "-20px" }}
                   transition={{ duration: 0.6, delay: index * 0.2 }}
-                  className="relative rounded-2xl border border-white/5 bg-white/[0.02] p-6 hover:border-white/10 hover:bg-white/[0.04] transition"
+                  className="glass-card relative rounded-2xl p-6"
                 >
                   <span className="absolute top-2 left-4 text-4xl text-emerald-400/30">"</span>
                   <p className="text-gray-300 text-base italic leading-relaxed pt-4">{item.quote}</p>
@@ -841,7 +798,7 @@ export default function Home() {
               className="text-center"
             >
               <h2 className="text-3xl md:text-4xl font-bold text-white">See where your hours are leaking.</h2>
-              <p className="text-gray-400 mt-4">Run the free PM Workflow Audit and get a first-build recommendation — no pitch, no software talk.</p>
+              <p className="text-gray-400 mt-4">Run the free PM Workflow Audit and get a first-build recommendation. No pitch, no software talk.</p>
             </motion.div>
 
             <motion.div
@@ -880,7 +837,7 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
-        {/* WHY IT'S SAFE TO START (guarantee + founding scarcity + price anchor) */}
+        {/* GUARANTEE / TERMS (no lock-in + founding scarcity + price anchor) */}
         <section id="guarantee" className="py-12 md:py-20">
           <div className="max-w-4xl mx-auto px-6">
             <motion.div
@@ -891,23 +848,23 @@ export default function Home() {
               className="text-center"
             >
               <ShieldCheck className="w-12 h-12 text-emerald-400 mx-auto mb-4" />
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">Why it's safe to start.</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">No lock-in. You approve everything.</h2>
 
               <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.03] p-8 md:p-10 text-left max-w-2xl mx-auto space-y-4">
-                <p className="text-lg text-white font-semibold">We don't stop until it actually works.</p>
+                <p className="text-lg text-white font-semibold">We don't stop until it works.</p>
                 <p className="text-gray-300">
-                  We agree on what a workflow should do before we build it — then we keep refining it until it does, at no extra cost. You approve every workflow before it goes live; nothing runs without your sign-off.
+                  We agree on what a workflow should do before we build it. Then we refine it until it does, at no extra cost. You approve every workflow before it goes live. Nothing runs without your sign-off.
                 </p>
                 <p className="text-gray-400">
-                  Veyra is founder-led — you work directly with me, not a sales rep or a ticket queue. Cancel anytime; if you cancel, access to the managed automations ends.
+                  No long-term contract. Cancel anytime. You only pay once we agree on a workflow worth building.
                 </p>
 
                 <div className="pt-2 border-t border-white/10">
                   <p className="text-white font-semibold">Veyra is taking on 5 founding clients.</p>
                   <p className="text-gray-400 mt-1">
-                    Founding builds start at $1,500, with ongoing management from $500/month — most owners spend less than a part-time admin and get more.{" "}
+                    Pricing is scoped to the workflows you need and the size of your operation, with an exact quote from your free audit.{" "}
                     <a href="/pricing" className="text-emerald-300 hover:text-emerald-200 underline underline-offset-2">
-                      See full pricing
+                      See how pricing works
                     </a>
                     .
                   </p>

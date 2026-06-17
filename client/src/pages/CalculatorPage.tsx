@@ -36,7 +36,7 @@ export default function CalculatorPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white">
+    <div className="min-h-screen text-white">
       <SeoHead
         title="Free PM Workflow Audit"
         description="Run Veyra's PM Workflow Audit, get the report by email, and see which workflow should be fixed first."
@@ -69,7 +69,7 @@ export default function CalculatorPage() {
                   return (
                     <div
                       key={card.title}
-                      className="rounded-3xl border border-white/6 bg-white/[0.02] p-5"
+                      className="rounded-2xl border border-white/10 bg-white/[0.02] p-5"
                     >
                       <div className="flex items-start gap-4">
                         <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-300">

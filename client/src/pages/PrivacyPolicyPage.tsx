@@ -5,7 +5,7 @@ import { openCalendly } from "@/lib/calendly";
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="min-h-screen bg-[#050505] text-white relative overflow-hidden">
+    <div className="min-h-screen text-white relative overflow-hidden">
       <SeoHead
         title="Privacy Policy"
         description="Review how Veyra Group collects, uses, and protects information across the website, audits, and connected services."

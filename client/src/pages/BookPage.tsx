@@ -51,7 +51,7 @@ export default function BookPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white relative overflow-hidden">
+    <div className="min-h-screen text-white relative overflow-hidden">
       <SeoHead
         title="Book a Workflow Audit Call"
         description="Schedule a 15-minute workflow audit call with Veyra to map where your property management team is bleeding time."

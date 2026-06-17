@@ -144,7 +144,7 @@ if(state.step===0){app.innerHTML=`
 <div class="question">How many rental units do you manage?</div>
 <div class="slider-container">
 <div class="slider-value" id="sv">${state.units}</div>
-<input type="range" min="5" max="500" value="${state.units}" oninput="state.units=+this.value;document.getElementById('sv').textContent=this.value">
+<input type="range" min="5" max="500" value="${state.units}" aria-label="Number of rental units you manage" aria-valuetext="${state.units} units" oninput="state.units=+this.value;document.getElementById('sv').textContent=this.value;this.setAttribute('aria-valuetext',this.value+' units')">
 </div>
 <button class="btn" onclick="next()">Continue</button>
 </div>`}
@@ -154,7 +154,7 @@ else if(state.step===1){app.innerHTML=`
 <div class="question">How many people handle operations, including you?</div>
 <div class="slider-container">
 <div class="slider-value" id="tv">${state.team}</div>
-<input type="range" min="1" max="20" value="${state.team}" oninput="state.team=+this.value;document.getElementById('tv').textContent=this.value">
+<input type="range" min="1" max="20" value="${state.team}" aria-label="Number of people handling operations, including you" aria-valuetext="${state.team} people" oninput="state.team=+this.value;document.getElementById('tv').textContent=this.value;this.setAttribute('aria-valuetext',this.value+' people')">
 </div>
 <button class="btn" onclick="next()">Continue</button>
 </div>`}
@@ -175,9 +175,9 @@ app.innerHTML=`
 <div class="step active email-section">
 <div class="question">Where should we send your PM Workflow Audit?</div>
 <div class="field-stack">
-<input class="field" type="text" placeholder="Your name" value="${escapeAttr(state.name)}" oninput="state.name=this.value">
-<input class="field" type="text" placeholder="Company name" value="${escapeAttr(state.company)}" oninput="state.company=this.value">
-<input class="field" type="email" placeholder="you@company.com" value="${escapeAttr(state.email)}" oninput="state.email=this.value">
+<input class="field" type="text" placeholder="Your name" aria-label="Your name" autocomplete="name" value="${escapeAttr(state.name)}" oninput="state.name=this.value">
+<input class="field" type="text" placeholder="Company name" aria-label="Company name" autocomplete="organization" value="${escapeAttr(state.company)}" oninput="state.company=this.value">
+<input class="field" type="email" placeholder="you@company.com" aria-label="Email address" autocomplete="email" value="${escapeAttr(state.email)}" oninput="state.email=this.value">
 </div>
 <button class="btn" ${state.loading?'disabled':''} onclick="submitLead()">${state.loading?'Sending your report...':'Get My Audit Report'}</button>
 <div class="email-note">We will email the full report, show the summary here, and route the lead into Bruno's follow-up queue only if the workflow looks worth discussing.</div>

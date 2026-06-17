@@ -212,6 +212,208 @@
   }
 }
 
+/* ---------- Polish layer ---------- */
+
+/* Eyebrow pill above the hero headline */
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: rgba(167, 243, 208, 0.95);
+  background: rgba(16, 185, 129, 0.07);
+  border: 1px solid rgba(52, 211, 153, 0.22);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.hero-pill .pill-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 9999px;
+  background: rgb(52, 211, 153);
+  box-shadow: 0 0 10px rgba(52, 211, 153, 0.9);
+}
+
+/* Premium glass card with hover glow. Pair with rounded-* + padding utilities.
+   Transform (lift) is handled by framer-motion whileHover so it composes with
+   entrance animations; CSS only owns the surface + glow on hover. */
+.glass-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 18px 40px -28px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: border-color 320ms ease, box-shadow 320ms ease, background 320ms ease;
+}
+
+.glass-card:hover {
+  border-color: rgba(52, 211, 153, 0.32);
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.07) 0%, rgba(255, 255, 255, 0.02) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 28px 60px -28px rgba(0, 0, 0, 0.8),
+    0 16px 50px -24px rgba(52, 211, 153, 0.22);
+}
+
+/* Cinematic drifting gradient-mesh behind the hero (depth without video) */
+.hero-aurora {
+  position: absolute;
+  inset: -30% -20% auto -20%;
+  height: 130%;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 50% at 30% 25%, rgba(52, 211, 153, 0.14), transparent 70%),
+    radial-gradient(35% 45% at 75% 20%, rgba(16, 185, 129, 0.10), transparent 70%),
+    radial-gradient(45% 50% at 55% 62%, rgba(6, 95, 70, 0.16), transparent 72%);
+  filter: blur(40px);
+  mix-blend-mode: screen;
+  animation: auroraDrift 18s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes auroraDrift {
+  0% {
+    transform: translate3d(-2%, -1%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(3%, 2%, 0) scale(1.08);
+  }
+  100% {
+    transform: translate3d(-1%, 3%, 0) scale(1.04);
+  }
+}
+
+/* Hero integration orbit centerpiece */
+.hero-orbit {
+  position: relative;
+  width: 530px;
+  height: 530px;
+}
+
+.hero-orbit .ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.hero-orbit .orbit-core,
+.hero-orbit .orbit-core-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 92px;
+  height: 92px;
+  margin: -46px 0 0 -46px;
+  border-radius: 9999px;
+}
+
+.hero-orbit .orbit-core {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 38%, rgba(110, 231, 183, 0.95), rgba(16, 185, 129, 0.42) 55%, rgba(6, 78, 59, 0.12) 80%);
+  box-shadow: 0 0 70px rgba(52, 211, 153, 0.45), inset 0 0 26px rgba(255, 255, 255, 0.18);
+  z-index: 4;
+}
+
+.hero-orbit .orbit-core-pulse {
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  animation: orbitCorePulse 3.6s ease-out infinite;
+  z-index: 3;
+}
+
+@keyframes orbitCorePulse {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+.orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  animation: orbitSpin var(--dur, 40s) linear infinite;
+}
+.orbit.reverse { animation-direction: reverse; }
+
+.orbit-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 46px;
+  height: 46px;
+  margin: -23px 0 0 -23px;
+  transform: rotate(var(--a)) translateY(calc(-1 * var(--r)));
+}
+
+.orbit-counter {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: orbitSpin var(--dur, 40s) linear infinite reverse;
+}
+.orbit.reverse .orbit-counter { animation-direction: normal; }
+
+.orbit-upright {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(calc(-1 * var(--a)));
+}
+
+.orbit-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 30px -14px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.orbit-chip img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+@keyframes orbitSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .orbit,
+  .orbit-counter,
+  .orbit-core-pulse {
+    animation: none !important;
+  }
+}
+
 .logo-carousel-wrapper {
   width: 100%;
   overflow: hidden;

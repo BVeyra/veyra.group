@@ -40,7 +40,7 @@ const sections = [
 
 export default function TermsOfServicePage() {
   return (
-    <div className="min-h-screen bg-[#050505] text-white relative overflow-hidden">
+    <div className="min-h-screen text-white relative overflow-hidden">
       <SeoHead
         title="Terms of Service"
         description="Read the Veyra Group terms covering workflow audits, automation build services, billing, cancellation, and support."
