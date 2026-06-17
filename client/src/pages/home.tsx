@@ -781,8 +781,13 @@ export default function Home() {
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="text-center mb-10"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-white">Proof, not promises.</h2>
-              <p className="text-gray-400 mt-3">Real founding-client results will be published here exactly as measured — no inflated numbers.</p>
+              {/* "Proof, not promises" framing returns automatically once caseStudyMetrics has real numbers (i.e. after a founding client is signed). Until then, show a neutral heading. */}
+              <h2 className="text-3xl md:text-4xl font-bold text-white">
+                {caseStudyMetrics.length > 0 ? "Proof, not promises." : "What operators are dealing with."}
+              </h2>
+              {caseStudyMetrics.length > 0 && (
+                <p className="text-gray-400 mt-3">Real founding-client results will be published here exactly as measured — no inflated numbers.</p>
+              )}
             </motion.div>
 
             {/* Founding-client results — renders automatically once caseStudyMetrics has real, measured numbers */}
