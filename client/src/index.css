@@ -42,7 +42,15 @@
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
     background: #0a0a0a;
+  }
+
+  /* Offset anchored sections so the fixed 80px header doesn't cover their
+     headings when navigating to #features / #process / #faq, etc. */
+  section[id],
+  [data-anchor] {
+    scroll-margin-top: 6rem;
   }
 
   body {

@@ -107,13 +107,6 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Link
-            href="/demo"
-            className="hidden md:inline-flex text-sm text-gray-400 hover:text-white transition-colors"
-          >
-            Try Demo
-          </Link>
-
           <Button
             asChild
             size="sm"
@@ -135,7 +128,14 @@ export function Navbar() {
       </div>
 
       {isMenuOpen && (
-        <div className="md:hidden border-t border-white/10 bg-black/85 backdrop-blur-xl">
+        <>
+          <button
+            type="button"
+            aria-label="Close menu"
+            onClick={() => setIsMenuOpen(false)}
+            className="md:hidden fixed inset-x-0 bottom-0 top-20 z-40 bg-black/70 backdrop-blur-sm"
+          />
+          <div className="md:hidden relative z-50 border-t border-white/10 bg-[#0a0a0a]">
           <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-2">
             {navLinks.map((item) =>
               item.href.startsWith("#") ? (
@@ -159,14 +159,6 @@ export function Navbar() {
               )
             )}
 
-            <Link
-              href="/demo"
-              onClick={handleDemoClick}
-              className="w-full text-left rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-gray-200 hover:text-white hover:border-white/20 transition-colors"
-            >
-              Try Demo
-            </Link>
-
             <Button
               asChild
               size="sm"
@@ -178,7 +170,8 @@ export function Navbar() {
               </Link>
             </Button>
           </div>
-        </div>
+          </div>
+        </>
       )}
     </header>
   );

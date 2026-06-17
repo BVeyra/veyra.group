@@ -72,13 +72,6 @@ const STATIC_PAGES: SeoPage[] = [
     type: "website",
   },
   {
-    path: "/demo",
-    title: "Property Management Automation Demo",
-    description:
-      "Explore Veyra's interactive property management automation demo for messaging, maintenance, and owner reporting.",
-    type: "website",
-  },
-  {
     path: "/privacy",
     title: "Privacy Policy",
     description:
@@ -105,6 +98,7 @@ const STATIC_PAGES: SeoPage[] = [
 const REDIRECTS = new Map<string, string>([
   ["/calculator", "/audit"],
   ["/privacy-policy", "/privacy"],
+  ["/demo", "/audit"],
 ]);
 
 const pageLookup = new Map<string, SeoPage>(
@@ -568,25 +562,6 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
               "Walk through where your PM team is losing time each week.",
               "Pressure-test whether the best first automation is tenant communication, maintenance coordination, owner reporting, or another workflow.",
               "Decide whether there is enough value to move into a scoped build.",
-            ],
-          },
-        ],
-      };
-    case "/demo":
-      return {
-        eyebrow: "Interactive Product Walkthrough",
-        title: "Explore the Veyra property management demo.",
-        description:
-          "The demo shows how Veyra can centralize inbox triage, maintenance coordination, and owner reporting into one operating layer for a PM team.",
-        primaryLink: { href: "/audit", label: "Start with the PM audit report" },
-        secondaryLinks: [{ href: "/book", label: "Book a call instead" }],
-        sections: [
-          {
-            title: "What the demo is meant to show",
-            bullets: [
-              "How tenant and prospect messages can be triaged before they become a human bottleneck.",
-              "How maintenance requests move from intake to updates without constant manual handoffs.",
-              "How owner reporting can become a repeatable operational workflow instead of an end-of-month scramble.",
             ],
           },
         ],

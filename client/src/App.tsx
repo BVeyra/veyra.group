@@ -6,7 +6,6 @@ const NotFound = lazy(() => import("@/pages/not-found"));
 const Home = lazy(() => import("@/pages/home"));
 const CalculatorPage = lazy(() => import("@/pages/CalculatorPage"));
 const BookPage = lazy(() => import("@/pages/BookPage"));
-const DemoPage = lazy(() => import("@/pages/DemoPage"));
 const PropertyManagementAutomationROIPage = lazy(() => import("@/pages/PropertyManagementAutomationROIPage"));
 const PropertyManagementAIPage = lazy(() => import("@/pages/PropertyManagementAIPage"));
 const OwnerReportingAutomationPage = lazy(() => import("@/pages/OwnerReportingAutomationPage"));
@@ -67,7 +66,9 @@ function Router() {
       <ScrollManager />
 
       <Switch>
-        <Route path="/demo" component={DemoPage} />
+        <Route path="/demo">
+          {() => <RedirectPage to="/audit" />}
+        </Route>
         <Route path="/book" component={BookPage} />
         <Route path="/audit" component={CalculatorPage} />
         <Route path="/calculator">

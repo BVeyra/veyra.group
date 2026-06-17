@@ -150,6 +150,11 @@ const processSteps = [
   },
 ];
 
+// Founding-client metrics. Leave empty until a pilot produces real, measured
+// numbers — the case-study card below renders automatically once this is filled.
+// Example once you have data: { value: "31", label: "Hours saved / mo" }
+const caseStudyMetrics: { value: string; label: string }[] = [];
+
 const socialProofQuotes = [
   {
     quote:
@@ -227,75 +232,6 @@ const faqItems = [
   },
 ];
 
-function HeroDashboardMockup({ timingScale }: { timingScale: number }) {
-  const rows = [
-    {
-      title: "📱 Unit 12C — Toilet overflow",
-      status: "Auto-dispatched ✓",
-      statusClass: "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30",
-    },
-    {
-      title: "📱 Unit 4B — When is rent due?",
-      status: "Auto-replied ✓",
-      statusClass: "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30",
-    },
-    {
-      title: "📱 Unit 8A — Noise complaint",
-      status: "Flagged for review ⚠️",
-      statusClass: "bg-amber-500/20 text-amber-300 border border-amber-500/30",
-    },
-  ];
-
-  const rowEntranceDelay = 2.3 * timingScale;
-
-  return (
-    <motion.div
-      animate={{ y: [0, -6, 0] }}
-      transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-      className="w-full max-w-[340px] sm:max-w-[560px] rounded-2xl border border-white/[0.1] bg-[linear-gradient(135deg,rgba(255,255,255,0.06)_0%,rgba(255,255,255,0.02)_100%)] backdrop-blur-[24px] p-6 will-change-transform"
-      style={{
-        boxShadow:
-          "0 0 0 1px rgba(52,211,153,0.1), 0 25px 60px -12px rgba(0,0,0,0.6), 0 0 120px rgba(52,211,153,0.08)",
-      }}
-    >
-      <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
-        <p className="text-sm text-gray-400">Veyra Dashboard</p>
-        <div className="inline-flex items-center gap-2 text-xs text-emerald-400">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          Live
-        </div>
-      </div>
-
-      <div className="space-y-3">
-        {rows.map((row, index) => (
-          <motion.div
-            key={row.title}
-            initial={{ opacity: 0, x: 12 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{
-              duration: 0.4 * timingScale,
-              delay: rowEntranceDelay + index * 0.15 * timingScale,
-              ease: "easeOut",
-            }}
-            className={`rounded-xl bg-white/[0.03] border border-white/5 p-4 flex items-center justify-between gap-4 ${
-              index === 0
-                ? "border-l-2 border-l-emerald-400/50 shadow-[inset_4px_0_12px_-4px_rgba(52,211,153,0.15)]"
-                : ""
-            }`}
-          >
-            <p className="text-sm text-gray-200">{row.title}</p>
-            <span className={`text-[11px] px-2.5 py-1 rounded-full whitespace-nowrap ${row.statusClass}`}>
-              {row.status}
-            </span>
-          </motion.div>
-        ))}
-      </div>
-
-      <p className="mt-4 text-xs text-gray-500">3 messages handled today · 0 requiring attention</p>
-    </motion.div>
-  );
-}
-
 function IntegrationLogo({ logo }: { logo: IntegrationLogo }) {
   const [isVisible, setIsVisible] = useState(true);
 
@@ -324,13 +260,23 @@ export default function Home() {
   const featuresSectionRef = useRef<HTMLElement | null>(null);
 
   useLayoutEffect(() => {
-    if (window.location.hash) {
-      window.history.replaceState(
-        window.history.state,
-        "",
-        `${window.location.pathname}${window.location.search}`
+    const hash = window.location.hash;
+
+    // Arriving with an anchor (e.g. /#features from another page): scroll to
+    // that section once it's in the DOM, accounting for the fixed header via
+    // the scroll-margin-top set in CSS. Keep the hash so the URL stays shareable.
+    if (hash && hash.length > 1) {
+      const id = decodeURIComponent(hash.slice(1));
+      // Double rAF so the section has mounted and laid out before we scroll.
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          const el = document.getElementById(id);
+          if (el) el.scrollIntoView({ behavior: "auto", block: "start" });
+        })
       );
+      return;
     }
+
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, []);
 
@@ -469,7 +415,7 @@ export default function Home() {
           </div>
 
           <div className="max-w-6xl mx-auto px-6 pt-14 md:pt-20 pb-10 relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-16 items-center">
+            <div className="max-w-3xl mx-auto text-center">
               <div>
                 <motion.h1
                   initial={{ opacity: 0, y: 40 }}
@@ -487,7 +433,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: heroTiming(0.6), delay: heroTiming(0.9), ease: [0.25, 0.4, 0.25, 1] }}
-                  className="text-lg text-gray-400 max-w-[480px] mt-6 leading-relaxed"
+                  className="text-lg text-gray-400 max-w-[560px] mx-auto mt-6 leading-relaxed"
                 >
                   We automate everything between the decision and the doing — so you can grow your portfolio without growing your team.
                 </motion.p>
@@ -498,7 +444,7 @@ export default function Home() {
                   transition={{ duration: heroTiming(0.5), delay: heroTiming(1.2), ease: [0.25, 0.4, 0.25, 1] }}
                   className="mt-8"
                 >
-                  <div className="flex flex-col gap-3 sm:flex-row">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
                     <Button
                       asChild
                       size="lg"
@@ -516,29 +462,6 @@ export default function Home() {
                   </p>
                 </motion.div>
               </div>
-
-              <motion.div
-                initial={{ opacity: 0, x: 60 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: heroTiming(0.8), delay: heroTiming(1.5), type: "spring", stiffness: 90, damping: 20 }}
-                className="relative mt-10 lg:mt-0 flex justify-center lg:justify-end"
-              >
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: [0, -4, 0] }}
-                  transition={{
-                    opacity: { duration: heroTiming(0.5), delay: heroTiming(1.8), ease: "easeOut" },
-                    y: { duration: 4.6, repeat: Infinity, ease: "easeInOut", delay: heroTiming(1.9) },
-                  }}
-                  className="absolute -top-6 right-0 z-20 rounded-full px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 backdrop-blur-sm text-sm font-medium text-emerald-400"
-                >
-                  <span className="inline-flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    No platform migration
-                  </span>
-                </motion.div>
-                <HeroDashboardMockup timingScale={heroTimingScale} />
-              </motion.div>
             </div>
           </div>
         </section>
@@ -842,31 +765,23 @@ export default function Home() {
               <p className="text-gray-400 mt-3">Real founding-client results will be published here exactly as measured — no inflated numbers.</p>
             </motion.div>
 
-            {/* Founding-client case study scaffold — fill with real numbers after the first pilot */}
-            <div className="rounded-2xl border border-dashed border-emerald-500/30 bg-emerald-500/[0.03] p-8 text-center max-w-3xl mx-auto">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300">Founding-client case study</p>
-              <h3 className="text-xl md:text-2xl font-semibold text-white mt-3">First results, coming soon.</h3>
-              <p className="text-gray-400 mt-2 max-w-2xl mx-auto">
-                We're onboarding our first founding clients now. Hours saved, response times, and owner-report turnaround will be posted here exactly as measured — never estimated, never inflated.
-              </p>
-              <div className="grid grid-cols-3 gap-3 sm:gap-4 mt-6 max-w-xl mx-auto">
-                <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
-                  <p className="text-2xl sm:text-3xl font-bold text-emerald-300">—</p>
-                  <p className="text-[11px] sm:text-xs text-gray-500 mt-1">Hours saved / mo</p>
-                </div>
-                <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
-                  <p className="text-2xl sm:text-3xl font-bold text-emerald-300">—</p>
-                  <p className="text-[11px] sm:text-xs text-gray-500 mt-1">Response time</p>
-                </div>
-                <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
-                  <p className="text-2xl sm:text-3xl font-bold text-emerald-300">—</p>
-                  <p className="text-[11px] sm:text-xs text-gray-500 mt-1">Report turnaround</p>
+            {/* Founding-client results — renders automatically once caseStudyMetrics has real, measured numbers */}
+            {caseStudyMetrics.length > 0 && (
+              <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/[0.03] p-8 text-center max-w-3xl mx-auto">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300">Founding-client results</p>
+                <div className="grid grid-cols-3 gap-3 sm:gap-4 mt-6 max-w-xl mx-auto">
+                  {caseStudyMetrics.map((metric) => (
+                    <div key={metric.label} className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
+                      <p className="text-2xl sm:text-3xl font-bold text-emerald-300">{metric.value}</p>
+                      <p className="text-[11px] sm:text-xs text-gray-500 mt-1">{metric.label}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
+            )}
 
-            <p className="text-center text-gray-400 mt-12 mb-6 max-w-2xl mx-auto">
-              Until those land, here's what property managers say out loud in public Reddit communities — real posts, <span className="text-gray-300">not Veyra clients</span>. They're the exact problems we build for.
+            <p className="text-center text-gray-400 mt-2 mb-6 max-w-2xl mx-auto">
+              Here's what property managers say out loud in public Reddit communities — real posts, <span className="text-gray-300">not Veyra clients</span>. They're the exact problems we build for.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
