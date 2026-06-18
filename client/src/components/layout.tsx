@@ -106,7 +106,7 @@ export function Navbar() {
             asChild
             size="sm"
             data-testid="button-nav-cta"
-            className="hidden md:inline-flex rounded-full bg-emerald-500 text-black font-semibold px-4 py-2 h-auto hover:bg-emerald-400 transition"
+            className="hidden md:inline-flex rounded-full bg-emerald-500 text-white font-semibold px-4 py-2 h-auto hover:bg-emerald-400 transition"
           >
             <Link href="/audit?source=nav_cta">Get Your Free Audit</Link>
           </Button>
@@ -157,7 +157,7 @@ export function Navbar() {
             <Button
               asChild
               size="sm"
-              className="mt-2 rounded-full bg-emerald-500 text-black font-semibold h-10 hover:bg-emerald-400 transition"
+              className="mt-2 rounded-full bg-emerald-500 text-white font-semibold h-10 hover:bg-emerald-400 transition"
               data-testid="button-nav-cta-mobile"
             >
               <Link href="/audit?source=nav_cta_mobile" onClick={handleDemoClick}>

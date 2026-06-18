@@ -1,19 +1,28 @@
 /**
- * Veyra wordmark rendered as live text in the Outfit font, so it stays crisp at
- * any size and on any display (no rasterized/img fallback). Size it by passing a
- * text-size class (e.g. "text-[1.7rem]"); width is automatic.
+ * Veyra wordmark — monochrome, in Bricolage Grotesque, rendered as live text so
+ * it stays crisp at any size. "Group" is sized and baseline-aligned so its cap
+ * height matches the x-height of "eyra". Size by passing a text-size class
+ * (e.g. "text-[1.7rem]"); width is automatic.
  */
 export function Logo({ className = "" }: { className?: string }) {
   return (
     <span
       aria-label="Veyra Group"
       role="img"
-      className={`inline-flex items-baseline font-extrabold leading-none tracking-[-0.02em] select-none whitespace-nowrap ${className}`}
-      style={{ fontFamily: '"Outfit", "Inter", system-ui, sans-serif', textRendering: "geometricPrecision" }}
+      className={`inline-flex items-baseline select-none whitespace-nowrap ${className}`}
     >
-      <span className="text-[#2dd4aa]">V</span>
-      <span className="text-[#e8f0ec]">EYRA</span>
-      <span className="ml-[0.2em] font-semibold text-[#9caea8]">GROUP</span>
+      <span
+        className="text-[#f3f6f4]"
+        style={{ fontFamily: '"Bricolage Grotesque", "Inter", system-ui, sans-serif', fontWeight: 700, letterSpacing: "-0.02em" }}
+      >
+        Veyra
+      </span>
+      <span
+        className="ml-[0.34em] text-[0.72em] text-[#8b938f]"
+        style={{ fontFamily: '"Inter", system-ui, sans-serif', fontWeight: 500 }}
+      >
+        Group
+      </span>
     </span>
   );
 }

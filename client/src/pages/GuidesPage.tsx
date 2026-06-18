@@ -84,7 +84,7 @@ export default function GuidesPage() {
               <Button
                 asChild
                 size="lg"
-                className="bg-emerald-500 text-black font-semibold rounded-full px-8 py-4 hover:shadow-lg hover:shadow-emerald-500/25 transition-all group"
+                className="bg-emerald-500 text-white font-semibold rounded-full px-8 py-4 hover:shadow-lg hover:shadow-emerald-500/25 transition-all group"
               >
                 <a href="/audit?source=guides_hero">
                   Get Your Free Audit
@@ -132,7 +132,7 @@ export default function GuidesPage() {
             <Button
               asChild
               size="lg"
-              className="mt-7 bg-emerald-500 text-black font-semibold text-lg px-8 py-4 rounded-full hover:shadow-lg hover:shadow-emerald-500/25 transition-all group"
+              className="mt-7 bg-emerald-500 text-white font-semibold text-lg px-8 py-4 rounded-full hover:shadow-lg hover:shadow-emerald-500/25 transition-all group"
             >
               <a href="/audit?source=guides_footer">
                 Get Your Free Audit

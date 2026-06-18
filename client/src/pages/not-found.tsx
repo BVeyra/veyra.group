@@ -49,7 +49,7 @@ export default function NotFound() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 rounded-full bg-emerald-500 text-black font-semibold px-6 py-3 text-sm hover:bg-emerald-400 transition-colors"
+              className="inline-flex items-center gap-2 rounded-full bg-emerald-500 text-white font-semibold px-6 py-3 text-sm hover:bg-emerald-400 transition-colors"
             >
               <Home className="w-4 h-4" />
               Go to Homepage

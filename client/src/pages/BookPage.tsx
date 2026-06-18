@@ -5,7 +5,7 @@ import { Link } from "wouter";
 import { SeoHead } from "@/components/SeoHead";
 
 const CALENDLY_EMBED_URL =
-  "https://calendly.com/veyragroup/15min?background_color=050505&text_color=e5e7eb&primary_color=34d399&hide_gdpr_banner=1";
+  "https://calendly.com/veyragroup/15min?background_color=050505&text_color=e5e7eb&primary_color=0f7a55&hide_gdpr_banner=1";
 
 export default function BookPage() {
   useEffect(() => {

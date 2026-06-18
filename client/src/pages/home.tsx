@@ -407,7 +407,7 @@ export default function Home() {
                   className="text-4xl md:text-5xl lg:text-[3.5rem] leading-[1.08] font-bold tracking-[-0.02em] hero-headline-glow"
                 >
                   You didn't start a property management company to{" "}
-                  <span className="hero-gradient-shimmer bg-gradient-to-r from-emerald-300 via-green-200 to-emerald-300 bg-clip-text text-transparent">
+                  <span className="text-emerald-400">
                     answer texts at 11 PM.
                   </span>
                 </motion.h1>
@@ -432,7 +432,7 @@ export default function Home() {
                       asChild
                       size="lg"
                       data-testid="button-hero-cta-primary"
-                      className="bg-emerald-500 text-black font-semibold text-lg px-8 py-4 rounded-full ring-1 ring-emerald-400/20 shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:shadow-[0_0_40px_rgba(52,211,153,0.4)] hover:scale-[1.03] transition-all duration-200 group"
+                      className="bg-emerald-500 text-white font-semibold text-lg px-8 py-4 rounded-full ring-1 ring-emerald-400/20 shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:shadow-[0_0_40px_rgba(52,211,153,0.4)] hover:scale-[1.03] transition-all duration-200 group"
                     >
                       <a href="/audit?source=hero_primary">
                         Get Your Free Audit
@@ -822,7 +822,7 @@ export default function Home() {
                 <Button
                   asChild
                   size="lg"
-                  className="bg-emerald-500 text-black font-semibold rounded-full px-8 py-4 hover:shadow-lg hover:shadow-emerald-500/25 transition-all group"
+                  className="bg-emerald-500 text-white font-semibold rounded-full px-8 py-4 hover:shadow-lg hover:shadow-emerald-500/25 transition-all group"
                   data-testid="button-calculator-report"
                 >
                   <a href="/audit?source=home_embed">
@@ -875,7 +875,7 @@ export default function Home() {
                 <Button
                   asChild
                   size="lg"
-                  className="bg-emerald-500 text-black font-semibold rounded-full px-8 py-4 hover:shadow-lg hover:shadow-emerald-500/25 transition-all group"
+                  className="bg-emerald-500 text-white font-semibold rounded-full px-8 py-4 hover:shadow-lg hover:shadow-emerald-500/25 transition-all group"
                   data-testid="button-guarantee-cta"
                 >
                   <a href="/audit?source=guarantee">
@@ -948,7 +948,7 @@ export default function Home() {
               transition={{ duration: 0.6, ease: "easeOut" }}
             >
               <h2 className="text-3xl md:text-4xl font-bold text-white">Ready to stop being your own help desk?</h2>
-              <Button asChild size="lg" className="mt-7 bg-emerald-500 text-black font-semibold text-lg px-8 py-4 rounded-full hover:shadow-lg hover:shadow-emerald-500/25 transition-all group" data-testid="button-footer-final-cta">
+              <Button asChild size="lg" className="mt-7 bg-emerald-500 text-white font-semibold text-lg px-8 py-4 rounded-full hover:shadow-lg hover:shadow-emerald-500/25 transition-all group" data-testid="button-footer-final-cta">
                 <a href="/audit?source=footer_final">
                   Get Your Free Audit
                   <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>

@@ -36,7 +36,7 @@ export default function PrivacyPolicyPage() {
             <Button
               onClick={openCalendly}
               size="sm"
-              className="rounded-full bg-emerald-500 text-black font-semibold px-4 py-2 h-auto hover:bg-emerald-400 transition"
+              className="rounded-full bg-emerald-500 text-white font-semibold px-4 py-2 h-auto hover:bg-emerald-400 transition"
             >
               Book a Free Audit
             </Button>

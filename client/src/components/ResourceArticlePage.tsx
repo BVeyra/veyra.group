@@ -134,7 +134,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
               <Button
                 asChild
                 size="lg"
-                className="rounded-full bg-emerald-500 px-8 py-4 font-semibold text-black hover:bg-emerald-400"
+                className="rounded-full bg-emerald-500 px-8 py-4 font-semibold text-white hover:bg-emerald-400"
               >
                 <a href={`/audit?source=${encodeURIComponent(article.path.replace(/^\//, ""))}`}>
                   Get Your Free Audit
@@ -204,7 +204,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
                   <Button
                     asChild
                     size="lg"
-                    className="mt-5 w-full rounded-full bg-emerald-500 font-semibold text-black hover:bg-emerald-400"
+                    className="mt-5 w-full rounded-full bg-emerald-500 font-semibold text-white hover:bg-emerald-400"
                   >
                     <a href={`/audit?source=${encodeURIComponent(`${article.path}-sidebar`)}`}>
                       Get Your Free Audit
@@ -242,7 +242,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
               <Button
                 asChild
                 size="lg"
-                className="rounded-full bg-emerald-500 px-8 py-4 font-semibold text-black hover:bg-emerald-400"
+                className="rounded-full bg-emerald-500 px-8 py-4 font-semibold text-white hover:bg-emerald-400"
               >
                 <a href={`/audit?source=${encodeURIComponent(`${article.path}-footer`)}`}>
                   Get Your Free Audit
