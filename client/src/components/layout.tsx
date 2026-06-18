@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/Logo";
 import { Link, useLocation } from "wouter";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
@@ -74,13 +75,7 @@ export function Navbar() {
     >
       <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between gap-6">
         <Link href="/" onClick={handleLogoClick}>
-          <img
-            src="/veyra-logo.svg"
-            alt="Veyra Group"
-            className="h-11 w-auto cursor-pointer select-none"
-            loading="eager"
-            draggable={false}
-          />
+          <Logo className="text-[1.7rem] cursor-pointer" />
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
@@ -196,13 +191,7 @@ export function Footer() {
       <div className="max-w-6xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           <div>
-            <img
-              src="/veyra-logo.svg"
-              alt="Veyra Group"
-              className="h-14 w-auto mb-4 select-none"
-              loading="lazy"
-              draggable={false}
-            />
+            <Logo className="text-[2.1rem] mb-4" />
             <p className="text-sm text-gray-400">Built for independent property managers.</p>
           </div>
 

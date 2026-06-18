@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { Logo } from "@/components/Logo";
 import { ArrowLeft, Home } from "lucide-react";
 import { SeoHead } from "@/components/SeoHead";
 
@@ -22,7 +23,7 @@ export default function NotFound() {
       <header className="sticky top-0 z-30 bg-black/80 backdrop-blur-xl border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <Link href="/" className="inline-flex items-center">
-            <img src="/veyra-logo.svg" alt="Veyra Group" className="h-11 w-auto" loading="eager" draggable={false} />
+            <Logo className="text-[1.7rem]" />
           </Link>
           <Link
             href="/"

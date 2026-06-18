@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import { SeoHead } from "@/components/SeoHead";
 import { openCalendly } from "@/lib/calendly";
@@ -57,7 +58,7 @@ export default function TermsOfServicePage() {
       <header className="sticky top-0 z-20 bg-black/70 backdrop-blur-xl border-b border-white/5">
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between gap-4">
           <Link href="/" className="inline-flex items-center">
-            <img src="/veyra-logo.svg" alt="Veyra Group" className="h-11 w-auto" loading="eager" draggable={false} />
+            <Logo className="text-[1.7rem]" />
           </Link>
 
           <div className="flex items-center gap-3">
