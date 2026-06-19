@@ -364,7 +364,7 @@ export default function Home() {
 
       <main className="pt-20">
         {/* HERO */}
-        <section className="relative overflow-hidden bg-[#050505]">
+        <section className="relative overflow-hidden">
           <div className="absolute inset-0 pointer-events-none">
             <div className="hero-aurora" />
             <motion.div
@@ -373,22 +373,15 @@ export default function Home() {
               transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
             />
             <motion.div
-              className="hero-orb hero-orb-2"
-              animate={{ scale: [1, 1.3, 1] }}
-              transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.div
               className="hero-orb hero-orb-3"
               animate={{ x: [0, -70, 0] }}
               transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
             />
-            <div className="hero-grid-overlay" />
-            <div className="hero-noise-overlay" />
           </div>
 
           <div className="max-w-6xl mx-auto px-6 pt-14 md:pt-20 pb-10 relative z-10">
-            <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
-              <div className="text-center lg:text-left">
+            <div className="max-w-3xl">
+              <div className="text-left">
                 <motion.div
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -446,14 +439,6 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              <motion.div
-                initial={{ opacity: 0, scale: 0.92 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: heroTiming(1), delay: heroTiming(0.6), ease: [0.25, 0.4, 0.25, 1] }}
-                className="hidden lg:flex justify-center items-center"
-              >
-                <HeroOrbit />
-              </motion.div>
             </div>
           </div>
         </section>
