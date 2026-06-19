@@ -8,6 +8,7 @@ import { Menu, X } from "lucide-react";
 const navLinks = [
   { href: "#features", label: "Features" },
   { href: "#process", label: "Process" },
+  { href: "/pricing", label: "Pricing" },
   { href: "/guides", label: "Guides" },
   { href: "#faq", label: "FAQ" },
 ];
@@ -206,6 +207,11 @@ export function Footer() {
                 <button onClick={() => scrollToSection("process")} className="hover:text-white transition-colors">
                   Process
                 </button>
+              </li>
+              <li>
+                <Link href="/pricing" className="hover:text-white transition-colors">
+                  Pricing
+                </Link>
               </li>
             </ul>
           </div>

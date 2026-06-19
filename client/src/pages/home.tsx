@@ -95,7 +95,7 @@ const automationCards = [
 const processSteps = [
   {
     number: "1",
-    duration: "Free",
+    duration: "Free, 15 min",
     title: "We audit your workflows",
     description:
       "You tell us where you're bleeding time. We map your current process and show you exactly what we'd automate first.",
@@ -185,7 +185,7 @@ const faqItems = [
   },
   {
     q: "What property management software do you work with?",
-    a: "AppFolio, Buildium, Rent Manager, Rentvine, DoorLoop, and Yardi Breeze — plus most others. Where there's an API we connect live; where there isn't, we sync or work manually. No platform migration.",
+    a: "AppFolio, Buildium, Rent Manager, Yardi, Propertyware, and most others. If your PM software has email or an API, we connect to it.",
   },
   {
     q: "Will my tenants know they're talking to AI?",
@@ -847,7 +847,11 @@ export default function Home() {
                 <div className="pt-2 border-t border-white/10">
                   <p className="text-white font-semibold">Veyra is taking on 5 founding clients.</p>
                   <p className="text-gray-400 mt-1">
-                    Book your free workflow audit to see if you qualify.
+                    Pricing is scoped to the workflows you need and the size of your operation, with an exact quote from your free audit.{" "}
+                    <a href="/pricing" className="text-emerald-300 hover:text-emerald-200 underline underline-offset-2">
+                      See how pricing works
+                    </a>
+                    .
                   </p>
                 </div>
               </div>
