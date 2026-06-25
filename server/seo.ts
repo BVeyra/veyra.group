@@ -5,6 +5,135 @@ export const SITE_URL = "https://veyragroup.ai";
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`;
 export const SEO_LAST_MODIFIED = "2026-03-31";
 
+// Real last-modified dates per path. Feeds sitemap <lastmod> and Article JSON-LD
+// (datePublished/dateModified). Without this, every URL reported 2026-03-31, which
+// suppressed re-crawl and made every article look stale to Google. Update the date
+// here whenever a page's content materially changes.
+const PAGE_LAST_MODIFIED: Record<string, string> = {
+  "/": "2026-03-31",
+  "/guides": "2026-06-03",
+  "/property-management-automation-roi": "2026-06-16",
+  "/automated-owner-reporting-for-property-managers": "2026-06-03",
+  "/automate-maintenance-coordination-property-management": "2026-06-03",
+  "/automate-tenant-communication-property-management": "2026-06-03",
+  "/how-many-properties-can-one-manager-handle": "2026-06-09",
+  "/property-management-challenges-2026": "2026-06-24",
+  "/how-to-reduce-tenant-turnover": "2026-04-14",
+  "/scale-property-management-business": "2026-04-28",
+  "/maintenance-response-time-benchmark": "2026-06-17",
+  "/property-management-kpis": "2026-05-12",
+  "/appfolio-vs-buildium-small-pm": "2026-05-19",
+  "/owner-communication-best-practices": "2026-05-26",
+  "/property-management-workflow-automation": "2026-06-02",
+  "/handle-maintenance-emergencies": "2026-06-09",
+  "/reduce-property-management-overhead": "2026-06-16",
+  "/property-management-ai": "2026-06-17",
+  "/how-to-use-ai-in-property-management": "2026-06-23",
+};
+
+export function getLastModified(path: string): string {
+  return PAGE_LAST_MODIFIED[path] ?? SEO_LAST_MODIFIED;
+}
+
+// Contextual internal links rendered into each article's prerendered snapshot as a
+// crawlable "Related guides" block. Previously article snapshots linked only to
+// /audit and /book, leaving every guide a crawl dead-end. Anchor labels are derived
+// from the linked article's title at render time, so they stay accurate.
+const RELATED_GUIDES: Record<string, string[]> = {
+  "/property-management-automation-roi": [
+    "/property-management-workflow-automation",
+    "/reduce-property-management-overhead",
+    "/property-management-ai",
+  ],
+  "/automated-owner-reporting-for-property-managers": [
+    "/owner-communication-best-practices",
+    "/property-management-automation-roi",
+    "/property-management-kpis",
+  ],
+  "/automate-maintenance-coordination-property-management": [
+    "/maintenance-response-time-benchmark",
+    "/handle-maintenance-emergencies",
+    "/property-management-ai",
+  ],
+  "/automate-tenant-communication-property-management": [
+    "/how-to-reduce-tenant-turnover",
+    "/how-to-use-ai-in-property-management",
+    "/property-management-ai",
+  ],
+  "/how-many-properties-can-one-manager-handle": [
+    "/scale-property-management-business",
+    "/property-management-workflow-automation",
+    "/property-management-kpis",
+  ],
+  "/property-management-challenges-2026": [
+    "/property-management-ai",
+    "/scale-property-management-business",
+    "/reduce-property-management-overhead",
+  ],
+  "/how-to-reduce-tenant-turnover": [
+    "/automate-tenant-communication-property-management",
+    "/property-management-kpis",
+    "/owner-communication-best-practices",
+  ],
+  "/scale-property-management-business": [
+    "/how-many-properties-can-one-manager-handle",
+    "/reduce-property-management-overhead",
+    "/property-management-ai",
+  ],
+  "/maintenance-response-time-benchmark": [
+    "/automate-maintenance-coordination-property-management",
+    "/handle-maintenance-emergencies",
+    "/property-management-kpis",
+  ],
+  "/property-management-kpis": [
+    "/property-management-challenges-2026",
+    "/maintenance-response-time-benchmark",
+    "/scale-property-management-business",
+  ],
+  "/appfolio-vs-buildium-small-pm": [
+    "/property-management-workflow-automation",
+    "/property-management-automation-roi",
+    "/property-management-ai",
+  ],
+  "/owner-communication-best-practices": [
+    "/automated-owner-reporting-for-property-managers",
+    "/how-to-reduce-tenant-turnover",
+    "/property-management-kpis",
+  ],
+  "/property-management-workflow-automation": [
+    "/property-management-ai",
+    "/property-management-automation-roi",
+    "/property-management-kpis",
+  ],
+  "/handle-maintenance-emergencies": [
+    "/automate-maintenance-coordination-property-management",
+    "/maintenance-response-time-benchmark",
+    "/property-management-challenges-2026",
+  ],
+  "/reduce-property-management-overhead": [
+    "/scale-property-management-business",
+    "/property-management-automation-roi",
+    "/property-management-kpis",
+  ],
+  "/property-management-ai": [
+    "/how-to-use-ai-in-property-management",
+    "/property-management-workflow-automation",
+    "/property-management-automation-roi",
+  ],
+  "/how-to-use-ai-in-property-management": [
+    "/property-management-ai",
+    "/automate-maintenance-coordination-property-management",
+    "/automate-tenant-communication-property-management",
+  ],
+};
+
+// Short, descriptive anchor text from an article's title (drops the part after a colon).
+function relatedGuideLabel(path: string): string {
+  const article = resourceArticles.find((a) => a.path === path);
+  if (!article) return path;
+  return article.title.split(":")[0].trim();
+}
+
 type PageType = "website" | "article";
 
 type StructuredData = Record<string, unknown> | Array<Record<string, unknown>>;
@@ -139,7 +268,7 @@ export function getSeoPage(pathname: string): SeoPage | null {
     title: article.title,
     description: article.description,
     type: "article",
-    lastModified: SEO_LAST_MODIFIED,
+    lastModified: getLastModified(article.path),
   };
 }
 
@@ -152,13 +281,15 @@ export function getRenderableSeoPaths() {
 
 export function getIndexableSeoPages() {
   return [
-    ...STATIC_PAGES.filter((page) => !page.noindex && page.path !== "/not-found"),
+    ...STATIC_PAGES.filter((page) => !page.noindex && page.path !== "/not-found").map(
+      (page) => ({ ...page, lastModified: page.lastModified ?? getLastModified(page.path) }),
+    ),
     ...resourceArticles.map((article) => ({
       path: article.path,
       title: article.title,
       description: article.description,
       type: "article" as const,
-      lastModified: SEO_LAST_MODIFIED,
+      lastModified: getLastModified(article.path),
     })),
   ];
 }
@@ -665,6 +796,17 @@ function renderArticleSnapshot(pathname: string) {
         title: section.title,
         paragraphs: section.paragraphs,
       })),
+      ...((RELATED_GUIDES[article.path] ?? []).length > 0
+        ? [
+            {
+              title: "Related guides",
+              links: (RELATED_GUIDES[article.path] ?? []).map((href) => ({
+                href,
+                label: relatedGuideLabel(href),
+              })),
+            },
+          ]
+        : []),
       {
         title: "FAQ",
         links: article.faqs.map((faq) => ({
@@ -689,8 +831,8 @@ function getStructuredData(pathname: string): StructuredData | undefined {
         description: article.description,
         url: articleUrl,
         mainEntityOfPage: articleUrl,
-        datePublished: SEO_LAST_MODIFIED,
-        dateModified: SEO_LAST_MODIFIED,
+        datePublished: getLastModified(article.path),
+        dateModified: getLastModified(article.path),
         author: {
           "@type": "Organization",
           name: SITE_NAME,
