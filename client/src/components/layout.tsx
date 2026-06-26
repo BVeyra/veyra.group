@@ -8,7 +8,6 @@ import { Menu, X } from "lucide-react";
 const navLinks = [
   { href: "#features", label: "Features" },
   { href: "#process", label: "Process" },
-  { href: "/pricing", label: "Pricing" },
   { href: "/guides", label: "Guides" },
   { href: "#faq", label: "FAQ" },
 ];
@@ -208,11 +207,6 @@ export function Footer() {
                   Process
                 </button>
               </li>
-              <li>
-                <Link href="/pricing" className="hover:text-white transition-colors">
-                  Pricing
-                </Link>
-              </li>
             </ul>
           </div>
 
@@ -271,8 +265,8 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href="tel:+12202444213" className="hover:text-white transition-colors">
-                  (220) 244-4213
+                <a href="tel:+13026002625" className="hover:text-white transition-colors">
+                  (302) 600-2625
                 </a>
               </li>
               <li>

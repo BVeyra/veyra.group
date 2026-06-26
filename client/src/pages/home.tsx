@@ -95,7 +95,7 @@ const automationCards = [
 const processSteps = [
   {
     number: "1",
-    duration: "Free, 15 min",
+    duration: "Free",
     title: "We audit your workflows",
     description:
       "You tell us where you're bleeding time. We map your current process and show you exactly what we'd automate first.",
@@ -185,7 +185,7 @@ const faqItems = [
   },
   {
     q: "What property management software do you work with?",
-    a: "AppFolio, Buildium, Rent Manager, Yardi, Propertyware, and most others. If your PM software has email or an API, we connect to it.",
+    a: "AppFolio, Buildium, Rent Manager, Rentvine, DoorLoop, and Yardi Breeze — plus most others. Where there's an API we connect live; where there isn't, we sync or work manually. No platform migration.",
   },
   {
     q: "Will my tenants know they're talking to AI?",
@@ -364,7 +364,7 @@ export default function Home() {
 
       <main className="pt-20">
         {/* HERO */}
-        <section className="relative overflow-hidden">
+        <section className="relative overflow-hidden bg-[#050505]">
           <div className="absolute inset-0 pointer-events-none">
             <div className="hero-aurora" />
             <motion.div
@@ -373,15 +373,22 @@ export default function Home() {
               transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
             />
             <motion.div
+              className="hero-orb hero-orb-2"
+              animate={{ scale: [1, 1.3, 1] }}
+              transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
               className="hero-orb hero-orb-3"
               animate={{ x: [0, -70, 0] }}
               transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
             />
+            <div className="hero-grid-overlay" />
+            <div className="hero-noise-overlay" />
           </div>
 
           <div className="max-w-6xl mx-auto px-6 pt-14 md:pt-20 pb-10 relative z-10">
-            <div className="max-w-3xl">
-              <div className="text-left">
+            <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+              <div className="text-center lg:text-left">
                 <motion.div
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -439,6 +446,14 @@ export default function Home() {
                 </motion.div>
               </div>
 
+              <motion.div
+                initial={{ opacity: 0, scale: 0.92 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: heroTiming(1), delay: heroTiming(0.6), ease: [0.25, 0.4, 0.25, 1] }}
+                className="hidden lg:flex justify-center items-center"
+              >
+                <HeroOrbit />
+              </motion.div>
             </div>
           </div>
         </section>
@@ -847,11 +862,7 @@ export default function Home() {
                 <div className="pt-2 border-t border-white/10">
                   <p className="text-white font-semibold">Veyra is taking on 5 founding clients.</p>
                   <p className="text-gray-400 mt-1">
-                    Pricing is scoped to the workflows you need and the size of your operation, with an exact quote from your free audit.{" "}
-                    <a href="/pricing" className="text-emerald-300 hover:text-emerald-200 underline underline-offset-2">
-                      See how pricing works
-                    </a>
-                    .
+                    Book your free workflow audit to see if you qualify.
                   </p>
                 </div>
               </div>

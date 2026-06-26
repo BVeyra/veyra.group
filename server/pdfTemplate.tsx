@@ -3,70 +3,50 @@ import { Document, Link, Page, StyleSheet, Text, View } from "@react-pdf/rendere
 import type { AuditLeadData } from "./auditReport";
 import { buildAuditInsights } from "./auditReport";
 
-// Veyra new-look palette — light report, monochrome wordmark, deep emerald accent.
 const colors = {
-  bg: "#FFFFFF",
-  card: "#F7F8F7",
-  border: "#E6E8E6",
-  hairline: "#ECEEED",
-  emerald: "#0F7A55",
-  emeraldDeep: "#0B6044",
-  emeraldSoft: "#E9F1ED",
-  ink: "#0A0A0A",
-  body: "#4B5563",
-  muted: "#6B7280",
-  faint: "#9CA3AF",
+  bg: "#0A0F0A",
+  card: "#0F1712",
+  border: "#173224",
+  green: "#22C55E",
+  greenSoft: "#0E2A1B",
+  text: "#E9F4ED",
+  muted: "#98A59B",
+  faint: "#415247",
   white: "#FFFFFF",
-  wordmarkGroup: "#9CA3AF",
 };
 
 const styles = StyleSheet.create({
   page: {
-    padding: 44,
+    padding: 40,
     backgroundColor: colors.bg,
-    color: colors.body,
+    color: colors.text,
     fontFamily: "Helvetica",
   },
-  // Monochrome wordmark
-  logoRow: {
-    flexDirection: "row",
-    alignItems: "baseline",
-    marginBottom: 22,
+  logo: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: colors.white,
+    marginBottom: 20,
   },
-  logoVeyra: {
-    fontSize: 15,
-    fontFamily: "Helvetica-Bold",
-    color: colors.ink,
-    letterSpacing: -0.4,
-  },
-  logoGroup: {
-    fontSize: 11,
-    fontFamily: "Helvetica",
-    color: colors.wordmarkGroup,
-    letterSpacing: 0.2,
-    marginLeft: 5,
+  green: {
+    color: colors.green,
   },
   heading: {
-    fontSize: 25,
-    fontFamily: "Helvetica-Bold",
-    color: colors.ink,
-    lineHeight: 1.18,
-    letterSpacing: -0.6,
+    fontSize: 26,
+    fontWeight: "bold",
+    lineHeight: 1.2,
     marginBottom: 8,
-  },
-  emerald: {
-    color: colors.emerald,
   },
   subtitle: {
     fontSize: 10,
     color: colors.muted,
     lineHeight: 1.6,
-    marginBottom: 16,
+    marginBottom: 18,
   },
   prepared: {
-    fontSize: 10.5,
-    color: colors.faint,
-    marginBottom: 20,
+    fontSize: 11,
+    color: colors.muted,
+    marginBottom: 18,
   },
   grid: {
     flexDirection: "row",
@@ -76,7 +56,7 @@ const styles = StyleSheet.create({
   statCard: {
     flex: 1,
     backgroundColor: colors.card,
-    borderRadius: 12,
+    borderRadius: 14,
     borderWidth: 1,
     borderColor: colors.border,
     padding: 14,
@@ -90,16 +70,14 @@ const styles = StyleSheet.create({
   },
   statValue: {
     fontSize: 18,
-    fontFamily: "Helvetica-Bold",
-    color: colors.emerald,
-    letterSpacing: -0.3,
+    fontWeight: "bold",
+    color: colors.green,
   },
   statValueCompact: {
     fontSize: 13,
-    fontFamily: "Helvetica-Bold",
-    color: colors.emerald,
+    fontWeight: "bold",
+    color: colors.green,
     lineHeight: 1.35,
-    letterSpacing: -0.2,
   },
   statMeta: {
     fontSize: 8,
@@ -109,7 +87,7 @@ const styles = StyleSheet.create({
   },
   section: {
     backgroundColor: colors.card,
-    borderRadius: 14,
+    borderRadius: 16,
     borderWidth: 1,
     borderColor: colors.border,
     padding: 18,
@@ -118,27 +96,25 @@ const styles = StyleSheet.create({
   sectionLabel: {
     fontSize: 7,
     textTransform: "uppercase",
-    color: colors.emerald,
+    color: colors.green,
     letterSpacing: 1.4,
     marginBottom: 8,
   },
   sectionTitle: {
     fontSize: 15,
-    fontFamily: "Helvetica-Bold",
-    color: colors.ink,
-    letterSpacing: -0.3,
+    fontWeight: "bold",
     marginBottom: 8,
   },
   body: {
     fontSize: 9.5,
-    color: colors.body,
+    color: colors.muted,
     lineHeight: 1.6,
   },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
     borderBottomWidth: 1,
-    borderBottomColor: colors.hairline,
+    borderBottomColor: "#132218",
     paddingVertical: 7,
   },
   rowLast: {
@@ -153,37 +129,37 @@ const styles = StyleSheet.create({
   },
   rowValue: {
     fontSize: 9.5,
-    fontFamily: "Helvetica-Bold",
-    color: colors.ink,
+    fontWeight: "bold",
+    color: colors.text,
     maxWidth: 240,
     textAlign: "right",
   },
   badge: {
     alignSelf: "flex-start",
-    backgroundColor: colors.emeraldSoft,
+    backgroundColor: colors.greenSoft,
     borderRadius: 999,
     paddingVertical: 4,
     paddingHorizontal: 10,
-    color: colors.emeraldDeep,
+    color: colors.green,
     fontSize: 8,
-    fontFamily: "Helvetica-Bold",
+    fontWeight: "bold",
     marginBottom: 8,
   },
   listItem: {
     borderTopWidth: 1,
-    borderTopColor: colors.hairline,
+    borderTopColor: "#132218",
     paddingTop: 10,
     marginTop: 10,
   },
   listTitle: {
     fontSize: 10,
-    fontFamily: "Helvetica-Bold",
-    color: colors.ink,
+    fontWeight: "bold",
+    color: colors.white,
     marginBottom: 4,
   },
   listBody: {
     fontSize: 9,
-    color: colors.body,
+    color: colors.muted,
     lineHeight: 1.55,
   },
   bullet: {
@@ -194,53 +170,52 @@ const styles = StyleSheet.create({
   },
   bulletMark: {
     fontSize: 10,
-    color: colors.emerald,
+    color: colors.green,
     marginTop: 1,
   },
   bulletText: {
     flex: 1,
     fontSize: 9,
-    color: colors.body,
+    color: colors.muted,
     lineHeight: 1.55,
   },
   footer: {
     marginTop: 18,
     paddingTop: 12,
     borderTopWidth: 1,
-    borderTopColor: colors.hairline,
+    borderTopColor: "#132218",
     fontSize: 8,
     color: colors.faint,
     flexDirection: "row",
     justifyContent: "space-between",
   },
   cta: {
-    backgroundColor: colors.emeraldSoft,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: "#CFE3D9",
+    backgroundColor: colors.greenSoft,
+    borderRadius: 16,
+    borderWidth: 1.5,
+    borderColor: colors.green,
     padding: 18,
     marginTop: 10,
   },
   ctaTitle: {
     fontSize: 16,
-    fontFamily: "Helvetica-Bold",
-    color: colors.ink,
-    letterSpacing: -0.3,
+    fontWeight: "bold",
+    color: colors.white,
     marginBottom: 8,
     textAlign: "center",
   },
   ctaBody: {
     fontSize: 9.5,
-    color: colors.body,
+    color: colors.muted,
     lineHeight: 1.6,
     textAlign: "center",
     marginBottom: 12,
   },
   ctaButton: {
-    backgroundColor: colors.emerald,
-    color: colors.white,
+    backgroundColor: colors.green,
+    color: colors.bg,
     fontSize: 10,
-    fontFamily: "Helvetica-Bold",
+    fontWeight: "bold",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 999,
@@ -253,13 +228,6 @@ const styles = StyleSheet.create({
 function fmtMoney(value: number) {
   return `$${Math.round(value).toLocaleString()}`;
 }
-
-const Wordmark = () => (
-  <View style={styles.logoRow}>
-    <Text style={styles.logoVeyra}>Veyra</Text>
-    <Text style={styles.logoGroup}>Group</Text>
-  </View>
-);
 
 type PDFReportProps = {
   data: AuditLeadData;
@@ -277,9 +245,11 @@ export const PDFReport = ({ data }: PDFReportProps) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        <Wordmark />
+        <Text style={styles.logo}>
+          VEYRA <Text style={styles.green}>GROUP</Text>
+        </Text>
         <Text style={styles.heading}>
-          Your PM Workflow Audit for <Text style={styles.emerald}>{data.company}</Text>
+          Your PM Workflow Audit for <Text style={styles.green}>{data.company}</Text>
         </Text>
         <Text style={styles.subtitle}>
           This is a directional diagnostic built from your audit inputs. The goal is to identify the first workflow Veyra
@@ -367,15 +337,17 @@ export const PDFReport = ({ data }: PDFReportProps) => {
         </View>
 
         <View style={styles.footer}>
-          <Text>veyragroup.ai · contact@veyragroup.ai · (220) 244-4213</Text>
+          <Text>veyragroup.ai · contact@veyragroup.ai</Text>
           <Text render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`} />
         </View>
       </Page>
 
       <Page size="A4" style={styles.page}>
-        <Wordmark />
+        <Text style={styles.logo}>
+          VEYRA <Text style={styles.green}>GROUP</Text>
+        </Text>
         <Text style={styles.heading}>
-          Start with the workflow that removes the <Text style={styles.emerald}>most drag</Text>.
+          Start with the workflow that removes the <Text style={styles.green}>most drag</Text>.
         </Text>
         <Text style={styles.subtitle}>
           The best first build should be narrow, concrete, and easy for your team to feel within the first month.
@@ -449,7 +421,7 @@ export const PDFReport = ({ data }: PDFReportProps) => {
         </View>
 
         <View style={styles.footer}>
-          <Text>veyragroup.ai · contact@veyragroup.ai · (220) 244-4213</Text>
+          <Text>veyragroup.ai · contact@veyragroup.ai</Text>
           <Text render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`} />
         </View>
       </Page>

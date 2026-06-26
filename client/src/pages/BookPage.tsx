@@ -55,7 +55,7 @@ export default function BookPage() {
     <div className="min-h-screen text-white relative overflow-hidden">
       <SeoHead
         title="Book a Workflow Audit Call"
-        description="Schedule a 15-minute workflow audit call with Veyra to map where your property management team is bleeding time."
+        description="Schedule a free workflow audit call with Veyra to map where your property management team is bleeding time."
         canonicalPath="/book"
       />
       <div className="absolute inset-0 pointer-events-none">
@@ -107,13 +107,13 @@ export default function BookPage() {
             </span>
           </h1>
           <p className="max-w-3xl mx-auto mt-5 text-lg leading-relaxed text-gray-400">
-            Pick a time that works for you. We&apos;ll spend 15 minutes mapping out exactly which
+            Pick a time that works for you. We&apos;ll map out exactly which
             tasks are costing your team the most time, and how to fix them.
           </p>
         </section>
 
         <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-8">
-          {["Free, no obligation", "15 minutes", "See how it works"].map((pill) => (
+          {["Free, no obligation", "See how it works"].map((pill) => (
             <div key={pill} className="inline-flex items-center gap-2 text-sm text-gray-400">
               <Check size={14} className="text-emerald-400" />
               {pill}
