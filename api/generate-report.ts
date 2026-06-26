@@ -349,7 +349,7 @@ function buildPDFDocument(data: AuditLeadData) {
       ),
 
       h(View, { style: s.footer },
-        h(Text, null, "veyragroup.ai"),
+        h(Text, null, "veyragroup.ai · contact@veyragroup.ai · (220) 244-4213"),
         h(Text, { render: ({ pageNumber, totalPages }: { pageNumber: number; totalPages: number }) => `${pageNumber} / ${totalPages}` }),
       ),
     ),
@@ -408,7 +408,7 @@ function buildPDFDocument(data: AuditLeadData) {
       ),
 
       h(View, { style: s.footer },
-        h(Text, null, "veyragroup.ai"),
+        h(Text, null, "veyragroup.ai · contact@veyragroup.ai · (220) 244-4213"),
         h(Text, { render: ({ pageNumber, totalPages }: { pageNumber: number; totalPages: number }) => `${pageNumber} / ${totalPages}` }),
       ),
     ),
@@ -471,6 +471,9 @@ async function sendReportEmail(data: AuditLeadData, insights: ReturnType<typeof 
       <div style="text-align:center;margin:0 0 24px 0;">
         <a href="${safeBookingUrl}" style="display:inline-block;background-color:#22c55e;color:#0a0f0a;padding:14px 34px;text-decoration:none;border-radius:999px;font-weight:700;font-size:15px;">Book the workflow audit call</a>
       </div>
+      <p style="text-align:center;font-size:14px;color:#9fb0a5;line-height:1.6;margin:0 0 24px 0;">
+        Prefer to talk now? Call <a href="tel:+12202444213" style="color:#22c55e;text-decoration:none;font-weight:600;">(220) 244-4213</a>
+      </p>
       <p style="font-size:13px;color:#6f8176;line-height:1.6;margin:0;">
         This is a directional diagnostic, not a promise. If it looks right, the next call should focus on ${escapeHtml(insights.primaryAngle)} and the current rules/process it needs to replace.
       </p>

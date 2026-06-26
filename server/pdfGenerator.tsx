@@ -56,38 +56,41 @@ export async function generateAndEmailPDF(data: AuditLeadData) {
         to: data.email,
         subject: sanitizeSubject(`${data.company}: your PM Workflow Audit is ready`),
         html: `
-  <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:600px;margin:0 auto;background-color:#0a0f0a;">
-    <div style="padding:28px 32px 20px;border-bottom:1px solid #1a2a1f;">
-      <span style="font-size:16px;font-weight:800;letter-spacing:-0.3px;">
-        <span style="color:#ffffff;">VEYRA</span><span style="color:#22c55e;margin-left:4px;">GROUP</span>
+  <div style="font-family:'Bricolage Grotesque',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:600px;margin:0 auto;background-color:#0a0a0a;">
+    <div style="padding:28px 32px 20px;border-bottom:1px solid #1f1f1f;">
+      <span style="font-size:17px;letter-spacing:-0.4px;">
+        <span style="color:#f3f6f4;font-weight:700;">Veyra</span><span style="color:#8b938f;font-weight:500;margin-left:5px;font-size:0.78em;">Group</span>
       </span>
     </div>
     <div style="padding:32px;">
-      <p style="font-size:16px;font-weight:600;color:#e9f4ed;margin:0 0 20px 0;">${safeName},</p>
-      <p style="font-size:15px;color:#9fb0a5;line-height:1.7;margin:0 0 20px 0;">
+      <p style="font-size:16px;font-weight:600;color:#ffffff;margin:0 0 20px 0;">${safeName},</p>
+      <p style="font-size:15px;color:#9ca3af;line-height:1.7;margin:0 0 20px 0;">
         Your PM Workflow Audit for <strong style="color:#ffffff;">${safeCompany}</strong> is attached.
       </p>
-      <div style="background:#0f1712;border:1px solid #173224;border-radius:14px;padding:18px;margin:0 0 20px 0;">
-        <div style="font-size:11px;color:#22c55e;text-transform:uppercase;letter-spacing:1.4px;margin-bottom:8px;">What jumped out</div>
-        <p style="font-size:15px;color:#e9f4ed;line-height:1.7;margin:0 0 8px 0;"><strong>${safeRecommendationTitle}</strong> is the strongest first build.</p>
-        <p style="font-size:14px;color:#9fb0a5;line-height:1.7;margin:0 0 8px 0;">${insights.estimatedWeeklyBusyworkHours} hours of repeatable work per week. Roughly $${insights.monthlyAdminEquivalent.toLocaleString()}/mo of part-time admin equivalent.</p>
-        <p style="font-size:14px;color:#9fb0a5;line-height:1.7;margin:0;">The first build could reasonably give back <strong style="color:#ffffff;">${insights.estimatedWeeklyTimeSaved} hours/week</strong> if the current workflow looks like your inputs.</p>
+      <div style="background:#121212;border:1px solid #242424;border-radius:14px;padding:18px;margin:0 0 20px 0;">
+        <div style="font-size:11px;color:#2f9670;text-transform:uppercase;letter-spacing:1.4px;margin-bottom:8px;">What jumped out</div>
+        <p style="font-size:15px;color:#ffffff;line-height:1.7;margin:0 0 8px 0;"><strong>${safeRecommendationTitle}</strong> is the strongest first build.</p>
+        <p style="font-size:14px;color:#9ca3af;line-height:1.7;margin:0 0 8px 0;">${insights.estimatedWeeklyBusyworkHours} hours of repeatable work per week. Roughly $${insights.monthlyAdminEquivalent.toLocaleString()}/mo of part-time admin equivalent.</p>
+        <p style="font-size:14px;color:#9ca3af;line-height:1.7;margin:0;">The first build could reasonably give back <strong style="color:#ffffff;">${insights.estimatedWeeklyTimeSaved} hours/week</strong> if the current workflow looks like your inputs.</p>
       </div>
-      <p style="font-size:15px;color:#9fb0a5;line-height:1.7;margin:0 0 20px 0;">
+      <p style="font-size:15px;color:#9ca3af;line-height:1.7;margin:0 0 20px 0;">
         ${safeRecommendationDescription}
       </p>
-      <p style="font-size:14px;color:#9fb0a5;line-height:1.7;margin:0 0 20px 0;">
+      <p style="font-size:14px;color:#9ca3af;line-height:1.7;margin:0 0 20px 0;">
         ${safeFitNote}
       </p>
       <div style="text-align:center;margin:0 0 24px 0;">
-        <a href="${safeBookingUrl}" style="display:inline-block;background-color:#22c55e;color:#0a0f0a;padding:14px 34px;text-decoration:none;border-radius:999px;font-weight:700;font-size:15px;">
+        <a href="${safeBookingUrl}" style="display:inline-block;background-color:#0f7a55;color:#ffffff;padding:14px 34px;text-decoration:none;border-radius:999px;font-weight:700;font-size:15px;">
           Book the workflow audit call
         </a>
       </div>
-      <p style="font-size:13px;color:#6f8176;line-height:1.6;margin:0;">
+      <p style="text-align:center;font-size:14px;color:#9ca3af;line-height:1.6;margin:0 0 24px 0;">
+        Prefer to talk now? Call <a href="tel:+12202444213" style="color:#0f7a55;text-decoration:none;font-weight:600;">(220) 244-4213</a>
+      </p>
+      <p style="font-size:13px;color:#6b7280;line-height:1.6;margin:0;">
         This is a directional diagnostic, not a promise. If it looks right, the next call should focus on ${escapeHtml(insights.primaryAngle)} and the current rules/process it needs to replace.
       </p>
-      <p style="font-size:13px;color:#6f8176;line-height:1.6;margin:10px 0 0 0;">
+      <p style="font-size:13px;color:#6b7280;line-height:1.6;margin:10px 0 0 0;">
         Useful prep for that call: ${safePrep}
       </p>
     </div>

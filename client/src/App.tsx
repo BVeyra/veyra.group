@@ -27,6 +27,7 @@ const PropertyManagementWorkflowAutomationPage = lazy(() => import("@/pages/Prop
 const HandleMaintenanceEmergenciesPage = lazy(() => import("@/pages/HandleMaintenanceEmergenciesPage"));
 const ReducePropertyManagementOverheadPage = lazy(() => import("@/pages/ReducePropertyManagementOverheadPage"));
 const GuidesPage = lazy(() => import("@/pages/GuidesPage"));
+const PricingPage = lazy(() => import("@/pages/PricingPage"));
 
 function RedirectPage({ to }: { to: string }) {
   const [, navigate] = useLocation();
@@ -134,6 +135,7 @@ function Router() {
           component={ReducePropertyManagementOverheadPage}
         />
         <Route path="/guides" component={GuidesPage} />
+        <Route path="/pricing" component={PricingPage} />
         <Route path="/privacy" component={PrivacyPolicyPage} />
         <Route path="/privacy-policy">
           {() => <RedirectPage to="/privacy" />}
