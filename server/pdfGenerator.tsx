@@ -84,6 +84,9 @@ export async function generateAndEmailPDF(data: AuditLeadData) {
           Book the workflow audit call
         </a>
       </div>
+      <p style="text-align:center;font-size:14px;color:#9fb0a5;line-height:1.6;margin:0 0 24px 0;">
+        Prefer to talk now? Call <a href="tel:+12202444213" style="color:#22c55e;text-decoration:none;font-weight:600;">(220) 244-4213</a>
+      </p>
       <p style="font-size:13px;color:#6f8176;line-height:1.6;margin:0;">
         This is a directional diagnostic, not a promise. If it looks right, the next call should focus on ${escapeHtml(insights.primaryAngle)} and the current rules/process it needs to replace.
       </p>

@@ -337,7 +337,7 @@ export const PDFReport = ({ data }: PDFReportProps) => {
         </View>
 
         <View style={styles.footer}>
-          <Text>veyragroup.ai · contact@veyragroup.ai</Text>
+          <Text>veyragroup.ai · contact@veyragroup.ai · (220) 244-4213</Text>
           <Text render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`} />
         </View>
       </Page>
@@ -421,7 +421,7 @@ export const PDFReport = ({ data }: PDFReportProps) => {
         </View>
 
         <View style={styles.footer}>
-          <Text>veyragroup.ai · contact@veyragroup.ai</Text>
+          <Text>veyragroup.ai · contact@veyragroup.ai · (220) 244-4213</Text>
           <Text render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`} />
         </View>
       </Page>
