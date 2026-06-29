@@ -15,6 +15,7 @@ const MaintenanceCoordinationAutomationPage = lazy(() => import("@/pages/Mainten
 const TenantCommunicationAutomationPage = lazy(() => import("@/pages/TenantCommunicationAutomationPage"));
 const PrivacyPolicyPage = lazy(() => import("@/pages/PrivacyPolicyPage"));
 const TermsOfServicePage = lazy(() => import("@/pages/TermsOfServicePage"));
+const SMSOptInPage = lazy(() => import("@/pages/SMSOptInPage"));
 const HowManyPropertiesCanOneManagerHandlePage = lazy(() => import("@/pages/HowManyPropertiesCanOneManagerHandlePage"));
 const PropertyManagementChallenges2026Page = lazy(() => import("@/pages/PropertyManagementChallenges2026Page"));
 const HowToReduceTenantTurnoverPage = lazy(() => import("@/pages/HowToReduceTenantTurnoverPage"));
@@ -139,6 +140,10 @@ function Router() {
           {() => <RedirectPage to="/privacy" />}
         </Route>
         <Route path="/terms-of-service" component={TermsOfServicePage} />
+        <Route path="/sms" component={SMSOptInPage} />
+        <Route path="/sms-signup">
+          {() => <RedirectPage to="/sms" />}
+        </Route>
         <Route path="/" component={Home} />
         <Route component={NotFound} />
       </Switch>
