@@ -46,7 +46,7 @@ export default function PrivacyPolicyPage() {
 
       <main className="relative z-10 max-w-4xl mx-auto px-6 py-12 md:py-16">
         <h1 className="text-3xl md:text-5xl font-bold tracking-[-0.02em]">Privacy Policy</h1>
-        <p className="text-gray-400 mt-4">Effective date: March 4, 2026</p>
+        <p className="text-gray-400 mt-4">Effective date: June 29, 2026</p>
 
         <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-6 md:p-8 space-y-10">
 
@@ -294,7 +294,48 @@ export default function PrivacyPolicyPage() {
 
           {/* 12 */}
           <section>
-            <h2 className="text-xl font-semibold text-white">12. Contact</h2>
+            <h2 className="text-xl font-semibold text-white">12. SMS / Text Messaging</h2>
+            <div className="text-gray-400 leading-relaxed mt-3 space-y-3">
+              <p>
+                With your consent, Veyra Group may send you text (SMS) messages related to our
+                services — including workflow audit scheduling, account and onboarding updates,
+                service notifications, and responses to your support requests.
+              </p>
+              <p>
+                <span className="text-white/80 font-medium">Consent:</span>{" "}
+                We only send text messages to individuals who have opted in — for example, by
+                providing a mobile number and agreeing to be contacted during an audit request,
+                onboarding, or in a signed service agreement. Consent to receive text messages is
+                not a condition of purchasing any product or service.
+              </p>
+              <p>
+                <span className="text-white/80 font-medium">Message frequency and rates:</span>{" "}
+                Message frequency varies based on your activity and service needs. Message and
+                data rates may apply.
+              </p>
+              <p>
+                <span className="text-white/80 font-medium">Opt-out and help:</span>{" "}
+                You can opt out of text messages at any time by replying{" "}
+                <span className="text-white/80 font-medium">STOP</span> to any message. After you
+                opt out, you will receive a final confirmation and we will stop sending texts.
+                Reply <span className="text-white/80 font-medium">HELP</span> for assistance, or
+                contact us at{" "}
+                <a href="mailto:contact@veyragroup.ai" className="text-emerald-400 hover:underline">
+                  contact@veyragroup.ai
+                </a>.
+              </p>
+              <p>
+                <span className="text-white/80 font-medium">No sharing of mobile data:</span>{" "}
+                Mobile opt-in information and text messaging consent will never be shared with
+                third parties or affiliates for marketing or promotional purposes, and we do not
+                sell your mobile information.
+              </p>
+            </div>
+          </section>
+
+          {/* 13 */}
+          <section>
+            <h2 className="text-xl font-semibold text-white">13. Contact</h2>
             <p className="text-gray-400 leading-relaxed mt-3">
               If you have questions about this Privacy Policy, your data, or wish to exercise
               any of your rights, please contact us at{" "}
