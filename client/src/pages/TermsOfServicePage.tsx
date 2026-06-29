@@ -92,7 +92,52 @@ export default function TermsOfServicePage() {
           ))}
 
           <section>
-            <h2 className="text-xl font-semibold text-white">9. Contact</h2>
+            <h2 className="text-xl font-semibold text-white">9. SMS Messaging Program</h2>
+            <div className="text-gray-400 leading-relaxed mt-2 space-y-3">
+              <p>
+                <span className="text-white/80 font-medium">Program name:</span>{" "}
+                Veyra Group SMS Program.
+              </p>
+              <p>
+                <span className="text-white/80 font-medium">Description:</span>{" "}
+                Veyra Group sends operational text messages to recipients who have opted in,
+                including appointment and maintenance scheduling, status and account
+                notifications, and customer-care replies. Recipients opt in by providing their
+                mobile number and giving express consent during a sales or onboarding
+                conversation. Consent is not a condition of purchase.
+              </p>
+              <p>
+                <span className="text-white/80 font-medium">Message frequency:</span>{" "}
+                Message frequency varies based on your activity and service needs.
+              </p>
+              <p>
+                <span className="text-white/80 font-medium">Message and data rates:</span>{" "}
+                Message and data rates may apply, according to your mobile carrier plan.
+              </p>
+              <p>
+                <span className="text-white/80 font-medium">Help and opt-out:</span>{" "}
+                Reply <strong className="text-white font-semibold">HELP</strong> for help, or
+                reply <strong className="text-white font-semibold">STOP</strong> to unsubscribe
+                at any time. After you reply STOP, you will receive a final confirmation and no
+                further messages will be sent.
+              </p>
+              <p>
+                <span className="text-white/80 font-medium">Support:</span>{" "}
+                For help, contact us at{" "}
+                <a href="mailto:contact@veyragroup.ai" className="text-emerald-400 hover:underline">
+                  contact@veyragroup.ai
+                </a>{" "}
+                or (220) 244-4213.
+              </p>
+              <p>
+                Mobile opt-in information and consent are never shared with third parties or
+                affiliates for marketing or promotional purposes.
+              </p>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-semibold text-white">10. Contact</h2>
             <p className="text-gray-400 leading-relaxed mt-2">
               Questions about these Terms can be sent to{" "}
               <a href="mailto:contact@veyragroup.ai" className="text-emerald-400 hover:underline">
