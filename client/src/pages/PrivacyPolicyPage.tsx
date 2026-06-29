@@ -9,7 +9,7 @@ export default function PrivacyPolicyPage() {
     <div className="min-h-screen text-white relative overflow-hidden">
       <SeoHead
         title="Privacy Policy"
-        description="Review how Veyra Group collects, uses, and protects information across the website, audits, and connected services."
+        description="Review how Veyra Group collects, uses, and protects information across the website, workflow audits, and our automation services."
         canonicalPath="/privacy"
       />
       <div className="absolute inset-0 pointer-events-none">
@@ -55,9 +55,10 @@ export default function PrivacyPolicyPage() {
             <p className="text-gray-400 leading-relaxed">
               Veyra Group ("Veyra," "we," "us," or "our") operates the website{" "}
               <a href="https://veyragroup.ai" className="text-emerald-400 hover:underline">veyragroup.ai</a>{" "}
-              and related services. This Privacy Policy explains how we collect, use, share, and protect your
-              information when you use our website and services, including features that integrate with
-              third-party platforms such as LinkedIn.
+              and provides done-for-you workflow automation services for property management
+              businesses. This Privacy Policy explains how we collect, use, share, and protect
+              your information when you use our website, request a workflow audit, or use our
+              services.
             </p>
           </section>
 
@@ -70,36 +71,26 @@ export default function PrivacyPolicyPage() {
               <div>
                 <h3 className="text-white/80 font-medium mb-1">Information you provide directly</h3>
                 <p>
-                  Your name, email address, phone number, company details, and any workflow information
-                  you share during audits, onboarding, or support conversations.
+                  Your name, email address, phone number, company details, and any workflow
+                  information you share when you request an audit, onboard, or contact us for
+                  support.
                 </p>
               </div>
 
               <div>
                 <h3 className="text-white/80 font-medium mb-1">Account and authentication data</h3>
                 <p>
-                  If you create an account or authenticate via a third-party service (such as LinkedIn OAuth),
-                  we receive the profile information you authorize during the authentication flow. This may
-                  include your name, profile URL, email address, and profile picture.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-white/80 font-medium mb-1">LinkedIn data</h3>
-                <p>
-                  When you connect your LinkedIn account, we access your LinkedIn post and content
-                  engagement metrics (impressions, reactions, comments, shares, and follower
-                  analytics) through the LinkedIn API. We only access the data you explicitly authorize
-                  during the LinkedIn OAuth consent flow. We do not access your private messages, connections
-                  list, or any data beyond the scopes you approve.
+                  If you create an account to access a Veyra dashboard or service, we collect the
+                  login and profile information you provide so we can give you access and operate
+                  the service for you.
                 </p>
               </div>
 
               <div>
                 <h3 className="text-white/80 font-medium mb-1">Usage and technical data</h3>
                 <p>
-                  Information collected automatically when you visit our website, such as IP address,
-                  browser type, device information, pages visited, and referring URLs.
+                  Information collected automatically when you visit our website, such as IP
+                  address, browser type, device information, pages visited, and referring URLs.
                 </p>
               </div>
             </div>
@@ -111,15 +102,11 @@ export default function PrivacyPolicyPage() {
             <div className="text-gray-400 leading-relaxed mt-3 space-y-2">
               <p>We use the information we collect to:</p>
               <p>
-                Provide, operate, and improve our services; display your LinkedIn content performance
-                metrics and analytics within the Veyra dashboard; communicate with you about your
-                account or our services; schedule and deliver workflow audits and configure automations;
-                respond to your requests, questions, or support needs; comply with legal obligations;
-                and protect the security of our services and users.
-              </p>
-              <p>
-                We do not use your LinkedIn data to contact your connections, send messages on your behalf,
-                or for any purpose other than displaying analytics to you within our platform.
+                Provide, operate, and improve our services; schedule and deliver workflow audits
+                and the resulting reports; configure, run, and support the automations we build
+                for you; communicate with you by email or text message about your account, your
+                audits, or our services; respond to your requests, questions, or support needs;
+                comply with legal obligations; and protect the security of our services and users.
               </p>
             </div>
           </section>
@@ -129,67 +116,32 @@ export default function PrivacyPolicyPage() {
             <h2 className="text-xl font-semibold text-white">3. How We Share Your Information</h2>
             <div className="text-gray-400 leading-relaxed mt-3 space-y-3">
               <p>
-                We do not sell your personal information. We do not share your LinkedIn data with any
-                third parties. We may share other information in the following limited circumstances:
+                We do not sell your personal information. We share information only in the
+                following limited circumstances:
               </p>
               <p>
-                With trusted service providers who help us operate our services (such as hosting,
-                analytics, email delivery, and scheduling providers), solely to the extent necessary
-                for them to perform their functions; when required by law, regulation, legal process,
-                or governmental request; and to protect the rights, safety, or property of Veyra,
-                our users, or the public.
+                With trusted service providers who help us operate our services — such as website
+                hosting, email delivery, scheduling, text-messaging, and analytics providers —
+                solely to the extent necessary for them to perform their functions; when required
+                by law, regulation, legal process, or governmental request; and to protect the
+                rights, safety, or property of Veyra, our users, or the public.
               </p>
             </div>
           </section>
 
           {/* 4 */}
           <section>
-            <h2 className="text-xl font-semibold text-white">4. LinkedIn API Data Use</h2>
-            <div className="text-gray-400 leading-relaxed mt-3 space-y-3">
-              <p>
-                Our use of LinkedIn data is governed by LinkedIn's API Terms of Use. Specifically:
-              </p>
-              <p>
-                <span className="text-white/80 font-medium">Data collected:</span>{" "}
-                Post engagement metrics (impressions, likes, comments, shares, click-through rates),
-                follower count and demographics, and content performance analytics for posts you have
-                authored on LinkedIn.
-              </p>
-              <p>
-                <span className="text-white/80 font-medium">Purpose:</span>{" "}
-                We access this data solely to display your LinkedIn content analytics within the
-                Veyra dashboard, helping you understand the performance of your posts.
-              </p>
-              <p>
-                <span className="text-white/80 font-medium">Storage and retention:</span>{" "}
-                LinkedIn metrics data is cached temporarily to provide a responsive dashboard experience.
-                We do not build persistent databases of LinkedIn member data beyond what is needed
-                to serve your analytics views. When you disconnect your LinkedIn account or delete
-                your Veyra account, we delete all associated LinkedIn data.
-              </p>
-              <p>
-                <span className="text-white/80 font-medium">No secondary use:</span>{" "}
-                We do not use LinkedIn data for advertising, profiling, resale, or any purpose other
-                than displaying analytics to the authenticated user who authorized access.
-              </p>
-            </div>
+            <h2 className="text-xl font-semibold text-white">4. Data Retention</h2>
+            <p className="text-gray-400 leading-relaxed mt-3">
+              We retain your personal information for as long as your account is active or as
+              needed to provide services, comply with legal obligations, resolve disputes, and
+              enforce agreements. When data is no longer required, we delete or anonymize it.
+            </p>
           </section>
 
           {/* 5 */}
           <section>
-            <h2 className="text-xl font-semibold text-white">5. Data Retention</h2>
-            <p className="text-gray-400 leading-relaxed mt-3">
-              We retain your personal information for as long as your account is active or as needed
-              to provide services, comply with legal obligations, resolve disputes, and enforce
-              agreements. LinkedIn analytics data is refreshed periodically and not stored beyond
-              what is necessary for your current dashboard session. When data is no longer required,
-              we delete or anonymize it.
-            </p>
-          </section>
-
-          {/* 6 */}
-          <section>
-            <h2 className="text-xl font-semibold text-white">6. Your Rights and Choices</h2>
+            <h2 className="text-xl font-semibold text-white">5. Your Rights and Choices</h2>
             <div className="text-gray-400 leading-relaxed mt-3 space-y-3">
               <p>You have the following rights regarding your data:</p>
               <p>
@@ -200,27 +152,13 @@ export default function PrivacyPolicyPage() {
               <p>
                 <span className="text-white/80 font-medium">Deletion:</span>{" "}
                 You may request deletion of your personal information. Upon receiving a verified
-                request, we will delete your data, including any LinkedIn data we have stored,
-                unless retention is required by law.
-              </p>
-              <p>
-                <span className="text-white/80 font-medium">Withdraw consent:</span>{" "}
-                You may disconnect your LinkedIn account from Veyra at any time through your
-                account settings. This immediately revokes our access to your LinkedIn data.
-                You may also revoke access directly from your{" "}
-                <a
-                  href="https://www.linkedin.com/psettings/permitted-services"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-emerald-400 hover:underline"
-                >
-                  LinkedIn settings
-                </a>.
+                request, we will delete your data unless retention is required by law.
               </p>
               <p>
                 <span className="text-white/80 font-medium">Opt-out:</span>{" "}
-                You may opt out of marketing communications at any time by following the
-                unsubscribe instructions in any email we send.
+                You may opt out of marketing emails at any time by following the unsubscribe
+                instructions in any email we send, and you may opt out of text messages at any
+                time by replying STOP.
               </p>
               <p>
                 Where required by applicable law (including GDPR and CCPA), we will honor all
@@ -229,22 +167,21 @@ export default function PrivacyPolicyPage() {
             </div>
           </section>
 
-          {/* 7 */}
+          {/* 6 */}
           <section>
-            <h2 className="text-xl font-semibold text-white">7. Security</h2>
+            <h2 className="text-xl font-semibold text-white">6. Security</h2>
             <p className="text-gray-400 leading-relaxed mt-3">
-              We use commercially reasonable technical and organizational safeguards to protect your
-              information, including encryption in transit (TLS), access controls, and secure
-              infrastructure practices. OAuth tokens used to access LinkedIn are stored securely
-              and are never exposed to the client-side application. No system can guarantee
-              absolute security, and we will promptly notify affected users and relevant authorities
-              in the event of a data breach as required by law.
+              We use commercially reasonable technical and organizational safeguards to protect
+              your information, including encryption in transit (TLS), access controls, and secure
+              infrastructure practices. No system can guarantee absolute security, and we will
+              promptly notify affected users and relevant authorities in the event of a data
+              breach as required by law.
             </p>
           </section>
 
-          {/* 8 */}
+          {/* 7 */}
           <section>
-            <h2 className="text-xl font-semibold text-white">8. Cookies and Similar Technologies</h2>
+            <h2 className="text-xl font-semibold text-white">7. Cookies and Similar Technologies</h2>
             <p className="text-gray-400 leading-relaxed mt-3">
               Our website may use cookies and similar technologies to maintain your session,
               understand usage patterns, improve site performance, and support core functionality.
@@ -252,29 +189,21 @@ export default function PrivacyPolicyPage() {
             </p>
           </section>
 
-          {/* 9 */}
+          {/* 8 */}
           <section>
-            <h2 className="text-xl font-semibold text-white">9. Third-Party Services</h2>
+            <h2 className="text-xl font-semibold text-white">8. Third-Party Services</h2>
             <p className="text-gray-400 leading-relaxed mt-3">
-              Our services integrate with third-party platforms, including LinkedIn. Your use of
-              these platforms is subject to their own privacy policies and terms of service.
-              We encourage you to review{" "}
-              <a
-                href="https://www.linkedin.com/legal/privacy-policy"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-emerald-400 hover:underline"
-              >
-                LinkedIn's Privacy Policy
-              </a>{" "}
-              to understand how LinkedIn handles your data. We are not responsible for the privacy
-              practices of third-party services.
+              Our website and services may integrate with third-party platforms, such as your
+              property management software, scheduling tools, payment processors, and
+              communication providers. Your use of those platforms is subject to their own privacy
+              policies and terms of service. We are not responsible for the privacy practices of
+              third-party services.
             </p>
           </section>
 
-          {/* 10 */}
+          {/* 9 */}
           <section>
-            <h2 className="text-xl font-semibold text-white">10. Children's Privacy</h2>
+            <h2 className="text-xl font-semibold text-white">9. Children's Privacy</h2>
             <p className="text-gray-400 leading-relaxed mt-3">
               Our services are not directed to individuals under the age of 16. We do not
               knowingly collect personal information from children. If we become aware that
@@ -282,9 +211,9 @@ export default function PrivacyPolicyPage() {
             </p>
           </section>
 
-          {/* 11 */}
+          {/* 10 */}
           <section>
-            <h2 className="text-xl font-semibold text-white">11. Updates to This Policy</h2>
+            <h2 className="text-xl font-semibold text-white">10. Updates to This Policy</h2>
             <p className="text-gray-400 leading-relaxed mt-3">
               We may update this Privacy Policy from time to time. Any updates will be posted
               on this page with a revised effective date. If we make material changes, we will
@@ -292,9 +221,9 @@ export default function PrivacyPolicyPage() {
             </p>
           </section>
 
-          {/* 12 */}
+          {/* 11 */}
           <section>
-            <h2 className="text-xl font-semibold text-white">12. SMS / Text Messaging</h2>
+            <h2 className="text-xl font-semibold text-white">11. SMS / Text Messaging</h2>
             <div className="text-gray-400 leading-relaxed mt-3 space-y-3">
               <p>
                 With your consent, Veyra Group may send you text (SMS) messages related to our
@@ -333,9 +262,9 @@ export default function PrivacyPolicyPage() {
             </div>
           </section>
 
-          {/* 13 */}
+          {/* 12 */}
           <section>
-            <h2 className="text-xl font-semibold text-white">13. Contact</h2>
+            <h2 className="text-xl font-semibold text-white">12. Contact</h2>
             <p className="text-gray-400 leading-relaxed mt-3">
               If you have questions about this Privacy Policy, your data, or wish to exercise
               any of your rights, please contact us at{" "}
