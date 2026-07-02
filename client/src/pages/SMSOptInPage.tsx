@@ -100,11 +100,13 @@ export default function SMSOptInPage() {
                   className="mt-1 h-5 w-5 shrink-0 rounded border-white/20 bg-white/[0.04] accent-emerald-500"
                 />
                 <span className="text-sm text-gray-300 leading-relaxed">
-                  I agree to receive recurring text messages from Veyra Group about my workflow
+                  <span className="font-semibold text-white">(Optional)</span> I agree to receive
+                  recurring text messages from Veyra Group about my workflow
                   audit, account, and service updates. Message frequency varies. Message and data
                   rates may apply. Reply <span className="font-semibold text-white">STOP</span> to opt
                   out, <span className="font-semibold text-white">HELP</span> for help. Consent is not
-                  a condition of purchase. See our{" "}
+                  a condition of purchase, and carriers are not liable for delayed or undelivered
+                  messages. See our{" "}
                   <a href="/privacy" className="text-emerald-400 hover:underline">Privacy Policy</a>{" "}
                   and{" "}
                   <a href="/terms-of-service" className="text-emerald-400 hover:underline">Terms of Service</a>.

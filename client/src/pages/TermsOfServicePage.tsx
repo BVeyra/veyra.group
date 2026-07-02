@@ -100,11 +100,15 @@ export default function TermsOfServicePage() {
               </p>
               <p>
                 <span className="text-white/80 font-medium">Description:</span>{" "}
-                Veyra Group sends operational text messages to recipients who have opted in,
-                including appointment and maintenance scheduling, status and account
-                notifications, and customer-care replies. Recipients opt in by providing their
-                mobile number and giving express consent during a sales or onboarding
-                conversation. Consent is not a condition of purchase.
+                Veyra Group sends operational and service text messages to individuals who have
+                voluntarily opted in, including workflow audit and appointment scheduling,
+                maintenance and status updates, account and onboarding notifications, service
+                updates, and customer-care replies. Recipients opt in through the consent form at{" "}
+                <a href="/sms" className="text-emerald-400 hover:underline">veyragroup.ai/sms</a>{" "}
+                by entering their mobile number and checking a separate, optional consent box.
+                Opting in to text messages is entirely optional and is not a condition of
+                purchasing, using, or continuing any Veyra Group product or service, and it is not
+                bundled with these Terms or any other agreement.
               </p>
               <p>
                 <span className="text-white/80 font-medium">Message frequency:</span>{" "}
@@ -130,8 +134,14 @@ export default function TermsOfServicePage() {
                 or (220) 244-4213.
               </p>
               <p>
+                <span className="text-white/80 font-medium">Carrier liability:</span>{" "}
+                Carriers are not liable for any delayed or undelivered messages.
+              </p>
+              <p>
                 Mobile opt-in information and consent are never shared with third parties or
-                affiliates for marketing or promotional purposes.
+                affiliates for marketing or promotional purposes. For details on how we handle
+                your data, see our{" "}
+                <a href="/privacy" className="text-emerald-400 hover:underline">Privacy Policy</a>.
               </p>
             </div>
           </section>

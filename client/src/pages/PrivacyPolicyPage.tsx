@@ -232,10 +232,13 @@ export default function PrivacyPolicyPage() {
               </p>
               <p>
                 <span className="text-white/80 font-medium">Consent:</span>{" "}
-                We only send text messages to individuals who have opted in — for example, by
-                providing a mobile number and agreeing to be contacted during an audit request,
-                onboarding, or in a signed service agreement. Consent to receive text messages is
-                not a condition of purchasing any product or service.
+                We only send text messages to individuals who have voluntarily opted in by
+                submitting the consent form at{" "}
+                <a href="/sms" className="text-emerald-400 hover:underline">veyragroup.ai/sms</a>{" "}
+                — entering their mobile number and checking a separate, optional consent box.
+                Opting in is entirely optional and is not a condition of purchasing, using, or
+                continuing any product or service, and messaging consent is kept separate from
+                this Privacy Policy, our Terms of Service, and any other agreement.
               </p>
               <p>
                 <span className="text-white/80 font-medium">Message frequency and rates:</span>{" "}
@@ -257,7 +260,9 @@ export default function PrivacyPolicyPage() {
                 <span className="text-white/80 font-medium">No sharing of mobile data:</span>{" "}
                 Mobile opt-in information and text messaging consent will never be shared with
                 third parties or affiliates for marketing or promotional purposes, and we do not
-                sell your mobile information.
+                sell your mobile information. All of the data categories described in this Privacy
+                Policy exclude text messaging originator opt-in data and consent; this information
+                will not be shared with any third parties.
               </p>
             </div>
           </section>
