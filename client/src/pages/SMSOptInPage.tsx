@@ -11,7 +11,10 @@ export default function SMSOptInPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!agreed || !phone) return;
+    // SMS consent is optional: the form submits with only a valid phone number.
+    // Checking the box is what opts the person into texts; leaving it unchecked
+    // still submits, they are simply not enrolled. (TCR/A2P 10DLC requirement.)
+    if (!phone) return;
     setSubmitted(true);
   };
 
@@ -54,13 +57,24 @@ export default function SMSOptInPage() {
 
         <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-6 md:p-8">
           {submitted ? (
-            <div className="text-gray-200">
-              <h2 className="text-xl font-semibold text-white">You're opted in ✅</h2>
-              <p className="text-gray-400 mt-3 leading-relaxed">
-                Thanks — we'll text you at {phone}. You can reply <span className="font-semibold text-white">STOP</span> at
-                any time to opt out, or <span className="font-semibold text-white">HELP</span> for help.
-              </p>
-            </div>
+            agreed ? (
+              <div className="text-gray-200">
+                <h2 className="text-xl font-semibold text-white">You're opted in ✅</h2>
+                <p className="text-gray-400 mt-3 leading-relaxed">
+                  Thanks — we'll text you at {phone}. You can reply <span className="font-semibold text-white">STOP</span> at
+                  any time to opt out, or <span className="font-semibold text-white">HELP</span> for help.
+                </p>
+              </div>
+            ) : (
+              <div className="text-gray-200">
+                <h2 className="text-xl font-semibold text-white">Got it — you're not signed up for texts</h2>
+                <p className="text-gray-400 mt-3 leading-relaxed">
+                  Thanks. Because the consent box was left unchecked, we won't send you any text
+                  messages. If you'd like to receive updates at {phone}, come back and check the
+                  consent box — it's entirely optional.
+                </p>
+              </div>
+            )
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
@@ -115,10 +129,10 @@ export default function SMSOptInPage() {
 
               <button
                 type="submit"
-                disabled={!agreed || !phone}
+                disabled={!phone}
                 className="w-full rounded-full bg-emerald-500 text-white font-semibold px-5 py-3 hover:bg-emerald-400 transition disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                Sign up for text updates
+                Submit
               </button>
 
               <p className="text-xs text-gray-500 leading-relaxed">
