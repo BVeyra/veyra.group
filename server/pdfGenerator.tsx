@@ -1,9 +1,27 @@
 import React from "react";
 import { Resend } from "resend";
 import { renderToBuffer } from "@react-pdf/renderer";
-import { buildAuditInsights, type AuditLeadData } from "./auditReport";
-import { PDFReport } from "./pdfTemplate";
+import {
+  buildFollowUp,
+  encodeReportToken,
+  type AuditInsights,
+  type AuditLeadData,
+} from "../shared/auditEngine.js";
+import { buildPDFDocument } from "../shared/auditPdf.js";
 import type { CrmSyncResult } from "./crmSync";
+
+const SITE_URL = process.env.SITE_URL || "https://veyragroup.ai";
+
+export function bookingUrlFor(data?: AuditLeadData) {
+  const base = process.env.BOOKING_URL || `${SITE_URL}/book`;
+  if (!data) return base;
+  const params = new URLSearchParams({ name: data.name, email: data.email });
+  return `${base}?${params.toString()}`;
+}
+
+export function reportUrlFor(data: AuditLeadData) {
+  return `${SITE_URL}/report?d=${encodeReportToken(data)}`;
+}
 
 function escapeHtml(value: string) {
   return value
@@ -28,128 +46,142 @@ function getResendClient() {
     client: new Resend(apiKey),
     fromEmail: process.env.RESEND_FROM_EMAIL || "Veyra Group <contact@veyragroup.ai>",
     fallbackFromEmail: "Veyra Group <onboarding@resend.dev>",
-    bookingUrl: process.env.BOOKING_URL || "https://veyragroup.ai/book",
     ownerNotificationEmail: process.env.OWNER_NOTIFICATION_EMAIL || "contact@veyragroup.ai",
   };
 }
 
-export async function generateAndEmailPDF(data: AuditLeadData) {
-  try {
-    const pdfBuffer = await renderToBuffer(<PDFReport data={data} />);
-    const insights = buildAuditInsights(data);
-    const { client: resend, fromEmail, fallbackFromEmail, bookingUrl } = getResendClient();
-    const safeName = escapeHtml(data.name);
-    const safeCompany = escapeHtml(data.company);
-    const safeBookingUrl = escapeHtml(bookingUrl);
-    const safeRecommendationTitle = escapeHtml(insights.primaryRecommendation.title);
-    const safeRecommendationDescription = escapeHtml(insights.primaryRecommendation.description);
-    const safeFitNote = escapeHtml(insights.primaryRecommendation.fitNote);
-    const safePrep = escapeHtml(insights.primaryRecommendation.callPrep.slice(0, 2).join(" · "));
-    const safeFileBase = data.company
-      .replace(/[^a-z0-9]+/gi, "_")
-      .replace(/^_+|_+$/g, "")
-      .toLowerCase();
+export async function generateAndEmailPDF(data: AuditLeadData, insights: AuditInsights) {
+  const bookingUrl = bookingUrlFor(data);
+  const reportUrl = reportUrlFor(data);
+  const pdfBuffer = await renderToBuffer(buildPDFDocument(data, insights, bookingUrl));
+  const { client: resend, fromEmail, fallbackFromEmail } = getResendClient();
+  const safeName = escapeHtml(data.name);
+  const safeCompany = escapeHtml(data.company);
+  const safeBookingUrl = escapeHtml(bookingUrl);
+  const safeReportUrl = escapeHtml(reportUrl);
+  const safeRecommendationTitle = escapeHtml(insights.primaryRecommendation.title);
+  const safeRecommendationDescription = escapeHtml(insights.primaryRecommendation.description);
+  const safeFitNote = escapeHtml(insights.primaryRecommendation.fitNote);
+  const safeFileBase = data.company
+    .replace(/[^a-z0-9]+/gi, "_")
+    .replace(/^_+|_+$/g, "")
+    .toLowerCase();
 
-    const sendReportEmail = async (sender: string) =>
-      resend.emails.send({
-        from: sender,
-        to: data.email,
-        subject: sanitizeSubject(`${data.company}: your PM Workflow Audit is ready`),
-        html: `
-  <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:600px;margin:0 auto;background-color:#0a0f0a;">
-    <div style="padding:28px 32px 20px;border-bottom:1px solid #1a2a1f;">
+  const text = [
+    `${data.name},`,
+    ``,
+    `Your PM Workflow Audit for ${data.company} is ready.`,
+    `View your full report: ${reportUrl}`,
+    ``,
+    `What jumped out: ${insights.primaryRecommendation.title} is the strongest first build.`,
+    `~${insights.estimatedWeeklyBusyworkHours} hours of repeatable work per week, roughly $${insights.monthlyAdminEquivalent.toLocaleString()}/mo of part-time admin equivalent.`,
+    `The first build could reasonably give back ${insights.estimatedWeeklyTimeSaved} hours/week.`,
+    ``,
+    insights.primaryRecommendation.description,
+    ``,
+    `Book the workflow audit call: ${bookingUrl}`,
+    `Prefer to talk now? Call (220) 244-4213.`,
+  ].join("\n");
+
+  const sendReportEmail = async (sender: string) =>
+    resend.emails.send({
+      from: sender,
+      to: data.email,
+      subject: sanitizeSubject(`${data.company}: your PM Workflow Audit is ready`),
+      text,
+      html: `
+  <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:600px;margin:0 auto;background-color:#0a0a0a;">
+    <div style="padding:28px 32px 20px;border-bottom:1px solid #1a1a1a;">
       <span style="font-size:16px;font-weight:800;letter-spacing:-0.3px;">
-        <span style="color:#ffffff;">VEYRA</span><span style="color:#22c55e;margin-left:4px;">GROUP</span>
+        <span style="color:#f3f6f4;">Veyra</span><span style="color:#8b938f;font-weight:500;margin-left:6px;">Group</span>
       </span>
     </div>
     <div style="padding:32px;">
-      <p style="font-size:16px;font-weight:600;color:#e9f4ed;margin:0 0 20px 0;">${safeName},</p>
-      <p style="font-size:15px;color:#9fb0a5;line-height:1.7;margin:0 0 20px 0;">
-        Your PM Workflow Audit for <strong style="color:#ffffff;">${safeCompany}</strong> is attached.
+      <p style="font-size:16px;font-weight:600;color:#ffffff;margin:0 0 20px 0;">${safeName},</p>
+      <p style="font-size:15px;color:#9ca3af;line-height:1.7;margin:0 0 20px 0;">
+        Your PM Workflow Audit for <strong style="color:#ffffff;">${safeCompany}</strong> is ready.
+        <a href="${safeReportUrl}" style="color:#5aa98a;text-decoration:underline;">View your full report</a> &mdash; a PDF copy is attached.
       </p>
-      <div style="background:#0f1712;border:1px solid #173224;border-radius:14px;padding:18px;margin:0 0 20px 0;">
-        <div style="font-size:11px;color:#22c55e;text-transform:uppercase;letter-spacing:1.4px;margin-bottom:8px;">What jumped out</div>
-        <p style="font-size:15px;color:#e9f4ed;line-height:1.7;margin:0 0 8px 0;"><strong>${safeRecommendationTitle}</strong> is the strongest first build.</p>
-        <p style="font-size:14px;color:#9fb0a5;line-height:1.7;margin:0 0 8px 0;">${insights.estimatedWeeklyBusyworkHours} hours of repeatable work per week. Roughly $${insights.monthlyAdminEquivalent.toLocaleString()}/mo of part-time admin equivalent.</p>
-        <p style="font-size:14px;color:#9fb0a5;line-height:1.7;margin:0;">The first build could reasonably give back <strong style="color:#ffffff;">${insights.estimatedWeeklyTimeSaved} hours/week</strong> if the current workflow looks like your inputs.</p>
+      <div style="background:#121212;border:1px solid #1a1a1a;border-radius:14px;padding:18px;margin:0 0 20px 0;">
+        <div style="font-size:11px;color:#5aa98a;text-transform:uppercase;letter-spacing:1.4px;margin-bottom:8px;">What jumped out</div>
+        <p style="font-size:15px;color:#ffffff;line-height:1.7;margin:0 0 8px 0;"><strong>${safeRecommendationTitle}</strong> is the strongest first build.</p>
+        <p style="font-size:14px;color:#9ca3af;line-height:1.7;margin:0 0 8px 0;">${insights.estimatedWeeklyBusyworkHours} hours of repeatable work per week. Roughly $${insights.monthlyAdminEquivalent.toLocaleString()}/mo of part-time admin equivalent.</p>
+        <p style="font-size:14px;color:#9ca3af;line-height:1.7;margin:0;">The first build could reasonably give back <strong style="color:#ffffff;">${insights.estimatedWeeklyTimeSaved} hours/week</strong> if the current workflow looks like your inputs.</p>
       </div>
-      <p style="font-size:15px;color:#9fb0a5;line-height:1.7;margin:0 0 20px 0;">
+      <p style="font-size:15px;color:#9ca3af;line-height:1.7;margin:0 0 20px 0;">
         ${safeRecommendationDescription}
       </p>
-      <p style="font-size:14px;color:#9fb0a5;line-height:1.7;margin:0 0 20px 0;">
+      <p style="font-size:14px;color:#9ca3af;line-height:1.7;margin:0 0 20px 0;">
         ${safeFitNote}
       </p>
       <div style="text-align:center;margin:0 0 24px 0;">
-        <a href="${safeBookingUrl}" style="display:inline-block;background-color:#22c55e;color:#0a0f0a;padding:14px 34px;text-decoration:none;border-radius:999px;font-weight:700;font-size:15px;">
+        <a href="${safeBookingUrl}" style="display:inline-block;background-color:#0f7a55;color:#ffffff;padding:14px 34px;text-decoration:none;border-radius:999px;font-weight:700;font-size:15px;">
           Book the workflow audit call
         </a>
       </div>
-      <p style="text-align:center;font-size:14px;color:#9fb0a5;line-height:1.6;margin:0 0 24px 0;">
-        Prefer to talk now? Call <a href="tel:+12202444213" style="color:#22c55e;text-decoration:none;font-weight:600;">(220) 244-4213</a>
-      </p>
-      <p style="font-size:13px;color:#6f8176;line-height:1.6;margin:0;">
-        This is a directional diagnostic, not a promise. If it looks right, the next call should focus on ${escapeHtml(insights.primaryAngle)} and the current rules/process it needs to replace.
-      </p>
-      <p style="font-size:13px;color:#6f8176;line-height:1.6;margin:10px 0 0 0;">
-        Useful prep for that call: ${safePrep}
+      <p style="text-align:center;font-size:14px;color:#9ca3af;line-height:1.6;margin:0 0 24px 0;">
+        Prefer to talk now? Call <a href="tel:+12202444213" style="color:#5aa98a;text-decoration:none;font-weight:600;">(220) 244-4213</a>
       </p>
     </div>
   </div>
 `,
-        attachments: [
-          {
-            filename: `${safeFileBase || "pm_workflow_audit"}_pm_workflow_audit_report.pdf`,
-            content: pdfBuffer,
-          },
-        ],
-      });
+      attachments: [
+        {
+          filename: `${safeFileBase || "pm_workflow_audit"}_pm_workflow_audit_report.pdf`,
+          content: pdfBuffer,
+        },
+      ],
+    });
 
-    let result = await sendReportEmail(fromEmail);
-    if (result.error && fromEmail !== fallbackFromEmail) {
-      result = await sendReportEmail(fallbackFromEmail);
-    }
-    if (result.error) {
-      throw new Error(result.error.message);
-    }
-
-    return { success: true, messageId: result.data?.id };
-  } catch (error) {
-    console.error("Error generating/sending PM audit PDF:", error);
-    throw error;
+  let result = await sendReportEmail(fromEmail);
+  if (result.error && fromEmail !== fallbackFromEmail) {
+    result = await sendReportEmail(fallbackFromEmail);
   }
+  if (result.error) {
+    throw new Error(result.error.message);
+  }
+
+  return { success: true, messageId: result.data?.id };
 }
 
-export async function sendOwnerNotification(data: AuditLeadData, crmSync?: CrmSyncResult) {
+export async function sendOwnerNotification(
+  data: AuditLeadData,
+  insights: AuditInsights,
+  extras: { crmSync?: CrmSyncResult; reportEmailStatus: string },
+) {
   try {
-    const insights = buildAuditInsights(data);
+    const followUp = buildFollowUp(data, insights);
     const { client: resend, fromEmail, fallbackFromEmail, ownerNotificationEmail } = getResendClient();
-    const safeName = escapeHtml(data.name);
-    const safeCompany = escapeHtml(data.company);
-    const safeEmail = escapeHtml(data.email.trim());
-    const safeSource = escapeHtml(data.source || "direct");
-    const safePainPoints = escapeHtml(insights.topPainPoints.join(", ") || "No explicit pains selected");
+    const crmSync = extras.crmSync;
     const safeCrmStatus = escapeHtml(
       crmSync?.status === "created" || crmSync?.status === "updated"
         ? `${crmSync.status} prospect${crmSync.prospectId ? ` #${crmSync.prospectId}` : ""}`
         : crmSync?.reason || crmSync?.status || "not attempted",
     );
+    const attribution = [
+      data.source && `source: ${data.source}`,
+      data.utmSource && `utm_source: ${data.utmSource}`,
+      data.utmMedium && `utm_medium: ${data.utmMedium}`,
+      data.utmCampaign && `utm_campaign: ${data.utmCampaign}`,
+      data.referrer && `referrer: ${data.referrer}`,
+    ].filter(Boolean).join(" · ") || "direct / unknown";
 
     const sendNotification = async (sender: string) =>
       resend.emails.send({
         from: sender,
         to: ownerNotificationEmail,
-        subject: sanitizeSubject(`New PM audit lead - ${data.company}`),
+        subject: sanitizeSubject(`[${followUp.priority}] New PM audit lead - ${data.company}`),
         html: `
 <h2>New Website Audit Lead</h2>
-<p><strong>Priority:</strong> ${escapeHtml(insights.followUpPriority)}</p>
+<p><strong>Priority:</strong> ${escapeHtml(followUp.priority)}</p>
 <p><strong>CRM Sync:</strong> ${safeCrmStatus}</p>
+<p><strong>Report email:</strong> ${escapeHtml(extras.reportEmailStatus)}</p>
 
 <h3>Contact</h3>
 <ul>
-  <li><strong>Name:</strong> ${safeName}</li>
-  <li><strong>Company:</strong> ${safeCompany}</li>
-  <li><strong>Email:</strong> ${safeEmail}</li>
-  <li><strong>Source:</strong> ${safeSource}</li>
+  <li><strong>Name:</strong> ${escapeHtml(data.name)}</li>
+  <li><strong>Company:</strong> ${escapeHtml(data.company)}</li>
+  <li><strong>Email:</strong> ${escapeHtml(data.email.trim())}</li>
 </ul>
 
 <h3>Audit Snapshot</h3>
@@ -158,16 +190,22 @@ export async function sendOwnerNotification(data: AuditLeadData, crmSync?: CrmSy
   <li><strong>PM software:</strong> ${escapeHtml(data.pmSoftware)}</li>
   <li><strong>Response Time:</strong> ${escapeHtml(data.responseTime)}</li>
   <li><strong>Maintenance flow:</strong> ${escapeHtml(data.maintenanceFlow)}</li>
+  <li><strong>After hours:</strong> ${escapeHtml(data.afterHours)}</li>
   <li><strong>Owner reporting:</strong> ${escapeHtml(data.ownerReporting)}</li>
-  <li><strong>Pain Points:</strong> ${safePainPoints}</li>
+  <li><strong>Rent collection:</strong> ${escapeHtml(data.rentCollection)}</li>
+  <li><strong>Pain Points:</strong> ${escapeHtml(insights.topPainPoints.join(", ") || "No explicit pains selected")}</li>
   <li><strong>Estimated weekly busywork:</strong> ${insights.estimatedWeeklyBusyworkHours} hours</li>
   <li><strong>Monthly admin equivalent:</strong> $${insights.monthlyAdminEquivalent.toLocaleString()}</li>
   <li><strong>First build:</strong> ${escapeHtml(insights.primaryRecommendation.title)}</li>
   <li><strong>Primary angle:</strong> ${escapeHtml(insights.primaryAngle)}</li>
+  <li><strong>Report:</strong> <a href="${escapeHtml(reportUrlFor(data))}">web report</a></li>
 </ul>
 
+<h3>Attribution</h3>
+<p>${escapeHtml(attribution)}</p>
+
 <h3>Next Action</h3>
-<p>${escapeHtml(insights.followUpReason)}</p>
+<p>${escapeHtml(followUp.reason)}</p>
 `,
       });
 

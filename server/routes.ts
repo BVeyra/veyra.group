@@ -1,137 +1,48 @@
 import type { Express, Request } from "express";
 import type { Server } from "http";
-import {
-  buildAuditInsights,
-  MAINTENANCE_FLOW_OPTIONS,
-  OWNER_REPORTING_OPTIONS,
-  PAIN_OPTIONS,
-  type AuditLeadData,
-  type MaintenanceFlowOption,
-  type PainOption,
-  PM_SOFTWARE_OPTIONS,
-  RESPONSE_TIME_OPTIONS,
-  type OwnerReportingOption,
-  type PmSoftwareOption,
-  type ResponseTimeOption,
-} from "./auditReport";
+import { buildAuditInsights } from "../shared/auditEngine.js";
+import { isValidLeadEmail, normalizeLeadPayload } from "../shared/auditValidation.js";
 import { syncAuditLeadToCrm } from "./crmSync";
-import { generateAndEmailPDF, sendOwnerNotification } from "./pdfGenerator";
+import { bookingUrlFor, generateAndEmailPDF, reportUrlFor, sendOwnerNotification } from "./pdfGenerator";
 
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const blockedEmailFragments = [
-  "example.com",
-  "test.com",
-  "invalid",
-  "fake",
-  "mailinator.com",
-  "tempmail",
-  "guerrillamail",
-];
 const requestLog = new Map<string, number[]>();
 
 function getClientIp(req: Request) {
   return req.ip || req.socket.remoteAddress || "unknown";
 }
 
-function pruneRequests(ip: string, now: number) {
+function isRateLimited(ip: string, now: number) {
+  if (requestLog.size > 5000) requestLog.clear();
   const recent = (requestLog.get(ip) || []).filter((timestamp) => now - timestamp < RATE_LIMIT_WINDOW_MS);
+  if (recent.length >= RATE_LIMIT_MAX_REQUESTS) return true;
+  recent.push(now);
   requestLog.set(ip, recent);
-  return recent;
-}
-
-function isValidLeadEmail(email: string) {
-  const normalized = email.trim().toLowerCase();
-  if (!normalized || !emailPattern.test(normalized)) {
-    return false;
-  }
-  return !blockedEmailFragments.some((fragment) => normalized.includes(fragment));
-}
-
-function isAllowedOption<T extends readonly string[]>(value: unknown, allowed: T): value is T[number] {
-  return typeof value === "string" && allowed.includes(value);
-}
-
-function parsePainPoints(raw: unknown): PainOption[] {
-  if (!Array.isArray(raw) || raw.length === 0) {
-    return [];
-  }
-  const values = raw.filter((item): item is PainOption => isAllowedOption(item, PAIN_OPTIONS));
-  return Array.from(new Set(values));
-}
-
-function normalizeLeadPayload(body: Record<string, unknown>): AuditLeadData | null {
-  const name = typeof body.name === "string" ? body.name.trim() : "";
-  const company = typeof body.company === "string" ? body.company.trim() : "";
-  const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
-  const units = Number(body.units);
-  const teamSize = Number(body.teamSize);
-  const painPoints = parsePainPoints(body.painPoints);
-
-  if (!name || !company || !email) {
-    return null;
-  }
-  if (!Number.isFinite(units) || !Number.isFinite(teamSize) || units <= 0 || teamSize <= 0) {
-    return null;
-  }
-  if (!isAllowedOption(body.pmSoftware, PM_SOFTWARE_OPTIONS)) {
-    return null;
-  }
-  if (!isAllowedOption(body.responseTime, RESPONSE_TIME_OPTIONS)) {
-    return null;
-  }
-  if (!isAllowedOption(body.maintenanceFlow, MAINTENANCE_FLOW_OPTIONS)) {
-    return null;
-  }
-  if (!isAllowedOption(body.ownerReporting, OWNER_REPORTING_OPTIONS)) {
-    return null;
-  }
-  if (painPoints.length === 0) {
-    return null;
-  }
-
-  return {
-    name,
-    company,
-    email,
-    units: Math.round(units),
-    teamSize: Math.round(teamSize),
-    pmSoftware: body.pmSoftware as PmSoftwareOption,
-    responseTime: body.responseTime as ResponseTimeOption,
-    maintenanceFlow: body.maintenanceFlow as MaintenanceFlowOption,
-    ownerReporting: body.ownerReporting as OwnerReportingOption,
-    painPoints,
-    source: typeof body.source === "string" ? body.source : "",
-    entry: typeof body.entry === "string" ? body.entry : "",
-    referrer: typeof body.referrer === "string" ? body.referrer : "",
-    pageUrl: typeof body.pageUrl === "string" ? body.pageUrl : "",
-    utmSource: typeof body.utmSource === "string" ? body.utmSource : "",
-    utmMedium: typeof body.utmMedium === "string" ? body.utmMedium : "",
-    utmCampaign: typeof body.utmCampaign === "string" ? body.utmCampaign : "",
-  };
+  return false;
 }
 
 export async function registerRoutes(httpServer: Server, app: Express): Promise<Server> {
   app.post("/api/generate-report", async (req, res) => {
     try {
       const ip = getClientIp(req);
-      const timestamp = new Date().toISOString();
-      const recentRequests = pruneRequests(ip, Date.now());
-      if (recentRequests.length >= RATE_LIMIT_MAX_REQUESTS) {
-        return res.status(429).json({
-          success: false,
-          error: "Rate limit exceeded. Try again later.",
-        });
-      }
-      recentRequests.push(Date.now());
-      requestLog.set(ip, recentRequests);
+      const body = (req.body || {}) as Record<string, unknown>;
 
-      const payload = normalizeLeadPayload(req.body || {});
+      if (isRateLimited(ip, Date.now())) {
+        return res.status(429).json({ success: false, error: "Rate limit exceeded. Try again later." });
+      }
+
+      // Honeypot: real users never fill this hidden field. Pretend success so
+      // bots don't learn they were filtered.
+      if (typeof body.website === "string" && body.website.trim() !== "") {
+        return res.json({ success: true });
+      }
+
+      const payload = normalizeLeadPayload(body);
       console.log(
         JSON.stringify({
           event: "generate-report.request",
-          timestamp,
+          timestamp: new Date().toISOString(),
           ip,
           email: payload?.email || "",
           source: payload?.source || "",
@@ -139,27 +50,37 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       );
 
       if (!payload) {
-        return res.status(400).json({
-          success: false,
-          error: "Missing or invalid PM audit fields",
-        });
+        return res.status(400).json({ success: false, error: "Missing or invalid PM audit fields" });
       }
       if (!isValidLeadEmail(payload.email)) {
-        return res.status(400).json({
-          success: false,
-          error: "Invalid email address",
-        });
+        return res.status(400).json({ success: false, error: "Invalid email address" });
       }
 
       const insights = buildAuditInsights(payload);
-      const result = await generateAndEmailPDF(payload);
+
+      // Capture the lead BEFORE attempting email delivery: a Resend failure
+      // must never lose a completed audit.
       const crmSync = await syncAuditLeadToCrm(payload);
-      await sendOwnerNotification(payload, crmSync);
+
+      let reportEmailStatus = "sent";
+      let messageId: string | undefined;
+      try {
+        const result = await generateAndEmailPDF(payload, insights);
+        messageId = result.messageId;
+      } catch (emailError) {
+        reportEmailStatus = emailError instanceof Error ? `failed: ${emailError.message}` : "failed";
+        console.error("Report email failed (lead still captured):", emailError);
+      }
+
+      await sendOwnerNotification(payload, insights, { crmSync, reportEmailStatus });
 
       return res.json({
         success: true,
         insights,
-        messageId: result.messageId,
+        reportUrl: reportUrlFor(payload),
+        bookingUrl: bookingUrlFor(payload),
+        emailDelivered: reportEmailStatus === "sent",
+        messageId,
         crmSync: crmSync.status,
       });
     } catch (error) {

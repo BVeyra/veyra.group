@@ -259,7 +259,7 @@ export default function Home() {
 
       const next = Number(payload.height);
       if (!Number.isFinite(next)) return;
-      setCalculatorHeight(Math.max(360, Math.min(1800, Math.round(next))));
+      setCalculatorHeight(Math.max(360, Math.min(4200, Math.round(next))));
     };
 
     window.addEventListener("message", onMessage);

@@ -3,7 +3,7 @@ import { SeoHead } from "@/components/SeoHead";
 import { Button } from "@/components/ui/button";
 import { BOOKING_URL } from "@/lib/calendly";
 import { ArrowRight, FileText, LineChart, Mail } from "lucide-react";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const benefitCards = [
   {
@@ -24,6 +24,25 @@ const benefitCards = [
 ];
 
 export default function CalculatorPage() {
+  const [calculatorHeight, setCalculatorHeight] = useState(1160);
+
+  useEffect(() => {
+    const onMessage = (event: MessageEvent) => {
+      if (event.origin !== window.location.origin) return;
+      const payload = event.data as { type?: string; height?: number } | null;
+      if (!payload || payload.type !== "roi-calculator-height") return;
+
+      const next = Number(payload.height);
+      if (!Number.isFinite(next)) return;
+      // The results view (report cards + inline calendar) runs well past
+      // 2000px — track the content instead of clamping it away.
+      setCalculatorHeight(Math.max(360, Math.min(4200, Math.round(next))));
+    };
+
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
+
   const iframeSrc = useMemo(() => {
     if (typeof window === "undefined") {
       return "/roi-calculator.html?theme=dark&entry=full_page";
@@ -103,7 +122,7 @@ export default function CalculatorPage() {
                 <iframe
                   src={iframeSrc}
                   title="Veyra Group PM Workflow Audit"
-                  style={{ width: "100%", minHeight: "1160px", border: "0", display: "block" }}
+                  style={{ width: "100%", height: `${calculatorHeight}px`, minHeight: "1160px", border: "0", display: "block" }}
                 />
               </div>
             </div>
