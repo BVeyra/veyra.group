@@ -100,9 +100,9 @@ const rentCollectionOptions=['We chase late rent by text and phone every month',
 const painOptions=['Tenant questions and status updates','Maintenance triage and vendor follow-up','Owner approvals and owner reporting','Leasing inquiry follow-up','Renewals and notices','Chasing rent and late fees','After-hours messages land on me','Everyone is context-switching all day','All of the above'];
 const optionSets={pmSoftware:pmSoftwareOptions,responseTime:responseOptions,maintenanceFlow:maintenanceOptions,afterHours:afterHoursOptions,ownerReporting:ownerReportingOptions,rentCollection:rentCollectionOptions};
 const CALENDLY_URL='https://calendly.com/veyragroup/15min?background_color=050505&text_color=e5e7eb&primary_color=0f7a55&hide_gdpr_banner=1';
-// Set to your Cloudflare Turnstile site key to enable bot verification.
-// Leave empty to skip (the API also skips verification while TURNSTILE_SECRET_KEY is unset).
-const TURNSTILE_SITE_KEY='';
+// Cloudflare Turnstile site key ("veyragroup.ai audit funnel" widget, Managed mode).
+// The matching TURNSTILE_SECRET_KEY lives in Vercel env; clearing both disables verification.
+const TURNSTILE_SITE_KEY='0x4AAAAAADywyHV39gwDow-F';
 const QUESTION_COUNT=9;
 const TOTAL_STEPS=10; // 9 questions + contact step
 const state={
