@@ -21,13 +21,22 @@ export default function BookPage() {
       document.head.appendChild(link);
     }
 
+    const params = new URLSearchParams(window.location.search);
+    const prefillName = params.get("name") || "";
+    const prefillEmail = params.get("email") || "";
+    // Calendly reads name/email prefill from the scheduling URL itself.
+    const embedUrl = new URL(CALENDLY_EMBED_URL);
+    if (prefillName) embedUrl.searchParams.set("name", prefillName);
+    if (prefillEmail) embedUrl.searchParams.set("email", prefillEmail);
+
     const initWidget = () => {
       const calendly = (window as any).Calendly;
       if (!calendly?.initInlineWidget) return;
       widgetRoot.innerHTML = "";
       calendly.initInlineWidget({
-        url: CALENDLY_EMBED_URL,
+        url: embedUrl.toString(),
         parentElement: widgetRoot,
+        prefill: { name: prefillName, email: prefillEmail },
       });
     };
 

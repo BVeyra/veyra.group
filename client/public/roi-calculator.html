@@ -5,17 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PM Workflow Audit | Veyra Group</title>
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Bricolage+Grotesque:wght@500;700&display=swap");
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--emerald:#0f7a55;--emerald-light:rgba(15,122,85,0.15);--emerald-border:rgba(15,122,85,0.5);--card-bg:linear-gradient(160deg, rgba(11,18,15,0.9), rgba(12,24,19,0.74) 50%, rgba(9,14,12,0.92));--card-border:rgba(128,205,179,0.16);--card-shadow:0 18px 50px rgba(0,0,0,0.35),0 0 38px rgba(39,122,101,0.08),inset 0 1px 0 rgba(255,255,255,0.08);--text-heading:#ffffff;--text-body:rgba(255,255,255,0.7);--text-muted:rgba(255,255,255,0.5);--bg:#0a0f0a;--danger:#f87171}
+:root{--emerald:#0f7a55;--emerald-light:rgba(15,122,85,0.15);--emerald-border:rgba(15,122,85,0.5);--card-bg:linear-gradient(160deg, rgba(11,18,15,0.9), rgba(12,24,19,0.74) 50%, rgba(9,14,12,0.92));--card-border:rgba(128,205,179,0.16);--card-shadow:0 18px 50px rgba(0,0,0,0.35),0 0 38px rgba(39,122,101,0.08),inset 0 1px 0 rgba(255,255,255,0.08);--text-heading:#ffffff;--text-body:rgba(255,255,255,0.7);--text-muted:rgba(255,255,255,0.5);--bg:#0a0a0a;--danger:#f87171}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text-body);line-height:1.6;min-height:0}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -20%, rgba(5,150,105,0.08), transparent),repeating-linear-gradient(0deg,transparent,transparent 95px,rgba(65,159,132,0.009) 95px,rgba(65,159,132,0.009) 96px),repeating-linear-gradient(90deg,transparent,transparent 95px,rgba(65,159,132,0.009) 95px,rgba(65,159,132,0.009) 96px);pointer-events:none;z-index:0}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -20%, rgba(15,122,85,0.08), transparent),repeating-linear-gradient(0deg,transparent,transparent 95px,rgba(65,159,132,0.009) 95px,rgba(65,159,132,0.009) 96px),repeating-linear-gradient(90deg,transparent,transparent 95px,rgba(65,159,132,0.009) 95px,rgba(65,159,132,0.009) 96px);pointer-events:none;z-index:0}
 .container{max-width:640px;margin:0 auto;padding:20px;position:relative;z-index:2}
 .progress-bar{height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin-bottom:40px;overflow:hidden}
 .progress-fill{height:100%;background:var(--emerald);border-radius:2px;transition:width .5s ease}
-.logo{text-align:center;margin-bottom:32px;font-size:14px;letter-spacing:1px}
-.logo .v{color:#f3f6f4;font-weight:800;letter-spacing:2px}.logo .eyra{color:#fff;font-weight:800;letter-spacing:2px}
-.logo .group{color:rgba(255,255,255,0.4);font-weight:400;letter-spacing:3px;margin-left:8px}
+.logo{text-align:center;margin-bottom:32px;font-size:18px;font-family:'Bricolage Grotesque','Inter',system-ui,sans-serif}
+.logo .veyra{color:#f3f6f4;font-weight:700;letter-spacing:-0.02em}
+.logo .group{color:#8b938f;font-weight:500;font-size:0.72em;margin-left:0.34em}
 .step{display:none;animation:fadeIn .4s ease}
 .step.active{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
@@ -24,7 +24,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .slider-container{margin-bottom:24px}
 .slider-value{font-size:48px;font-weight:800;color:var(--emerald);text-align:center;margin-bottom:16px}
 input[type=range]{-webkit-appearance:none;width:100%;height:6px;background:rgba(255,255,255,0.1);border-radius:3px;outline:none}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;background:var(--emerald);border-radius:50%;cursor:pointer;box-shadow:0 2px 6px rgba(5,150,105,.4)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;background:var(--emerald);border-radius:50%;cursor:pointer;box-shadow:0 2px 6px rgba(15,122,85,.4)}
 input[type=range]::-moz-range-thumb{width:24px;height:24px;background:var(--emerald);border-radius:50%;cursor:pointer;border:none}
 .options{display:flex;flex-direction:column;gap:10px}
 .option{padding:14px 18px;border:1px solid var(--card-border);border-radius:16px;cursor:pointer;transition:all .2s;font-size:15px;background:var(--card-bg);backdrop-filter:blur(16px);color:var(--text-body)}
@@ -35,7 +35,7 @@ input[type=range]::-moz-range-thumb{width:24px;height:24px;background:var(--emer
 .checkboxes .option.selected .check{background:var(--emerald);border-color:var(--emerald)}
 .checkboxes .option.selected .check::after{content:'✓';color:#fff;font-size:13px;font-weight:700}
 .btn{display:inline-block;background:linear-gradient(180deg, rgba(16,45,34,0.72), rgba(8,20,15,0.78));color:var(--emerald);border:1.2px solid var(--emerald-border);padding:14px 32px;border-radius:9999px;font-size:16px;font-weight:600;cursor:pointer;transition:all .2s;width:100%;text-align:center;margin-top:16px;font-family:'Inter',sans-serif}
-.btn:hover{color:#fff;transform:translateY(-1px);box-shadow:0 4px 12px rgba(5,150,105,.3)}
+.btn:hover{color:#fff;transform:translateY(-1px);box-shadow:0 4px 12px rgba(15,122,85,.3)}
 .btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
 .email-section{text-align:center}
 .email-section .question{font-size:22px}
@@ -43,9 +43,10 @@ input[type=range]::-moz-range-thumb{width:24px;height:24px;background:var(--emer
 .field:focus{border-color:var(--emerald-border)}
 .field::placeholder{color:var(--text-muted)}
 .field-stack{display:grid;gap:12px}
+.hp-field{position:absolute;left:-9999px;top:-9999px;height:1px;width:1px;opacity:0;pointer-events:none}
 .email-note{font-size:13px;color:var(--text-muted);margin-top:10px}
 .error{margin-top:12px;color:var(--danger);font-size:13px}
-.status{margin-top:12px;color:#7dd3a8;font-size:13px}
+.status{margin-top:12px;color:#5aa98a;font-size:13px}
 .results{animation:fadeIn .5s ease}
 .results-header{text-align:center;margin-bottom:36px}
 .results-header h1{font-size:28px;font-weight:800;color:var(--text-heading);margin-bottom:6px}
@@ -62,35 +63,48 @@ input[type=range]::-moz-range-thumb{width:24px;height:24px;background:var(--emer
 .stat-row:last-child{border:none}
 .stat-label{color:var(--text-muted);font-size:14px}
 .stat-value{font-weight:700;font-size:15px;color:var(--text-heading)}
-.insight{background:rgba(5,150,105,0.08);border-radius:12px;padding:14px 16px;margin-top:14px;font-size:14px;color:var(--text-body);line-height:1.5;border-left:3px solid var(--emerald)}
+.insight{background:rgba(15,122,85,0.08);border-radius:12px;padding:14px 16px;margin-top:14px;font-size:14px;color:var(--text-body);line-height:1.5;border-left:3px solid var(--emerald)}
 .money{font-size:28px;font-weight:800;color:var(--emerald);margin:8px 0}
 .rec-list{list-style:none;padding:0}
 .rec-list li{padding:10px 0;border-bottom:1px solid var(--card-border);font-size:14px;display:flex;gap:10px;align-items:flex-start;color:var(--text-body)}
 .rec-list li:last-child{border:none}
 .rec-list li::before{content:'→';color:var(--emerald);font-weight:700;flex-shrink:0}
-.cta-section{text-align:center;background:linear-gradient(160deg, rgba(5,150,105,0.2), rgba(5,150,105,0.08));border:1px solid var(--emerald-border);border-radius:24px;padding:32px 24px;margin-top:24px;position:relative;overflow:hidden}
+.cta-section{text-align:center;background:linear-gradient(160deg, rgba(15,122,85,0.2), rgba(15,122,85,0.08));border:1px solid var(--emerald-border);border-radius:24px;padding:32px 24px;margin-top:24px;position:relative;overflow:hidden}
 .cta-section::before{content:'';position:absolute;top:0;left:7%;right:7%;height:2px;background:linear-gradient(90deg,transparent,rgba(60,160,120,0.45),rgba(60,160,120,0.75),rgba(60,160,120,0.45),transparent)}
 .cta-section h3{font-size:20px;font-weight:700;margin-bottom:8px;color:var(--text-heading)}
 .cta-section p{color:var(--text-body);font-size:14px;margin-bottom:20px}
 .btn-white{background:var(--emerald);color:#fff;padding:14px 32px;border:none;border-radius:9999px;font-size:16px;font-weight:700;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block;font-family:'Inter',sans-serif}
-.btn-white:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(5,150,105,.4)}
+.btn-white:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(15,122,85,.4)}
+.btn-ghost{background:transparent;color:var(--emerald);padding:12px 24px;border:1px solid var(--emerald-border);border-radius:9999px;font-size:14px;font-weight:600;text-decoration:none;display:inline-block;margin-top:12px}
 .cta-note{font-size:12px;color:var(--text-muted);margin-top:12px}
+.calendly-slot{margin-top:20px;border-radius:16px;overflow:hidden;background:rgba(0,0,0,0.25);min-height:640px}
+.report-link{font-size:13px;margin-top:14px}
+.report-link a{color:var(--emerald);text-decoration:underline}
 </style>
 </head>
 <body>
 <div class="container">
-<div class="logo"><span class="v">V</span><span class="eyra">EYRA</span><span class="group">GROUP</span></div>
+<div class="logo"><span class="veyra">Veyra</span><span class="group">Group</span></div>
 <div class="progress-bar"><div class="progress-fill" id="progress" style="width:0%"></div></div>
 <div id="app"></div>
 </div>
 <script>
-const query = new URLSearchParams(window.location.search);
+const query=new URLSearchParams(window.location.search);
+// Option text must match shared/auditEngine.ts exactly — the API validates against it.
 const pmSoftwareOptions=['AppFolio','Buildium','Rent Manager','Yardi / Breeze','Propertyware / another PM stack','Spreadsheets / inboxes / not sure'];
 const responseOptions=['Under 30 minutes','1-2 hours','Same day if someone is watching it','Next day is common'];
 const maintenanceOptions=['Texts, calls, and inboxes with manual vendor chase','Portal or PM software, but routing and follow-up are still manual','A coordinator handles it with SOPs, but it is still mostly manual','Clear system with documented rules and fast follow-up'];
+const afterHoursOptions=['They come to my personal phone and I answer them','An answering service takes messages, but triage is still on us','The team rotates on-call, but the rules live in people\'s heads','Emergencies are filtered and routed without waking anyone unnecessarily'];
 const ownerReportingOptions=['Manual exports and reformatting every month','Templates help, but the team still rebuilds the report','PM software sends a base report and we add context manually','Reporting is already consistent and low-touch'];
-const painOptions=['Tenant questions and status updates','Maintenance triage and vendor follow-up','Owner approvals and owner reporting','Leasing inquiry follow-up','Renewals and notices','After-hours messages land on me','Everyone is context-switching all day','All of the above'];
-const optionSets={pmSoftware:pmSoftwareOptions,responseTime:responseOptions,maintenanceFlow:maintenanceOptions,ownerReporting:ownerReportingOptions};
+const rentCollectionOptions=['We chase late rent by text and phone every month','Auto-reminders exist, but follow-up and payment plans are manual','PM software sends reminders; we work the exceptions by hand','Collections and escalation are consistent and mostly hands-off'];
+const painOptions=['Tenant questions and status updates','Maintenance triage and vendor follow-up','Owner approvals and owner reporting','Leasing inquiry follow-up','Renewals and notices','Chasing rent and late fees','After-hours messages land on me','Everyone is context-switching all day','All of the above'];
+const optionSets={pmSoftware:pmSoftwareOptions,responseTime:responseOptions,maintenanceFlow:maintenanceOptions,afterHours:afterHoursOptions,ownerReporting:ownerReportingOptions,rentCollection:rentCollectionOptions};
+const CALENDLY_URL='https://calendly.com/veyragroup/15min?background_color=050505&text_color=e5e7eb&primary_color=0f7a55&hide_gdpr_banner=1';
+// Set to your Cloudflare Turnstile site key to enable bot verification.
+// Leave empty to skip (the API also skips verification while TURNSTILE_SECRET_KEY is unset).
+const TURNSTILE_SITE_KEY='';
+const QUESTION_COUNT=9;
+const TOTAL_STEPS=10; // 9 questions + contact step
 const state={
 step:0,
 units:60,
@@ -98,15 +112,22 @@ team:2,
 pmSoftware:'',
 responseTime:'',
 maintenanceFlow:'',
+afterHours:'',
 ownerReporting:'',
+rentCollection:'',
 painPoints:[],
 name:'',
 company:'',
 email:'',
+website:'', // honeypot — humans never see or fill this
+turnstileToken:'',
 loading:false,
 error:'',
 submitted:false,
 report:null,
+reportUrl:'',
+bookingUrl:'',
+emailDelivered:true,
 source:query.get('source')||'direct',
 entry:query.get('entry')||'embedded',
 utmSource:query.get('utm_source')||'',
@@ -131,16 +152,19 @@ function escapeHtml(value){
 return String(value||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
+function escapeAttr(value){
+return String(value||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+}
+
 function render(){
 const app=document.getElementById('app');
 const progress=document.getElementById('progress');
-const totalSteps=8;
-const completedSteps=Math.min(state.step,totalSteps);
-progress.style.width=`${(completedSteps/totalSteps)*100}%`;
+const completedSteps=Math.min(state.step,TOTAL_STEPS);
+progress.style.width=`${(completedSteps/TOTAL_STEPS)*100}%`;
 
 if(state.step===0){app.innerHTML=`
 <div class="step active">
-<div class="step-label">Question 1 of 7</div>
+<div class="step-label">Question 1 of ${QUESTION_COUNT}</div>
 <div class="question">How many rental units do you manage?</div>
 <div class="slider-container">
 <div class="slider-value" id="sv">${state.units}</div>
@@ -150,7 +174,7 @@ if(state.step===0){app.innerHTML=`
 </div>`}
 else if(state.step===1){app.innerHTML=`
 <div class="step active">
-<div class="step-label">Question 2 of 7</div>
+<div class="step-label">Question 2 of ${QUESTION_COUNT}</div>
 <div class="question">How many people handle operations, including you?</div>
 <div class="slider-container">
 <div class="slider-value" id="tv">${state.team}</div>
@@ -158,19 +182,21 @@ else if(state.step===1){app.innerHTML=`
 </div>
 <button class="btn" onclick="next()">Continue</button>
 </div>`}
-else if(state.step===2){renderSelect('Question 3 of 7','What PM system do you run on today?',pmSoftwareOptions,'pmSoftware')}
-else if(state.step===3){renderSelect('Question 4 of 7','What happens when a new message or leasing inquiry comes in?',responseOptions,'responseTime')}
-else if(state.step===4){renderSelect('Question 5 of 7','How are maintenance requests handled right now?',maintenanceOptions,'maintenanceFlow')}
-else if(state.step===5){renderSelect('Question 6 of 7','How are owner updates handled today?',ownerReportingOptions,'ownerReporting')}
-else if(state.step===6){
+else if(state.step===2){renderSelect(`Question 3 of ${QUESTION_COUNT}`,'What PM system do you run on today?',pmSoftwareOptions,'pmSoftware')}
+else if(state.step===3){renderSelect(`Question 4 of ${QUESTION_COUNT}`,'What happens when a new message or leasing inquiry comes in?',responseOptions,'responseTime')}
+else if(state.step===4){renderSelect(`Question 5 of ${QUESTION_COUNT}`,'How are maintenance requests handled right now?',maintenanceOptions,'maintenanceFlow')}
+else if(state.step===5){renderSelect(`Question 6 of ${QUESTION_COUNT}`,'What happens to messages after hours?',afterHoursOptions,'afterHours')}
+else if(state.step===6){renderSelect(`Question 7 of ${QUESTION_COUNT}`,'How are owner updates handled today?',ownerReportingOptions,'ownerReporting')}
+else if(state.step===7){renderSelect(`Question 8 of ${QUESTION_COUNT}`,'How does late rent get handled?',rentCollectionOptions,'rentCollection')}
+else if(state.step===8){
 app.innerHTML=`
 <div class="step active">
-<div class="step-label">Question 7 of 7</div>
+<div class="step-label">Question 9 of ${QUESTION_COUNT}</div>
 <div class="question">Which repeated work is pulling the team backward right now?</div>
 <div class="options checkboxes">${painOptions.map((o,i)=>`<div class="option ${state.painPoints.includes(o)?'selected':''}" onclick="togglePain(${i})"><div class="check"></div>${escapeHtml(o)}</div>`).join('')}</div>
 <button class="btn" ${state.painPoints.length===0?'disabled':''} onclick="next()">Continue</button>
 </div>`}
-else if(state.step===7){
+else if(state.step===9){
 app.innerHTML=`
 <div class="step active email-section">
 <div class="question">Where should we send your PM Workflow Audit?</div>
@@ -178,12 +204,16 @@ app.innerHTML=`
 <input class="field" type="text" placeholder="Your name" aria-label="Your name" autocomplete="name" value="${escapeAttr(state.name)}" oninput="state.name=this.value">
 <input class="field" type="text" placeholder="Company name" aria-label="Company name" autocomplete="organization" value="${escapeAttr(state.company)}" oninput="state.company=this.value">
 <input class="field" type="email" placeholder="you@company.com" aria-label="Email address" autocomplete="email" value="${escapeAttr(state.email)}" oninput="state.email=this.value">
+<input class="hp-field" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" value="" oninput="state.website=this.value">
 </div>
+<div id="turnstile-slot"></div>
 <button class="btn" ${state.loading?'disabled':''} onclick="submitLead()">${state.loading?'Sending your report...':'Get My Audit Report'}</button>
-<div class="email-note">We will email the full report, show the summary here, and route the lead into Bruno's follow-up queue only if the workflow looks worth discussing.</div>
-${state.error?`<div class="error">${state.error}</div>`:''}
-</div>`}
-else if(state.step===8){renderResults()}
+<div class="email-note">Your results show on the next screen. We also email the full report so you can share it with your team.</div>
+${state.error?`<div class="error">${escapeHtml(state.error)}</div>`:''}
+</div>`;
+mountTurnstile();
+}
+else if(state.step===10){renderResults()}
 postHeight();
 }
 
@@ -216,8 +246,25 @@ render();
 
 function next(){state.step++;state.error='';render();window.scrollTo({top:0,behavior:'smooth'})}
 
-function escapeAttr(value){
-return String(value||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+let turnstileMounted=false;
+function mountTurnstile(){
+if(!TURNSTILE_SITE_KEY)return;
+const slot=document.getElementById('turnstile-slot');
+if(!slot)return;
+const mount=()=>{
+if(!window.turnstile)return;
+slot.innerHTML='';
+window.turnstile.render(slot,{sitekey:TURNSTILE_SITE_KEY,theme:'dark',callback:(token)=>{state.turnstileToken=token}});
+turnstileMounted=true;
+};
+if(window.turnstile){mount();return}
+if(!document.querySelector('script[data-turnstile]')){
+const s=document.createElement('script');
+s.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+s.async=true;s.defer=true;s.setAttribute('data-turnstile','1');
+s.onload=mount;
+document.head.appendChild(s);
+}
 }
 
 async function submitLead(){
@@ -229,6 +276,11 @@ return;
 }
 if(!validEmail(state.email)){
 state.error='Enter a valid work email address.';
+render();
+return;
+}
+if(TURNSTILE_SITE_KEY&&turnstileMounted&&!state.turnstileToken){
+state.error='Complete the verification check, then try again.';
 render();
 return;
 }
@@ -247,8 +299,12 @@ teamSize:state.team,
 pmSoftware:state.pmSoftware,
 responseTime:state.responseTime,
 maintenanceFlow:state.maintenanceFlow,
+afterHours:state.afterHours,
 ownerReporting:state.ownerReporting,
+rentCollection:state.rentCollection,
 painPoints:state.painPoints,
+website:state.website,
+turnstileToken:state.turnstileToken,
 source:state.source,
 entry:state.entry,
 referrer:document.referrer||'',
@@ -265,7 +321,10 @@ throw new Error(payload.error||'We could not send the report right now.');
 state.loading=false;
 state.submitted=true;
 state.report=payload.insights||null;
-state.step=8;
+state.reportUrl=payload.reportUrl||'';
+state.bookingUrl=payload.bookingUrl||'https://veyragroup.ai/book';
+state.emailDelivered=payload.emailDelivered!==false;
+state.step=10;
 render();
 window.scrollTo({top:0,behavior:'smooth'});
 }catch(error){
@@ -273,6 +332,67 @@ state.loading=false;
 state.error=error&&error.message?error.message:'We could not send the report right now.';
 render();
 }
+}
+
+function mountInlineCalendly(){
+const slot=document.getElementById('calendly-inline');
+if(!slot)return;
+const init=()=>{
+if(!window.Calendly||!window.Calendly.initInlineWidget)return;
+slot.innerHTML='';
+const embedUrl=new URL(CALENDLY_URL);
+if(state.name.trim())embedUrl.searchParams.set('name',state.name.trim());
+if(state.email.trim())embedUrl.searchParams.set('email',state.email.trim());
+window.Calendly.initInlineWidget({
+url:embedUrl.toString(),
+parentElement:slot,
+prefill:{name:state.name.trim(),email:state.email.trim()}
+});
+// Calendly renders async — re-report the iframe height a few times.
+[600,1500,3000].forEach(ms=>setTimeout(postHeight,ms));
+};
+if(window.Calendly&&window.Calendly.initInlineWidget){init();return}
+if(!document.querySelector('script[data-calendly]')){
+const s=document.createElement('script');
+s.src='https://assets.calendly.com/assets/external/widget.js';
+s.async=true;s.setAttribute('data-calendly','1');
+s.onload=init;
+document.head.appendChild(s);
+}else{
+setTimeout(init,800);
+}
+}
+
+function ctaSection(report){
+const reportLine=state.reportUrl?`<div class="report-link">Save it for later: <a href="${escapeAttr(state.reportUrl)}" target="_blank" rel="noopener">your report page</a></div>`:'';
+if(report.tier==='high'){
+return `
+<div class="cta-section">
+<h3>Pick a time while the report is in front of you</h3>
+<p>Your inputs put ${escapeHtml(state.company)} in the highest-drag band we see. Bruno reviews these same day — grab 15 minutes and he will map ${escapeHtml(report.primaryAngle)} against your current process.</p>
+<div class="calendly-slot" id="calendly-inline"></div>
+${reportLine}
+<div class="cta-note">Directional diagnostic only. If the first-build recommendation looks wrong, say so on the call.</div>
+</div>`;
+}
+if(report.tier==='medium'){
+return `
+<div class="cta-section">
+<h3>Want to see exactly what this would look like at ${escapeHtml(state.company)}?</h3>
+<p>Bruno can take this report, map the current process behind ${escapeHtml(report.primaryAngle)}, and show what the first build should replace.</p>
+<a href="${escapeAttr(state.bookingUrl)}" class="btn-white" target="_blank" rel="noopener">Book The Workflow Audit Call</a>
+${reportLine}
+<div class="cta-note">Directional diagnostic only. Book if the first-build recommendation feels right.</div>
+</div>`;
+}
+return `
+<div class="cta-section">
+<h3>The system looks in decent shape</h3>
+<p>No urgent wedge showed up in your inputs. The report still points at the first workflow worth tightening — start with the guides, and talk to Bruno when the load grows.</p>
+<a href="https://veyragroup.ai/guides" class="btn-white" target="_blank" rel="noopener">Read The PM Workflow Guides</a>
+<br><a href="${escapeAttr(state.bookingUrl)}" class="btn-ghost" target="_blank" rel="noopener">Or book a 15-minute call anyway</a>
+${reportLine}
+</div>`;
 }
 
 function renderResults(){
@@ -287,26 +407,29 @@ app.innerHTML=`
   </div>
   <div class="card">
     <div class="card-label">Report Status</div>
-    <h3>We sent the PDF, but could not load the on-page summary.</h3>
+    <h3>We sent the report, but could not load the on-page summary.</h3>
     <p style="margin-top:12px;font-size:14px;color:var(--text-body)">Open the email report or book the audit call if you want Bruno to walk through the workflow with you.</p>
   </div>
   <div class="cta-section">
     <h3>Want Bruno to map the workflow with you?</h3>
     <p>The report is already in your inbox. The next step is optional.</p>
-    <a href="https://veyragroup.ai/book" class="btn-white">Book The Workflow Audit Call</a>
+    <a href="${escapeAttr(state.bookingUrl||'https://veyragroup.ai/book')}" class="btn-white" target="_blank" rel="noopener">Book The Workflow Audit Call</a>
   </div>
 </div>`;
 postHeight();
 return;
 }
 const nextBuilds=(report.roadmap||[]).slice(1,3);
+const emailStatus=state.emailDelivered
+?`Your full report is on the way to ${escapeHtml(state.email)}.`
+:`Email delivery hiccuped — <a href="${escapeAttr(state.reportUrl)}" target="_blank" rel="noopener" style="color:var(--emerald)">open and save your report here</a>.`;
 
 app.innerHTML=`
 <div class="results">
 <div class="results-header">
 <h1>Your PM Workflow Audit</h1>
 <p>${escapeHtml(state.company)} · ${state.units} units · ${state.team} team member${state.team>1?'s':''}</p>
-${state.submitted?`<div class="status">Your full report is on the way to ${escapeHtml(state.email)}.</div>`:''}
+${state.submitted?`<div class="status">${emailStatus}</div>`:''}
 </div>
 <div class="card">
 <div class="card-label">Operating Load</div>
@@ -323,7 +446,9 @@ ${state.submitted?`<div class="status">Your full report is on the way to ${escap
 <h3>Where the pressure is showing up</h3>
 <div class="stat-row"><span class="stat-label">Response coverage</span><span class="stat-value"><span class="badge ${escapeAttr(report.responseScore.severity)}">${escapeHtml(report.responseScore.label)}</span></span></div>
 <div class="stat-row"><span class="stat-label">Maintenance workflow</span><span class="stat-value"><span class="badge ${escapeAttr(report.maintenanceScore.severity)}">${escapeHtml(report.maintenanceScore.label)}</span></span></div>
+<div class="stat-row"><span class="stat-label">After-hours coverage</span><span class="stat-value"><span class="badge ${escapeAttr(report.afterHoursScore.severity)}">${escapeHtml(report.afterHoursScore.label)}</span></span></div>
 <div class="stat-row"><span class="stat-label">Owner reporting</span><span class="stat-value"><span class="badge ${escapeAttr(report.ownerReportingScore.severity)}">${escapeHtml(report.ownerReportingScore.label)}</span></span></div>
+<div class="stat-row"><span class="stat-label">Rent collection</span><span class="stat-value"><span class="badge ${escapeAttr(report.rentCollectionScore.severity)}">${escapeHtml(report.rentCollectionScore.label)}</span></span></div>
 <div class="stat-row"><span class="stat-label">Current stack</span><span class="stat-value">${escapeHtml(state.pmSoftware)} · ${escapeHtml(report.stackLabel)}</span></div>
 <div class="insight">${escapeHtml(report.stackNote)}</div>
 </div>
@@ -346,13 +471,9 @@ ${nextBuilds.length?`<div class="insight"><strong style="color:var(--text-headin
 <h3>Useful prep if the report feels directionally right</h3>
 <ul class="rec-list">${(report.primaryRecommendation.callPrep||[]).map(item=>`<li><div><span style="color:var(--text-muted)">${escapeHtml(item)}</span></div></li>`).join('')}</ul>
 </div>
-<div class="cta-section">
-<h3>Want to see exactly what this would look like at ${escapeHtml(state.company)}?</h3>
-<p>Bruno can take this report, map the current process behind ${escapeHtml(report.primaryAngle)}, and show what the first build should replace.</p>
-<a href="https://veyragroup.ai/book" class="btn-white">Book The Workflow Audit Call</a>
-<div class="cta-note">Directional diagnostic only. Book if the first-build recommendation feels right.</div>
-</div>
+${ctaSection(report)}
 </div>`;
+if(report.tier==='high'){mountInlineCalendly()}
 postHeight();
 }
 

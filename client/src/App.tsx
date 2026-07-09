@@ -6,6 +6,7 @@ const NotFound = lazy(() => import("@/pages/not-found"));
 const Home = lazy(() => import("@/pages/home"));
 const CalculatorPage = lazy(() => import("@/pages/CalculatorPage"));
 const BookPage = lazy(() => import("@/pages/BookPage"));
+const ReportPage = lazy(() => import("@/pages/ReportPage"));
 const PropertyManagementAutomationROIPage = lazy(() => import("@/pages/PropertyManagementAutomationROIPage"));
 const PropertyManagementAIPage = lazy(() => import("@/pages/PropertyManagementAIPage"));
 const HowToUseAIInPropertyManagementPage = lazy(() => import("@/pages/HowToUseAIInPropertyManagementPage"));
@@ -72,6 +73,7 @@ function Router() {
         </Route>
         <Route path="/book" component={BookPage} />
         <Route path="/audit" component={CalculatorPage} />
+        <Route path="/report" component={ReportPage} />
         <Route path="/calculator">
           {() => <RedirectPage to="/audit" />}
         </Route>
