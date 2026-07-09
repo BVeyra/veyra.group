@@ -201,6 +201,15 @@ const STATIC_PAGES: SeoPage[] = [
     type: "website",
   },
   {
+    // Tokenized personal report pages linked from audit emails; prerendered
+    // so the route resolves, noindex keeps it out of search and the sitemap.
+    path: "/report",
+    title: "Your PM Workflow Audit Report",
+    description: "Personalized PM Workflow Audit report from Veyra Group.",
+    type: "website",
+    noindex: true,
+  },
+  {
     path: "/privacy",
     title: "Privacy Policy",
     description:
