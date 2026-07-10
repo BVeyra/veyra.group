@@ -87,7 +87,7 @@ export default function GuidesPage() {
                 className="bg-emerald-500 text-white font-semibold rounded-full px-8 py-4 hover:shadow-lg hover:shadow-emerald-500/25 transition-all group"
               >
                 <a href="/audit?source=guides_hero">
-                  Get Your Free Audit
+                  Get the Free Operations Audit
                   <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
                 </a>
               </Button>
@@ -100,7 +100,7 @@ export default function GuidesPage() {
             <div className="mb-8">
               <h2 className="text-2xl md:text-3xl font-bold text-white">Automation guides</h2>
               <p className="text-gray-400 mt-2">
-                Tied directly to what we build. Start here if you already know a workflow is the problem.
+                Tied directly to what Veyra runs. Start here if you already know a workflow is the problem.
               </p>
             </div>
             <div className="grid gap-6 md:grid-cols-2">
@@ -127,7 +127,7 @@ export default function GuidesPage() {
           <div className="max-w-4xl mx-auto px-6 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white">Know the workflow that's costing you? Let's map it.</h2>
             <p className="text-gray-400 mt-4">
-              Run the free PM Workflow Audit and see which workflow Veyra should fix first. No pitch, no software talk.
+              Run the free PM Operations Audit and see where the full Veyra system should activate first. No pitch, no software talk.
             </p>
             <Button
               asChild
@@ -135,7 +135,7 @@ export default function GuidesPage() {
               className="mt-7 bg-emerald-500 text-white font-semibold text-lg px-8 py-4 rounded-full hover:shadow-lg hover:shadow-emerald-500/25 transition-all group"
             >
               <a href="/audit?source=guides_footer">
-                Get Your Free Audit
+                Get the Free Operations Audit
                 <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
               </a>
             </Button>

@@ -1,4 +1,4 @@
-// PDF report template for the PM Workflow Audit. Server-side only
+// PDF report template for the PM Operations Audit. Server-side only
 // (imported by api/generate-report.ts and server/pdfGenerator.tsx).
 //
 // Design: enterprise report — white page, ink/gray hierarchy, hairline rules.
@@ -102,7 +102,7 @@ function header() {
         h(Text, { style: s.wordmarkVeyra }, "Veyra"),
         h(Text, { style: s.wordmarkGroup }, " Group"),
       ),
-      h(Text, { style: s.headerMeta }, "PM Workflow Audit"),
+      h(Text, { style: s.headerMeta }, "PM Operations Audit"),
     ),
     h(View, { key: "rule", style: s.brandRule }),
   ];
@@ -155,7 +155,7 @@ export function buildPDFDocument(data: AuditLeadData, insights: AuditInsights, b
     // Page 1: Audit Overview
     h(Page, { size: "A4", style: s.page },
       ...header(),
-      h(Text, { style: s.heading }, `Workflow Audit: ${data.company}`),
+      h(Text, { style: s.heading }, `Operations Audit: ${data.company}`),
       h(Text, { style: s.subtitle }, "A directional diagnostic built from your audit inputs. The goal is to identify the first workflow Veyra should fix — not to force a broad platform decision."),
       h(Text, { style: s.prepared }, `Prepared for ${data.name} · ${data.email} · ${preparedDate}`),
 
@@ -171,7 +171,7 @@ export function buildPDFDocument(data: AuditLeadData, insights: AuditInsights, b
           h(Text, { style: s.statMeta }, `${fmtMoney(insights.monthlyAdminEquivalent)}/mo admin equivalent`),
         ),
         h(View, { style: s.statCard },
-          h(Text, { style: s.statLabel }, "Best First Build"),
+          h(Text, { style: s.statLabel }, "Recommended First Activation"),
           h(Text, { style: s.statValueCompact }, insights.primaryRecommendation.title),
           h(Text, { style: s.statMeta }, `~${insights.estimatedWeeklyTimeSaved} hrs/week giveback`),
         ),
@@ -203,7 +203,7 @@ export function buildPDFDocument(data: AuditLeadData, insights: AuditInsights, b
     // Page 2: Recommendation + Next Steps
     h(Page, { size: "A4", style: s.page },
       ...header(),
-      h(Text, { style: s.heading }, "Recommended First Build"),
+      h(Text, { style: s.heading }, "Recommended First Activation"),
 
       h(View, { style: [s.section, { marginTop: 8 }] },
         h(Text, { style: s.kicker }, insights.primaryAngle),
@@ -241,8 +241,8 @@ export function buildPDFDocument(data: AuditLeadData, insights: AuditInsights, b
       ),
 
       h(View, { style: s.cta, wrap: false },
-        h(Text, { style: s.ctaTitle }, "Next step: 15-minute workflow audit call"),
-        h(Text, { style: s.ctaBody }, "We will map the current process, show what the first build should replace, and pressure-test whether the time savings justify moving."),
+        h(Text, { style: s.ctaTitle }, "Next step: 15-minute operations audit call"),
+        h(Text, { style: s.ctaBody }, "We will map the current process, show what the first activation should replace, and pressure-test whether the time savings justify moving."),
         h(Link, { src: bookingUrl, style: s.ctaButton }, "Book the audit call"),
       ),
 

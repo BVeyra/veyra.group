@@ -107,7 +107,7 @@ export function Navbar() {
             data-testid="button-nav-cta"
             className="hidden md:inline-flex rounded-full bg-emerald-500 text-white font-semibold px-4 py-2 h-auto hover:bg-emerald-400 transition"
           >
-            <Link href="/audit?source=nav_cta">Get Your Free Audit</Link>
+            <Link href="/audit?source=nav_cta">Get the Free Operations Audit</Link>
           </Button>
 
           <button
@@ -160,7 +160,7 @@ export function Navbar() {
               data-testid="button-nav-cta-mobile"
             >
               <Link href="/audit?source=nav_cta_mobile" onClick={handleDemoClick}>
-                Get Your Free Audit
+                Get the Free Operations Audit
               </Link>
             </Button>
           </div>
@@ -220,7 +220,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/audit?source=footer_resources" className="hover:text-white transition-colors">
-                  PM Workflow Audit
+                  PM Operations Audit
                 </Link>
               </li>
               <li>

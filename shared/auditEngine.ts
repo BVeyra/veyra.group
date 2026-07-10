@@ -1,4 +1,4 @@
-// Single source of truth for the PM Workflow Audit funnel:
+// Single source of truth for the PM Operations Audit funnel:
 // question options, lead payload shape, scoring, insights, and roadmap copy.
 // Used by the quiz results (client), the /report page (client), the Vercel
 // function (api/generate-report.ts), and the dev Express server.
@@ -149,7 +149,7 @@ export const AFTER_HOURS_SCORES: ScoreCard[] = [
 // Index-aligned with RENT_COLLECTION_OPTIONS (worst answer first).
 export const RENT_COLLECTION_SCORES: ScoreCard[] = [
   { label: "Manual chase", message: "Late-rent follow-up is eating the first week of every month, and the awkward conversations always land on the same people.", severity: "red" },
-  { label: "Reminders without follow-through", message: "Reminders go out, but the real work — payment plans, escalation, documentation — is still manual.", severity: "orange" },
+  { label: "Reminders without follow-through", message: "Reminders go out, but the real work (payment plans, escalation, documentation) is still manual.", severity: "orange" },
   { label: "Exception-driven", message: "The software handles the easy cases. The exceptions still cost real hours and inconsistent handling.", severity: "yellow" },
   { label: "Hands-off", message: "Collections look systemized. Not the first place to spend build effort.", severity: "green" },
 ];
@@ -159,7 +159,7 @@ export const ROADMAPS: Record<BuildAngle, RecommendationBlueprint> = {
     title: "Maintenance Coordination Command Center",
     description: "Turn intake, triage, vendor follow-up, and owner approvals into one tracked workflow instead of a chain of side messages.",
     whyThisFirst: "Maintenance is where delays compound fastest. It is usually the first place a PM team feels chaos, rework, and after-hours pressure.",
-    fitNote: "This is the cleanest fit with Veyra's default 14-day build and the strongest starting point when requests are bouncing between tenants, vendors, and owners.",
+    fitNote: "This is Veyra's most common first activation and the strongest starting point when requests are bouncing between tenants, vendors, and owners.",
     replaces: ["Inbox triage done in message order instead of urgency order", "Vendor chase living in text threads and memory", "Owner approval rules that change by property and are not written down"],
     first30Days: ["Requests are acknowledged consistently and urgent issues surface faster", "Vendor follow-up and tenant updates stop depending on whoever remembers", "Bruno can help define which requests can move automatically and which require review"],
     callPrep: ["Current vendor list and who handles dispatch today", "Owner approval thresholds or exceptions by property", "Two or three recent work orders that dragged longer than they should have"],
@@ -203,7 +203,7 @@ export const ROADMAPS: Record<BuildAngle, RecommendationBlueprint> = {
   "rent collection": {
     title: "Rent Collection Follow-Through",
     description: "Standardize late-rent reminders, payment-plan follow-up, and escalation so the first week of the month stops being a phone marathon.",
-    whyThisFirst: "Rent chasing is the most predictable repeated work in property management. The same sequence runs every month — which is exactly what should not be manual.",
+    whyThisFirst: "Rent chasing is the most predictable repeated work in property management. The same sequence runs every month, which is exactly what should not be manual.",
     fitNote: "Good fit when reminders exist but the follow-up, documentation, and escalation still run on someone's memory and patience.",
     replaces: ["Text-and-call chases that restart from scratch every month", "Payment plans tracked in notes and inboxes", "Escalation timing that depends on who noticed the balance"],
     first30Days: ["Late-rent follow-up runs on a consistent sequence with documented touches", "Payment plans and exceptions get tracked instead of remembered", "The team sees delinquency status without digging through threads"],
@@ -251,7 +251,7 @@ export function rankCapacity(ratio: number) {
 }
 
 export function buildStackNote(pmSoftware: PmSoftwareOption) {
-  if (pmSoftware === "Spreadsheets / inboxes / not sure") return { stackLabel: "Loose stack", stackNote: "There is no clean system of record yet. The first build should reduce operational chaos, not add another layer on top of it." };
+  if (pmSoftware === "Spreadsheets / inboxes / not sure") return { stackLabel: "Loose stack", stackNote: "There is no clean system of record yet. The first activation should reduce operational chaos, not add another layer on top of it." };
   if (pmSoftware === "Propertyware / another PM stack") return { stackLabel: "Likely workable", stackNote: "Veyra usually does best when the PM software stays in place and the repeated work around it gets automated." };
   return { stackLabel: "Known PM stack", stackNote: "Your software is a workable starting point. The win is not replacing it. The win is removing the manual work it still leaves on your team." };
 }

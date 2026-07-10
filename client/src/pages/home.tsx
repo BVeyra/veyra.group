@@ -46,49 +46,49 @@ const automationCards = [
     before:
       "You're personally responding to every text, email, and portal message. At 11 PM. On weekends. On vacation.",
     after:
-      "AI drafts responses in your voice, triages by urgency, and handles routine questions automatically. You review and approve the ones that need you. The rest are done.",
+      "The system drafts routine replies in your voice, triages by urgency, and routes real issues to the right person. You set the rules for what sends automatically and what waits for your review.",
   },
   {
     title: "Maintenance Coordination",
     before:
       "Tenant texts you -> you call the vendor -> vendor doesn't answer -> tenant follows up -> you follow up with vendor -> vendor shows up two days late.",
     after:
-      "Request comes in -> automatically categorized and dispatched to the right vendor -> tenant gets a status update -> you get notified only when something needs your attention.",
+      "Requests become clean work orders: triaged, prioritized, and dispatched inside your cost rules. Anything over your approval threshold stops and waits for your yes. Tenants get status updates without anyone chasing.",
   },
   {
-    title: "Lease Tracking & Renewals",
+    title: "Lease Renewals",
     before:
       "You're checking a spreadsheet (or worse, trying to remember) when leases expire. Renewal notices go out late. Or not at all.",
     after:
-      "Automated alerts 60/30/14 days before expiration. Renewal notices drafted and ready. Nothing falls through the cracks.",
+      "Renewal windows are tracked automatically and follow-up ladders run on schedule. Offers only go out once you approve them. Nothing falls through the cracks.",
   },
   {
-    title: "Rent Collection Follow-Ups",
+    title: "Rent Follow-Up",
     before:
       "Rent is late. You manually send a reminder. Then another. Then a firmer one. For 12 different tenants. Every month.",
     after:
-      "Automated follow-up sequences that start friendly and get firmer over time. Consistent, professional, on-brand. You wrote the messages once. They send themselves forever.",
+      "Policy-based reminders that start friendly and escalate on your schedule. Consistent, professional, in your voice. Veyra never touches the money: payments stay in your PM software.",
   },
   {
     title: "Vendor Management",
     before:
       "You're playing phone tag with 8 vendors, tracking who confirmed what on sticky notes, and apologizing to tenants for delays.",
     after:
-      "Automated dispatch, follow-ups, and status tracking. Vendors get clear instructions. Tenants get updates. You get your afternoon back.",
+      "A managed vendor roster with COI checks, clear dispatch instructions, and automatic callback follow-up. Vendors know what to do. Tenants get updates. You get your afternoon back.",
   },
   {
-    title: "Prospect Auto-Response",
+    title: "After-Hours & Prospect Response",
     before:
-      "Someone inquires about a vacant unit at 9 PM on Saturday. You see it Monday. They've already signed a lease somewhere else.",
+      "It's 11 PM and the phone buzzes. Toilet overflow in 12C. You're the on-call person. And the prospect who inquired Saturday night signs somewhere else before you see the message Monday.",
     after:
-      "Instant, personalized response with unit details, availability, and a link to schedule a showing. Seconds, not 48 hours.",
+      "Around-the-clock intake that classifies every message, handles the routine ones, and escalates true emergencies to a human immediately. Prospects get a fast first response with a named next-business-day owner. You define what counts as an emergency and who gets the call.",
   },
   {
     title: "Owner Reporting",
     before:
       "Spending 12+ hours reformatting exports because every owner wants a slightly different format. It's your last weekend of every month, every month, forever.",
     after:
-      "Every owner gets a custom report, automatically generated, on the 1st of every month. Financials, maintenance summaries, occupancy updates, all formatted to their preferences and delivered without you lifting a finger.",
+      "Owner packets are assembled automatically from the operating record, formatted to each owner's preferences, and queued for your review. You skim, hit send, and month-end stops eating your weekend.",
   },
 ];
 
@@ -96,25 +96,25 @@ const processSteps = [
   {
     number: "1",
     duration: "Free",
-    title: "We audit your workflows",
+    title: "PM Operations Audit",
     description:
-      "You tell us where you're bleeding time. We map your current process and show you exactly what we'd automate first.",
+      "We map the operation, put real numbers on the coordination drag, and identify the right place for the system to activate first.",
     icon: Phone,
   },
   {
     number: "2",
-    duration: "1-2 weeks",
-    title: "We build your automations",
+    duration: "Kickoff",
+    title: "Systemize the workflows",
     description:
-      "No templates. We build custom workflows around the tools you already use. You approve everything before it goes live.",
+      "We design the rules with you: voice, thresholds, escalation paths, approvals, and channels, built around the PM software you already run.",
     icon: Wrench,
   },
   {
     number: "3",
     duration: "Ongoing",
-    title: "We maintain and improve",
+    title: "We run it with you",
     description:
-      "Things change. Tenants change. We monitor your automations, fix what breaks, and optimize what's working.",
+      "Services come online in the order that protects your live operation, and we keep running and refining them. The dashboard keeps exceptions visible.",
     icon: Check,
   },
 ];
@@ -150,54 +150,58 @@ const socialProofQuotes = [
 const whyVeyra = [
   {
     icon: Clock,
-    title: "Live in weeks, not a quarter",
-    text: "Custom workflows built and launched in one to two weeks. No long software rollout.",
+    title: "An operating partner, not just software",
+    text: "We map, systemize, and then run the repeat work with you, with a customized dashboard as your window into all of it. Seven services, one set of rules, one audit trail.",
   },
   {
     icon: Wrench,
     title: "No platform migration",
-    text: "We build around AppFolio, Buildium, or whatever you already run.",
+    text: "We work around AppFolio, Buildium, or whatever you already run. Your PMS stays the system of record.",
   },
   {
     icon: ShieldCheck,
-    title: "You approve everything",
-    text: "No workflow goes live until you sign off on it.",
+    title: "You set the rules",
+    text: "You approve the rules; exceptions and judgment calls come back to a named human. Spend never moves without a yes.",
   },
   {
     icon: Check,
-    title: "We don't stop until it works",
-    text: "We refine the build until it does what we agreed. No extra cost.",
+    title: "Every action traceable",
+    text: "Significant events land in an append-only audit trail. Money and official records stay in your software.",
   },
 ];
 
 const faqItems = [
   {
     q: "Who is this best for?",
-    a: "Independent property managers running roughly 50-500 doors who wear too many hats. Tenant comms, maintenance, leases, and follow-ups all still run by hand, and they want practical automation live in weeks, not a quarter-long rollout.",
+    a: "Independent residential property managers running roughly 50-500 doors, where the owner still feels the operational drag. Tenant comms, maintenance, renewals, and follow-ups all run by hand, and you want that work run for you without switching software.",
   },
   {
     q: "Who is this not for?",
-    a: "It's not a fit if you want a DIY tool with no implementation support, you need long enterprise procurement and committee approvals, or you're not ready to change a workflow this month.",
+    a: "National chains, REITs, and non-residential portfolios. It's also not a fit if you want a DIY tool with no implementation support, or you need long enterprise procurement and committee approvals.",
   },
   {
     q: "Is this just another SaaS platform I have to learn?",
-    a: "No. We build custom automations that plug into the tools you already use. No new dashboard, no new app, no training manual.",
+    a: "No. Veyra is an operations consultancy, not software you buy and figure out. We systemize your workflows and then run them around the tools you already use, so you can keep working from your inbox, phone, and PM software. You also get a customized Veyra dashboard with work orders, approvals, activity, and operating health in one place. Some owners run their whole operation from it; others check it once a week and live off the digests. Both work.",
+  },
+  {
+    q: "Where does AI fit in?",
+    a: "Where it earns its place. Routine drafting, triage, and follow-up sequences run automatically inside rules you approve. Judgment calls, spend, and anything sensitive stay with humans. A lot of what we systemize is not AI at all, just clear process that finally gets written down and followed.",
   },
   {
     q: "What property management software do you work with?",
-    a: "AppFolio, Buildium, Rent Manager, Rentvine, DoorLoop, and Yardi Breeze — plus most others. Where there's an API we connect live; where there isn't, we sync or work manually. No platform migration.",
+    a: "AppFolio, Buildium, Rent Manager, Rentvine, DoorLoop, and Yardi Breeze, plus most others. Where there's an API we connect live; where there isn't, we sync exports. Either way, your PMS stays the system of record.",
   },
   {
     q: "Will my tenants know they're talking to AI?",
-    a: "Your call. Most automations draft messages for your review. Routine replies are indistinguishable from what you'd write. They're trained on your voice.",
+    a: "Your call. Routine replies are drafted in your voice and are indistinguishable from what you'd write. You decide what sends automatically and what waits for review, and anything sensitive routes to a human.",
   },
   {
     q: "What does it cost?",
-    a: "Pricing is custom. It depends on which workflows you build and the size of your operation, so we scope it and give you an exact quote on the free audit. The audit and first call are free.",
+    a: "One engagement, priced by portfolio size: a one-time implementation plus a monthly operating investment. We quote your exact numbers after the free PM Operations Audit, so the quote reflects your actual operation. The audit and the report are free.",
   },
   {
-    q: "What if I want to cancel?",
-    a: "Cancel anytime. No long-term contracts or penalties. If you cancel, access to the managed automations ends.",
+    q: "What's the commitment?",
+    a: "A 90-day initial term covers design, configuration, staged activation, and calibration. After that the agreement runs month-to-month with 30 days' notice.",
   },
 ];
 
@@ -355,8 +359,8 @@ export default function Home() {
   return (
     <div className="min-h-screen text-white">
       <SeoHead
-        title="Done-For-You Workflow Automation for Property Managers"
-        description="Run the free PM Workflow Audit, get the report by email, and see which workflow Veyra should fix first."
+        title="Operations Consultants for Property Managers"
+        description="Veyra helps independent property managers systemize tenant communications, maintenance, renewals, rent follow-up, vendors, after-hours response, and owner reporting, then runs those systems for you. Start with the free PM Operations Audit."
         canonicalPath="/"
         structuredData={homeStructuredData}
       />
@@ -397,7 +401,7 @@ export default function Home() {
                 >
                   <span className="hero-pill">
                     <span className="pill-dot" />
-                    Done-for-you automation for property managers
+                    Operations consultants for independent property managers
                   </span>
                 </motion.div>
                 <motion.h1
@@ -418,7 +422,7 @@ export default function Home() {
                   transition={{ duration: heroTiming(0.6), delay: heroTiming(0.9), ease: [0.25, 0.4, 0.25, 1] }}
                   className="text-lg text-gray-400 max-w-[540px] mx-auto lg:mx-0 mt-6 leading-relaxed"
                 >
-                  We build the automations that handle your busywork, so you can grow your portfolio without growing your team.
+                  We map how your operation actually runs, systemize the repeat work your PM software still leaves on your team, and then run those systems for you. AI where it earns its place, humans everywhere judgment matters. Grow the portfolio without growing the team.
                 </motion.p>
 
                 <motion.div
@@ -435,13 +439,13 @@ export default function Home() {
                       className="bg-emerald-500 text-white font-semibold text-lg px-8 py-4 rounded-full ring-1 ring-emerald-400/20 shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:shadow-[0_0_40px_rgba(52,211,153,0.4)] hover:scale-[1.03] transition-all duration-200 group"
                     >
                       <a href="/audit?source=hero_primary">
-                        Get Your Free Audit
+                        Get the Free Operations Audit
                         <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
                       </a>
                     </Button>
                   </div>
                   <p className="mt-4 text-sm text-gray-500">
-                    Works with the software you already run · no new platform · live in weeks
+                    Works around the software you already run · your PMS stays the system of record
                   </p>
                 </motion.div>
               </div>
@@ -534,7 +538,7 @@ export default function Home() {
                     <p className="text-emerald-400 text-sm font-medium">📉 Less manual busywork</p>
                   </div>
                   <div className="rounded-xl border border-white/5 bg-white/[0.02] px-5 py-3 text-center">
-                    <p className="text-emerald-400 text-sm font-medium">🌙 24/7 coverage</p>
+                    <p className="text-emerald-400 text-sm font-medium">🌙 After-hours intake built in</p>
                   </div>
                 </div>
                 <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.04] p-6">
@@ -546,7 +550,7 @@ export default function Home() {
             </motion.div>
 
             <div className="mt-12">
-              <p className="text-gray-400 mb-6">Seven workflows, before and after Veyra:</p>
+              <p className="text-gray-400 mb-6">Seven services, one operating layer. Before and after Veyra:</p>
 
               <div className="lg:hidden flex gap-2 overflow-x-auto pb-4 scrollbar-hide">
                 {automationCards.map((item, index) => {
@@ -648,7 +652,7 @@ export default function Home() {
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="text-center mb-14"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-white">Three steps. You're up and running in two weeks.</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-white">First we map it. Then we systemize it. Then we run it.</h2>
             </motion.div>
 
             <div className="relative grid md:grid-cols-3 gap-6">
@@ -762,7 +766,7 @@ export default function Home() {
             )}
 
             <p className="text-center text-gray-400 mt-2 mb-6 max-w-2xl mx-auto">
-              Here's what property managers say in public Reddit threads. Real posts, <span className="text-gray-300">not Veyra clients</span>. They're the exact problems we build for.
+              Here's what property managers say in public Reddit threads. Real posts, <span className="text-gray-300">not Veyra clients</span>. They're the exact problems we systemize away.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -798,7 +802,7 @@ export default function Home() {
               className="text-center"
             >
               <h2 className="text-3xl md:text-4xl font-bold text-white">See where your hours are leaking.</h2>
-              <p className="text-gray-400 mt-4">Run the free PM Workflow Audit and get a first-build recommendation. No pitch, no software talk.</p>
+              <p className="text-gray-400 mt-4">Run the free PM Operations Audit and see which part of your operation we would systemize first. No pitch, no software talk.</p>
             </motion.div>
 
             <motion.div
@@ -811,7 +815,7 @@ export default function Home() {
               <div className="rounded-2xl overflow-hidden border border-white/10 bg-[#0A0A0A]">
                 <iframe
                   src="/roi-calculator.html?theme=dark"
-                  title="Veyra Group PM Workflow Audit"
+                  title="Veyra Group PM Operations Audit"
                   loading="lazy"
                   className="w-full bg-[#0A0A0A]"
                   style={{ border: 0, height: `${calculatorDisplayHeight}px` }}
@@ -826,7 +830,7 @@ export default function Home() {
                   data-testid="button-calculator-report"
                 >
                   <a href="/audit?source=home_embed">
-                    Get Your Free Audit
+                    Get the Free Operations Audit
                     <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
                   </a>
                 </Button>
@@ -848,21 +852,21 @@ export default function Home() {
               className="text-center"
             >
               <ShieldCheck className="w-12 h-12 text-emerald-400 mx-auto mb-4" />
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">No lock-in. You approve everything.</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">Your rules. Your software. Your call.</h2>
 
               <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.03] p-8 md:p-10 text-left max-w-2xl mx-auto space-y-4">
-                <p className="text-lg text-white font-semibold">We don't stop until it works.</p>
+                <p className="text-lg text-white font-semibold">Automation with accountability.</p>
                 <p className="text-gray-300">
-                  We agree on what a workflow should do before we build it. Then we refine it until it does, at no extra cost. You approve every workflow before it goes live. Nothing runs without your sign-off.
+                  You approve the rules: voice, hours, thresholds, escalation paths, and protected boundaries. The system runs the repeat work inside them, and exceptions and judgment calls come back to a named human. Spend never moves without a yes.
                 </p>
                 <p className="text-gray-400">
-                  No long-term contract. Cancel anytime. You only pay once we agree on a workflow worth building.
+                  Money and official records stay in your PM software. Every significant action lands in an append-only audit trail, so you can always see what ran and why. After the 90-day initial term, the agreement runs month-to-month with 30 days' notice.
                 </p>
 
                 <div className="pt-2 border-t border-white/10">
-                  <p className="text-white font-semibold">Veyra is taking on 5 founding clients.</p>
+                  <p className="text-white font-semibold">Veyra is taking on a small group of founding clients.</p>
                   <p className="text-gray-400 mt-1">
-                    Book your free workflow audit to see if you qualify.
+                    Run the free PM Operations Audit to see if the fit is there.
                   </p>
                 </div>
               </div>
@@ -875,7 +879,7 @@ export default function Home() {
                   data-testid="button-guarantee-cta"
                 >
                   <a href="/audit?source=guarantee">
-                    Get Your Free Audit
+                    Get the Free Operations Audit
                     <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
                   </a>
                 </Button>
@@ -946,7 +950,7 @@ export default function Home() {
               <h2 className="text-3xl md:text-4xl font-bold text-white">Ready to stop being your own help desk?</h2>
               <Button asChild size="lg" className="mt-7 bg-emerald-500 text-white font-semibold text-lg px-8 py-4 rounded-full hover:shadow-lg hover:shadow-emerald-500/25 transition-all group" data-testid="button-footer-final-cta">
                 <a href="/audit?source=footer_final">
-                  Get Your Free Audit
+                  Get the Free Operations Audit
                   <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
                 </a>
               </Button>

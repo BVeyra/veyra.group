@@ -10,7 +10,9 @@ export const SEO_LAST_MODIFIED = "2026-03-31";
 // suppressed re-crawl and made every article look stale to Google. Update the date
 // here whenever a page's content materially changes.
 const PAGE_LAST_MODIFIED: Record<string, string> = {
-  "/": "2026-03-31",
+  "/": "2026-07-10",
+  "/audit": "2026-07-10",
+  "/book": "2026-07-10",
   "/guides": "2026-06-03",
   "/property-management-automation-roi": "2026-06-16",
   "/automated-owner-reporting-for-property-managers": "2026-06-03",
@@ -167,9 +169,9 @@ type SnapshotConfig = {
 const STATIC_PAGES: SeoPage[] = [
   {
     path: "/",
-    title: "Done-For-You Workflow Automation for Property Managers",
+    title: "Operations Consultants for Property Managers",
     description:
-      "Run the free PM Workflow Audit, get the report by email, and see which workflow Veyra should fix first.",
+      "Veyra helps independent property managers systemize tenant communications, maintenance, renewals, rent follow-up, vendors, after-hours response, and owner reporting, then runs those systems for you. Start with the free PM Operations Audit.",
     type: "website",
   },
   {
@@ -180,32 +182,25 @@ const STATIC_PAGES: SeoPage[] = [
     type: "website",
   },
   {
-    path: "/pricing",
-    title: "Pricing",
-    description:
-      "Veyra pricing is custom and value-based. We scope your build and monthly management to the workflows you need and quote it on a free audit. No annual contracts. The audit and first call are free.",
-    type: "website",
-  },
-  {
     path: "/audit",
-    title: "Free PM Workflow Audit",
+    title: "Free PM Operations Audit",
     description:
-      "Run Veyra's PM Workflow Audit, get the report by email, and see which workflow should be fixed first.",
+      "Run Veyra's free PM Operations Audit, get the report by email, and see which service the full operating system should activate first in your operation.",
     type: "website",
   },
   {
     path: "/book",
-    title: "Book a Workflow Audit Call",
+    title: "Book an Operations Audit Call",
     description:
-      "Schedule a 15-minute workflow audit call with Veyra to map where your property management team is bleeding time.",
+      "Schedule a 15-minute operations audit call with Veyra to map the repeat operating work sitting on your property-management team.",
     type: "website",
   },
   {
     // Tokenized personal report pages linked from audit emails; prerendered
     // so the route resolves, noindex keeps it out of search and the sitemap.
     path: "/report",
-    title: "Your PM Workflow Audit Report",
-    description: "Personalized PM Workflow Audit report from Veyra Group.",
+    title: "Your PM Operations Audit Report",
+    description: "Personalized PM Operations Audit report from Veyra Group.",
     type: "website",
     noindex: true,
   },
@@ -220,14 +215,14 @@ const STATIC_PAGES: SeoPage[] = [
     path: "/terms-of-service",
     title: "Terms of Service",
     description:
-      "Read the Veyra Group terms covering workflow audits, automation build services, billing, cancellation, and support.",
+      "Read the Veyra Group terms covering operations audits, managed operations services, billing, cancellation, and support.",
     type: "website",
   },
   {
     path: "/not-found",
     title: "Page Not Found",
     description:
-      "The page you requested does not exist. Return to the Veyra homepage or start the workflow audit instead.",
+      "The page you requested does not exist. Return to the Veyra homepage or start the free PM Operations Audit instead.",
     type: "website",
     noindex: true,
   },
@@ -558,29 +553,33 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
   switch (pathname) {
     case "/":
       return {
-        eyebrow: "Workflow Automation For Property Managers",
+        eyebrow: "Operations Consultants For Property Managers",
         title: "Stop running your PM company like an after-hours inbox.",
         description:
-          "Veyra helps independent property managers automate tenant communication, maintenance coordination, owner reporting, and other repeat admin workflows without forcing a platform migration.",
-        primaryLink: { href: "/audit", label: "Get the free PM audit report" },
+          "Veyra maps how your operation runs, systemizes the repeat work around your existing property-management software, and then runs those systems for you: tenant communications, maintenance, renewals, rent follow-up, vendors, after-hours response, and owner reporting. No platform migration.",
+        primaryLink: { href: "/audit", label: "Get the Free Operations Audit" },
         secondaryLinks: [
-          { href: "/book", label: "Book the workflow audit call" },
+          { href: "/book", label: "Book an operations audit call" },
           { href: "/property-management-automation-roi", label: "Read the ROI guide" },
         ],
         sections: [
           {
-            title: "What Veyra fixes first",
+            title: "Seven services, one operating layer",
             bullets: [
-              "Tenant communication that keeps hitting the same person with the same questions.",
-              "Maintenance coordination that depends on manual triage, vendor chasing, and status updates.",
-              "Owner reporting that still turns into spreadsheet cleanup at the end of the month.",
+              "Tenant communications: routine replies, triage, routing, and escalation.",
+              "Maintenance coordination: intake, triage, approval-gated dispatch, and resolution.",
+              "Lease renewals: tracking, approved offers, and follow-up ladders.",
+              "Rent follow-up: policy-based reminders that never touch the money.",
+              "Vendor management: roster, COI checks, dispatch, and callback follow-up.",
+              "After-hours and prospect response: around-the-clock intake, human emergency escalation, and fast first replies to prospects.",
+              "Owner reporting: ledger-backed packets, review, and delivery.",
             ],
           },
           {
             title: "Why the audit comes first",
             paragraphs: [
-              "The first useful automation is the workflow that combines high repetition with visible business impact. Veyra's audit maps the drag, estimates the repeat admin load, and recommends the first build before any proposal or software talk.",
-              "That keeps the conversation grounded in the work your team is already doing instead of abstract AI claims.",
+              "The free PM Operations Audit is how the consulting engagement starts: it maps the operating drag, puts numbers on the repeat admin load, and identifies what we would systemize first, before any proposal or software talk.",
+              "The audit sets the activation priority. It does not shrink the engagement: every client runs on the same connected operating layer with shared rules, approvals, and audit trail, with AI applied where it earns its place.",
             ],
           },
           {
@@ -611,15 +610,15 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
         title: "Guides for independent property managers",
         description:
           "Practical, operator-level breakdowns for firms running 50-500 doors. Where the hours leak, what to automate first, and how to scope it before you buy any software.",
-        primaryLink: { href: "/audit", label: "Get the free PM audit report" },
+        primaryLink: { href: "/audit", label: "Get the Free Operations Audit" },
         secondaryLinks: [
-          { href: "/book", label: "Book the workflow audit call" },
+          { href: "/book", label: "Book an operations audit call" },
           { href: "/", label: "Back to the homepage" },
         ],
         sections: [
           {
             title: "Automation guides",
-            paragraphs: ["Tied directly to what we build. Start here if you already know a workflow is the problem."],
+            paragraphs: ["Tied directly to what Veyra runs. Start here if you already know a workflow is the problem."],
             links: resourceArticles.filter((a) => automationPaths.includes(a.path)).map(toLink),
           },
           {
@@ -630,56 +629,28 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
         ],
       };
     }
-    case "/pricing":
-      return {
-        eyebrow: "Pricing",
-        title: "Every build is different. So is the price.",
-        description:
-          "Custom, value-based pricing. We scope your build and monthly management to the workflows you need and the size of your operation, then quote it on a free audit. No annual contracts.",
-        primaryLink: { href: "/audit", label: "Get the free PM audit report" },
-        secondaryLinks: [
-          { href: "/book", label: "Book the workflow audit call" },
-          { href: "/", label: "Back to the homepage" },
-        ],
-        sections: [
-          {
-            title: "How pricing works",
-            bullets: [
-              "Pricing is custom. Your build and monthly management are scoped to the workflows you need and the size of your operation.",
-              "We don't post a flat rate. The free audit maps your workflows and gives you an exact build and monthly quote.",
-              "No annual contract. You only pay once we agree on a workflow worth building.",
-            ],
-          },
-          {
-            title: "What we automate",
-            paragraphs: [
-              "Tenant communications, maintenance coordination, lease tracking and renewals, rent-collection follow-ups, vendor management, prospect auto-response, and owner reporting. Build any combination, and we scope the setup and monthly management to the ones you need.",
-            ],
-          },
-        ],
-      };
     case "/audit":
       return {
-        eyebrow: "Free PM Workflow Audit",
-        title: "Run the workflow audit first. Book the call second.",
+        eyebrow: "Free PM Operations Audit",
+        title: "Run the operations audit first. Book the call second.",
         description:
-          "The audit report points to the workflow Veyra should fix first, shows the repeatable admin load sitting on the team, and gives a cleaner starting point for a sales conversation.",
-        primaryLink: { href: "/book", label: "Book the workflow audit call" },
+          "The audit report shows the repeat operating load sitting on the team and identifies where Veyra's full operating system should activate first, before any sales conversation.",
+        primaryLink: { href: "/book", label: "Book an operations audit call" },
         secondaryLinks: [{ href: "/", label: "Back to the homepage" }],
         sections: [
           {
             title: "What the report includes",
             bullets: [
-              "A first-build recommendation tied to your workflow answers.",
+              "A priority-activation recommendation tied to your answers.",
               "Directional workload math instead of a generic automation score.",
-              "A clean next step for maintenance, tenant communication, owner reporting, or related admin work.",
+              "A clean next step for maintenance, tenant communication, owner reporting, or related operating work.",
             ],
           },
           {
             title: "When this is valuable",
             paragraphs: [
-              "Use the audit when you know your team is buried in repeat admin work but you do not want another broad software rollout.",
-              "The strongest use case is founder-led discovery: run the audit, review the report, and only take the call if the wedge looks real enough to justify it.",
+              "Use the audit when you know your team is buried in repeat operating work but you do not want another broad software rollout.",
+              "Run the audit, review the report, and only take the call if the numbers look real enough to justify it.",
             ],
           },
         ],
@@ -687,21 +658,21 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
     case "/book":
       return {
         eyebrow: "15 Minute Call",
-        title: "Book the workflow audit call.",
+        title: "Book the operations audit call.",
         description:
-          "Use the call to map the workflow that is leaking the most hours, see what Veyra would automate first, and decide whether a build makes sense.",
+          "Use the call to map the operating work that is leaking the most hours, see where the Veyra system would activate first, and decide whether the fit is there.",
         primaryLink: {
           href: "https://calendly.com/veyragroup/15min",
           label: "Open the scheduling page",
         },
-        secondaryLinks: [{ href: "/audit", label: "Run the free audit first" }],
+        secondaryLinks: [{ href: "/audit", label: "Run the free operations audit first" }],
         sections: [
           {
             title: "What happens on the call",
             bullets: [
               "Walk through where your PM team is losing time each week.",
-              "Pressure-test whether the best first automation is tenant communication, maintenance coordination, owner reporting, or another workflow.",
-              "Decide whether there is enough value to move into a scoped build.",
+              "Pressure-test whether the first activation should be tenant communication, maintenance coordination, owner reporting, or another service.",
+              "Decide whether there is enough value to move to a full-system proposal.",
             ],
           },
         ],
@@ -726,7 +697,7 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
           {
             title: "How the information is used",
             paragraphs: [
-              "Veyra uses collected information to provide workflow audits, operate and improve services, communicate with clients, and keep the product secure.",
+              "Veyra uses collected information to provide operations audits, operate and improve services, communicate with clients, and keep the product secure.",
               "Requests related to deletion, access, or correction can be sent to contact@veyragroup.ai.",
             ],
           },
@@ -735,7 +706,7 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
     case "/terms-of-service":
       return {
         eyebrow: "Legal",
-        title: "Terms for workflow audits, automation builds, and support.",
+        title: "Terms for operations audits, managed services, and support.",
         description:
           "The Veyra terms describe the services offered, client responsibilities, billing expectations, cancellation terms, and the general legal framework for working together.",
         primaryLink: { href: "mailto:contact@veyragroup.ai", label: "Ask a contract question" },
@@ -744,7 +715,7 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
           {
             title: "What the terms cover",
             bullets: [
-              "Workflow audits, automation build services, and ongoing optimization support.",
+              "Operations audits, managed operations services, implementation, and ongoing support.",
               "Fee and billing expectations defined in the applicable service agreement.",
               "Client responsibilities for accurate information, system access, and legal use of the services.",
             ],
@@ -762,14 +733,14 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
         eyebrow: "404",
         title: "Page not found.",
         description:
-          "That URL does not map to a live Veyra page. Return to the homepage or start the PM workflow audit instead.",
+          "That URL does not map to a live Veyra page. Return to the homepage or start the free PM Operations Audit instead.",
         primaryLink: { href: "/", label: "Go to the homepage" },
-        secondaryLinks: [{ href: "/audit", label: "Start the PM audit" }],
+        secondaryLinks: [{ href: "/audit", label: "Start the free operations audit" }],
         sections: [
           {
             title: "Best next step",
             paragraphs: [
-              "If you were looking for Veyra's main offer, the workflow audit is the cleanest entry point. It explains the wedge before asking for a call.",
+              "If you were looking for Veyra's main offer, the free PM Operations Audit is the cleanest entry point. It shows where the system fits before asking for a call.",
             ],
           },
         ],
@@ -790,9 +761,9 @@ function renderArticleSnapshot(pathname: string) {
     eyebrow: "Bottom Funnel Guide",
     title: article.title,
     description: article.directAnswer,
-    primaryLink: { href: "/audit", label: "Get the free PM audit report" },
+    primaryLink: { href: "/audit", label: "Get the Free Operations Audit" },
     secondaryLinks: [
-      { href: "/book", label: "Book the workflow audit call" },
+      { href: "/book", label: "Book an operations audit call" },
       { href: "/", label: "Return to the homepage" },
     ],
     sections: [

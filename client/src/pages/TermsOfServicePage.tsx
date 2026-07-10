@@ -7,7 +7,7 @@ import { openCalendly } from "@/lib/calendly";
 const sections = [
   {
     title: "1. Services",
-    body: "Veyra Group provides workflow audits, automation build services, and ongoing optimization and support for property management operations.",
+    body: "Veyra Group provides operations audits, managed operations services, implementation, and ongoing support for property management operations.",
   },
   {
     title: "2. Fees and Billing",
@@ -44,7 +44,7 @@ export default function TermsOfServicePage() {
     <div className="min-h-screen text-white relative overflow-hidden">
       <SeoHead
         title="Terms of Service"
-        description="Read the Veyra Group terms covering workflow audits, automation build services, billing, cancellation, and support."
+        description="Read the Veyra Group terms covering operations audits, managed operations services, billing, cancellation, and support."
         canonicalPath="/terms-of-service"
       />
       <div className="absolute inset-0 pointer-events-none">
@@ -73,7 +73,7 @@ export default function TermsOfServicePage() {
               size="sm"
               className="rounded-full bg-emerald-500 text-white font-semibold px-4 py-2 h-auto hover:bg-emerald-400 transition"
             >
-              Book a Free Audit
+              Get the Free Operations Audit
             </Button>
           </div>
         </div>
@@ -101,7 +101,7 @@ export default function TermsOfServicePage() {
               <p>
                 <span className="text-white/80 font-medium">Description:</span>{" "}
                 Veyra Group sends operational and service text messages to individuals who have
-                voluntarily opted in, including workflow audit and appointment scheduling,
+                voluntarily opted in, including operations audit and appointment scheduling,
                 maintenance and status updates, account and onboarding notifications, service
                 updates, and customer-care replies. Recipients opt in through the consent form at{" "}
                 <a href="/sms" className="text-emerald-400 hover:underline">veyragroup.ai/sms</a>{" "}

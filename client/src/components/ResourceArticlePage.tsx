@@ -137,7 +137,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
                 className="rounded-full bg-emerald-500 px-8 py-4 font-semibold text-white hover:bg-emerald-400"
               >
                 <a href={`/audit?source=${encodeURIComponent(article.path.replace(/^\//, ""))}`}>
-                  Get Your Free Audit
+                  Get the Free Operations Audit
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </a>
               </Button>
@@ -198,8 +198,8 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
                     Use Veyra's Audit First
                   </p>
                   <p className="mt-4 text-sm leading-6 text-gray-300">
-                    The fastest path is not adding more software. It is mapping the workflow, quantifying the drag,
-                    and showing which automation to build first.
+                    The fastest path is not adding more software. It is mapping the operation, quantifying the drag,
+                    and seeing what a systemized operation would take off your team first.
                   </p>
                   <Button
                     asChild
@@ -207,7 +207,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
                     className="mt-5 w-full rounded-full bg-emerald-500 font-semibold text-white hover:bg-emerald-400"
                   >
                     <a href={`/audit?source=${encodeURIComponent(`${article.path}-sidebar`)}`}>
-                      Get Your Free Audit
+                      Get the Free Operations Audit
                     </a>
                   </Button>
                 </div>
@@ -236,7 +236,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
               Want the numbers for your workflow instead of general advice?
             </h2>
             <p className="mt-4 text-lg text-gray-400">
-              Run the PM Workflow Audit, get the report, then book a call if the first-build recommendation justifies it.
+              Run the PM Operations Audit, get the report, then book a call if the first-activation recommendation justifies it.
             </p>
             <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
               <Button
@@ -245,7 +245,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
                 className="rounded-full bg-emerald-500 px-8 py-4 font-semibold text-white hover:bg-emerald-400"
               >
                 <a href={`/audit?source=${encodeURIComponent(`${article.path}-footer`)}`}>
-                  Get Your Free Audit
+                  Get the Free Operations Audit
                 </a>
               </Button>
               <Button

@@ -90,7 +90,7 @@ function ReportBody({ data, insights }: { data: AuditLeadData; insights: AuditIn
   return (
     <div className="mx-auto max-w-3xl space-y-5 px-6 py-14">
       <div className="text-center">
-        <h1 className="text-3xl font-extrabold text-white md:text-4xl">PM Workflow Audit</h1>
+        <h1 className="text-3xl font-extrabold text-white md:text-4xl">PM Operations Audit</h1>
         <p className="mt-2 text-gray-400">
           {data.company} · {data.units} units · {data.teamSize} team member{data.teamSize > 1 ? "s" : ""}
         </p>
@@ -105,7 +105,7 @@ function ReportBody({ data, insights }: { data: AuditLeadData; insights: AuditIn
         <StatRow label="Capacity read" value={insights.capacityLabel} />
         <StatRow label="Part-time admin equivalent" value={`${insights.partTimeAdminEquivalent}x`} />
         <StatRow label="Monthly admin load" value={`$${insights.monthlyAdminEquivalent.toLocaleString()}`} />
-        <StatRow label="Estimated first-build giveback" value={`${insights.estimatedWeeklyTimeSaved} hrs/week`} />
+        <StatRow label="Estimated first-activation giveback" value={`${insights.estimatedWeeklyTimeSaved} hrs/week`} />
         <p className="mt-4 rounded-xl border-l-2 border-emerald-500 bg-emerald-500/10 p-4 text-sm leading-6 text-gray-300">
           {insights.capacityNote}
         </p>
@@ -124,7 +124,7 @@ function ReportBody({ data, insights }: { data: AuditLeadData; insights: AuditIn
         </p>
       </Card>
 
-      <Card label="Best First Build">
+      <Card label="Recommended First Activation">
         <h3 className="text-lg font-bold text-white">{insights.primaryRecommendation.title}</h3>
         <p className="mt-3 text-sm leading-6 text-gray-300">{insights.primaryRecommendation.description}</p>
         <p className="mt-4 rounded-xl border-l-2 border-emerald-500 bg-emerald-500/10 p-4 text-sm leading-6 text-gray-300">
@@ -159,7 +159,7 @@ function ReportBody({ data, insights }: { data: AuditLeadData; insights: AuditIn
         </ul>
         {nextBuilds.length > 0 && (
           <p className="mt-4 rounded-xl border-l-2 border-emerald-500 bg-emerald-500/10 p-4 text-sm leading-6 text-gray-300">
-            <strong className="text-white">Next up after the first build:</strong>{" "}
+            <strong className="text-white">Next in the activation sequence:</strong>{" "}
             {nextBuilds.map((item) => item.title).join(" · ")}
           </p>
         )}
@@ -178,9 +178,9 @@ function ReportBody({ data, insights }: { data: AuditLeadData; insights: AuditIn
       </Card>
 
       <div className="rounded-3xl border border-emerald-500/40 bg-gradient-to-br from-emerald-500/20 to-emerald-500/5 p-7 text-center">
-        <h3 className="text-xl font-bold text-white">Next step: 15-minute workflow audit call</h3>
+        <h3 className="text-xl font-bold text-white">Next step: 15-minute operations audit call</h3>
         <p className="mt-2 text-sm leading-6 text-gray-300">
-          Bruno maps the current process behind {insights.primaryAngle}, shows what the first build should replace, and
+          Bruno maps the current process behind {insights.primaryAngle}, shows what the first activation should replace, and
           pressure-tests whether the time savings justify moving.
         </p>
         {showInlineCalendar ? (
@@ -192,10 +192,10 @@ function ReportBody({ data, insights }: { data: AuditLeadData; insights: AuditIn
             href={`/book?${new URLSearchParams({ name: data.name, email: data.email }).toString()}`}
             className="mt-5 inline-block rounded-full bg-emerald-500 px-8 py-3.5 font-bold text-white transition hover:shadow-lg hover:shadow-emerald-500/30"
           >
-            Book The Workflow Audit Call
+            Book the Operations Audit Call
           </a>
         )}
-        <p className="mt-4 text-xs text-gray-500">Directional diagnostic only. Book if the first-build recommendation feels right.</p>
+        <p className="mt-4 text-xs text-gray-500">Directional diagnostic only. Book if the first-activation recommendation feels right.</p>
       </div>
     </div>
   );
@@ -213,8 +213,8 @@ export default function ReportPage() {
   return (
     <div className="min-h-screen text-white">
       <SeoHead
-        title="Your PM Workflow Audit Report"
-        description="Personalized PM Workflow Audit report from Veyra Group."
+        title="Your PM Operations Audit Report"
+        description="Personalized PM Operations Audit report from Veyra Group."
         robots="noindex, nofollow"
       />
       <Navbar />
@@ -225,14 +225,14 @@ export default function ReportPage() {
           <div className="mx-auto max-w-xl px-6 py-24 text-center">
             <h1 className="text-3xl font-bold text-white">Report link not recognized</h1>
             <p className="mt-4 leading-7 text-gray-400">
-              This report link is incomplete or has been altered. Run the audit again to generate a fresh report — it
+              This report link is incomplete or has been altered. Run the audit again to generate a fresh report. It
               takes about two minutes.
             </p>
             <Link
               href="/audit"
               className="mt-8 inline-block rounded-full bg-emerald-500 px-8 py-3.5 font-bold text-white transition hover:shadow-lg hover:shadow-emerald-500/30"
             >
-              Run The Workflow Audit
+              Run the Free Operations Audit
             </Link>
           </div>
         )}

@@ -7,8 +7,8 @@ import { useEffect, useMemo, useState } from "react";
 
 const benefitCards = [
   {
-    title: "Specific first-build recommendation",
-    copy: "The report points to the workflow Veyra should fix first instead of dumping you into a generic ROI score.",
+    title: "Specific first-activation recommendation",
+    copy: "The report points to where the full Veyra system should activate first instead of dumping you into a generic ROI score.",
     icon: FileText,
   },
   {
@@ -57,8 +57,8 @@ export default function CalculatorPage() {
   return (
     <div className="min-h-screen text-white">
       <SeoHead
-        title="Free PM Workflow Audit"
-        description="Run Veyra's PM Workflow Audit, get the report by email, and see which workflow should be fixed first."
+        title="Free PM Operations Audit"
+        description="Run Veyra's PM Operations Audit, get the report by email, and see which service the system should activate first."
         canonicalPath="/audit"
       />
       <Navbar />
@@ -72,14 +72,14 @@ export default function CalculatorPage() {
                 Free report for independent property managers
               </div>
               <h1 className="mt-6 text-4xl font-bold leading-tight tracking-[-0.02em] md:text-6xl">
-                Run the workflow audit first.
+                Run the operations audit first.
                 <span className="block bg-gradient-to-r from-emerald-300 via-green-200 to-emerald-300 bg-clip-text text-transparent">
                   Book the call second.
                 </span>
               </h1>
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-gray-400">
-                Get a concrete first-build recommendation, a directional read on repeatable admin load, and only take
-                the call if the workflow looks worth fixing.
+                Get a concrete first-activation recommendation, a directional read on repeatable admin load, and only take
+                the call if the numbers justify it.
               </p>
 
               <div className="mt-8 space-y-4">
@@ -121,7 +121,7 @@ export default function CalculatorPage() {
               <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#0A0A0A]">
                 <iframe
                   src={iframeSrc}
-                  title="Veyra Group PM Workflow Audit"
+                  title="Veyra Group PM Operations Audit"
                   style={{ width: "100%", height: `${calculatorHeight}px`, minHeight: "1160px", border: "0", display: "block" }}
                 />
               </div>

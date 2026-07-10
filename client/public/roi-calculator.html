@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PM Workflow Audit | Veyra Group</title>
+<title>PM Operations Audit | Veyra Group</title>
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Bricolage+Grotesque:wght@500;700&display=swap");
 *{margin:0;padding:0;box-sizing:border-box}
@@ -199,7 +199,7 @@ app.innerHTML=`
 else if(state.step===9){
 app.innerHTML=`
 <div class="step active email-section">
-<div class="question">Where should we send your PM Workflow Audit?</div>
+<div class="question">Where should we send your PM Operations Audit?</div>
 <div class="field-stack">
 <input class="field" type="text" placeholder="Your name" aria-label="Your name" autocomplete="name" value="${escapeAttr(state.name)}" oninput="state.name=this.value">
 <input class="field" type="text" placeholder="Company name" aria-label="Company name" autocomplete="organization" value="${escapeAttr(state.company)}" oninput="state.company=this.value">
@@ -372,17 +372,17 @@ return `
 <p>Your inputs put ${escapeHtml(state.company)} in the highest-drag band we see. Bruno reviews these same day — grab 15 minutes and he will map ${escapeHtml(report.primaryAngle)} against your current process.</p>
 <div class="calendly-slot" id="calendly-inline"></div>
 ${reportLine}
-<div class="cta-note">Directional diagnostic only. If the first-build recommendation looks wrong, say so on the call.</div>
+<div class="cta-note">Directional diagnostic only. If the first-activation recommendation looks wrong, say so on the call.</div>
 </div>`;
 }
 if(report.tier==='medium'){
 return `
 <div class="cta-section">
 <h3>Want to see exactly what this would look like at ${escapeHtml(state.company)}?</h3>
-<p>Bruno can take this report, map the current process behind ${escapeHtml(report.primaryAngle)}, and show what the first build should replace.</p>
-<a href="${escapeAttr(state.bookingUrl)}" class="btn-white" target="_blank" rel="noopener">Book The Workflow Audit Call</a>
+<p>Bruno can take this report, map the current process behind ${escapeHtml(report.primaryAngle)}, and show what the first activation should replace.</p>
+<a href="${escapeAttr(state.bookingUrl)}" class="btn-white" target="_blank" rel="noopener">Book the Operations Audit Call</a>
 ${reportLine}
-<div class="cta-note">Directional diagnostic only. Book if the first-build recommendation feels right.</div>
+<div class="cta-note">Directional diagnostic only. Book if the first-activation recommendation feels right.</div>
 </div>`;
 }
 return `
@@ -402,7 +402,7 @@ if(!report){
 app.innerHTML=`
 <div class="results">
   <div class="results-header">
-    <h1>Your PM Workflow Audit</h1>
+    <h1>Your PM Operations Audit</h1>
     <p>Your report is on the way to ${escapeHtml(state.email)}.</p>
   </div>
   <div class="card">
@@ -413,7 +413,7 @@ app.innerHTML=`
   <div class="cta-section">
     <h3>Want Bruno to map the workflow with you?</h3>
     <p>The report is already in your inbox. The next step is optional.</p>
-    <a href="${escapeAttr(state.bookingUrl||'https://veyragroup.ai/book')}" class="btn-white" target="_blank" rel="noopener">Book The Workflow Audit Call</a>
+    <a href="${escapeAttr(state.bookingUrl||'https://veyragroup.ai/book')}" class="btn-white" target="_blank" rel="noopener">Book the Operations Audit Call</a>
   </div>
 </div>`;
 postHeight();
@@ -427,7 +427,7 @@ const emailStatus=state.emailDelivered
 app.innerHTML=`
 <div class="results">
 <div class="results-header">
-<h1>Your PM Workflow Audit</h1>
+<h1>Your PM Operations Audit</h1>
 <p>${escapeHtml(state.company)} · ${state.units} units · ${state.team} team member${state.team>1?'s':''}</p>
 ${state.submitted?`<div class="status">${emailStatus}</div>`:''}
 </div>
@@ -438,7 +438,7 @@ ${state.submitted?`<div class="status">${emailStatus}</div>`:''}
 <div class="stat-row"><span class="stat-label">Capacity read</span><span class="stat-value">${escapeHtml(report.capacityLabel)}</span></div>
 <div class="stat-row"><span class="stat-label">Part-time admin equivalent</span><span class="stat-value">${report.partTimeAdminEquivalent}x</span></div>
 <div class="stat-row"><span class="stat-label">Monthly admin load</span><span class="stat-value">$${Number(report.monthlyAdminEquivalent||0).toLocaleString()}</span></div>
-<div class="stat-row"><span class="stat-label">Estimated first-build giveback</span><span class="stat-value">${report.estimatedWeeklyTimeSaved} hrs/week</span></div>
+<div class="stat-row"><span class="stat-label">Estimated first-activation giveback</span><span class="stat-value">${report.estimatedWeeklyTimeSaved} hrs/week</span></div>
 <div class="insight">${escapeHtml(report.capacityNote)}</div>
 </div>
 <div class="card">
@@ -453,7 +453,7 @@ ${state.submitted?`<div class="status">${emailStatus}</div>`:''}
 <div class="insight">${escapeHtml(report.stackNote)}</div>
 </div>
 <div class="card">
-<div class="card-label">Best First Build</div>
+<div class="card-label">Recommended First Activation</div>
 <h3>${escapeHtml(report.primaryRecommendation.title)}</h3>
 <p style="margin-top:12px;font-size:14px;color:var(--text-body)">${escapeHtml(report.primaryRecommendation.description)}</p>
 <div class="insight">${escapeHtml(report.primaryRecommendation.fitNote)}</div>
@@ -464,7 +464,7 @@ ${state.submitted?`<div class="status">${emailStatus}</div>`:''}
 <div class="card-label">What Good Looks Like In 30 Days</div>
 <h3>${report.estimatedWeeklyTimeSaved} hours back is realistic if the workflow gets scoped correctly.</h3>
 <ul class="rec-list">${(report.primaryRecommendation.first30Days||[]).map(item=>`<li><div><span style="color:var(--text-muted)">${escapeHtml(item)}</span></div></li>`).join('')}</ul>
-${nextBuilds.length?`<div class="insight"><strong style="color:var(--text-heading)">Next up after the first build:</strong> ${nextBuilds.map(item=>`${escapeHtml(item.title)}`).join(' · ')}</div>`:''}
+${nextBuilds.length?`<div class="insight"><strong style="color:var(--text-heading)">Next in the activation sequence:</strong> ${nextBuilds.map(item=>`${escapeHtml(item.title)}`).join(' · ')}</div>`:''}
 </div>
 <div class="card">
 <div class="card-label">Bring This To The Audit Call</div>

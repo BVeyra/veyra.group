@@ -63,8 +63,8 @@ export default function BookPage() {
   return (
     <div className="min-h-screen text-white relative overflow-hidden">
       <SeoHead
-        title="Book a Workflow Audit Call"
-        description="Schedule a free workflow audit call with Veyra to map where your property management team is bleeding time."
+        title="Book an Operations Audit Call"
+        description="Schedule a free operations audit call with Veyra to map where your property management team is bleeding time."
         canonicalPath="/book"
       />
       <div className="absolute inset-0 pointer-events-none">
@@ -110,14 +110,15 @@ export default function BookPage() {
       <main className="max-w-6xl mx-auto px-6 pt-12 pb-16 relative z-10">
         <section className="text-center mb-8">
           <h1 className="text-4xl md:text-6xl font-bold tracking-[-0.02em] leading-[1.06] text-white">
-            Let&apos;s Build Your{" "}
+            Let&apos;s Map Your{" "}
             <span className="bg-gradient-to-r from-emerald-300 via-green-200 to-emerald-300 bg-clip-text text-transparent">
-              Automation System
+              Operating System
             </span>
           </h1>
           <p className="max-w-3xl mx-auto mt-5 text-lg leading-relaxed text-gray-400">
-            Pick a time that works for you. We&apos;ll map out exactly which
-            tasks are costing your team the most time, and how to fix them.
+            Pick a time that works for you. We&apos;ll map where the operating work piles
+            up, how the full Veyra system fits your operation, and which service should
+            activate first.
           </p>
         </section>
 

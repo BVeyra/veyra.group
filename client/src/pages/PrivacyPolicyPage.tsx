@@ -9,7 +9,7 @@ export default function PrivacyPolicyPage() {
     <div className="min-h-screen text-white relative overflow-hidden">
       <SeoHead
         title="Privacy Policy"
-        description="Review how Veyra Group collects, uses, and protects information across the website, workflow audits, and our automation services."
+        description="Review how Veyra Group collects, uses, and protects information across the website, operations audits, and our automation services."
         canonicalPath="/privacy"
       />
       <div className="absolute inset-0 pointer-events-none">
@@ -38,7 +38,7 @@ export default function PrivacyPolicyPage() {
               size="sm"
               className="rounded-full bg-emerald-500 text-white font-semibold px-4 py-2 h-auto hover:bg-emerald-400 transition"
             >
-              Book a Free Audit
+              Get the Free Operations Audit
             </Button>
           </div>
         </div>
@@ -57,7 +57,7 @@ export default function PrivacyPolicyPage() {
               <a href="https://veyragroup.ai" className="text-emerald-400 hover:underline">veyragroup.ai</a>{" "}
               and provides done-for-you workflow automation services for property management
               businesses. This Privacy Policy explains how we collect, use, share, and protect
-              your information when you use our website, request a workflow audit, or use our
+              your information when you use our website, request a operations audit, or use our
               services.
             </p>
           </section>
@@ -102,8 +102,8 @@ export default function PrivacyPolicyPage() {
             <div className="text-gray-400 leading-relaxed mt-3 space-y-2">
               <p>We use the information we collect to:</p>
               <p>
-                Provide, operate, and improve our services; schedule and deliver workflow audits
-                and the resulting reports; configure, run, and support the automations we build
+                Provide, operate, and improve our services; schedule and deliver operations audits
+                and the resulting reports; configure, run, and support the managed services we operate
                 for you; communicate with you by email or text message about your account, your
                 audits, or our services; respond to your requests, questions, or support needs;
                 comply with legal obligations; and protect the security of our services and users.
@@ -227,7 +227,7 @@ export default function PrivacyPolicyPage() {
             <div className="text-gray-400 leading-relaxed mt-3 space-y-3">
               <p>
                 With your consent, Veyra Group may send you text (SMS) messages related to our
-                services — including workflow audit scheduling, account and onboarding updates,
+                services — including operations audit scheduling, account and onboarding updates,
                 service notifications, and responses to your support requests.
               </p>
               <p>

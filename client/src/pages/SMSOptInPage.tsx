@@ -22,7 +22,7 @@ export default function SMSOptInPage() {
     <div className="min-h-screen text-white relative overflow-hidden">
       <SeoHead
         title="Text Message Updates — Sign Up"
-        description="Opt in to receive text message updates from Veyra Group about your workflow audit, account, and service. Consent is optional; reply STOP to opt out."
+        description="Opt in to receive text message updates from Veyra Group about your operations audit, account, and service. Consent is optional; reply STOP to opt out."
         canonicalPath="/sms"
       />
       <div className="absolute inset-0 pointer-events-none">
@@ -50,7 +50,7 @@ export default function SMSOptInPage() {
       <main className="relative z-10 max-w-2xl mx-auto px-6 py-12 md:py-16">
         <h1 className="text-3xl md:text-5xl font-bold tracking-[-0.02em]">Text Message Updates</h1>
         <p className="text-gray-400 mt-4 leading-relaxed">
-          Opt in to receive text messages from Veyra Group about your workflow audit, account,
+          Opt in to receive text messages from Veyra Group about your operations audit, account,
           onboarding, and service updates. Signing up for texts is optional and is not required to
           use our services.
         </p>

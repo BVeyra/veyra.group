@@ -70,16 +70,16 @@ export async function generateAndEmailPDF(data: AuditLeadData, insights: AuditIn
   const text = [
     `${data.name},`,
     ``,
-    `Your PM Workflow Audit for ${data.company} is ready.`,
+    `Your PM Operations Audit for ${data.company} is ready.`,
     `View your full report: ${reportUrl}`,
     ``,
-    `What jumped out: ${insights.primaryRecommendation.title} is the strongest first build.`,
+    `What jumped out: ${insights.primaryRecommendation.title} is the right first activation.`,
     `~${insights.estimatedWeeklyBusyworkHours} hours of repeatable work per week, roughly $${insights.monthlyAdminEquivalent.toLocaleString()}/mo of part-time admin equivalent.`,
-    `The first build could reasonably give back ${insights.estimatedWeeklyTimeSaved} hours/week.`,
+    `The first activation could reasonably give back ${insights.estimatedWeeklyTimeSaved} hours/week.`,
     ``,
     insights.primaryRecommendation.description,
     ``,
-    `Book the workflow audit call: ${bookingUrl}`,
+    `Book the operations audit call: ${bookingUrl}`,
     `Prefer to talk now? Call (220) 244-4213.`,
   ].join("\n");
 
@@ -87,7 +87,7 @@ export async function generateAndEmailPDF(data: AuditLeadData, insights: AuditIn
     resend.emails.send({
       from: sender,
       to: data.email,
-      subject: sanitizeSubject(`${data.company}: your PM Workflow Audit is ready`),
+      subject: sanitizeSubject(`${data.company}: your PM Operations Audit is ready`),
       text,
       html: `
   <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:600px;margin:0 auto;background-color:#0a0a0a;">
@@ -99,14 +99,14 @@ export async function generateAndEmailPDF(data: AuditLeadData, insights: AuditIn
     <div style="padding:32px;">
       <p style="font-size:16px;font-weight:600;color:#ffffff;margin:0 0 20px 0;">${safeName},</p>
       <p style="font-size:15px;color:#9ca3af;line-height:1.7;margin:0 0 20px 0;">
-        Your PM Workflow Audit for <strong style="color:#ffffff;">${safeCompany}</strong> is ready.
+        Your PM Operations Audit for <strong style="color:#ffffff;">${safeCompany}</strong> is ready.
         <a href="${safeReportUrl}" style="color:#5aa98a;text-decoration:underline;">View your full report</a> &mdash; a PDF copy is attached.
       </p>
       <div style="background:#121212;border:1px solid #1a1a1a;border-radius:14px;padding:18px;margin:0 0 20px 0;">
         <div style="font-size:11px;color:#5aa98a;text-transform:uppercase;letter-spacing:1.4px;margin-bottom:8px;">What jumped out</div>
-        <p style="font-size:15px;color:#ffffff;line-height:1.7;margin:0 0 8px 0;"><strong>${safeRecommendationTitle}</strong> is the strongest first build.</p>
+        <p style="font-size:15px;color:#ffffff;line-height:1.7;margin:0 0 8px 0;"><strong>${safeRecommendationTitle}</strong> is the right first activation.</p>
         <p style="font-size:14px;color:#9ca3af;line-height:1.7;margin:0 0 8px 0;">${insights.estimatedWeeklyBusyworkHours} hours of repeatable work per week. Roughly $${insights.monthlyAdminEquivalent.toLocaleString()}/mo of part-time admin equivalent.</p>
-        <p style="font-size:14px;color:#9ca3af;line-height:1.7;margin:0;">The first build could reasonably give back <strong style="color:#ffffff;">${insights.estimatedWeeklyTimeSaved} hours/week</strong> if the current workflow looks like your inputs.</p>
+        <p style="font-size:14px;color:#9ca3af;line-height:1.7;margin:0;">The first activation could reasonably give back <strong style="color:#ffffff;">${insights.estimatedWeeklyTimeSaved} hours/week</strong> if the current workflow looks like your inputs.</p>
       </div>
       <p style="font-size:15px;color:#9ca3af;line-height:1.7;margin:0 0 20px 0;">
         ${safeRecommendationDescription}
@@ -116,7 +116,7 @@ export async function generateAndEmailPDF(data: AuditLeadData, insights: AuditIn
       </p>
       <div style="text-align:center;margin:0 0 24px 0;">
         <a href="${safeBookingUrl}" style="display:inline-block;background-color:#0f7a55;color:#ffffff;padding:14px 34px;text-decoration:none;border-radius:999px;font-weight:700;font-size:15px;">
-          Book the workflow audit call
+          Book the operations audit call
         </a>
       </div>
       <p style="text-align:center;font-size:14px;color:#9ca3af;line-height:1.6;margin:0 0 24px 0;">
@@ -196,7 +196,7 @@ export async function sendOwnerNotification(
   <li><strong>Pain Points:</strong> ${escapeHtml(insights.topPainPoints.join(", ") || "No explicit pains selected")}</li>
   <li><strong>Estimated weekly busywork:</strong> ${insights.estimatedWeeklyBusyworkHours} hours</li>
   <li><strong>Monthly admin equivalent:</strong> $${insights.monthlyAdminEquivalent.toLocaleString()}</li>
-  <li><strong>First build:</strong> ${escapeHtml(insights.primaryRecommendation.title)}</li>
+  <li><strong>First activation:</strong> ${escapeHtml(insights.primaryRecommendation.title)}</li>
   <li><strong>Primary angle:</strong> ${escapeHtml(insights.primaryAngle)}</li>
   <li><strong>Report:</strong> <a href="${escapeHtml(reportUrlFor(data))}">web report</a></li>
 </ul>
