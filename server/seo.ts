@@ -851,10 +851,21 @@ function getStructuredData(pathname: string): StructuredData | undefined {
       {
         "@context": "https://schema.org",
         "@type": "Organization",
+        "@id": `${SITE_URL}/#organization`,
         name: SITE_NAME,
+        legalName: "Veyra Group Inc.",
         url: SITE_URL,
         logo: `${SITE_URL}/veyra-logo.svg`,
         description: page.description,
+        email: "contact@veyragroup.ai",
+        telephone: "+1-302-600-2625",
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Wilmington",
+          addressRegion: "DE",
+          addressCountry: "US",
+        },
+        sameAs: ["https://www.linkedin.com/company/veyragroup/"],
       },
       {
         "@context": "https://schema.org",

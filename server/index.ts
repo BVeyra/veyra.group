@@ -65,6 +65,15 @@ app.use(
         return callback(null, true);
       }
 
+      // Local dev servers get assigned arbitrary ports; loopback origins are
+      // only trusted outside production.
+      if (
+        process.env.NODE_ENV !== "production" &&
+        /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin)
+      ) {
+        return callback(null, true);
+      }
+
       if (corsAllowedOrigins.size === 0 && corsAllowedHosts.size === 0) {
         return callback(null, true);
       }

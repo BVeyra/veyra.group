@@ -344,6 +344,32 @@ export default function Home() {
   const homeStructuredData = [
     {
       "@context": "https://schema.org",
+      "@type": "Organization",
+      "@id": "https://veyragroup.ai/#organization",
+      name: "Veyra Group",
+      legalName: "Veyra Group Inc.",
+      url: "https://veyragroup.ai",
+      logo: "https://veyragroup.ai/veyra-logo.svg",
+      description:
+        "Veyra Group helps independent property managers systemize tenant communications, maintenance, renewals, rent follow-up, vendors, after-hours response, and owner reporting, then runs those systems for them.",
+      email: "contact@veyragroup.ai",
+      telephone: "+1-302-600-2625",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Wilmington",
+        addressRegion: "DE",
+        addressCountry: "US",
+      },
+      sameAs: ["https://www.linkedin.com/company/veyragroup/"],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "Veyra Group",
+      url: "https://veyragroup.ai",
+    },
+    {
+      "@context": "https://schema.org",
       "@type": "FAQPage",
       mainEntity: faqItems.map((item) => ({
         "@type": "Question",
