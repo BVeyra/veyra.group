@@ -856,7 +856,7 @@ function getStructuredData(pathname: string): StructuredData | undefined {
         logo: `${SITE_URL}/veyra-logo.svg`,
         description: page.description,
         email: "contact@veyragroup.ai",
-        telephone: "+1-302-600-2625",
+        telephone: "+1-220-244-4213",
         address: {
           "@type": "PostalAddress",
           addressLocality: "Wilmington",

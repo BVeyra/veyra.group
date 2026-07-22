@@ -353,7 +353,7 @@ export default function Home() {
       description:
         "Veyra Group helps independent property managers systemize tenant communications, maintenance, renewals, rent follow-up, vendors, after-hours response, and owner reporting, then runs those systems for them.",
       email: "contact@veyragroup.ai",
-      telephone: "+1-302-600-2625",
+      telephone: "+1-220-244-4213",
       address: {
         "@type": "PostalAddress",
         addressLocality: "Wilmington",
