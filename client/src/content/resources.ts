@@ -2,6 +2,23 @@ export type ResourceArticle = {
   path: string;
   title: string;
   description: string;
+  /** Required for new material: gives readers and search engines truthful context. */
+  author?: {
+    name: string;
+    role?: string;
+    url?: string;
+  };
+  reviewedBy?: {
+    name: string;
+    role?: string;
+    url?: string;
+  };
+  publishedAt?: string;
+  modifiedAt?: string;
+  sources?: Array<{
+    label: string;
+    url: string;
+  }>;
   directAnswer: string;
   intro: string[];
   summaryBullets: string[];

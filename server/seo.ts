@@ -31,6 +31,8 @@ const PAGE_LAST_MODIFIED: Record<string, string> = {
   "/reduce-property-management-overhead": "2026-06-16",
   "/property-management-ai": "2026-06-17",
   "/how-to-use-ai-in-property-management": "2026-06-23",
+  "/property-management-statistics-2026": "2026-06-24",
+  "/ai-property-management-tools": "2026-07-08",
 };
 
 export function getLastModified(path: string): string {
@@ -811,12 +813,20 @@ function getStructuredData(pathname: string): StructuredData | undefined {
         description: article.description,
         url: articleUrl,
         mainEntityOfPage: articleUrl,
-        datePublished: getLastModified(article.path),
-        dateModified: getLastModified(article.path),
-        author: {
-          "@type": "Organization",
-          name: SITE_NAME,
-        },
+        datePublished: article.publishedAt ?? getLastModified(article.path),
+        dateModified: article.modifiedAt ?? getLastModified(article.path),
+        author: article.author
+          ? {
+              "@type": "Person",
+              name: article.author.name,
+              ...(article.author.role ? { jobTitle: article.author.role } : {}),
+              ...(article.author.url ? { url: article.author.url } : {}),
+            }
+          : {
+              "@type": "Organization",
+              name: SITE_NAME,
+              url: SITE_URL,
+            },
         publisher: {
           "@type": "Organization",
           name: SITE_NAME,

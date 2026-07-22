@@ -1,22 +1,26 @@
 #!/bin/bash
-# Veyra SEO push — SIMPLIFIED (2026-07-07).
-# The SEO commit (15f27b1: the new AI-tools blog post + title fixes) is ALREADY made locally.
-# This just pushes it. No rebase, no stash, so your uncommitted WIP
-# (veyra-logo.svg, package-lock.json, server/seo.ts) is NOT touched and NOT pushed.
+# Veyra SEO push. Builds and validates generated SEO artifacts before staging
+# the explicitly listed website files. It never removes Git locks, stashes, or
+# stages unrelated worktree files.
 
 cd "$(cd -- "$(dirname -- "$0")/.." && pwd)" || exit 1
-rm -f .git/index.lock
 
-echo "== Making sure the SEO files are committed (idempotent) =="
+echo "== Type-checking and validating generated SEO artifacts =="
+npm run check || exit 1
+npm run build || exit 1
+npm run check:seo || exit 1
+
+echo "== Staging the approved SEO files only =="
 git add \
   client/src/content/resources.ts \
-  client/public/sitemap.xml \
-  client/src/App.tsx \
-  client/src/pages/AIPropertyManagementToolsPage.tsx
+  client/src/components/ResourceArticlePage.tsx \
+  server/seo.ts \
+  package.json \
+  scripts/push-veyra.command
 if ! git diff --cached --quiet; then
-  git commit -m "seo: add blog post — 9 Best AI Property Management Tools for Independent Operators (2026)"
+  git commit -m "seo: add validated optimization loop"
 else
-  echo "(already committed as 15f27b1 — good)"
+  echo "(no approved SEO changes to commit)"
 fi
 
 echo ""

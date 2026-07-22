@@ -65,6 +65,18 @@ function renderRichText(text: string): ReactNode {
 
 export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
   const articleUrl = `https://veyragroup.ai${article.path}`;
+  const articleAuthor = article.author
+    ? {
+        "@type": "Person",
+        name: article.author.name,
+        ...(article.author.url ? { url: article.author.url } : {}),
+        ...(article.author.role ? { jobTitle: article.author.role } : {}),
+      }
+    : {
+        "@type": "Organization",
+        name: "Veyra Group",
+        url: "https://veyragroup.ai/",
+      };
   const structuredData = [
     {
       "@context": "https://schema.org",
@@ -73,12 +85,9 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
       description: article.description,
       url: articleUrl,
       mainEntityOfPage: articleUrl,
-      datePublished: "2026-03-31",
-      dateModified: "2026-03-31",
-      author: {
-        "@type": "Organization",
-        name: "Veyra Group",
-      },
+      ...(article.publishedAt ? { datePublished: article.publishedAt } : {}),
+      ...(article.modifiedAt ? { dateModified: article.modifiedAt } : {}),
+      author: articleAuthor,
       publisher: {
         "@type": "Organization",
         name: "Veyra Group",
@@ -122,6 +131,14 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
             <p className="mt-5 max-w-3xl text-lg leading-relaxed text-gray-400">
               {article.description}
             </p>
+            {(article.author || article.reviewedBy || article.modifiedAt) && (
+              <p className="mt-4 text-sm text-gray-500">
+                {article.author && <>Written by {article.author.name}{article.author.role ? `, ${article.author.role}` : ""}.</>}
+                {article.author && article.reviewedBy && " "}
+                {article.reviewedBy && <>Reviewed by {article.reviewedBy.name}{article.reviewedBy.role ? `, ${article.reviewedBy.role}` : ""}.</>}
+                {article.modifiedAt && ` Updated ${article.modifiedAt}.`}
+              </p>
+            )}
 
             <div className="mt-8 rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.05] p-6 md:p-8">
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-300">
@@ -215,6 +232,26 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
             </div>
           </div>
         </section>
+
+        {article.sources && article.sources.length > 0 && (
+          <section className="border-t border-white/5 py-12">
+            <div className="max-w-4xl mx-auto px-6">
+              <h2 className="text-2xl font-bold text-white">Sources and methodology</h2>
+              <p className="mt-3 text-sm leading-6 text-gray-400">
+                External sources support factual claims. Veyra analysis is identified in the guide itself.
+              </p>
+              <ul className="mt-5 space-y-3">
+                {article.sources.map((source) => (
+                  <li key={source.url}>
+                    <a className={INLINE_LINK_CLASS} href={source.url} target="_blank" rel="noopener noreferrer">
+                      {source.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
 
         <section className="border-t border-white/5 py-12 md:py-20">
           <div className="max-w-4xl mx-auto px-6">
