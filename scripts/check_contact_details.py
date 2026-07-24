@@ -49,8 +49,8 @@ TEXT_SUFFIXES = {
 }
 OFFICE_SUFFIXES = {".docx", ".ods", ".odt", ".pptx", ".xlsm", ".xlsx"}
 REQUIRED_VALUES = {
-    WORKSPACE / "02_Website/Live Site/client/src/pages/home.tsx": ("+1-220-244-4213",),
-    WORKSPACE / "02_Website/Live Site/server/seo.ts": ("+1-220-244-4213",),
+    WORKSPACE / "02_website/live_site/client/src/pages/home.tsx": ("+1-220-244-4213",),
+    WORKSPACE / "02_website/live_site/server/seo.ts": ("+1-220-244-4213",),
     WORKSPACE / "scripts/create_business_cards.py": ("(220) 244-4213", "(920) 282-2580"),
 }
 
