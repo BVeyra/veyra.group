@@ -21,7 +21,7 @@ git add \
   scripts/check_contact_details.py \
   scripts/push-veyra.command
 if ! git diff --cached --quiet; then
-  git commit -m "seo: add validated optimization loop"
+  git commit -m "${1:-site update $(date +%Y-%m-%d)}"
 else
   echo "(no approved SEO changes to commit)"
 fi
