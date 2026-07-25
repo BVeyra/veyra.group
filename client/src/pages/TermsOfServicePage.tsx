@@ -6,36 +6,44 @@ import { openCalendly } from "@/lib/calendly";
 
 const sections = [
   {
-    title: "1. Services",
-    body: "Veyra Group provides operations audits, managed operations services, implementation, and ongoing support for property management operations.",
+    title: "1. The Services",
+    body: "Veyra Group provides done-for-you back-office automation for independent property management companies — including tenant communications, maintenance coordination, lease tracking and renewals, rent-collection follow-ups, vendor management, after-hours and prospect response, and owner reporting. Veyra builds around the software a client already uses and does not replace the client's system of record. Veyra does not provide legal, accounting, or financial advice and does not move or hold client or tenant funds.",
   },
   {
-    title: "2. Fees and Billing",
-    body: "Fees, pricing structure, and billing cadence are defined in your service agreement. Unless stated otherwise in writing, payments are due according to the agreed schedule.",
+    title: "2. Eligibility and Accounts",
+    body: "You must be a business or an authorized representative of a business, and at least 18 years old, to use the Services. You are responsible for the accuracy of information you provide and for maintaining the confidentiality of any account credentials.",
   },
   {
-    title: "3. Cancellation",
-    body: "You may cancel according to the terms in your service agreement. If service is canceled, access to managed automations and managed support ends.",
+    title: "3. Client Responsibilities and Acceptable Use",
+    body: "Clients are responsible for the rules, approval thresholds, and content they configure, for obtaining tenant/owner consent to be contacted, and for compliance with applicable laws including the Telephone Consumer Protection Act (TCPA), the Fair Housing Act, and state landlord-tenant and debt-collection regulations. You agree not to use the Services for unlawful, harassing, deceptive, or abusive communications. Where you supply mobile numbers of others (for example, a property manager supplying tenant numbers), you represent that you have obtained the necessary consent for those individuals to be contacted.",
   },
   {
-    title: "4. Client Responsibilities",
-    body: "You are responsible for providing accurate information, maintaining necessary access to your systems, and ensuring your use of our services complies with applicable laws and regulations.",
+    title: "4. Fees",
+    body: "Fees, where applicable, are set out in your separate order or agreement with Veyra. Unless stated otherwise, engagements are month-to-month and may be cancelled with 30 days' notice. If service is cancelled, access to managed automations and managed support ends.",
   },
   {
     title: "5. Intellectual Property",
-    body: "Each party retains ownership of its pre-existing intellectual property. Any ownership, license, or usage rights for deliverables are governed by your written agreement with Veyra Group.",
+    body: "Veyra retains all rights in the Services, software, and materials we provide. You retain ownership of your data; you grant Veyra a limited license to process it solely to provide the Services.",
   },
   {
     title: "6. Disclaimers",
-    body: "Services are provided on an \"as is\" and \"as available\" basis, except as explicitly stated in a signed agreement. We do not guarantee uninterrupted operation of third-party platforms.",
+    body: "The Services are provided \"as is\" and \"as available.\" To the fullest extent permitted by law, Veyra disclaims all warranties, express or implied, including merchantability, fitness for a particular purpose, and non-infringement. We do not guarantee uninterrupted operation of third-party platforms.",
   },
   {
     title: "7. Limitation of Liability",
-    body: "To the maximum extent permitted by law, Veyra Group is not liable for indirect, incidental, special, consequential, or punitive damages arising from use of the services.",
+    body: "To the fullest extent permitted by law, Veyra will not be liable for indirect, incidental, special, consequential, or punitive damages, or for lost profits or revenues. Our total liability for any claim arising out of the Services will not exceed the amounts you paid to Veyra in the three (3) months preceding the claim.",
   },
   {
-    title: "8. Governing Law and Updates",
-    body: "These Terms are governed by applicable law in the jurisdiction set forth in your agreement. We may update these Terms from time to time by posting a revised version with a new effective date.",
+    title: "8. Indemnification",
+    body: "You agree to indemnify and hold Veyra harmless from claims arising out of your misuse of the Services or your violation of these Terms or applicable law, including communications sent without required consent.",
+  },
+  {
+    title: "9. Governing Law",
+    body: "These Terms are governed by the laws of the State of Ohio, without regard to conflict-of-laws rules. Venue for disputes lies in the state and federal courts located in Cuyahoga County, Ohio.",
+  },
+  {
+    title: "10. Changes",
+    body: "We may update these Terms from time to time. Continued use of the Services after changes take effect constitutes acceptance of the updated Terms.",
   },
 ];
 
@@ -81,7 +89,7 @@ export default function TermsOfServicePage() {
 
       <main className="relative z-10 max-w-4xl mx-auto px-6 py-12 md:py-16">
         <h1 className="text-3xl md:text-5xl font-bold tracking-[-0.02em]">Terms of Service</h1>
-        <p className="text-gray-400 mt-4">Effective date: March 3, 2026</p>
+        <p className="text-gray-400 mt-4">Effective date: July 24, 2026</p>
 
         <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-6 md:p-8 space-y-8">
           {sections.map((section) => (
@@ -92,7 +100,7 @@ export default function TermsOfServicePage() {
           ))}
 
           <section>
-            <h2 className="text-xl font-semibold text-white">9. SMS Messaging Program</h2>
+            <h2 className="text-xl font-semibold text-white">11. SMS Messaging Program</h2>
             <div className="text-gray-400 leading-relaxed mt-2 space-y-3">
               <p>
                 <span className="text-white/80 font-medium">Program name:</span>{" "}
@@ -147,7 +155,7 @@ export default function TermsOfServicePage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-white">10. Contact</h2>
+            <h2 className="text-xl font-semibold text-white">12. Contact</h2>
             <p className="text-gray-400 leading-relaxed mt-2">
               Questions about these Terms can be sent to{" "}
               <a href="mailto:contact@veyragroup.ai" className="text-emerald-400 hover:underline">
