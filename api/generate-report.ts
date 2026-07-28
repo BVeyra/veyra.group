@@ -4,12 +4,13 @@ import { renderToBuffer } from "@react-pdf/renderer";
 import {
   buildAuditInsights,
   buildFollowUp,
-  encodeReportToken,
   type AuditInsights,
   type AuditLeadData,
 } from "../shared/auditEngine.js";
 import { isValidLeadEmail, normalizeLeadPayload } from "../shared/auditValidation.js";
 import { buildPDFDocument } from "../shared/auditPdf.js";
+import { PublicReportAbuseControls, verifiedClientIp, verifyPublicReportTurnstile } from "../shared/publicReportSecurity.js";
+import { issueReportToken } from "../server/reportToken.js";
 
 const SITE_URL = process.env.SITE_URL || "https://veyragroup.ai";
 
@@ -21,52 +22,12 @@ function bookingUrlFor(data?: AuditLeadData) {
 }
 
 function reportUrlFor(data: AuditLeadData) {
-  return `${SITE_URL}/report?d=${encodeReportToken(data)}`;
+  return `${SITE_URL}/report?d=${encodeURIComponent(issueReportToken(data))}`;
 }
 
-// ─── Bot protection ───
+// ─── Bot protection and spend control ───
 
-async function verifyTurnstile(token: unknown, ip: string): Promise<boolean> {
-  const secret = process.env.TURNSTILE_SECRET_KEY;
-  if (!secret) return true; // not configured yet — validation is a no-op
-  if (typeof token !== "string" || !token) return false;
-  try {
-    const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({ secret, response: token, remoteip: ip }),
-    });
-    const result = (await res.json()) as { success?: boolean };
-    return Boolean(result.success);
-  } catch (error) {
-    // Fail open: a Cloudflare outage should not take the funnel down.
-    console.error("Turnstile verification errored:", error);
-    return true;
-  }
-}
-
-// Best-effort belt-and-suspenders only: this Map is per-instance and resets on
-// cold starts. Turnstile is the real abuse control.
-const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
-const RATE_LIMIT_MAX_REQUESTS = 5;
-const requestLog = new Map<string, number[]>();
-
-function getClientIp(req: VercelRequest) {
-  const real = req.headers["x-real-ip"];
-  if (typeof real === "string" && real) return real;
-  const fwd = req.headers["x-forwarded-for"];
-  if (typeof fwd === "string") return fwd.split(",")[0].trim();
-  return req.socket?.remoteAddress || "unknown";
-}
-
-function isRateLimited(ip: string, now: number) {
-  if (requestLog.size > 5000) requestLog.clear();
-  const recent = (requestLog.get(ip) || []).filter((ts) => now - ts < RATE_LIMIT_WINDOW_MS);
-  if (recent.length >= RATE_LIMIT_MAX_REQUESTS) return true;
-  recent.push(now);
-  requestLog.set(ip, recent);
-  return false;
-}
+const abuseControls = new PublicReportAbuseControls();
 
 // ─── Email helpers ───
 
@@ -90,10 +51,9 @@ async function sendViaResend(payload: Record<string, unknown>) {
   return { messageId: result.id as string };
 }
 
-async function sendReportEmail(data: AuditLeadData, insights: AuditInsights) {
+async function sendReportEmail(data: AuditLeadData, insights: AuditInsights, reportUrl: string) {
   const fromEmail = process.env.RESEND_FROM_EMAIL || "Veyra Group <contact@veyragroup.ai>";
   const bookingUrl = bookingUrlFor(data);
-  const reportUrl = reportUrlFor(data);
   const safeName = escapeHtml(data.name);
   const safeCompany = escapeHtml(data.company);
   const safeBookingUrl = escapeHtml(bookingUrl);
@@ -174,7 +134,7 @@ async function sendReportEmail(data: AuditLeadData, insights: AuditInsights) {
 async function sendOwnerNotification(
   data: AuditLeadData,
   insights: AuditInsights,
-  extras: { crmStatus: string; reportEmailStatus: string },
+  extras: { crmStatus: string; reportEmailStatus: string; reportUrl: string },
 ) {
   const fromEmail = process.env.RESEND_FROM_EMAIL || "Veyra Group <contact@veyragroup.ai>";
   const ownerEmail = process.env.OWNER_NOTIFICATION_EMAIL || "contact@veyragroup.ai";
@@ -197,7 +157,7 @@ async function sendOwnerNotification(
 <h3>Contact</h3>
 <ul><li><strong>Name:</strong> ${escapeHtml(data.name)}</li><li><strong>Company:</strong> ${escapeHtml(data.company)}</li><li><strong>Email:</strong> ${escapeHtml(data.email)}</li></ul>
 <h3>Audit Snapshot</h3>
-<ul><li><strong>Units / Team:</strong> ${data.units} / ${data.teamSize}</li><li><strong>PM software:</strong> ${escapeHtml(data.pmSoftware)}</li><li><strong>Weekly busywork:</strong> ${insights.estimatedWeeklyBusyworkHours} hrs</li><li><strong>First build:</strong> ${escapeHtml(insights.primaryRecommendation.title)}</li><li><strong>Report:</strong> <a href="${escapeHtml(reportUrlFor(data))}">web report</a></li></ul>
+<ul><li><strong>Units / Team:</strong> ${data.units} / ${data.teamSize}</li><li><strong>PM software:</strong> ${escapeHtml(data.pmSoftware)}</li><li><strong>Weekly busywork:</strong> ${insights.estimatedWeeklyBusyworkHours} hrs</li><li><strong>First build:</strong> ${escapeHtml(insights.primaryRecommendation.title)}</li><li><strong>Report:</strong> <a href="${escapeHtml(extras.reportUrl)}">web report</a></li></ul>
 <h3>Attribution</h3><p>${escapeHtml(attribution)}</p>
 <h3>Delivery</h3><ul><li><strong>CRM sync:</strong> ${escapeHtml(extras.crmStatus)}</li><li><strong>Report email:</strong> ${escapeHtml(extras.reportEmailStatus)}</li></ul>
 <h3>Next Action</h3><p>${escapeHtml(followUp.reason)}</p>`,
@@ -244,12 +204,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") return res.status(405).json({ success: false, error: "Method not allowed" });
 
   try {
-    const ip = getClientIp(req);
+    const ip = verifiedClientIp(req.headers, req.socket?.remoteAddress);
     const body = (req.body || {}) as Record<string, unknown>;
-
-    if (isRateLimited(ip, Date.now())) {
-      return res.status(429).json({ success: false, error: "Rate limit exceeded. Try again later." });
-    }
 
     // Honeypot: real users never fill this hidden field. Pretend success so
     // bots don't learn they were filtered.
@@ -257,8 +213,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.json({ success: true });
     }
 
-    if (!(await verifyTurnstile(body.turnstileToken, ip))) {
+    if (!(await verifyPublicReportTurnstile(body.turnstileToken, ip))) {
       return res.status(403).json({ success: false, error: "Verification failed. Refresh and try again." });
+    }
+
+    // Each accepted request can attempt one report email and one owner alert.
+    // Reserve both before any paid work, against durable shared counters.
+    const abuseControl = await abuseControls.reserve(ip, 2);
+    if (abuseControl === "rate_limited") {
+      return res.status(429).json({ success: false, error: "Rate limit exceeded. Try again later." });
+    }
+    if (abuseControl === "spend_cap_reached") {
+      return res.status(429).json({ success: false, error: "The daily report limit has been reached. Please try again tomorrow." });
+    }
+    if (abuseControl === "unavailable") {
+      return res.status(503).json({ success: false, error: "Report delivery is temporarily unavailable." });
     }
 
     const payload = normalizeLeadPayload(body);
@@ -268,6 +237,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!isValidLeadEmail(payload.email)) return res.status(400).json({ success: false, error: "Invalid email address" });
 
     const insights = buildAuditInsights(payload);
+    const reportUrl = reportUrlFor(payload);
 
     // Capture the lead BEFORE attempting email delivery: a Resend failure
     // must never lose a completed audit.
@@ -276,19 +246,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     let reportEmailStatus = "sent";
     let messageId: string | undefined;
     try {
-      const emailResult = await sendReportEmail(payload, insights);
+      const emailResult = await sendReportEmail(payload, insights, reportUrl);
       messageId = emailResult.messageId;
     } catch (emailError) {
       reportEmailStatus = emailError instanceof Error ? `failed: ${emailError.message}` : "failed";
       console.error("Report email failed (lead still captured):", emailError);
     }
 
-    await sendOwnerNotification(payload, insights, { crmStatus: crmSync.status, reportEmailStatus });
+    await sendOwnerNotification(payload, insights, { crmStatus: crmSync.status, reportEmailStatus, reportUrl });
 
     return res.json({
       success: true,
       insights,
-      reportUrl: reportUrlFor(payload),
+      reportUrl,
       bookingUrl: bookingUrlFor(payload),
       emailDelivered: reportEmailStatus === "sent",
       messageId,

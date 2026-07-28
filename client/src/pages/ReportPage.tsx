@@ -1,10 +1,9 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "wouter";
 import { Footer, Navbar } from "@/components/layout";
 import { SeoHead } from "@/components/SeoHead";
 import {
   buildAuditInsights,
-  decodeReportToken,
   type AuditInsights,
   type AuditLeadData,
   type Severity,
@@ -202,12 +201,19 @@ function ReportBody({ data, insights }: { data: AuditLeadData; insights: AuditIn
 }
 
 export default function ReportPage() {
-  const decoded = useMemo(() => {
+  const [decoded, setDecoded] = useState<AuditLeadData | null>(null);
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
     const token = new URLSearchParams(window.location.search).get("d") || "";
-    if (!token) return null;
-    return decodeReportToken(token);
+    if (!token) { setLoaded(true); return; }
+    const controller = new AbortController();
+    void fetch(`/api/report-data?d=${encodeURIComponent(token)}`, { signal: controller.signal })
+      .then(async (response) => response.ok ? response.json() as Promise<{ data?: AuditLeadData }> : null)
+      .then((payload) => setDecoded(payload?.data || null))
+      .catch(() => setDecoded(null))
+      .finally(() => setLoaded(true));
+    return () => controller.abort();
   }, []);
-
   const insights = useMemo(() => (decoded ? buildAuditInsights(decoded) : null), [decoded]);
 
   return (
@@ -219,7 +225,9 @@ export default function ReportPage() {
       />
       <Navbar />
       <main className="pt-20">
-        {decoded && insights ? (
+        {!loaded ? (
+          <div className="mx-auto max-w-xl px-6 py-24 text-center"><p className="leading-7 text-gray-400">Loading your report…</p></div>
+        ) : decoded && insights ? (
           <ReportBody data={decoded} insights={insights} />
         ) : (
           <div className="mx-auto max-w-xl px-6 py-24 text-center">

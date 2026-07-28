@@ -3,12 +3,12 @@ import { Resend } from "resend";
 import { renderToBuffer } from "@react-pdf/renderer";
 import {
   buildFollowUp,
-  encodeReportToken,
   type AuditInsights,
   type AuditLeadData,
 } from "../shared/auditEngine.js";
 import { buildPDFDocument } from "../shared/auditPdf.js";
 import type { CrmSyncResult } from "./crmSync";
+import { issueReportToken } from "./reportToken";
 
 const SITE_URL = process.env.SITE_URL || "https://veyragroup.ai";
 
@@ -20,7 +20,7 @@ export function bookingUrlFor(data?: AuditLeadData) {
 }
 
 export function reportUrlFor(data: AuditLeadData) {
-  return `${SITE_URL}/report?d=${encodeReportToken(data)}`;
+  return `${SITE_URL}/report?d=${encodeURIComponent(issueReportToken(data))}`;
 }
 
 function escapeHtml(value: string) {

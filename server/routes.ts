@@ -4,38 +4,35 @@ import { buildAuditInsights } from "../shared/auditEngine.js";
 import { isValidLeadEmail, normalizeLeadPayload } from "../shared/auditValidation.js";
 import { syncAuditLeadToCrm } from "./crmSync";
 import { bookingUrlFor, generateAndEmailPDF, reportUrlFor, sendOwnerNotification } from "./pdfGenerator";
+import { PublicReportAbuseControls, verifiedClientIp, verifyPublicReportTurnstile } from "../shared/publicReportSecurity";
 
-const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
-const RATE_LIMIT_MAX_REQUESTS = 5;
-const requestLog = new Map<string, number[]>();
-
-function getClientIp(req: Request) {
-  return req.ip || req.socket.remoteAddress || "unknown";
-}
-
-function isRateLimited(ip: string, now: number) {
-  if (requestLog.size > 5000) requestLog.clear();
-  const recent = (requestLog.get(ip) || []).filter((timestamp) => now - timestamp < RATE_LIMIT_WINDOW_MS);
-  if (recent.length >= RATE_LIMIT_MAX_REQUESTS) return true;
-  recent.push(now);
-  requestLog.set(ip, recent);
-  return false;
-}
+const abuseControls = new PublicReportAbuseControls();
 
 export async function registerRoutes(httpServer: Server, app: Express): Promise<Server> {
   app.post("/api/generate-report", async (req, res) => {
     try {
-      const ip = getClientIp(req);
+      const ip = verifiedClientIp(req.headers, req.socket.remoteAddress);
       const body = (req.body || {}) as Record<string, unknown>;
-
-      if (isRateLimited(ip, Date.now())) {
-        return res.status(429).json({ success: false, error: "Rate limit exceeded. Try again later." });
-      }
 
       // Honeypot: real users never fill this hidden field. Pretend success so
       // bots don't learn they were filtered.
       if (typeof body.website === "string" && body.website.trim() !== "") {
         return res.json({ success: true });
+      }
+
+      if (!(await verifyPublicReportTurnstile(body.turnstileToken, ip))) {
+        return res.status(403).json({ success: false, error: "Verification failed. Refresh and try again." });
+      }
+
+      const abuseControl = await abuseControls.reserve(ip, 2);
+      if (abuseControl === "rate_limited") {
+        return res.status(429).json({ success: false, error: "Rate limit exceeded. Try again later." });
+      }
+      if (abuseControl === "spend_cap_reached") {
+        return res.status(429).json({ success: false, error: "The daily report limit has been reached. Please try again tomorrow." });
+      }
+      if (abuseControl === "unavailable") {
+        return res.status(503).json({ success: false, error: "Report delivery is temporarily unavailable." });
       }
 
       const payload = normalizeLeadPayload(body);
