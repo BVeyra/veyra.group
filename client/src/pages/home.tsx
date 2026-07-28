@@ -676,10 +676,22 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-20px" }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className="text-center mb-14"
+              className="text-center mb-8"
             >
               <h2 className="text-3xl md:text-4xl font-bold text-white">First we map it. Then we systemize it. Then we run it.</h2>
             </motion.div>
+
+            <div className="grid grid-cols-3 gap-6 mb-4 text-center">
+              {processSteps.map((step) => (
+                <div
+                  key={step.number}
+                  className="inline-flex items-center justify-center gap-2 text-xs uppercase tracking-[0.1em] text-gray-500"
+                >
+                  <Clock className="w-3.5 h-3.5" />
+                  {step.duration}
+                </div>
+              ))}
+            </div>
 
             <div className="relative grid md:grid-cols-3 gap-6">
               <div className="hidden md:block absolute left-[16%] right-[16%] top-8 border-t-2 border-dashed border-emerald-500/20" />
@@ -698,10 +710,6 @@ export default function Home() {
                   </div>
 
                   <div className="glass-card rounded-2xl p-6 mt-4">
-                    <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.1em] text-gray-500 mb-3">
-                      <Clock className="w-3.5 h-3.5" />
-                      {step.duration}
-                    </div>
                     <h3 className="text-xl font-semibold text-white mb-3 inline-flex items-center gap-2">
                       <step.icon className="w-5 h-5 text-emerald-300" />
                       {step.title}
