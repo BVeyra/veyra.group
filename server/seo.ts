@@ -20,7 +20,7 @@ const PAGE_LAST_MODIFIED: Record<string, string> = {
   "/automate-tenant-communication-property-management": "2026-06-03",
   "/how-many-properties-can-one-manager-handle": "2026-06-09",
   "/property-management-challenges-2026": "2026-06-24",
-  "/how-to-reduce-tenant-turnover": "2026-04-14",
+  "/how-to-reduce-tenant-turnover": "2026-07-29",
   "/scale-property-management-business": "2026-04-28",
   "/maintenance-response-time-benchmark": "2026-06-17",
   "/property-management-kpis": "2026-05-12",
@@ -349,14 +349,39 @@ function renderSnapshotLinks(
   `;
 }
 
+function renderSnapshotRichText(text: string) {
+  const inlineLinkPattern = /\[([^\]]+)\]\(([^)]+)\)|<a\s+href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g;
+  let rendered = "";
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = inlineLinkPattern.exec(text)) !== null) {
+    rendered += escapeHtml(text.slice(lastIndex, match.index));
+    const label = match[1] ?? match[4] ?? "";
+    const href = match[2] ?? match[3] ?? "";
+    const safeHref =
+      href.startsWith("/") ||
+      href.startsWith("https://") ||
+      href.startsWith("http://") ||
+      href.startsWith("mailto:");
+
+    rendered += safeHref
+      ? `<a href="${escapeHtml(href)}">${escapeHtml(label)}</a>`
+      : escapeHtml(match[0]);
+    lastIndex = match.index + match[0].length;
+  }
+
+  return `${rendered}${escapeHtml(text.slice(lastIndex))}`;
+}
+
 function renderSnapshotSection(section: SnapshotSection) {
   const paragraphs = (section.paragraphs ?? [])
-    .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
+    .map((paragraph) => `<p>${renderSnapshotRichText(paragraph)}</p>`)
     .join("");
   const bullets =
     section.bullets && section.bullets.length > 0
       ? `<ul>${section.bullets
-          .map((bullet) => `<li>${escapeHtml(bullet)}</li>`)
+          .map((bullet) => `<li>${renderSnapshotRichText(bullet)}</li>`)
           .join("")}</ul>`
       : "";
 
@@ -785,6 +810,20 @@ function renderArticleSnapshot(pathname: string) {
               links: (RELATED_GUIDES[article.path] ?? []).map((href) => ({
                 href,
                 label: relatedGuideLabel(href),
+              })),
+          },
+        ]
+        : []),
+      ...(article.sources && article.sources.length > 0
+        ? [
+            {
+              title: "Sources and methodology",
+              paragraphs: [
+                "External sources support factual claims. Veyra analysis is identified in the guide itself.",
+              ],
+              links: article.sources.map((source) => ({
+                href: source.url,
+                label: source.label,
               })),
             },
           ]
