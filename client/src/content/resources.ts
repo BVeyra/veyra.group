@@ -1766,7 +1766,7 @@ export const resourceArticles: ResourceArticle[] = [
       {
         question: "Do I need new software to use AI in property management?",
         answer:
-          "Not necessarily. Many independent firms get the biggest wins by adding AI to the platform they already run, or by using a done-for-you service that connects to their existing stack rather than replacing it. Buying a whole new system is usually the most expensive and disruptive path. Start by identifying the one or two workflows costing you the most hours, then add the narrowest tool that fixes them.",
+          "Not necessarily. Many independent firms get the biggest wins by configuring the platform they already run, or by adding a service that connects to their existing stack rather than replacing it. Buying a whole new system is usually the most expensive and disruptive path. Start by identifying the one or two workflows costing you the most hours, then add the narrowest tool that fixes them.",
       },
       {
         question: "How much time can AI property management tools actually save?",
