@@ -132,6 +132,9 @@ export class PublicReportAbuseControls {
       // Upstash accepts a complete Redis command as a JSON array at the REST
       // endpoint root. Do not append `/eval`: that form expects individual
       // URL command arguments instead of the complete command array below.
+      // The array must start with the command name, so EVAL leads and the
+      // script is its first argument. Omitting it makes Upstash read the Lua
+      // source itself as the command name and reject the whole call with 400.
       endpoint = new URL("/", this.redisUrl);
       if (endpoint.protocol !== "https:") return this.reportOutage("endpoint_not_https");
     } catch {
@@ -141,7 +144,7 @@ export class PublicReportAbuseControls {
       const response = await this.fetchImpl(endpoint, {
         method: "POST",
         headers: { Authorization: `Bearer ${this.redisToken}`, "Content-Type": "application/json" },
-        body: JSON.stringify([RESERVE_SCRIPT, 1, key, amount, maximum, ttlSeconds]),
+        body: JSON.stringify(["EVAL", RESERVE_SCRIPT, 1, key, amount, maximum, ttlSeconds]),
         signal: AbortSignal.timeout(3000),
       });
       if (!response.ok) return this.reportOutage(`http_${response.status}`);
