@@ -98,11 +98,32 @@ export class PublicReportAbuseControls {
   async reserve(clientIp: string, sendAttempts: number, now = new Date()): Promise<AbuseControlResult> {
     if (!Number.isInteger(sendAttempts) || sendAttempts < 1) return "unavailable";
     if (!this.redisUrl || !this.redisToken) return "unavailable";
+    // reserveCounter returns undefined when the counter store itself failed.
+    // That is an outage, not a limit: both still refuse the request, but only
+    // one of them is the visitor's fault. Collapsing them tells a first-time
+    // prospect to "try again later" forever while nothing is being counted.
     const rateKey = `veyra:public-report:ip:${hashedIp(clientIp)}:${Math.floor(now.getTime() / (this.ipWindowSeconds * 1000))}`;
-    if (!(await this.reserveCounter(rateKey, 1, this.ipLimit, this.ipWindowSeconds))) return "rate_limited";
+    const withinIpLimit = await this.reserveCounter(rateKey, 1, this.ipLimit, this.ipWindowSeconds);
+    if (withinIpLimit === undefined) return "unavailable";
+    if (!withinIpLimit) return "rate_limited";
+
     const dailyKey = `veyra:public-report:send-attempts:${utcDay(now)}`;
-    if (!(await this.reserveCounter(dailyKey, sendAttempts, this.dailySendCap, secondsUntilNextUtcDay(now)))) return "spend_cap_reached";
+    const withinDailyCap = await this.reserveCounter(dailyKey, sendAttempts, this.dailySendCap, secondsUntilNextUtcDay(now));
+    if (withinDailyCap === undefined) return "unavailable";
+    if (!withinDailyCap) return "spend_cap_reached";
+
     return "allowed";
+  }
+
+  /**
+   * Reports a redacted failure category. Never log the endpoint or token: this
+   * runs on a public route and the token grants write access to the counters.
+   * The category alone distinguishes a misconfigured URL from a rejected
+   * credential from an unreachable store, which is all a responder needs.
+   */
+  private reportOutage(reason: string): undefined {
+    console.error(JSON.stringify({ event: "public-report.counter-unavailable", timestamp: new Date().toISOString(), reason }));
+    return undefined;
   }
 
   private async reserveCounter(key: string, amount: number, maximum: number, ttlSeconds: number): Promise<boolean | undefined> {
@@ -112,9 +133,9 @@ export class PublicReportAbuseControls {
       // endpoint root. Do not append `/eval`: that form expects individual
       // URL command arguments instead of the complete command array below.
       endpoint = new URL("/", this.redisUrl);
-      if (endpoint.protocol !== "https:") return undefined;
+      if (endpoint.protocol !== "https:") return this.reportOutage("endpoint_not_https");
     } catch {
-      return undefined;
+      return this.reportOutage("endpoint_malformed");
     }
     try {
       const response = await this.fetchImpl(endpoint, {
@@ -123,11 +144,12 @@ export class PublicReportAbuseControls {
         body: JSON.stringify([RESERVE_SCRIPT, 1, key, amount, maximum, ttlSeconds]),
         signal: AbortSignal.timeout(3000),
       });
-      if (!response.ok) return undefined;
+      if (!response.ok) return this.reportOutage(`http_${response.status}`);
       const body = (await response.json()) as { result?: unknown };
-      return Array.isArray(body.result) && body.result[0] === 1;
-    } catch {
-      return undefined;
+      if (!Array.isArray(body.result)) return this.reportOutage("unexpected_response_shape");
+      return body.result[0] === 1;
+    } catch (error) {
+      return this.reportOutage(error instanceof Error && error.name === "TimeoutError" ? "timeout" : "request_failed");
     }
   }
 }
