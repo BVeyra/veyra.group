@@ -179,7 +179,7 @@ const STATIC_PAGES: SeoPage[] = [
   },
   {
     path: "/guides",
-    title: "Property Management Automation Guides",
+    title: "Property Management Operations Guides",
     description:
       "Operator guides for independent property managers running 50-500 doors: where the hours leak, what to automate first, and how to scope it before buying any software.",
     type: "website",
@@ -610,7 +610,7 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
           {
             title: "The consulting path",
             paragraphs: [
-              "Start with a Free PMS Operations Snapshot, then a free 15-minute Fit Call. The Fit Call qualifies workflow, volume, tools, ownership, data readiness, decision-maker readiness, and paid-Audit fit; it is not a free full audit.",
+              "Start with a Free PMS Operations Snapshot, then a free 15-minute Fit Call. The Fit Call covers workflow, volume, tools, ownership, data readiness, decision-maker readiness, and whether the paid Audit fits.",
               "The PMS Operations Audit delivers a current-state diagnosis, root-cause findings, a prioritized issue list, and a practical 30/60/90-day action plan. A scoped Workflow Build Sprint is optional and follows only when the diagnosis supports it.",
             ],
           },
@@ -647,7 +647,7 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
         ],
         sections: [
           {
-            title: "Automation guides",
+            title: "Workflow guides",
             paragraphs: ["Practical workflow guidance. Start here if you already know a workflow is the problem."],
             links: resourceArticles.filter((a) => automationPaths.includes(a.path)).map(toLink),
           },
@@ -690,7 +690,7 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
         eyebrow: "15-Minute Fit Call",
         title: "Decide whether a paid Audit is warranted.",
         description:
-          "Bring one recurring workflow. The Fit Call checks current tools, volume, ownership, approval path, data readiness, and decision-maker fit. It is qualification, not a free full Audit.",
+          "Bring one recurring workflow. The Fit Call covers current tools, volume, ownership, approval path, data readiness, and decision-maker fit.",
         primaryLink: {
           href: "https://calendly.com/veyragroup/15min",
           label: "Open the scheduling page",

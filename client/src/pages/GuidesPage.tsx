@@ -46,7 +46,7 @@ export default function GuidesPage() {
     {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
-      name: "Property Management Automation Guides",
+      name: "Property Management Operations Guides",
       description:
         "Operator guides for independent property managers: where workflows stall, what to examine first, and how to scope an improvement before changing software.",
       url: "https://veyragroup.ai/guides",
@@ -62,7 +62,7 @@ export default function GuidesPage() {
   return (
     <div className="min-h-screen text-white">
       <SeoHead
-        title="Property Management Automation Guides"
+        title="Property Management Operations Guides"
         description="Operator guides for independent property managers running 50-500 doors: where the hours leak, what to automate first, and how to scope it before buying any software."
         canonicalPath="/guides"
         structuredData={structuredData}
@@ -98,7 +98,7 @@ export default function GuidesPage() {
         <section className="py-12 md:py-16">
           <div className="max-w-6xl mx-auto px-6">
             <div className="mb-8">
-              <h2 className="text-2xl md:text-3xl font-bold text-white">Automation guides</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-white">Workflow guides</h2>
               <p className="text-gray-400 mt-2">
                 Practical workflow guidance. Start here if you already know a workflow is the problem.
               </p>

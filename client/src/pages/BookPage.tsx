@@ -113,7 +113,7 @@ export default function BookPage() {
           <h1 className="mt-4 text-4xl md:text-6xl font-bold tracking-[-0.02em] leading-[1.06] text-white">Book a <span className="bg-gradient-to-r from-emerald-300 via-green-200 to-emerald-300 bg-clip-text text-transparent">15-Minute Fit Call</span></h1>
           <p className="max-w-3xl mx-auto mt-5 text-lg leading-relaxed text-gray-400">
             Bring one recurring workflow: request, triage, assigned owner, approval, vendor handoff, follow-through,
-            or closeout. This is a qualification conversation, not a free full Audit. We will decide whether a
+            or closeout. Fifteen minutes to work out whether a
             PMS Operations Audit is justified by your current tools, volume, ownership, approval path, data readiness,
             and decision-maker fit.
           </p>

@@ -23,7 +23,7 @@ export function buildPDFDocument(data: AuditLeadData, insights: AuditInsights, b
     h(View, { style: s.section }, h(Text, { style: s.label }, "SELF-REPORTED WORKFLOW SIGNALS"), signal("Follow-through", insights.responseScore), signal("Maintenance workflow", insights.maintenanceScore), signal("Reporting / approvals", insights.ownerReportingScore), signal("After-hours internal process", insights.afterHoursScore), signal("Collections process", insights.rentCollectionScore)),
     h(View, { style: s.section }, h(Text, { style: s.label }, "WHAT A FIT CALL CHECKS"), ...insights.likelyFocus.auditQuestions.map(bullet)),
     h(View, { style: s.section }, h(Text, { style: s.label }, "USEFUL PREPARATION IF YOU BOOK"), ...insights.likelyFocus.preparation.map(bullet)),
-    h(View, { style: s.cta }, h(Text, { style: s.ctaTitle }, "Next step: a 15-minute Fit Call"), h(Text, { style: s.ctaBody }, "The Fit Call qualifies whether a PMS Operations Audit is warranted. It is not a free full Audit. The paid Audit maps priority workflows, reviews available data and current tools, and provides a ranked action plan."), h(Link, { src: bookingUrl, style: s.ctaButton }, "Book a 15-Minute Fit Call")),
+    h(View, { style: s.cta }, h(Text, { style: s.ctaTitle }, "Next step: a 15-minute Fit Call"), h(Text, { style: s.ctaBody }, "Fifteen minutes to work out whether a PMS Operations Audit is warranted. The paid Audit maps priority workflows, reviews available data and current tools, and provides a ranked action plan."), h(Link, { src: bookingUrl, style: s.ctaButton }, "Book a 15-Minute Fit Call")),
     h(View, { style: s.footer, fixed: true }, h(Text, null, "veyragroup.ai | (220) 244-4213"), h(Text, null, "Preliminary Snapshot | no savings or outcome estimate")),
   ));
 }
