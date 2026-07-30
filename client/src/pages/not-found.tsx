@@ -8,7 +8,7 @@ export default function NotFound() {
     <div className="min-h-screen text-white relative overflow-hidden flex flex-col">
       <SeoHead
         title="Page Not Found"
-        description="The page you requested does not exist. Return to the Veyra homepage or start the operations audit instead."
+        description="The page you requested does not exist. Return to the Veyra homepage or take the Free PMS Operations Snapshot instead."
         canonicalPath="/not-found"
         robots="noindex, nofollow"
       />
@@ -55,10 +55,10 @@ export default function NotFound() {
               Go to Homepage
             </Link>
             <Link
-              href="/book"
+              href="/audit"
               className="inline-flex items-center gap-2 rounded-full border border-white/15 text-gray-200 hover:text-white px-6 py-3 text-sm font-medium hover:border-white/25 transition-colors"
             >
-              Get the Free Operations Audit
+              Take the Free PMS Operations Snapshot
             </Link>
           </div>
         </div>

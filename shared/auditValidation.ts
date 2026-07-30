@@ -18,7 +18,7 @@ import {
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// Matched against the domain only, as exact domain or subdomain suffix —
+// Matched against the domain only, as exact domain or subdomain suffix;
 // substring matching rejected legitimate domains like greatest.com.
 const blockedDomains = ["example.com", "test.com", "mailinator.com", "guerrillamail.com", "guerrillamail.net"];
 const blockedDomainFragments = ["tempmail", "trashmail", "10minutemail"];
@@ -47,6 +47,10 @@ export function normalizeLeadPayload(body: Record<string, unknown>): AuditLeadDa
   const units = Number(body.units);
   const teamSize = Number(body.teamSize);
   const painPoints = parsePainPoints(body.painPoints);
+  const pmSoftwareUsed = Array.isArray(body.pmSoftwareUsed)
+    ? Array.from(new Set(body.pmSoftwareUsed.filter((item): item is PmSoftwareOption => isAllowedOption(item, PM_SOFTWARE_OPTIONS))))
+    : [];
+  const pmSoftwareOther = typeof body.pmSoftwareOther === "string" ? body.pmSoftwareOther.trim().slice(0, 120) : "";
   if (!name || !company || !email) return null;
   if (name.length > 120 || company.length > 160 || email.length > 254) return null;
   if (!Number.isFinite(units) || !Number.isFinite(teamSize) || units <= 0 || teamSize <= 0) return null;
@@ -65,6 +69,8 @@ export function normalizeLeadPayload(body: Record<string, unknown>): AuditLeadDa
     units: Math.round(units),
     teamSize: Math.round(teamSize),
     pmSoftware: body.pmSoftware as PmSoftwareOption,
+    pmSoftwareUsed: pmSoftwareUsed.length ? pmSoftwareUsed : [body.pmSoftware as PmSoftwareOption],
+    pmSoftwareOther,
     responseTime: body.responseTime as ResponseTimeOption,
     maintenanceFlow: body.maintenanceFlow as MaintenanceFlowOption,
     ownerReporting: body.ownerReporting as OwnerReportingOption,

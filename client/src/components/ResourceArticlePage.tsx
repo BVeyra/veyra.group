@@ -2,7 +2,6 @@ import { Footer, Navbar } from "@/components/layout";
 import { SeoHead } from "@/components/SeoHead";
 import type { ResourceArticle } from "@/content/resources";
 import { Button } from "@/components/ui/button";
-import { BOOKING_URL } from "@/lib/calendly";
 import { ArrowRight, FileText } from "lucide-react";
 import { Link } from "wouter";
 import type { ReactNode } from "react";
@@ -154,7 +153,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
                 className="rounded-full bg-emerald-500 px-8 py-4 font-semibold text-white hover:bg-emerald-400"
               >
                 <a href={`/audit?source=${encodeURIComponent(article.path.replace(/^\//, ""))}`}>
-                  Get the Free Operations Audit
+                  Take the Free PMS Operations Snapshot
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </a>
               </Button>
@@ -164,7 +163,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
                 variant="outline"
                 className="rounded-full border-white/15 bg-white/[0.02] px-8 py-4 text-gray-100 hover:bg-white/[0.05]"
               >
-                <a href={BOOKING_URL}>Book Your Audit Call</a>
+                <a href="/book">Book a 15-Minute Fit Call</a>
               </Button>
             </div>
           </div>
@@ -212,11 +211,10 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
 
                 <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.05] p-7">
                   <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-300">
-                    Use Veyra's Audit First
+                    Start With a Preliminary Snapshot
                   </p>
                   <p className="mt-4 text-sm leading-6 text-gray-300">
-                    The fastest path is not adding more software. It is mapping the operation, quantifying the drag,
-                    and seeing what a systemized operation would take off your team first.
+                    Start by identifying the workflow that appears to be causing the most friction. The Snapshot is a preliminary view, not a diagnosis or build recommendation.
                   </p>
                   <Button
                     asChild
@@ -224,7 +222,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
                     className="mt-5 w-full rounded-full bg-emerald-500 font-semibold text-white hover:bg-emerald-400"
                   >
                     <a href={`/audit?source=${encodeURIComponent(`${article.path}-sidebar`)}`}>
-                      Get the Free Operations Audit
+                      Take the Free PMS Operations Snapshot
                     </a>
                   </Button>
                 </div>
@@ -270,10 +268,10 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
         <section className="border-t border-white/5 bg-gradient-to-t from-emerald-500/10 via-emerald-500/[0.06] to-transparent py-16">
           <div className="max-w-4xl mx-auto px-6 text-center">
             <h2 className="text-3xl font-bold text-white md:text-4xl">
-              Want the numbers for your workflow instead of general advice?
+              Want a preliminary view of this workflow in your operation?
             </h2>
             <p className="mt-4 text-lg text-gray-400">
-              Run the PM Operations Audit, get the report, then book a call if the first-activation recommendation justifies it.
+              Take the free Snapshot, then book a Fit Call if you would like to discuss whether a paid PMS Operations Audit makes sense.
             </p>
             <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
               <Button
@@ -282,7 +280,7 @@ export function ResourceArticlePage({ article }: ResourceArticlePageProps) {
                 className="rounded-full bg-emerald-500 px-8 py-4 font-semibold text-white hover:bg-emerald-400"
               >
                 <a href={`/audit?source=${encodeURIComponent(`${article.path}-footer`)}`}>
-                  Get the Free Operations Audit
+                  Take the Free PMS Operations Snapshot
                 </a>
               </Button>
               <Button

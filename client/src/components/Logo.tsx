@@ -1,5 +1,5 @@
 /**
- * Veyra wordmark — monochrome, in Bricolage Grotesque, rendered as live text so
+ * Veyra wordmark: monochrome, in Bricolage Grotesque, rendered as live text so
  * it stays crisp at any size. "Group" is sized and baseline-aligned so its cap
  * height matches the x-height of "eyra". Size by passing a text-size class
  * (e.g. "text-[1.7rem]"); width is automatic.

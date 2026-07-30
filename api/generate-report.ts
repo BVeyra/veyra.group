@@ -58,17 +58,16 @@ async function sendReportEmail(data: AuditLeadData, insights: AuditInsights, rep
   const safeCompany = escapeHtml(data.company);
   const safeBookingUrl = escapeHtml(bookingUrl);
   const safeReportUrl = escapeHtml(reportUrl);
-  const safeRecTitle = escapeHtml(insights.primaryRecommendation.title);
-  const safeRecDesc = escapeHtml(insights.primaryRecommendation.description);
-  const safeFitNote = escapeHtml(insights.primaryRecommendation.fitNote);
+  const safeFocusTitle = escapeHtml(insights.likelyFocus.title);
+  const safeFocusDescription = escapeHtml(insights.likelyFocus.description);
 
   let pdfBase64: string | null = null;
-  let pdfFilename = "pm_workflow_audit_report.pdf";
+  let pdfFilename = "pms_operations_snapshot.pdf";
   try {
     const pdfBuffer = await renderToBuffer(buildPDFDocument(data, insights, bookingUrl));
     pdfBase64 = Buffer.from(pdfBuffer).toString("base64");
     const safeFileBase = data.company.replace(/[^a-z0-9]+/gi, "_").replace(/^_+|_+$/g, "").toLowerCase();
-    pdfFilename = `${safeFileBase || "pm_workflow_audit"}_pm_workflow_audit_report.pdf`;
+    pdfFilename = `${safeFileBase || "pms_operations"}_pms_operations_snapshot.pdf`;
   } catch (pdfErr) {
     console.error("PDF generation failed, sending email without attachment:", pdfErr);
   }
@@ -82,19 +81,17 @@ async function sendReportEmail(data: AuditLeadData, insights: AuditInsights, rep
     <div style="padding:32px;">
       <p style="font-size:16px;font-weight:600;color:#ffffff;margin:0 0 20px 0;">${safeName},</p>
       <p style="font-size:15px;color:#9ca3af;line-height:1.7;margin:0 0 20px 0;">
-        Your PM Workflow Audit for <strong style="color:#ffffff;">${safeCompany}</strong> is ready.
-        <a href="${safeReportUrl}" style="color:#5aa98a;text-decoration:underline;">View your full report</a>${pdfBase64 ? " &mdash; a PDF copy is attached" : ""}.
+        Your preliminary PMS Operations Snapshot for <strong style="color:#ffffff;">${safeCompany}</strong> is ready.
+        <a href="${safeReportUrl}" style="color:#5aa98a;text-decoration:underline;">View your Snapshot</a>${pdfBase64 ? ". A PDF copy is attached" : ""}.
       </p>
       <div style="background:#121212;border:1px solid #1a1a1a;border-radius:14px;padding:18px;margin:0 0 20px 0;">
-        <div style="font-size:11px;color:#5aa98a;text-transform:uppercase;letter-spacing:1.4px;margin-bottom:8px;">What jumped out</div>
-        <p style="font-size:15px;color:#ffffff;line-height:1.7;margin:0 0 8px 0;"><strong>${safeRecTitle}</strong> is the strongest first build.</p>
-        <p style="font-size:14px;color:#9ca3af;line-height:1.7;margin:0 0 8px 0;">${insights.estimatedWeeklyBusyworkHours} hours of repeatable work per week. Roughly $${insights.monthlyAdminEquivalent.toLocaleString()}/mo of part-time admin equivalent.</p>
-        <p style="font-size:14px;color:#9ca3af;line-height:1.7;margin:0;">The first build could reasonably give back <strong style="color:#ffffff;">${insights.estimatedWeeklyTimeSaved} hours/week</strong> if the current workflow looks like your inputs.</p>
+        <div style="font-size:11px;color:#5aa98a;text-transform:uppercase;letter-spacing:1.4px;margin-bottom:8px;">Likely discussion area</div>
+        <p style="font-size:15px;color:#ffffff;line-height:1.7;margin:0 0 8px 0;"><strong>${safeFocusTitle}</strong></p>
+        <p style="font-size:14px;color:#9ca3af;line-height:1.7;margin:0;">This free Snapshot is preliminary and based on self-reported inputs. It does not estimate savings or recommend a build.</p>
       </div>
-      <p style="font-size:15px;color:#9ca3af;line-height:1.7;margin:0 0 20px 0;">${safeRecDesc}</p>
-      <p style="font-size:14px;color:#9ca3af;line-height:1.7;margin:0 0 20px 0;">${safeFitNote}</p>
+      <p style="font-size:15px;color:#9ca3af;line-height:1.7;margin:0 0 20px 0;">${safeFocusDescription}</p>
       <div style="text-align:center;margin:0 0 24px 0;">
-        <a href="${safeBookingUrl}" style="display:inline-block;background-color:#0f7a55;color:#ffffff;padding:14px 34px;text-decoration:none;border-radius:999px;font-weight:700;font-size:15px;">Book the workflow audit call</a>
+        <a href="${safeBookingUrl}" style="display:inline-block;background-color:#0f7a55;color:#ffffff;padding:14px 34px;text-decoration:none;border-radius:999px;font-weight:700;font-size:15px;">Book a 15-minute Fit Call</a>
       </div>
       <p style="text-align:center;font-size:14px;color:#9ca3af;line-height:1.6;margin:0 0 24px 0;">
         Prefer to talk now? Call <a href="tel:+12202444213" style="color:#5aa98a;text-decoration:none;font-weight:600;">(220) 244-4213</a>
@@ -105,23 +102,22 @@ async function sendReportEmail(data: AuditLeadData, insights: AuditInsights, rep
   const text = [
     `${data.name},`,
     ``,
-    `Your PM Workflow Audit for ${data.company} is ready.`,
-    `View your full report: ${reportUrl}`,
+    `Your preliminary PMS Operations Snapshot for ${data.company} is ready.`,
+    `View your Snapshot: ${reportUrl}`,
     ``,
-    `What jumped out: ${insights.primaryRecommendation.title} is the strongest first build.`,
-    `~${insights.estimatedWeeklyBusyworkHours} hours of repeatable work per week, roughly $${insights.monthlyAdminEquivalent.toLocaleString()}/mo of part-time admin equivalent.`,
-    `The first build could reasonably give back ${insights.estimatedWeeklyTimeSaved} hours/week.`,
+    `Likely discussion area: ${insights.likelyFocus.title}.`,
+    `This free Snapshot is preliminary and does not estimate savings or recommend a build.`,
     ``,
-    insights.primaryRecommendation.description,
+    insights.likelyFocus.description,
     ``,
-    `Book the workflow audit call: ${bookingUrl}`,
+    `Book a 15-minute Fit Call: ${bookingUrl}`,
     `Prefer to talk now? Call (220) 244-4213.`,
   ].join("\n");
 
   const emailPayload: Record<string, unknown> = {
     from: fromEmail,
     to: data.email,
-    subject: sanitizeSubject(`${data.company}: your PM Workflow Audit is ready`),
+    subject: sanitizeSubject(`${data.company}: your PMS Operations Snapshot is ready`),
     html,
     text,
   };
@@ -151,13 +147,13 @@ async function sendOwnerNotification(
     await sendViaResend({
       from: fromEmail,
       to: ownerEmail,
-      subject: sanitizeSubject(`[${followUp.priority}] New PM audit lead - ${data.company}`),
-      html: `<h2>New Website Audit Lead</h2>
+      subject: sanitizeSubject(`[${followUp.priority}] New PMS Snapshot lead - ${data.company}`),
+      html: `<h2>New Website PMS Snapshot Lead</h2>
 <p><strong>Priority:</strong> ${escapeHtml(followUp.priority)}</p>
 <h3>Contact</h3>
 <ul><li><strong>Name:</strong> ${escapeHtml(data.name)}</li><li><strong>Company:</strong> ${escapeHtml(data.company)}</li><li><strong>Email:</strong> ${escapeHtml(data.email)}</li></ul>
-<h3>Audit Snapshot</h3>
-<ul><li><strong>Units / Team:</strong> ${data.units} / ${data.teamSize}</li><li><strong>PM software:</strong> ${escapeHtml(data.pmSoftware)}</li><li><strong>Weekly busywork:</strong> ${insights.estimatedWeeklyBusyworkHours} hrs</li><li><strong>First build:</strong> ${escapeHtml(insights.primaryRecommendation.title)}</li><li><strong>Report:</strong> <a href="${escapeHtml(extras.reportUrl)}">web report</a></li></ul>
+<h3>Snapshot inputs</h3>
+<ul><li><strong>Units / Team:</strong> ${data.units} / ${data.teamSize}</li><li><strong>PM software:</strong> ${escapeHtml(data.pmSoftware)}</li><li><strong>Likely discussion area:</strong> ${escapeHtml(insights.likelyFocus.title)}</li><li><strong>Snapshot:</strong> <a href="${escapeHtml(extras.reportUrl)}">web Snapshot</a></li></ul>
 <h3>Attribution</h3><p>${escapeHtml(attribution)}</p>
 <h3>Delivery</h3><ul><li><strong>CRM sync:</strong> ${escapeHtml(extras.crmStatus)}</li><li><strong>Report email:</strong> ${escapeHtml(extras.reportEmailStatus)}</li></ul>
 <h3>Next Action</h3><p>${escapeHtml(followUp.reason)}</p>`,

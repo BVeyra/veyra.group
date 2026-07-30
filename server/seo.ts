@@ -13,6 +13,7 @@ const PAGE_LAST_MODIFIED: Record<string, string> = {
   "/": "2026-07-10",
   "/audit": "2026-07-10",
   "/book": "2026-07-10",
+  "/pms-operations-audit": "2026-07-30",
   "/guides": "2026-06-03",
   "/property-management-automation-roi": "2026-06-16",
   "/automated-owner-reporting-for-property-managers": "2026-06-03",
@@ -171,9 +172,9 @@ type SnapshotConfig = {
 const STATIC_PAGES: SeoPage[] = [
   {
     path: "/",
-    title: "Operations Consultants for Property Managers",
+    title: "PMS Operations Consulting for Property Managers",
     description:
-      "Veyra helps independent property managers systemize tenant communications, maintenance, renewals, rent follow-up, vendors, after-hours response, and owner reporting, then runs those systems for you. Start with the free PM Operations Audit.",
+      "Your PMS tracks the work. Veyra identifies the gaps that keep it from moving, then gives leadership a practical, prioritized action plan. Start with a free PMS Operations Snapshot.",
     type: "website",
   },
   {
@@ -185,24 +186,30 @@ const STATIC_PAGES: SeoPage[] = [
   },
   {
     path: "/audit",
-    title: "Free PM Operations Audit",
+    title: "Free PMS Operations Snapshot",
     description:
-      "Run Veyra's free PM Operations Audit, get the report by email, and see which service the full operating system should activate first in your operation.",
+      "Get a preliminary PMS Operations Snapshot to identify a likely workflow discussion area before deciding whether a Fit Call is useful.",
     type: "website",
   },
   {
     path: "/book",
-    title: "Book an Operations Audit Call",
+    title: "Book a 15-Minute Fit Call",
     description:
-      "Schedule a 15-minute operations audit call with Veyra to map the repeat operating work sitting on your property-management team.",
+      "Schedule a free 15-minute Fit Call to determine whether Veyra's paid PMS Operations Audit is the right next step.",
+    type: "website",
+  },
+  {
+    path: "/pms-operations-audit",
+    title: "PMS Operations Audit for Property Managers",
+    description: "A decision-quality review of priority property-management workflows, current tools, and operating gaps.",
     type: "website",
   },
   {
     // Tokenized personal report pages linked from audit emails; prerendered
     // so the route resolves, noindex keeps it out of search and the sitemap.
     path: "/report",
-    title: "Your PM Operations Audit Report",
-    description: "Personalized PM Operations Audit report from Veyra Group.",
+    title: "Your PMS Operations Snapshot",
+    description: "Your personalized PMS Operations Snapshot from Veyra Group.",
     type: "website",
     noindex: true,
   },
@@ -210,21 +217,21 @@ const STATIC_PAGES: SeoPage[] = [
     path: "/privacy",
     title: "Privacy Policy",
     description:
-      "Review how Veyra Group collects, uses, and protects information across the website, audits, and connected services.",
+      "Review how Veyra Group collects, uses, and protects information across the website, the Free PMS Operations Snapshot, Fit Calls, and paid consulting services.",
     type: "website",
   },
   {
     path: "/terms-of-service",
     title: "Terms of Service",
     description:
-      "Read the Veyra Group terms covering operations audits, managed operations services, billing, cancellation, and support.",
+      "Read the Veyra Group terms covering PMS Operations Audits, consulting, scoped implementation services, billing, cancellation, and support.",
     type: "website",
   },
   {
     path: "/not-found",
     title: "Page Not Found",
     description:
-      "The page you requested does not exist. Return to the Veyra homepage or start the free PM Operations Audit instead.",
+      "The page you requested does not exist. Return to the Veyra homepage or take the Free PMS Operations Snapshot instead.",
     type: "website",
     noindex: true,
   },
@@ -580,42 +587,38 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
   switch (pathname) {
     case "/":
       return {
-        eyebrow: "Operations Consultants For Property Managers",
-        title: "Stop running your PM company like an after-hours inbox.",
+        eyebrow: "PMS Operations Consulting For Property Managers",
+        title: "Your PMS tracks the work. Veyra closes the gaps that keep it from moving.",
         description:
-          "Veyra maps how your operation runs, systemizes the repeat work around your existing property-management software, and then runs those systems for you: tenant communications, maintenance, renewals, rent follow-up, vendors, after-hours response, and owner reporting. No platform migration.",
-        primaryLink: { href: "/audit", label: "Get the Free Operations Audit" },
+          "Veyra diagnoses the working process behind recurring stalls: unclear ownership, missing approval paths, vendor follow-through in side messages, and completion without evidence. The goal is a practical, prioritized action plan, not a generic automation recommendation.",
+        primaryLink: { href: "/audit", label: "Get the Free PMS Operations Snapshot" },
         secondaryLinks: [
-          { href: "/book", label: "Book an operations audit call" },
-          { href: "/property-management-automation-roi", label: "Read the ROI guide" },
+          { href: "/book", label: "Book a 15-Minute Fit Call" },
+          { href: "/guides", label: "Read the operations guides" },
         ],
         sections: [
           {
-            title: "Seven services, one operating layer",
+            title: "What Veyra diagnoses",
             bullets: [
-              "Tenant communications: routine replies, triage, routing, and escalation.",
-              "Maintenance coordination: intake, triage, approval-gated dispatch, and resolution.",
-              "Lease renewals: tracking, approved offers, and follow-up ladders.",
-              "Rent follow-up: policy-based reminders that never touch the money.",
-              "Vendor management: roster, COI checks, dispatch, and callback follow-up.",
-              "After-hours and prospect response: around-the-clock intake, human emergency escalation, and fast first replies to prospects.",
-              "Owner reporting: ledger-backed packets, review, and delivery.",
+              "Workflow ownership and handoffs; approval paths and decision bottlenecks.",
+              "Maintenance and vendor follow-through; backlogs and exception handling.",
+              "PMS adoption and configuration gaps; tool overlap and process workarounds.",
+              "Missing procedures, reporting visibility, accountability, and closeout evidence.",
+              "Capacity problems caused by broken process, not a universal staffing-ratio claim.",
             ],
           },
           {
-            title: "Why the audit comes first",
+            title: "The consulting path",
             paragraphs: [
-              "The free PM Operations Audit is how the consulting engagement starts: it maps the operating drag, puts numbers on the repeat admin load, and identifies what we would systemize first, before any proposal or software talk.",
-              "The audit sets the activation priority. It does not shrink the engagement: every client runs on the same connected operating layer with shared rules, approvals, and audit trail, with AI applied where it earns its place.",
+              "Start with a Free PMS Operations Snapshot, then a free 15-minute Fit Call. The Fit Call qualifies workflow, volume, tools, ownership, data readiness, decision-maker readiness, and paid-Audit fit; it is not a free full audit.",
+              "The PMS Operations Audit delivers a current-state diagnosis, root-cause findings, a prioritized issue list, and a practical 30/60/90-day action plan. A scoped Workflow Build Sprint is optional and follows only when the diagnosis supports it.",
             ],
           },
           {
-            title: "Bottom-funnel guides",
-            links: resourceArticles.map((article) => ({
-              href: article.path,
-              label: article.title,
-              description: article.description,
-            })),
+            title: "Current boundaries",
+            paragraphs: [
+              "Veyra does not currently provide live tenant/vendor messaging, payments, vendor dispatch, emergency response, 24/7 coverage, live PMS writeback, or broad PMS integrations. The Managed Exception Desk is future-only and activation-gated.",
+            ],
           },
         ],
       };
@@ -636,21 +639,21 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
         eyebrow: "Guides",
         title: "Guides for independent property managers",
         description:
-          "Practical, operator-level breakdowns for firms running 50-500 doors. Where the hours leak, what to automate first, and how to scope it before you buy any software.",
-        primaryLink: { href: "/audit", label: "Get the Free Operations Audit" },
+          "Practical, operator-level breakdowns for independent property managers. Learn where a workflow stalls, what to examine first, and how to scope an improvement before changing software.",
+        primaryLink: { href: "/audit", label: "Take the Free PMS Operations Snapshot" },
         secondaryLinks: [
-          { href: "/book", label: "Book an operations audit call" },
+          { href: "/book", label: "Book a 15-Minute Fit Call" },
           { href: "/", label: "Back to the homepage" },
         ],
         sections: [
           {
             title: "Automation guides",
-            paragraphs: ["Tied directly to what Veyra runs. Start here if you already know a workflow is the problem."],
+            paragraphs: ["Practical workflow guidance. Start here if you already know a workflow is the problem."],
             links: resourceArticles.filter((a) => automationPaths.includes(a.path)).map(toLink),
           },
           {
             title: "PM operating resources",
-            paragraphs: ["Broader operator playbooks and benchmarks for running a tighter 50-500 door operation."],
+            paragraphs: ["Broader operator playbooks and benchmarks for running a tighter property-management operation."],
             links: resourceArticles.filter((a) => !automationPaths.includes(a.path)).map(toLink),
           },
         ],
@@ -658,48 +661,75 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
     }
     case "/audit":
       return {
-        eyebrow: "Free PM Operations Audit",
-        title: "Run the operations audit first. Book the call second.",
+        eyebrow: "Free PMS Operations Snapshot",
+        title: "See where the work may stop moving.",
         description:
-          "The audit report shows the repeat operating load sitting on the team and identifies where Veyra's full operating system should activate first, before any sales conversation.",
-        primaryLink: { href: "/book", label: "Book an operations audit call" },
+          "The Snapshot identifies a preliminary pattern across ownership, approvals, vendor follow-through, and current-tool use. It is not a savings estimate or a free full Audit.",
+        primaryLink: { href: "/book", label: "Book a 15-Minute Fit Call" },
         secondaryLinks: [{ href: "/", label: "Back to the homepage" }],
         sections: [
           {
-            title: "What the report includes",
+            title: "What the Snapshot provides",
             bullets: [
-              "A priority-activation recommendation tied to your answers.",
-              "Directional workload math instead of a generic automation score.",
-              "A clean next step for maintenance, tenant communication, owner reporting, or related operating work.",
+              "A likely workflow discussion area based on self-reported inputs.",
+              "The operating facts a Fit Call would check next.",
+              "A clear distinction between the free Snapshot and a paid PMS Operations Audit.",
             ],
           },
           {
             title: "When this is valuable",
             paragraphs: [
-              "Use the audit when you know your team is buried in repeat operating work but you do not want another broad software rollout.",
-              "Run the audit, review the report, and only take the call if the numbers look real enough to justify it.",
+              "Use the Snapshot when you know your team is buried in repeat operating work but you do not want another broad software rollout.",
+              "Review the preliminary result, then take a Fit Call if you want to determine whether a paid Audit is warranted.",
             ],
           },
         ],
       };
     case "/book":
       return {
-        eyebrow: "15 Minute Call",
-        title: "Book the operations audit call.",
+        eyebrow: "15-Minute Fit Call",
+        title: "Decide whether a paid Audit is warranted.",
         description:
-          "Use the call to map the operating work that is leaking the most hours, see where the Veyra system would activate first, and decide whether the fit is there.",
+          "Bring one recurring workflow. The Fit Call checks current tools, volume, ownership, approval path, data readiness, and decision-maker fit. It is qualification, not a free full Audit.",
         primaryLink: {
           href: "https://calendly.com/veyragroup/15min",
           label: "Open the scheduling page",
         },
-        secondaryLinks: [{ href: "/audit", label: "Run the free operations audit first" }],
+        secondaryLinks: [{ href: "/audit", label: "Take the Free PMS Operations Snapshot first" }],
         sections: [
           {
             title: "What happens on the call",
             bullets: [
-              "Walk through where your PM team is losing time each week.",
-              "Pressure-test whether the first activation should be tenant communication, maintenance coordination, owner reporting, or another service.",
-              "Decide whether there is enough value to move to a full-system proposal.",
+              "Clarify the workflow, owner, handoffs, and evidence available today.",
+              "Check whether the current PMS, a specialist tool, or an operating change may be the least-complex answer.",
+              "Decide whether a PMS Operations Audit is justified.",
+            ],
+          },
+        ],
+      };
+    case "/pms-operations-audit":
+      return {
+        eyebrow: "PMS Operations Audit",
+        title: "A decision-quality view of the work before you change it.",
+        description: "The Audit establishes how priority work moves through one operating team, where the process stalls, what the current tools can support, and what should happen next.",
+        primaryLink: { href: "/book", label: "Book a 15-Minute Fit Call" },
+        secondaryLinks: [{ href: "/audit", label: "Take the Free PMS Operations Snapshot" }],
+        sections: [
+          {
+            title: "What Veyra examines",
+            bullets: [
+              "Priority workflows, including ownership, approvals, handoffs, follow-through, and closeout.",
+              "Available operating evidence and the current PMS, configuration, and specialist tools.",
+              "The difference between a process or adoption issue and a verified recurring gap.",
+            ],
+          },
+          {
+            title: "Possible outcomes",
+            bullets: [
+              "Configure or use the current PMS more effectively.",
+              "Clarify procedures, ownership, approvals, and closeout expectations.",
+              "Use a specialist tool where it is the least-complex answer.",
+              "Scope a Workflow Build Sprint only when the recurring gap is verified.",
             ],
           },
         ],
@@ -707,16 +737,16 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
     case "/privacy":
       return {
         eyebrow: "Legal",
-        title: "Privacy policy for audits, website forms, and connected services.",
+        title: "Privacy policy for the Snapshot, website forms, and consulting services.",
         description:
-          "Veyra's privacy policy covers what information is collected, how it is used to deliver audits and services, how connected platform data is handled, and how to contact the company with privacy requests.",
+          "Veyra's privacy policy covers what information is collected, how it is used to deliver the Snapshot and consulting services, how connected platform data is handled, and how to contact the company with privacy requests.",
         primaryLink: { href: "mailto:contact@veyragroup.ai", label: "Email privacy requests" },
         secondaryLinks: [{ href: "/", label: "Return to the site" }],
         sections: [
           {
             title: "What information Veyra may collect",
             bullets: [
-              "Contact details and workflow information provided through the website, audits, onboarding, or support.",
+              "Contact details and workflow information provided through the website, Snapshot, Fit Call, engagement, or support.",
               "Account and authentication data from third-party sign-ins when a user authorizes access.",
               "Usage and technical data such as browser, device, referring URLs, and pages visited.",
             ],
@@ -724,7 +754,7 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
           {
             title: "How the information is used",
             paragraphs: [
-              "Veyra uses collected information to provide operations audits, operate and improve services, communicate with clients, and keep the product secure.",
+              "Veyra uses collected information to provide the Snapshot, Fit Calls, paid Audit or implementation services, communicate with clients, and keep the product secure.",
               "Requests related to deletion, access, or correction can be sent to contact@veyragroup.ai.",
             ],
           },
@@ -733,7 +763,7 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
     case "/terms-of-service":
       return {
         eyebrow: "Legal",
-        title: "Terms for operations audits, managed services, and support.",
+        title: "Terms for PMS Operations Audits, consulting, and scoped implementation.",
         description:
           "The Veyra terms describe the services offered, client responsibilities, billing expectations, cancellation terms, and the general legal framework for working together.",
         primaryLink: { href: "mailto:contact@veyragroup.ai", label: "Ask a contract question" },
@@ -742,7 +772,7 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
           {
             title: "What the terms cover",
             bullets: [
-              "Operations audits, managed operations services, implementation, and ongoing support.",
+              "PMS Operations Audits, consulting, and scoped implementation services.",
               "Fee and billing expectations defined in the applicable service agreement.",
               "Client responsibilities for accurate information, system access, and legal use of the services.",
             ],
@@ -760,14 +790,14 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
         eyebrow: "404",
         title: "Page not found.",
         description:
-          "That URL does not map to a live Veyra page. Return to the homepage or start the free PM Operations Audit instead.",
+          "That URL does not map to a live Veyra page. Return to the homepage or take the Free PMS Operations Snapshot instead.",
         primaryLink: { href: "/", label: "Go to the homepage" },
-        secondaryLinks: [{ href: "/audit", label: "Start the free operations audit" }],
+        secondaryLinks: [{ href: "/audit", label: "Take the Free PMS Operations Snapshot" }],
         sections: [
           {
             title: "Best next step",
             paragraphs: [
-              "If you were looking for Veyra's main offer, the free PM Operations Audit is the cleanest entry point. It shows where the system fits before asking for a call.",
+              "If you were looking for Veyra's main offer, the Free PMS Operations Snapshot is the cleanest entry point. It offers a preliminary view before a Fit Call.",
             ],
           },
         ],
@@ -788,9 +818,9 @@ function renderArticleSnapshot(pathname: string) {
     eyebrow: "Bottom Funnel Guide",
     title: article.title,
     description: article.directAnswer,
-    primaryLink: { href: "/audit", label: "Get the Free Operations Audit" },
+    primaryLink: { href: "/audit", label: "Take the Free PMS Operations Snapshot" },
     secondaryLinks: [
-      { href: "/book", label: "Book an operations audit call" },
+      { href: "/book", label: "Book a 15-Minute Fit Call" },
       { href: "/", label: "Return to the homepage" },
     ],
     sections: [

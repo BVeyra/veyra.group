@@ -2,12 +2,11 @@ import { Link } from "wouter";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import { SeoHead } from "@/components/SeoHead";
-import { openCalendly } from "@/lib/calendly";
 
 const sections = [
   {
     title: "1. The Services",
-    body: "Veyra Group provides done-for-you back-office automation for independent property management companies — including tenant communications, maintenance coordination, lease tracking and renewals, rent-collection follow-ups, vendor management, after-hours and prospect response, and owner reporting. Veyra builds around the software a client already uses and does not replace the client's system of record. Veyra does not provide legal, accounting, or financial advice and does not move or hold client or tenant funds.",
+    body: "Veyra Group provides PMS Operations Audits, property-management operations consulting, and, where separately agreed in a written statement of work, scoped implementation services. Veyra does not provide a live tenant or vendor communication service, vendor dispatch, emergency or on-call coverage, payment processing, or broad PMS writeback. Veyra does not provide legal, accounting, or financial advice and does not move or hold client or tenant funds.",
   },
   {
     title: "2. Eligibility and Accounts",
@@ -19,7 +18,7 @@ const sections = [
   },
   {
     title: "4. Fees",
-    body: "Fees, where applicable, are set out in your separate order or agreement with Veyra. Unless stated otherwise, engagements are month-to-month and may be cancelled with 30 days' notice. If service is cancelled, access to managed automations and managed support ends.",
+    body: "Fees, payment terms, deliverables, and cancellation terms, where applicable, are set out in a separate written proposal, statement of work, or agreement with Veyra. No service scope or delivery commitment is created by a Free PMS Operations Snapshot or Fit Call.",
   },
   {
     title: "5. Intellectual Property",
@@ -52,7 +51,7 @@ export default function TermsOfServicePage() {
     <div className="min-h-screen text-white relative overflow-hidden">
       <SeoHead
         title="Terms of Service"
-        description="Read the Veyra Group terms covering operations audits, managed operations services, billing, cancellation, and support."
+        description="Read the Veyra Group terms covering PMS Operations Audits, consulting, scoped implementation services, billing, cancellation, and support."
         canonicalPath="/terms-of-service"
       />
       <div className="absolute inset-0 pointer-events-none">
@@ -76,12 +75,8 @@ export default function TermsOfServicePage() {
             >
               ← Back to site
             </Link>
-            <Button
-              onClick={openCalendly}
-              size="sm"
-              className="rounded-full bg-emerald-500 text-white font-semibold px-4 py-2 h-auto hover:bg-emerald-400 transition"
-            >
-              Get the Free Operations Audit
+            <Button asChild size="sm" className="rounded-full bg-emerald-500 text-white font-semibold px-4 py-2 h-auto hover:bg-emerald-400 transition">
+              <Link href="/audit">Take the Free Snapshot</Link>
             </Button>
           </div>
         </div>
@@ -108,10 +103,9 @@ export default function TermsOfServicePage() {
               </p>
               <p>
                 <span className="text-white/80 font-medium">Description:</span>{" "}
-                Veyra Group sends operational and service text messages to individuals who have
-                voluntarily opted in, including operations audit and appointment scheduling,
-                maintenance and status updates, account and onboarding notifications, service
-                updates, and customer-care replies. Recipients opt in through the consent form at{" "}
+                Veyra Group sends text messages to individuals who have voluntarily opted in,
+                including PMS Operations Snapshot and Fit Call scheduling, updates relating to a
+                paid engagement, and customer-care replies. Recipients opt in through the consent form at{" "}
                 <a href="/sms" className="text-emerald-400 hover:underline">veyragroup.ai/sms</a>{" "}
                 by entering their mobile number and checking a separate, optional consent box.
                 Opting in to text messages is entirely optional and is not a condition of

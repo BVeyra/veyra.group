@@ -6,10 +6,9 @@ import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { href: "#features", label: "Features" },
-  { href: "#process", label: "Process" },
+  { href: "/audit", label: "Free Snapshot" },
+  { href: "/pms-operations-audit", label: "PMS Audit" },
   { href: "/guides", label: "Guides" },
-  { href: "#faq", label: "FAQ" },
 ];
 
 export function Navbar() {
@@ -107,7 +106,7 @@ export function Navbar() {
             data-testid="button-nav-cta"
             className="hidden md:inline-flex rounded-full bg-emerald-500 text-white font-semibold px-4 py-2 h-auto hover:bg-emerald-400 transition"
           >
-            <Link href="/audit?source=nav_cta">Get the Free Operations Audit</Link>
+            <Link href="/book?source=nav_cta">Book a Fit Call</Link>
           </Button>
 
           <button
@@ -160,7 +159,7 @@ export function Navbar() {
               data-testid="button-nav-cta-mobile"
             >
               <Link href="/audit?source=nav_cta_mobile" onClick={handleDemoClick}>
-                Get the Free Operations Audit
+                Book a Fit Call
               </Link>
             </Button>
           </div>
@@ -195,17 +194,16 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold text-white mb-4">Company</h4>
+            <h4 className="text-sm font-semibold text-white mb-4">Start here</h4>
             <ul className="space-y-2 text-sm text-gray-500">
               <li>
-                <button onClick={() => scrollToSection("features")} className="hover:text-white transition-colors">
-                  Features
-                </button>
+                <Link href="/audit?source=footer_snapshot" className="hover:text-white transition-colors">Free PMS Operations Snapshot</Link>
               </li>
               <li>
-                <button onClick={() => scrollToSection("process")} className="hover:text-white transition-colors">
-                  Process
-                </button>
+                <Link href="/book?source=footer_fit_call" className="hover:text-white transition-colors">15-Minute Fit Call</Link>
+              </li>
+              <li>
+                <Link href="/pms-operations-audit?source=footer_audit" className="hover:text-white transition-colors">PMS Operations Audit</Link>
               </li>
             </ul>
           </div>
@@ -220,7 +218,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/audit?source=footer_resources" className="hover:text-white transition-colors">
-                  PM Operations Audit
+                  Free Snapshot
                 </Link>
               </li>
               <li>
@@ -242,11 +240,6 @@ export function Footer() {
                 <Link href="/automate-tenant-communication-property-management" className="hover:text-white transition-colors">
                   Tenant Communication
                 </Link>
-              </li>
-              <li>
-                <button onClick={() => scrollToSection("faq")} className="hover:text-white transition-colors">
-                  FAQ
-                </button>
               </li>
               <li>
                 <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="hover:text-white transition-colors">

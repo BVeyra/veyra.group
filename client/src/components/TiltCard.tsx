@@ -5,7 +5,7 @@ import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } fro
  * Pointer-driven 3D tilt card. The card rotates toward the cursor and lifts
  * slightly, giving the interactive "3D card" feel. A soft glare follows the
  * pointer for depth. Disabled automatically when the user prefers reduced
- * motion. All hooks run unconditionally (rules of hooks) — the reduced-motion
+ * motion. All hooks run unconditionally (rules of hooks). The reduced-motion
  * branch only changes what we render.
  */
 export function TiltCard({

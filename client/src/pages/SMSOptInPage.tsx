@@ -21,8 +21,8 @@ export default function SMSOptInPage() {
   return (
     <div className="min-h-screen text-white relative overflow-hidden">
       <SeoHead
-        title="Text Message Updates — Sign Up"
-        description="Opt in to receive text message updates from Veyra Group about your operations audit, account, and service. Consent is optional; reply STOP to opt out."
+        title="Text Message Updates - Sign Up"
+        description="Opt in to receive text message updates from Veyra Group about your PMS Operations Snapshot, Fit Call, or paid engagement. Consent is optional; reply STOP to opt out."
         canonicalPath="/sms"
       />
       <div className="absolute inset-0 pointer-events-none">
@@ -50,9 +50,9 @@ export default function SMSOptInPage() {
       <main className="relative z-10 max-w-2xl mx-auto px-6 py-12 md:py-16">
         <h1 className="text-3xl md:text-5xl font-bold tracking-[-0.02em]">Text Message Updates</h1>
         <p className="text-gray-400 mt-4 leading-relaxed">
-          Opt in to receive text messages from Veyra Group about your operations audit, account,
-          onboarding, and service updates. Signing up for texts is optional and is not required to
-          use our services.
+          Opt in to receive text messages from Veyra Group about your PMS Operations Snapshot,
+          Fit Call, or paid engagement. Signing up for texts is optional and is not required to use
+          our services.
         </p>
 
         <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-6 md:p-8">
@@ -61,17 +61,17 @@ export default function SMSOptInPage() {
               <div className="text-gray-200">
                 <h2 className="text-xl font-semibold text-white">You're opted in ✅</h2>
                 <p className="text-gray-400 mt-3 leading-relaxed">
-                  Thanks — we'll text you at {phone}. You can reply <span className="font-semibold text-white">STOP</span> at
+                  Thanks, we'll text you at {phone}. You can reply <span className="font-semibold text-white">STOP</span> at
                   any time to opt out, or <span className="font-semibold text-white">HELP</span> for help.
                 </p>
               </div>
             ) : (
               <div className="text-gray-200">
-                <h2 className="text-xl font-semibold text-white">Got it — you're not signed up for texts</h2>
+                <h2 className="text-xl font-semibold text-white">Got it, you're not signed up for texts</h2>
                 <p className="text-gray-400 mt-3 leading-relaxed">
                   Thanks. Because the consent box was left unchecked, we won't send you any text
                   messages. If you'd like to receive updates at {phone}, come back and check the
-                  consent box — it's entirely optional.
+                  consent box. It's entirely optional.
                 </p>
               </div>
             )
@@ -115,8 +115,8 @@ export default function SMSOptInPage() {
                 />
                 <span className="text-sm text-gray-300 leading-relaxed">
                   <span className="font-semibold text-white">(Optional)</span> I agree to receive
-                  recurring text messages from Veyra Group about my workflow
-                  audit, account, and service updates. Message frequency varies. Message and data
+                  recurring text messages from Veyra Group about my PMS Operations Snapshot,
+                  Fit Call, or paid engagement. Message frequency varies. Message and data
                   rates may apply. Reply <span className="font-semibold text-white">STOP</span> to opt
                   out, <span className="font-semibold text-white">HELP</span> for help. Consent is not
                   a condition of purchase, and carriers are not liable for delayed or undelivered

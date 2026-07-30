@@ -58,7 +58,7 @@ export function SeoHead({
     upsertMeta(`meta[name="twitter:image"]`, "name", "twitter:image", image);
 
     // Remove any pre-rendered JSON-LD scripts (e.g. from Vercel prerendering)
-    // that don't have an id — the managed versions below use explicit ids.
+    // that don't have an id. The managed versions below use explicit ids.
     document.head
       .querySelectorAll<HTMLScriptElement>('script[type="application/ld+json"]:not([id])')
       .forEach((el) => el.remove());

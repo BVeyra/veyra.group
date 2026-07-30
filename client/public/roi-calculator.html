@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PM Operations Audit | Veyra Group</title>
+<title>Free PMS Operations Snapshot | Veyra Group</title>
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Bricolage+Grotesque:wght@500;700&display=swap");
 *{margin:0;padding:0;box-sizing:border-box}
@@ -21,6 +21,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .step-label{font-size:13px;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
 .question{font-size:24px;font-weight:700;color:var(--text-heading);margin-bottom:32px;line-height:1.3}
+.selection-note{color:var(--text-muted);font-size:14px;margin:-18px 0 20px;line-height:1.5}
 .slider-container{margin-bottom:24px}
 .slider-value{font-size:48px;font-weight:800;color:var(--emerald);text-align:center;margin-bottom:16px}
 input[type=range]{-webkit-appearance:none;width:100%;height:6px;background:rgba(255,255,255,0.1);border-radius:3px;outline:none}
@@ -43,6 +44,10 @@ input[type=range]::-moz-range-thumb{width:24px;height:24px;background:var(--emer
 .field:focus{border-color:var(--emerald-border)}
 .field::placeholder{color:var(--text-muted)}
 .field-stack{display:grid;gap:12px}
+.option-input{margin-top:14px}
+.button-row{display:grid;grid-template-columns:1fr 1.8fr;gap:10px;margin-top:16px}
+.button-row .btn{margin-top:0}
+.btn-back{background:transparent;color:var(--text-body);border-color:var(--card-border)}
 .hp-field{position:absolute;left:-9999px;top:-9999px;height:1px;width:1px;opacity:0;pointer-events:none}
 .email-note{font-size:13px;color:var(--text-muted);margin-top:10px}
 .error{margin-top:12px;color:var(--danger);font-size:13px}
@@ -90,7 +95,7 @@ input[type=range]::-moz-range-thumb{width:24px;height:24px;background:var(--emer
 </div>
 <script>
 const query=new URLSearchParams(window.location.search);
-// Option text must match shared/auditEngine.ts exactly — the API validates against it.
+// Option text must match shared/auditEngine.ts exactly; the API validates against it.
 const pmSoftwareOptions=['AppFolio','Buildium','Rent Manager','Yardi / Breeze','Propertyware / another PM stack','Spreadsheets / inboxes / not sure'];
 const responseOptions=['Under 30 minutes','1-2 hours','Same day if someone is watching it','Next day is common'];
 const maintenanceOptions=['Texts, calls, and inboxes with manual vendor chase','Portal or PM software, but routing and follow-up are still manual','A coordinator handles it with SOPs, but it is still mostly manual','Clear system with documented rules and fast follow-up'];
@@ -110,6 +115,8 @@ step:0,
 units:60,
 team:2,
 pmSoftware:'',
+pmSoftwareUsed:[],
+pmSoftwareOther:'',
 responseTime:'',
 maintenanceFlow:'',
 afterHours:'',
@@ -119,7 +126,7 @@ painPoints:[],
 name:'',
 company:'',
 email:'',
-website:'', // honeypot — humans never see or fill this
+website:'', // honeypot; humans never see or fill this
 turnstileToken:'',
 loading:false,
 error:'',
@@ -165,12 +172,10 @@ progress.style.width=`${(completedSteps/TOTAL_STEPS)*100}%`;
 if(state.step===0){app.innerHTML=`
 <div class="step active">
 <div class="step-label">Question 1 of ${QUESTION_COUNT}</div>
-<div class="question">How many rental units do you manage?</div>
-<div class="slider-container">
-<div class="slider-value" id="sv">${state.units}</div>
-<input type="range" min="5" max="500" value="${state.units}" aria-label="Number of rental units you manage" aria-valuetext="${state.units} units" oninput="state.units=+this.value;document.getElementById('sv').textContent=this.value;this.setAttribute('aria-valuetext',this.value+' units')">
-</div>
-<button class="btn" onclick="next()">Continue</button>
+<div class="question">Which recurring workflow is pulling the team backward right now?</div>
+<p class="selection-note">Select all that apply. You can choose one or more.</p>
+<div class="options checkboxes">${painOptions.map((o,i)=>`<div class="option ${state.painPoints.includes(o)?'selected':''}" role="checkbox" aria-checked="${state.painPoints.includes(o)}" tabindex="0" onclick="togglePain(${i})" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();togglePain(${i})}"><div class="check"></div>${escapeHtml(o)}</div>`).join('')}</div>
+<button class="btn" ${state.painPoints.length===0?'disabled':''} onclick="next()">${state.painPoints.length ? `Continue with ${state.painPoints.length} selected` : 'Select at least one to continue'}</button>
 </div>`}
 else if(state.step===1){app.innerHTML=`
 <div class="step active">
@@ -182,7 +187,7 @@ else if(state.step===1){app.innerHTML=`
 </div>
 <button class="btn" onclick="next()">Continue</button>
 </div>`}
-else if(state.step===2){renderSelect(`Question 3 of ${QUESTION_COUNT}`,'What PM system do you run on today?',pmSoftwareOptions,'pmSoftware')}
+else if(state.step===2){renderPms()}
 else if(state.step===3){renderSelect(`Question 4 of ${QUESTION_COUNT}`,'What happens when a new message or leasing inquiry comes in?',responseOptions,'responseTime')}
 else if(state.step===4){renderSelect(`Question 5 of ${QUESTION_COUNT}`,'How are maintenance requests handled right now?',maintenanceOptions,'maintenanceFlow')}
 else if(state.step===5){renderSelect(`Question 6 of ${QUESTION_COUNT}`,'What happens to messages after hours?',afterHoursOptions,'afterHours')}
@@ -192,14 +197,17 @@ else if(state.step===8){
 app.innerHTML=`
 <div class="step active">
 <div class="step-label">Question 9 of ${QUESTION_COUNT}</div>
-<div class="question">Which repeated work is pulling the team backward right now?</div>
-<div class="options checkboxes">${painOptions.map((o,i)=>`<div class="option ${state.painPoints.includes(o)?'selected':''}" onclick="togglePain(${i})"><div class="check"></div>${escapeHtml(o)}</div>`).join('')}</div>
-<button class="btn" ${state.painPoints.length===0?'disabled':''} onclick="next()">Continue</button>
+<div class="question">How many rental units do you manage?</div>
+<div class="slider-container">
+<div class="slider-value" id="sv">${state.units}</div>
+<input type="range" min="5" max="500" value="${state.units}" aria-label="Number of rental units you manage" aria-valuetext="${state.units} units" oninput="state.units=+this.value;document.getElementById('sv').textContent=this.value;this.setAttribute('aria-valuetext',this.value+' units')">
+</div>
+<button class="btn" onclick="next()">Continue</button>
 </div>`}
 else if(state.step===9){
 app.innerHTML=`
 <div class="step active email-section">
-<div class="question">Where should we send your PM Operations Audit?</div>
+<div class="question">Where should we send your PMS Operations Snapshot?</div>
 <div class="field-stack">
 <input class="field" type="text" placeholder="Your name" aria-label="Your name" autocomplete="name" value="${escapeAttr(state.name)}" oninput="state.name=this.value">
 <input class="field" type="text" placeholder="Company name" aria-label="Company name" autocomplete="organization" value="${escapeAttr(state.company)}" oninput="state.company=this.value">
@@ -207,13 +215,23 @@ app.innerHTML=`
 <input class="hp-field" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" value="" oninput="state.website=this.value">
 </div>
 <div id="turnstile-slot"></div>
-<button class="btn" ${state.loading?'disabled':''} onclick="submitLead()">${state.loading?'Sending your report...':'Get My Audit Report'}</button>
-<div class="email-note">Your results show on the next screen. We also email the full report so you can share it with your team.</div>
+<button class="btn" ${state.loading?'disabled':''} onclick="submitLead()">${state.loading?'Sending your Snapshot...':'Get My Snapshot'}</button>
+<div class="email-note">Your preliminary Snapshot shows on the next screen. We also email it so you can share the inputs with your team.</div>
 ${state.error?`<div class="error">${escapeHtml(state.error)}</div>`:''}
 </div>`;
 mountTurnstile();
 }
 else if(state.step===10){renderResults()}
+if(state.step>0&&state.step<10){
+const active=app.querySelector('.step.active');
+if(active){
+const actions=document.createElement('div');
+actions.className='button-row';
+actions.innerHTML='<button class="btn btn-back" type="button">Back</button>';
+actions.querySelector('button').onclick=goBack;
+active.appendChild(actions);
+}
+}
 postHeight();
 }
 
@@ -224,6 +242,19 @@ app.innerHTML=`
 <div class="step-label">${label}</div>
 <div class="question">${q}</div>
 <div class="options">${opts.map((o,i)=>`<div class="option ${state[key]===o?'selected':''}" onclick="chooseOption('${key}',${i})">${escapeHtml(o)}</div>`).join('')}</div>
+</div>`;
+}
+
+function renderPms(){
+const app=document.getElementById('app');
+app.innerHTML=`
+<div class="step active">
+<div class="step-label">Question 3 of ${QUESTION_COUNT}</div>
+<div class="question">What PMS or operating systems do you use today?</div>
+<p class="selection-note">Select all that apply. Add another system if it is not listed.</p>
+<div class="options checkboxes">${pmSoftwareOptions.map((o,i)=>`<div class="option ${state.pmSoftwareUsed.includes(o)?'selected':''}" role="checkbox" aria-checked="${state.pmSoftwareUsed.includes(o)}" tabindex="0" onclick="togglePms(${i})" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();togglePms(${i})}"><div class="check"></div>${escapeHtml(o)}</div>`).join('')}</div>
+<input class="field option-input" type="text" placeholder="Another PMS or operating tool" aria-label="Another PMS or operating tool" value="${escapeAttr(state.pmSoftwareOther)}" oninput="state.pmSoftwareOther=this.value;document.getElementById('pms-continue').disabled=!state.pmSoftwareUsed.length&&!state.pmSoftwareOther.trim()">
+<button id="pms-continue" class="btn" ${state.pmSoftwareUsed.length===0&&!state.pmSoftwareOther.trim()?'disabled':''} onclick="next()">Continue</button>
 </div>`;
 }
 
@@ -244,7 +275,19 @@ state.painPoints=state.painPoints.filter(x=>x!=='All of the above');
 render();
 }
 
-function next(){state.step++;state.error='';render();window.scrollTo({top:0,behavior:'smooth'})}
+function togglePms(index){
+const p=pmSoftwareOptions[index];
+const i=state.pmSoftwareUsed.indexOf(p);
+if(i>-1)state.pmSoftwareUsed.splice(i,1);else state.pmSoftwareUsed.push(p);
+state.pmSoftware=state.pmSoftwareUsed[0]||'Propertyware / another PM stack';
+render();
+}
+
+function next(){
+if(state.step===2)state.pmSoftware=state.pmSoftwareUsed[0]||'Propertyware / another PM stack';
+state.step++;state.error='';render();window.scrollTo({top:0,behavior:'smooth'})
+}
+function goBack(){if(state.step>0&&state.step<10){state.step--;state.error='';render();window.scrollTo({top:0,behavior:'smooth'})}}
 
 let turnstileMounted=false;
 function mountTurnstile(){
@@ -297,6 +340,8 @@ email:state.email.trim(),
 units:state.units,
 teamSize:state.team,
 pmSoftware:state.pmSoftware,
+pmSoftwareUsed:state.pmSoftwareUsed,
+pmSoftwareOther:state.pmSoftwareOther.trim(),
 responseTime:state.responseTime,
 maintenanceFlow:state.maintenanceFlow,
 afterHours:state.afterHours,
@@ -348,7 +393,7 @@ url:embedUrl.toString(),
 parentElement:slot,
 prefill:{name:state.name.trim(),email:state.email.trim()}
 });
-// Calendly renders async — re-report the iframe height a few times.
+// Calendly renders async, so re-report the iframe height a few times.
 [600,1500,3000].forEach(ms=>setTimeout(postHeight,ms));
 };
 if(window.Calendly&&window.Calendly.initInlineWidget){init();return}
@@ -363,34 +408,12 @@ setTimeout(init,800);
 }
 }
 
-function ctaSection(report){
+function ctaSection(){
 const reportLine=state.reportUrl?`<div class="report-link">Save it for later: <a href="${escapeAttr(state.reportUrl)}" target="_blank" rel="noopener">your report page</a></div>`:'';
-if(report.tier==='high'){
-return `
-<div class="cta-section">
-<h3>Pick a time while the report is in front of you</h3>
-<p>Your inputs put ${escapeHtml(state.company)} in the highest-drag band we see. Bruno reviews these same day — grab 15 minutes and he will map ${escapeHtml(report.primaryAngle)} against your current process.</p>
-<div class="calendly-slot" id="calendly-inline"></div>
-${reportLine}
-<div class="cta-note">Directional diagnostic only. If the first-activation recommendation looks wrong, say so on the call.</div>
-</div>`;
-}
-if(report.tier==='medium'){
-return `
-<div class="cta-section">
-<h3>Want to see exactly what this would look like at ${escapeHtml(state.company)}?</h3>
-<p>Bruno can take this report, map the current process behind ${escapeHtml(report.primaryAngle)}, and show what the first activation should replace.</p>
-<a href="${escapeAttr(state.bookingUrl)}" class="btn-white" target="_blank" rel="noopener">Book the Operations Audit Call</a>
-${reportLine}
-<div class="cta-note">Directional diagnostic only. Book if the first-activation recommendation feels right.</div>
-</div>`;
-}
-return `
-<div class="cta-section">
-<h3>The system looks in decent shape</h3>
-<p>No urgent wedge showed up in your inputs. The report still points at the first workflow worth tightening — start with the guides, and talk to Bruno when the load grows.</p>
-<a href="https://veyragroup.ai/guides" class="btn-white" target="_blank" rel="noopener">Read The PM Workflow Guides</a>
-<br><a href="${escapeAttr(state.bookingUrl)}" class="btn-ghost" target="_blank" rel="noopener">Or book a 15-minute call anyway</a>
+return `<div class="cta-section">
+<h3>Next step: a 15-Minute Fit Call</h3>
+<p>The Fit Call qualifies for Veyra's PMS Operations Audit. It checks workflow ownership, volume, PMS/tools, approval path, data readiness, and decision-maker fit. It is not a free full audit.</p>
+<a href="${escapeAttr(state.bookingUrl)}" class="btn-white" target="_blank" rel="noopener">Book a 15-Minute Fit Call</a>
 ${reportLine}
 </div>`;
 }
@@ -402,44 +425,40 @@ if(!report){
 app.innerHTML=`
 <div class="results">
   <div class="results-header">
-    <h1>Your PM Operations Audit</h1>
-    <p>Your report is on the way to ${escapeHtml(state.email)}.</p>
+    <h1>Your PMS Operations Snapshot</h1>
+    <p>Your Snapshot is on the way to ${escapeHtml(state.email)}.</p>
   </div>
   <div class="card">
     <div class="card-label">Report Status</div>
     <h3>We sent the report, but could not load the on-page summary.</h3>
-    <p style="margin-top:12px;font-size:14px;color:var(--text-body)">Open the email report or book the audit call if you want Bruno to walk through the workflow with you.</p>
+    <p style="margin-top:12px;font-size:14px;color:var(--text-body)">Open the email Snapshot or book a Fit Call if you want to determine whether a paid Audit is appropriate.</p>
   </div>
   <div class="cta-section">
-    <h3>Want Bruno to map the workflow with you?</h3>
-    <p>The report is already in your inbox. The next step is optional.</p>
-    <a href="${escapeAttr(state.bookingUrl||'https://veyragroup.ai/book')}" class="btn-white" target="_blank" rel="noopener">Book the Operations Audit Call</a>
+    <h3>Want to decide whether a paid Audit fits?</h3>
+    <p>The Snapshot is already in your inbox. A Fit Call is optional and is not free consulting.</p>
+    <a href="${escapeAttr(state.bookingUrl||'https://veyragroup.ai/book')}" class="btn-white" target="_blank" rel="noopener">Book a 15-Minute Fit Call</a>
   </div>
 </div>`;
 postHeight();
 return;
 }
-const nextBuilds=(report.roadmap||[]).slice(1,3);
 const emailStatus=state.emailDelivered
-?`Your full report is on the way to ${escapeHtml(state.email)}.`
-:`Email delivery hiccuped — <a href="${escapeAttr(state.reportUrl)}" target="_blank" rel="noopener" style="color:var(--emerald)">open and save your report here</a>.`;
+?`Your Snapshot is on the way to ${escapeHtml(state.email)}.`
+:`Email delivery hiccuped. <a href="${escapeAttr(state.reportUrl)}" target="_blank" rel="noopener" style="color:var(--emerald)">Open and save your Snapshot here</a>.`;
+const pmsReported=[...state.pmSoftwareUsed,state.pmSoftwareOther.trim()].filter(Boolean).join(', ')||state.pmSoftware;
 
 app.innerHTML=`
 <div class="results">
 <div class="results-header">
-<h1>Your PM Operations Audit</h1>
+<h1>Your PMS Operations Snapshot</h1>
 <p>${escapeHtml(state.company)} · ${state.units} units · ${state.team} team member${state.team>1?'s':''}</p>
 ${state.submitted?`<div class="status">${emailStatus}</div>`:''}
 </div>
 <div class="card">
-<div class="card-label">Operating Load</div>
-<h3>~${report.estimatedWeeklyBusyworkHours} hours/week of repeatable work</h3>
-<div class="stat-row"><span class="stat-label">Units per team member</span><span class="stat-value">${report.ratio}:1</span></div>
-<div class="stat-row"><span class="stat-label">Capacity read</span><span class="stat-value">${escapeHtml(report.capacityLabel)}</span></div>
-<div class="stat-row"><span class="stat-label">Part-time admin equivalent</span><span class="stat-value">${report.partTimeAdminEquivalent}x</span></div>
-<div class="stat-row"><span class="stat-label">Monthly admin load</span><span class="stat-value">$${Number(report.monthlyAdminEquivalent||0).toLocaleString()}</span></div>
-<div class="stat-row"><span class="stat-label">Estimated first-activation giveback</span><span class="stat-value">${report.estimatedWeeklyTimeSaved} hrs/week</span></div>
-<div class="insight">${escapeHtml(report.capacityNote)}</div>
+<div class="card-label">Preliminary discussion area</div>
+<h3>${escapeHtml(report.likelyFocus.title)}</h3>
+<p style="margin-top:12px;font-size:14px;color:var(--text-body)">${escapeHtml(report.likelyFocus.description)}</p>
+<div class="insight">This free Snapshot is based on self-reported inputs. It does not estimate time or cost savings, recommend a build, or replace a paid PMS Operations Audit.</div>
 </div>
 <div class="card">
 <div class="card-label">Workflow Signals</div>
@@ -449,31 +468,20 @@ ${state.submitted?`<div class="status">${emailStatus}</div>`:''}
 <div class="stat-row"><span class="stat-label">After-hours coverage</span><span class="stat-value"><span class="badge ${escapeAttr(report.afterHoursScore.severity)}">${escapeHtml(report.afterHoursScore.label)}</span></span></div>
 <div class="stat-row"><span class="stat-label">Owner reporting</span><span class="stat-value"><span class="badge ${escapeAttr(report.ownerReportingScore.severity)}">${escapeHtml(report.ownerReportingScore.label)}</span></span></div>
 <div class="stat-row"><span class="stat-label">Rent collection</span><span class="stat-value"><span class="badge ${escapeAttr(report.rentCollectionScore.severity)}">${escapeHtml(report.rentCollectionScore.label)}</span></span></div>
-<div class="stat-row"><span class="stat-label">Current stack</span><span class="stat-value">${escapeHtml(state.pmSoftware)} · ${escapeHtml(report.stackLabel)}</span></div>
-<div class="insight">${escapeHtml(report.stackNote)}</div>
+<div class="stat-row"><span class="stat-label">Systems reported</span><span class="stat-value">${escapeHtml(pmsReported)}</span></div>
 </div>
 <div class="card">
-<div class="card-label">Recommended First Activation</div>
-<h3>${escapeHtml(report.primaryRecommendation.title)}</h3>
-<p style="margin-top:12px;font-size:14px;color:var(--text-body)">${escapeHtml(report.primaryRecommendation.description)}</p>
-<div class="insight">${escapeHtml(report.primaryRecommendation.fitNote)}</div>
-<p style="margin-top:12px;font-size:14px;color:var(--text-body)">${escapeHtml(report.primaryRecommendation.whyThisFirst)}</p>
-<ul class="rec-list">${(report.primaryRecommendation.replaces||[]).map(item=>`<li><div><strong style="color:var(--text-heading)">Replace</strong><br><span style="color:var(--text-muted)">${escapeHtml(item)}</span></div></li>`).join('')}</ul>
+<div class="card-label">What a Fit Call checks</div>
+<h3>Whether a paid Audit is justified</h3>
+<ul class="rec-list">${(report.likelyFocus.auditQuestions||[]).map(item=>`<li><div><span style="color:var(--text-muted)">${escapeHtml(item)}</span></div></li>`).join('')}</ul>
 </div>
 <div class="card">
-<div class="card-label">What Good Looks Like In 30 Days</div>
-<h3>${report.estimatedWeeklyTimeSaved} hours back is realistic if the workflow gets scoped correctly.</h3>
-<ul class="rec-list">${(report.primaryRecommendation.first30Days||[]).map(item=>`<li><div><span style="color:var(--text-muted)">${escapeHtml(item)}</span></div></li>`).join('')}</ul>
-${nextBuilds.length?`<div class="insight"><strong style="color:var(--text-heading)">Next in the activation sequence:</strong> ${nextBuilds.map(item=>`${escapeHtml(item.title)}`).join(' · ')}</div>`:''}
+<div class="card-label">Useful prep</div>
+<h3>Bring this only if you book a Fit Call</h3>
+<ul class="rec-list">${(report.likelyFocus.preparation||[]).map(item=>`<li><div><span style="color:var(--text-muted)">${escapeHtml(item)}</span></div></li>`).join('')}</ul>
 </div>
-<div class="card">
-<div class="card-label">Bring This To The Audit Call</div>
-<h3>Useful prep if the report feels directionally right</h3>
-<ul class="rec-list">${(report.primaryRecommendation.callPrep||[]).map(item=>`<li><div><span style="color:var(--text-muted)">${escapeHtml(item)}</span></div></li>`).join('')}</ul>
-</div>
-${ctaSection(report)}
+${ctaSection()}
 </div>`;
-if(report.tier==='high'){mountInlineCalendly()}
 postHeight();
 }
 

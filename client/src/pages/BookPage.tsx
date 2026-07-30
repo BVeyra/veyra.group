@@ -63,8 +63,8 @@ export default function BookPage() {
   return (
     <div className="min-h-screen text-white relative overflow-hidden">
       <SeoHead
-        title="Book an Operations Audit Call"
-        description="Schedule a free operations audit call with Veyra to map where your property management team is bleeding time."
+        title="Book a 15-Minute Fit Call"
+        description="Schedule a free 15-minute Fit Call to determine whether Veyra's paid PMS Operations Audit is the right next step."
         canonicalPath="/book"
       />
       <div className="absolute inset-0 pointer-events-none">
@@ -109,21 +109,18 @@ export default function BookPage() {
 
       <main className="max-w-6xl mx-auto px-6 pt-12 pb-16 relative z-10">
         <section className="text-center mb-8">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-[-0.02em] leading-[1.06] text-white">
-            Let&apos;s Map Your{" "}
-            <span className="bg-gradient-to-r from-emerald-300 via-green-200 to-emerald-300 bg-clip-text text-transparent">
-              Operating System
-            </span>
-          </h1>
+          <p className="text-sm font-semibold uppercase tracking-[.18em] text-emerald-300">Bring the handoff that keeps stalling</p>
+          <h1 className="mt-4 text-4xl md:text-6xl font-bold tracking-[-0.02em] leading-[1.06] text-white">Book a <span className="bg-gradient-to-r from-emerald-300 via-green-200 to-emerald-300 bg-clip-text text-transparent">15-Minute Fit Call</span></h1>
           <p className="max-w-3xl mx-auto mt-5 text-lg leading-relaxed text-gray-400">
-            Pick a time that works for you. We&apos;ll map where the operating work piles
-            up, how the full Veyra system fits your operation, and which service should
-            activate first.
+            Bring one recurring workflow: request, triage, assigned owner, approval, vendor handoff, follow-through,
+            or closeout. This is a qualification conversation, not a free full Audit. We will decide whether a
+            PMS Operations Audit is justified by your current tools, volume, ownership, approval path, data readiness,
+            and decision-maker fit.
           </p>
         </section>
 
         <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-8">
-          {["Free, no obligation", "See how it works"].map((pill) => (
+          {["Free 15 minutes", "Qualification for a paid Audit", "No replacement PMS or live messaging"].map((pill) => (
             <div key={pill} className="inline-flex items-center gap-2 text-sm text-gray-400">
               <Check size={14} className="text-emerald-400" />
               {pill}
@@ -141,9 +138,9 @@ export default function BookPage() {
         </div>
 
         <p className="text-center mt-6 text-sm text-gray-500">
-          Not ready to talk? No problem.{" "}
-          <Link href="/" className="text-emerald-400 border-b border-emerald-400/35 hover:border-emerald-300 transition-colors">
-            Explore how it works
+          Prefer to start with the preliminary Snapshot?{" "}
+          <Link href="/audit" className="text-emerald-400 border-b border-emerald-400/35 hover:border-emerald-300 transition-colors">
+            Take the Free PMS Operations Snapshot
           </Link>{" "}
           first.
         </p>

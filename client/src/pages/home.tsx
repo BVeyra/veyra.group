@@ -26,69 +26,69 @@ const problemTimeline = [
   {
     time: "6:47 AM",
     icon: "📱",
-    text: "You haven't had coffee yet, but you've already got 14 unread messages. Three tenants texted overnight about the same water heater. A prospect who inquired three days ago just followed up, and you realize you never replied.",
+    text: "A maintenance request is already in the PMS. The details are there, but the next owner is unclear, so the work begins moving through side messages instead of a defined handoff.",
   },
   {
     time: "12:00 PM",
     icon: "⏰",
-    text: "You've handled 40 messages and completed zero of the things you actually planned to do today. Two lease renewals are overdue and Mrs. Chen has called about the same HVAC issue three times this week.",
+    text: "An estimate needs approval. Vendor context is split between the work order, an inbox, and someone’s memory. The request stays open while the team chases the missing piece.",
   },
   {
-    time: "11:00 PM",
-    icon: "🚽",
-    text: "You're in bed when your phone buzzes. Toilet overflow in unit 12C. Owner reports are still due, and that's tomorrow's problem. Again.",
+    time: "4:30 PM",
+    icon: "✓",
+    text: "The job is marked complete, but the team still lacks the evidence or closeout it needs. No one has a reliable view of what actually moved or why it stalled.",
   },
 ];
 
 const automationCards = [
   {
-    title: "Tenant Communications",
+    title: "Workflow ownership",
     before:
-      "You're personally responding to every text, email, and portal message. At 11 PM. On weekends. On vacation.",
+      "A request enters the PMS, but no one can tell who owns the next action once it crosses from intake to triage, approval, or follow-through.",
     after:
-      "The system drafts routine replies in your voice, triages by urgency, and routes real issues to the right person. You set the rules for what sends automatically and what waits for your review.",
+      "The Audit makes ownership explicit at each handoff and identifies what can be corrected in the current process or tools before any build is considered.",
   },
   {
-    title: "Maintenance Coordination",
+    title: "Approval paths",
     before:
-      "Tenant texts you -> you call the vendor -> vendor doesn't answer -> tenant follows up -> you follow up with vendor -> vendor shows up two days late.",
+      "An estimate or exception waits because authority, context, and the escalation path are not available when someone needs to decide.",
     after:
-      "Requests become clean work orders: triaged, prioritized, and dispatched inside your cost rules. Anything over your approval threshold stops and waits for your yes. Tenants get status updates without anyone chasing.",
+      "Veyra maps the decision path and recommends the least-complex fix: current-tool configuration, operating discipline, a specialist tool, or a scoped build.",
   },
   {
-    title: "Lease Renewals",
+    title: "Maintenance and vendor follow-through",
     before:
-      "You're checking a spreadsheet (or worse, trying to remember) when leases expire. Renewal notices go out late. Or not at all.",
+      "Scope, access details, timing, estimates, and status updates are chased across inboxes and calls after the work order already exists.",
     after:
-      "Renewal windows are tracked automatically and follow-up ladders run on schedule. Offers only go out once you approve them. Nothing falls through the cracks.",
+      "The Audit identifies where the handoff loses context and defines the operating path. Veyra does not dispatch vendors or send live messages in the current offer.",
   },
   {
-    title: "Rent Follow-Up",
+    title: "Backlogs and exceptions",
     before:
-      "Rent is late. You manually send a reminder. Then another. Then a firmer one. For 12 different tenants. Every month.",
+      "The routine work may be moving, but the backlog, exception, or unresolved decision has no visible owner or clear next step.",
     after:
-      "Policy-based reminders that start friendly and escalate on your schedule. Consistent, professional, in your voice. Veyra never touches the money: payments stay in your PM software.",
+      "The Audit separates recurring process failure from one-off workload, then ranks what needs attention first.",
   },
   {
-    title: "Vendor Management",
+    title: "PMS adoption and configuration",
     before:
-      "You're playing phone tag with 8 vendors, tracking who confirmed what on sticky notes, and apologizing to tenants for delays.",
+      "The PMS has a capable feature, but the team uses a spreadsheet, inbox, or workaround because the workflow was never made usable.",
     after:
-      "A managed vendor roster with COI checks, clear dispatch instructions, and automatic callback follow-up. Vendors know what to do. Tenants get updates. You get your afternoon back.",
+      "Veyra documents the adoption or configuration gap and starts with the system already in place whenever that is the practical answer.",
   },
   {
-    title: "After-Hours & Prospect Response",
+    title: "Tool overlap and workarounds",
     before:
-      "It's 11 PM and the phone buzzes. Toilet overflow in 12C. You're the on-call person. And the prospect who inquired Saturday night signs somewhere else before you see the message Monday.",
+      "Multiple tools hold partial context, and the team manually re-enters or reconciles information to keep work moving.",
     after:
-      "Around-the-clock intake that classifies every message, handles the routine ones, and escalates true emergencies to a human immediately. Prospects get a fast first response with a named next-business-day owner. You define what counts as an emergency and who gets the call.",
+      "The Audit clarifies whether the gap is ownership, process, adoption, or a genuinely missing capability without assuming a new platform is required.",
   },
   {
-    title: "Owner Reporting",
+    title: "Accountability and closeout evidence",
     before:
-      "Spending 12+ hours reformatting exports because every owner wants a slightly different format. It's your last weekend of every month, every month, forever.",
+      "A task can look finished before the work is confirmed, the evidence is captured, and the required closeout has happened.",
     after:
-      "Owner packets are assembled automatically from the operating record, formatted to each owner's preferences, and queued for your review. You skim, hit send, and month-end stops eating your weekend.",
+      "The team leaves with a defined evidence and closeout requirement, not a promise of a live managed desk, emergency response, or PMS writeback.",
   },
 ];
 
@@ -96,117 +96,110 @@ const processSteps = [
   {
     number: "1",
     duration: "Free",
-    title: "PM Operations Audit",
+    title: "PMS Operations Snapshot",
     description:
-      "We map the operation, put real numbers on the coordination drag, and identify the right place for the system to activate first.",
+      "A preliminary view of where work may be stopping and the facts needed to decide whether a Fit Call is useful.",
     icon: Phone,
   },
   {
     number: "2",
-    duration: "Kickoff",
-    title: "Systemize the workflows",
+    duration: "15 minutes",
+    title: "Fit Call",
     description:
-      "We design the rules with you: voice, thresholds, escalation paths, approvals, and channels, built around the PM software you already run.",
+      "A short qualification for the recurring workflow, current tools, available data, decision ownership, and paid Audit fit.",
     icon: Wrench,
   },
   {
     number: "3",
-    duration: "Ongoing",
-    title: "We run it with you",
+    duration: "Paid engagement",
+    title: "PMS Operations Audit",
     description:
-      "Services come online in the order that protects your live operation, and we keep running and refining them. The dashboard keeps exceptions visible.",
+      "A decision-quality map of priority workflows and verified gaps. A Workflow Build Sprint follows only through a scoped SOW.",
     icon: Check,
   },
 ];
 
-// Founding-client metrics. Leave empty until a pilot produces real, measured
-// numbers — the case-study card below renders automatically once this is filled.
-// Example once you have data: { value: "31", label: "Hours saved / mo" }
+// Founding-client metrics remain empty until a pilot produces supportable evidence.
 const caseStudyMetrics: { value: string; label: string }[] = [];
 
 const socialProofQuotes = [
   {
-    quote:
-      "\"I'm exporting to Excel and spending a full weekend reformatting everything. Every owner wants something different.\"",
-    attribution: "— Property Manager, 45 units",
+    quote: "A request in the PMS is not the same thing as a workflow that can move cleanly through a team.",
+    attribution: "What the Audit tests",
   },
   {
-    quote:
-      "\"Our working theory is that 5% of the tenants cause 80% of your work. And that 5% always texts at midnight.\"",
-    attribution: "— Property Manager, 200+ units",
+    quote: "The first recommendation may be better PMS configuration, clearer ownership, or a specialist tool, not custom software.",
+    attribution: "How Veyra scopes work",
   },
   {
-    quote:
-      "\"By the time I finish owner reports, the month is already over and I'm behind on everything else. There's never a break.\"",
-    attribution: "— Property Manager, 150 units",
+    quote: "A Build Sprint is proposed only when the recurring gap is verified and the operating owner is ready to support it.",
+    attribution: "The Build Sprint gate",
   },
   {
-    quote:
-      "\"I'm a one-woman show managing 60 doors. I haven't had a weekend off in 3 months. Something has to give.\"",
-    attribution: "— Property Manager, 60 units",
+    quote: "A practical plan needs findings, priorities, owners, and evidence, not a generic automation recommendation.",
+    attribution: "What the executive readout provides",
   },
 ];
 
 const whyVeyra = [
   {
     icon: Clock,
-    title: "An operating partner, not just software",
-    text: "We map, systemize, and then run the repeat work with you, with a customized dashboard as your window into all of it. Seven services, one set of rules, one audit trail.",
+    title: "Operations consulting, not another platform",
+    text: "We map the work as it runs today, identify the root cause of recurring gaps, and build only when the diagnosis supports it.",
   },
   {
     icon: Wrench,
-    title: "No platform migration",
-    text: "We work around AppFolio, Buildium, or whatever you already run. Your PMS stays the system of record.",
+    title: "Current tools first",
+    text: "Your PMS remains the system of record. The Audit checks what can be fixed through adoption, configuration, process, or an existing specialist tool.",
   },
   {
     icon: ShieldCheck,
-    title: "You set the rules",
-    text: "You approve the rules; exceptions and judgment calls come back to a named human. Spend never moves without a yes.",
+    title: "A practical, prioritized plan",
+    text: "The paid Audit gives leadership a current-state diagnosis, root-cause findings, prioritized issues, and a 30/60/90-day action plan.",
   },
   {
     icon: Check,
-    title: "Every action traceable",
-    text: "Significant events land in an append-only audit trail. Money and official records stay in your software.",
+    title: "Clear current boundaries",
+    text: "The current offer does not include live tenant or vendor messaging, 24/7 emergency response, payments, vendor dispatch, PMS writeback, or broad PMS integrations.",
   },
 ];
 
 const faqItems = [
   {
     q: "Who is this best for?",
-    a: "Independent residential property managers running roughly 50-500 doors, where the owner still feels the operational drag. Tenant comms, maintenance, renewals, and follow-ups all run by hand, and you want that work run for you without switching software.",
+    a: "Independent, third-party residential property managers with a recurring workflow that does not move cleanly through the team, useful information to examine, and a stakeholder able to make an operating decision.",
   },
   {
     q: "Who is this not for?",
-    a: "National chains, REITs, and non-residential portfolios. It's also not a fit if you want a DIY tool with no implementation support, or you need long enterprise procurement and committee approvals.",
+    a: "It is not a fit for a firm seeking generic AI, a replacement PMS, emergency coverage, live outsourced maintenance operations, or a cheap tracker with no implementation work.",
   },
   {
-    q: "Is this just another SaaS platform I have to learn?",
-    a: "No. Veyra is an operations consultancy, not software you buy and figure out. We systemize your workflows and then run them around the tools you already use, so you can keep working from your inbox, phone, and PM software. You also get a customized Veyra dashboard with work orders, approvals, activity, and operating health in one place. Some owners run their whole operation from it; others check it once a week and live off the digests. Both work.",
+    q: "Will Veyra replace our PMS?",
+    a: "No. Veyra begins with the tools you already use and makes a recommendation only after the paid Audit separates a configuration or adoption issue from a verified workflow gap.",
   },
   {
-    q: "Where does AI fit in?",
-    a: "Where it earns its place. Routine drafting, triage, and follow-up sequences run automatically inside rules you approve. Judgment calls, spend, and anything sensitive stay with humans. A lot of what we systemize is not AI at all, just clear process that finally gets written down and followed.",
+    q: "What happens in the free Snapshot and Fit Call?",
+    a: "The free Snapshot is preliminary: it identifies a likely stall point and the facts still needed. The free 15-minute Fit Call decides whether a PMS Operations Audit is warranted; neither is a free full diagnosis or implementation plan.",
   },
   {
-    q: "What property management software do you work with?",
-    a: "AppFolio, Buildium, Rent Manager, Rentvine, DoorLoop, and Yardi Breeze, plus most others. Where there's an API we connect live; where there isn't, we sync exports. Either way, your PMS stays the system of record.",
+    q: "What is included in the PMS Operations Audit?",
+    a: "For one office in the initial scope, the Audit maps up to three priority workflows, reviews current-tool use and available information, identifies ownership, approvals, and handoffs, and delivers a prioritized recommendation and executive readout.",
   },
   {
-    q: "Will my tenants know they're talking to AI?",
-    a: "Your call. Routine replies are drafted in your voice and are indistinguishable from what you'd write. You decide what sends automatically and what waits for review, and anything sensitive routes to a human.",
+    q: "Will Veyra send tenant or vendor messages, dispatch vendors, or write back to the PMS?",
+    a: "No. Those capabilities are outside the current commercial offer. Veyra does not sell a live Managed Exception Desk, 24/7 emergency coverage, live tenant/vendor messaging, payments, or PMS writeback today.",
   },
   {
-    q: "What does it cost?",
-    a: "One engagement, priced by portfolio size: a one-time implementation plus a monthly operating investment. We quote your exact numbers after the free PM Operations Audit, so the quote reflects your actual operation. The audit and the report are free.",
+    q: "How is the work scoped?",
+    a: "The Free PMS Operations Snapshot and 15-minute Fit Call are free. Veyra scopes the PMS Operations Audit and any Workflow Build Sprint to the operating need identified, before an engagement begins.",
   },
   {
-    q: "What's the commitment?",
-    a: "A 90-day initial term covers design, configuration, staged activation, and calibration. After that the agreement runs month-to-month with 30 days' notice.",
+    q: "What can a Workflow Build Sprint include?",
+    a: "Only the defined work supported by the Audit and a scoped SOW, for example current-tool configuration, workflow documentation, implementation, and training. It is not a broad integration or managed-services promise.",
   },
 ];
 
 export default function Home() {
-  const [calculatorHeight, setCalculatorHeight] = useState(460);
   const [activeAutomationIndex, setActiveAutomationIndex] = useState(0);
   const [automationPausedUntil, setAutomationPausedUntil] = useState(0);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
@@ -253,21 +246,6 @@ export default function Home() {
       timers.forEach((t) => window.clearTimeout(t));
       window.removeEventListener("load", scrollToTarget);
     };
-  }, []);
-
-  useEffect(() => {
-    const onMessage = (event: MessageEvent) => {
-      if (event.origin !== window.location.origin) return;
-      const payload = event.data as { type?: string; height?: number } | null;
-      if (!payload || payload.type !== "roi-calculator-height") return;
-
-      const next = Number(payload.height);
-      if (!Number.isFinite(next)) return;
-      setCalculatorHeight(Math.max(360, Math.min(4200, Math.round(next))));
-    };
-
-    window.addEventListener("message", onMessage);
-    return () => window.removeEventListener("message", onMessage);
   }, []);
 
   useEffect(() => {
@@ -339,7 +317,6 @@ export default function Home() {
   const featureIcons = [MessageSquare, Wrench, FileText, DollarSign, Users, Mail, BarChart3];
   const activeAutomation = automationCards[activeAutomationIndex];
   const ActiveAutomationIcon = featureIcons[activeAutomationIndex];
-  const calculatorDisplayHeight = Math.max(360, calculatorHeight);
   const heroTiming = (seconds: number) => Number((seconds * heroTimingScale).toFixed(3));
   const homeStructuredData = [
     {
@@ -351,7 +328,7 @@ export default function Home() {
       url: "https://veyragroup.ai",
       logo: "https://veyragroup.ai/veyra-logo.svg",
       description:
-        "Veyra Group helps independent property managers systemize tenant communications, maintenance, renewals, rent follow-up, vendors, after-hours response, and owner reporting, then runs those systems for them.",
+        "Veyra Group diagnoses the handoffs where property-management work stalls, prioritizes practical fixes, and builds only verified workflow gaps.",
       email: "contact@veyragroup.ai",
       telephone: "+1-220-244-4213",
       address: {
@@ -385,8 +362,8 @@ export default function Home() {
   return (
     <div className="min-h-screen text-white">
       <SeoHead
-        title="Operations Consultants for Property Managers"
-        description="Veyra helps independent property managers systemize tenant communications, maintenance, renewals, rent follow-up, vendors, after-hours response, and owner reporting, then runs those systems for you. Start with the free PM Operations Audit."
+        title="PMS Operations Consulting for Property Managers"
+        description="Your PMS tracks the work. Veyra identifies the gaps that keep it from moving, then gives leadership a practical, prioritized action plan. Start with a free PMS Operations Snapshot."
         canonicalPath="/"
         structuredData={homeStructuredData}
       />
@@ -436,9 +413,9 @@ export default function Home() {
                   transition={{ duration: heroTiming(0.8), delay: heroTiming(0.3), ease: [0.25, 0.4, 0.25, 1] }}
                   className="text-4xl md:text-5xl lg:text-[3.5rem] leading-[1.08] font-bold tracking-[-0.02em] hero-headline-glow"
                 >
-                  You didn't start a property management company to{" "}
+                  Your PMS tracks the work. Veyra closes the gaps that{" "}
                   <span className="text-emerald-400">
-                    answer texts at 11 PM.
+                    keep it from moving.
                   </span>
                 </motion.h1>
 
@@ -448,7 +425,7 @@ export default function Home() {
                   transition={{ duration: heroTiming(0.6), delay: heroTiming(0.9), ease: [0.25, 0.4, 0.25, 1] }}
                   className="text-lg text-gray-400 max-w-[540px] mx-auto lg:mx-0 mt-6 leading-relaxed"
                 >
-                  We map how your operation actually runs, systemize the repeat work your PM software still leaves on your team, and then run those systems for you. AI where it earns its place, humans everywhere judgment matters. Grow the portfolio without growing the team.
+                  A request can be in the PMS and still stall: the next owner is unclear, an approval has no path, vendor follow-through lives in side messages, or completion is never verified. Veyra diagnoses the working process, prioritizes fixes, and scopes a Build Sprint only for a verified gap.
                 </motion.p>
 
                 <motion.div
@@ -465,13 +442,13 @@ export default function Home() {
                       className="bg-emerald-500 text-white font-semibold text-lg px-8 py-4 rounded-full ring-1 ring-emerald-400/20 shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:shadow-[0_0_40px_rgba(52,211,153,0.4)] hover:scale-[1.03] transition-all duration-200 group"
                     >
                       <a href="/audit?source=hero_primary">
-                        Get the Free Operations Audit
+                        Get the Free PMS Operations Snapshot
                         <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
                       </a>
                     </Button>
                   </div>
                   <p className="mt-4 text-sm text-gray-500">
-                    Works around the software you already run · your PMS stays the system of record
+                    Preliminary Snapshot first · Fit Call second · paid Audit only if it is justified
                   </p>
                 </motion.div>
               </div>
@@ -500,7 +477,7 @@ export default function Home() {
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="text-3xl md:text-4xl font-bold text-white mb-16"
             >
-              You know this day.
+              The issue is not that the work exists. It is that the workflow stops moving.
             </motion.h2>
 
             <div className="relative">
@@ -532,7 +509,7 @@ export default function Home() {
                 className="pl-20 relative mt-8"
               >
                 <p className="text-gray-300 text-lg leading-relaxed">
-                  This isn't a scaling problem. It's a doing-everything-manually problem. You're doing three jobs, and two of them shouldn't need a human.
+                  Veyra looks for the operating gap behind the symptom: unclear ownership, missing approval paths, PMS adoption gaps, overlapping tools, missing procedures, or no evidence that the work actually closed.
                 </p>
               </motion.div>
             </div>
@@ -541,7 +518,7 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
-        {/* WHAT WE TAKE OFF YOUR PLATE (solution + the seven workflows, merged) */}
+        {/* WHAT VEYRA DIAGNOSES */}
         <section id="features" ref={featuresSectionRef} className="py-12 md:py-20">
           <div className="max-w-6xl mx-auto px-6">
             <motion.div
@@ -551,32 +528,32 @@ export default function Home() {
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="max-w-3xl"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Here's what we take off your plate.</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">What Veyra diagnoses.</h2>
               <div className="space-y-4 text-gray-400 leading-relaxed">
                 <p>
-                  <strong className="text-white">You wake up and your inbox isn't a disaster.</strong> Overnight tenant messages already have drafted replies waiting for your review. Maintenance requests are logged, categorized, and dispatched. The prospect who inquired at 2 AM got a personalized response in seconds and is already scheduled for a showing.
+                  <strong className="text-white">The Audit is not a generic software recommendation.</strong> It examines ownership and handoffs, approval paths, maintenance and vendor follow-through, backlogs and exceptions, PMS adoption, tool overlap, procedures, visibility, accountability, and closeout evidence.
                 </p>
                 <div className="grid sm:grid-cols-3 gap-4 pt-2">
                   <div className="rounded-xl border border-white/5 bg-white/[0.02] px-5 py-3 text-center">
-                    <p className="text-emerald-400 text-sm font-medium">⚡ Replies in seconds, not days</p>
+                    <p className="text-emerald-400 text-sm font-medium">Ownership and handoffs</p>
                   </div>
                   <div className="rounded-xl border border-white/5 bg-white/[0.02] px-5 py-3 text-center">
-                    <p className="text-emerald-400 text-sm font-medium">📉 Less manual busywork</p>
+                    <p className="text-emerald-400 text-sm font-medium">Approvals and follow-through</p>
                   </div>
                   <div className="rounded-xl border border-white/5 bg-white/[0.02] px-5 py-3 text-center">
-                    <p className="text-emerald-400 text-sm font-medium">🌙 After-hours intake built in</p>
+                    <p className="text-emerald-400 text-sm font-medium">Evidence and closeout</p>
                   </div>
                 </div>
                 <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.04] p-6">
                   <p className="text-gray-200 italic">
-                    "Veyra doesn't replace your judgment. We automate everything between the decision and the doing."
+                    "The first answer may be better use of the PMS, a process change, or a specialist tool, not a custom build."
                   </p>
                 </div>
               </div>
             </motion.div>
 
             <div className="mt-12">
-              <p className="text-gray-400 mb-6">Seven services, one operating layer. Before and after Veyra:</p>
+              <p className="text-gray-400 mb-6">Common operating gaps the Audit examines:</p>
 
               <div className="lg:hidden flex gap-2 overflow-x-auto pb-4 scrollbar-hide">
                 {automationCards.map((item, index) => {
@@ -651,12 +628,12 @@ export default function Home() {
                     </div>
 
                     <div className="rounded-xl bg-red-500/[0.05] border border-red-500/10 p-6 mb-4">
-                      <p className="text-xs font-semibold text-red-400 uppercase tracking-[0.12em] mb-2">Before</p>
+                      <p className="text-xs font-semibold text-red-400 uppercase tracking-[0.12em] mb-2">What we look for</p>
                       <p className="text-gray-300 leading-relaxed">{activeAutomation.before}</p>
                     </div>
 
                     <div className="rounded-xl bg-emerald-500/[0.05] border border-emerald-500/10 p-6">
-                      <p className="text-xs font-semibold text-emerald-400 uppercase tracking-[0.12em] mb-2">After</p>
+                      <p className="text-xs font-semibold text-emerald-400 uppercase tracking-[0.12em] mb-2">What the Audit clarifies</p>
                       <p className="text-gray-300 leading-relaxed">{activeAutomation.after}</p>
                     </div>
                   </motion.div>
@@ -678,7 +655,7 @@ export default function Home() {
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="text-center mb-8"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-white">First we map it. Then we systemize it. Then we run it.</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-white">A clear path from preliminary signal to practical action plan.</h2>
             </motion.div>
 
             <div className="grid grid-cols-3 gap-6 mb-4 text-center">
@@ -775,16 +752,15 @@ export default function Home() {
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="text-center mb-10"
             >
-              {/* "Proof, not promises" framing returns automatically once caseStudyMetrics has real numbers (i.e. after a founding client is signed). Until then, show a neutral heading. */}
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                {caseStudyMetrics.length > 0 ? "Proof, not promises." : "What operators are dealing with."}
+                {caseStudyMetrics.length > 0 ? "Proof, not promises." : "What a decision-quality Audit is designed to clarify."}
               </h2>
               {caseStudyMetrics.length > 0 && (
                 <p className="text-gray-400 mt-3">Real founding-client results will be published here exactly as measured, with no inflated numbers.</p>
               )}
             </motion.div>
 
-            {/* Founding-client results — renders automatically once caseStudyMetrics has real, measured numbers */}
+            {/* Founding-client results render automatically once caseStudyMetrics has real, measured numbers */}
             {caseStudyMetrics.length > 0 && (
               <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/[0.03] p-8 text-center max-w-3xl mx-auto">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300">Founding-client results</p>
@@ -799,9 +775,7 @@ export default function Home() {
               </div>
             )}
 
-            <p className="text-center text-gray-400 mt-2 mb-6 max-w-2xl mx-auto">
-              Here's what property managers say in public Reddit threads. Real posts, <span className="text-gray-300">not Veyra clients</span>. They're the exact problems we systemize away.
-            </p>
+            <p className="text-center text-gray-400 mt-2 mb-6 max-w-2xl mx-auto">No synthetic benchmarks, testimonials, staffing ratios, time-saved claims, or ROI calculations. The paid Audit is designed to establish the facts for one operating team.</p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {socialProofQuotes.map((item, index) => (
@@ -814,9 +788,8 @@ export default function Home() {
                   transition={{ duration: 0.6, delay: index * 0.2 }}
                   className="glass-card relative rounded-2xl p-6"
                 >
-                  <span className="absolute top-2 left-4 text-4xl text-emerald-400/30">"</span>
-                  <p className="text-gray-300 text-base italic leading-relaxed pt-4">{item.quote}</p>
-                  <p className="text-sm text-gray-500 mt-4 not-italic">{item.attribution} · via Reddit</p>
+                  <p className="text-sm font-semibold text-emerald-300">{item.attribution}</p>
+                  <p className="text-gray-300 text-base leading-relaxed mt-4">{item.quote}</p>
                 </motion.div>
               ))}
             </div>
@@ -825,57 +798,7 @@ export default function Home() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
-        {/* THE AUDIT (primary offer) */}
-        <section id="calculator" className="py-12 md:py-20">
-          <div className="max-w-5xl mx-auto px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-20px" }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="text-center"
-            >
-              <h2 className="text-3xl md:text-4xl font-bold text-white">See where your hours are leaking.</h2>
-              <p className="text-gray-400 mt-4">Run the free PM Operations Audit and see which part of your operation we would systemize first. No pitch, no software talk.</p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-20px" }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-              className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 md:p-8 mt-6"
-            >
-              <div className="rounded-2xl overflow-hidden border border-white/10 bg-[#0A0A0A]">
-                <iframe
-                  src="/roi-calculator.html?theme=dark"
-                  title="Veyra Group PM Operations Audit"
-                  loading="lazy"
-                  className="w-full bg-[#0A0A0A]"
-                  style={{ border: 0, height: `${calculatorDisplayHeight}px` }}
-                />
-              </div>
-
-              <div className="mt-6 flex justify-center">
-                <Button
-                  asChild
-                  size="lg"
-                  className="bg-emerald-500 text-white font-semibold rounded-full px-8 py-4 hover:shadow-lg hover:shadow-emerald-500/25 transition-all group"
-                  data-testid="button-calculator-report"
-                >
-                  <a href="/audit?source=home_embed">
-                    Get the Free Operations Audit
-                    <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
-                  </a>
-                </Button>
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
-
-        {/* GUARANTEE / TERMS (no lock-in + founding scarcity + price anchor) */}
+        {/* AUDIT BOUNDARIES */}
         <section id="guarantee" className="py-12 md:py-20">
           <div className="max-w-4xl mx-auto px-6">
             <motion.div
@@ -886,21 +809,21 @@ export default function Home() {
               className="text-center"
             >
               <ShieldCheck className="w-12 h-12 text-emerald-400 mx-auto mb-4" />
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">Your rules. Your software. Your call.</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">What the paid Audit delivers and what Veyra does not provide today.</h2>
 
               <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.03] p-8 md:p-10 text-left max-w-2xl mx-auto space-y-4">
-                <p className="text-lg text-white font-semibold">Automation with accountability.</p>
+                <p className="text-lg text-white font-semibold">A practical operating diagnosis.</p>
                 <p className="text-gray-300">
-                  You approve the rules: voice, hours, thresholds, escalation paths, and protected boundaries. The system runs the repeat work inside them, and exceptions and judgment calls come back to a named human. Spend never moves without a yes.
+                  The PMS Operations Audit produces a current-state diagnosis, root-cause findings, a prioritized issue list, what can be fixed in the current PMS or tools, what needs a process change, what may warrant a specialist tool, and what, if anything, warrants a Veyra Build Sprint.
                 </p>
                 <p className="text-gray-400">
-                  Money and official records stay in your PM software. Every significant action lands in an append-only audit trail, so you can always see what ran and why. After the 90-day initial term, the agreement runs month-to-month with 30 days' notice.
+                  The executive readout includes a practical 30/60/90-day action plan without promising a result. A Workflow Build Sprint is optional and offered only through a scoped statement of work after the diagnosis.
                 </p>
 
                 <div className="pt-2 border-t border-white/10">
-                  <p className="text-white font-semibold">Veyra is taking on a small group of founding clients.</p>
+                  <p className="text-white font-semibold">Current technical and operating boundaries.</p>
                   <p className="text-gray-400 mt-1">
-                    Run the free PM Operations Audit to see if the fit is there.
+                    Buildium is read-only/self-service verification; generic systems use secure imports; AppFolio and Rent Manager use assisted paths. Veyra does not offer live PMS writeback, broad PMS integrations, live tenant/vendor messaging, payments, vendor dispatch, emergency response, or 24/7 coverage.
                   </p>
                 </div>
               </div>
@@ -913,7 +836,7 @@ export default function Home() {
                   data-testid="button-guarantee-cta"
                 >
                   <a href="/audit?source=guarantee">
-                    Get the Free Operations Audit
+                    Get the Free PMS Operations Snapshot
                     <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
                   </a>
                 </Button>
@@ -981,14 +904,14 @@ export default function Home() {
               viewport={{ once: true, margin: "-20px" }}
               transition={{ duration: 0.6, ease: "easeOut" }}
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-white">Ready to stop being your own help desk?</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-white">Start by identifying the operational problem, not by buying another tool.</h2>
               <Button asChild size="lg" className="mt-7 bg-emerald-500 text-white font-semibold text-lg px-8 py-4 rounded-full hover:shadow-lg hover:shadow-emerald-500/25 transition-all group" data-testid="button-footer-final-cta">
                 <a href="/audit?source=footer_final">
-                  Get the Free Operations Audit
+                  Get the Free PMS Operations Snapshot
                   <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
                 </a>
               </Button>
-              <p className="text-gray-500 text-sm mt-4">Get the report first. Book the call if the numbers say it is worth it.</p>
+              <p className="text-gray-500 text-sm mt-4">Use the Snapshot to identify a preliminary issue. A 15-minute Fit Call determines whether the paid Audit is the right next step.</p>
             </motion.div>
           </div>
         </section>

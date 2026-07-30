@@ -74,6 +74,8 @@ export type AuditLeadData = {
   units: number;
   teamSize: number;
   pmSoftware: PmSoftwareOption;
+  pmSoftwareUsed?: PmSoftwareOption[];
+  pmSoftwareOther?: string;
   responseTime: ResponseTimeOption;
   maintenanceFlow: MaintenanceFlowOption;
   ownerReporting: OwnerReportingOption;
@@ -100,6 +102,13 @@ export type BuildAngle =
   | "rent collection";
 
 export type ScoreCard = { label: string; message: string; severity: Severity };
+
+export type SnapshotFocus = {
+  title: string;
+  description: string;
+  auditQuestions: string[];
+  preparation: string[];
+};
 
 export type RecommendationBlueprint = {
   title: string;
@@ -232,6 +241,8 @@ export type AuditInsights = {
   roadmap: { title: string; description: string }[];
   primaryAngle: BuildAngle;
   primaryRecommendation: RecommendationBlueprint;
+  likelyFocus: SnapshotFocus;
+  qualificationNotes: string[];
   /** Results-page routing tier: high → push the call, medium → call + nurture, low → self-serve. */
   tier: "high" | "medium" | "low";
 };
@@ -301,7 +312,7 @@ export function buildAngleScores(data: AuditLeadData, painPoints: PainOption[], 
   else if (ratio >= 50) { scores["maintenance coordination"] += 1; scores["response coverage"] += 1; }
   if (data.pmSoftware === "Spreadsheets / inboxes / not sure") { scores["maintenance coordination"] += 1; scores["owner reporting"] += 1; scores["response coverage"] += 1; }
 
-  // When every pain is selected, the pains carry no differentiating signal —
+  // When every pain is selected, the pains carry no differentiating signal;
   // add a flat bump and let the workflow questions decide the angle.
   const allSelected = painPoints.length >= PAIN_OPTIONS.length - 1;
   if (allSelected) {
@@ -331,6 +342,45 @@ const ANGLE_TIEBREAK_ORDER: BuildAngle[] = [
   "lease renewals",
 ];
 
+const SNAPSHOT_FOCUSES: Record<BuildAngle, SnapshotFocus> = {
+  "maintenance coordination": {
+    title: "Maintenance exceptions and vendor follow-through",
+    description: "Your inputs point to a possible gap between maintenance intake, ownership, approvals, vendor follow-through, and completion evidence. This is a directional signal, not a recommendation to change software or activate a service.",
+    auditQuestions: ["Where does a work order stop moving?", "Who owns the next action at each handoff?", "Which approval and vendor rules live outside the PMS?"],
+    preparation: ["A recent set of work orders, including stalled examples", "Current vendor and approval path", "PMS plan and any maintenance tools in use"],
+  },
+  "owner reporting": {
+    title: "Reporting and approval handoffs",
+    description: "Your inputs suggest that recurring reporting or owner-approval work may deserve a closer workflow review. A paid Audit validates the actual process, data, and decision path.",
+    auditQuestions: ["Which steps require manual rework?", "What information or approval is missing when the workflow pauses?", "What is already available in the PMS?"],
+    preparation: ["One recent reporting or approval workflow", "Source reports or exports available today", "The owner of the workflow and approver path"],
+  },
+  "response coverage": {
+    title: "Workflow ownership and follow-through",
+    description: "Your inputs suggest a possible follow-through gap. Veyra would first determine whether the answer is PMS configuration, a specialist tool, a documented internal process, or a scoped build.",
+    auditQuestions: ["Which recurring request has no clear owner?", "When does the workflow rely on memory or side messages?", "What current tool is underused?"],
+    preparation: ["One recent recurring workflow example", "Current intake channels and owners", "PMS plan and relevant specialist tools"],
+  },
+  "tenant communication": {
+    title: "Workflow ownership and resident follow-through",
+    description: "Your inputs suggest routine communication may depend on individual capacity or side messages. A Fit Call can determine whether the process, current tools, or a more focused review is appropriate.",
+    auditQuestions: ["Which messages repeatedly reopen the same work?", "Who owns the next response and escalation?", "What is already available in the PMS?"],
+    preparation: ["A few recurring resident or tenant questions", "Current channels and owners", "Any communication or escalation rules in use"],
+  },
+  "lease renewals": {
+    title: "Recurring deadline and workflow ownership",
+    description: "Your inputs suggest a recurring workflow may rely on memory, manual tracking, or unclear ownership. A paid Audit determines whether the available PMS capability and process are enough.",
+    auditQuestions: ["Which deadline or handoff is hardest to see?", "Who owns the next action at each stage?", "What records are already reliable in the PMS?"],
+    preparation: ["One recent renewal or notice workflow", "Current tracking process", "The person accountable for the handoff"],
+  },
+  "rent collection": {
+    title: "Recurring exception follow-through",
+    description: "Your inputs suggest the exception process may deserve a closer review. Veyra does not provide collections, legal, or payment services; the Fit Call establishes whether an operations Audit is appropriate.",
+    auditQuestions: ["Where does the exception process rely on memory?", "Who owns each next action and escalation?", "What current PMS process is already in place?"],
+    preparation: ["A recent exception workflow", "Current reminders and handoff rules", "The owner of the workflow"],
+  },
+};
+
 export function buildAuditInsights(data: AuditLeadData): AuditInsights {
   const ratio = Math.max(1, Math.round(data.units / data.teamSize));
   const p = computePressures(data);
@@ -343,6 +393,7 @@ export function buildAuditInsights(data: AuditLeadData): AuditInsights {
 
   const primaryAngle = rankedAngles[0] || "maintenance coordination";
   const primaryRecommendation = ROADMAPS[primaryAngle];
+  const likelyFocus = SNAPSHOT_FOCUSES[primaryAngle];
   const roadmap = rankedAngles.slice(0, 3).map((angle) => ({ title: ROADMAPS[angle].title, description: ROADMAPS[angle].description }));
 
   const ratioBase = ratio >= 100 ? 10 : ratio >= 75 ? 8 : ratio >= 50 ? 6 : 4;
@@ -391,20 +442,24 @@ export function buildAuditInsights(data: AuditLeadData): AuditInsights {
     ratio, capacityLabel, capacityNote, stackLabel, stackNote,
     estimatedWeeklyBusyworkHours, estimatedWeeklyTimeSaved,
     partTimeAdminEquivalent, monthlyAdminEquivalent, annualAdminEquivalent, quarterlyHoursReturned,
-    topPainPoints, roadmap, primaryAngle, primaryRecommendation, tier,
+    topPainPoints, roadmap, primaryAngle, primaryRecommendation, likelyFocus,
+    qualificationNotes: [
+      `PMS reported: ${data.pmSoftware}. The Fit Call checks plan, current configuration, and existing specialist tools.`,
+      "The paid PMS Operations Audit, not this Snapshot, maps priority workflows, reviews available data, and produces a ranked action plan.",
+      "Veyra does not replace the PMS, accounting, emergency or on-call team, vendor contracts, or legal judgment.",
+    ],
+    tier,
   };
 }
 
 /**
- * Sales follow-up guidance. Server-side only — never send this to the
+ * Sales follow-up guidance. Server-side only; never send this to the
  * browser or include it in the lead-facing report.
  */
-export function buildFollowUp(data: AuditLeadData, insights: AuditInsights): { priority: "HOT" | "WARM" | "LOW"; reason: string } {
-  if (insights.tier === "high") {
-    return { priority: "HOT", reason: `High operational drag. Bruno should follow up the same day and lead with ${insights.primaryAngle}.` };
+export function buildFollowUp(data: AuditLeadData, insights: AuditInsights): { priority: "FIT_CALL" | "NURTURE"; reason: string } {
+  const relevantPain = insights.topPainPoints.includes("Maintenance triage and vendor follow-up") || insights.topPainPoints.includes("Owner approvals and owner reporting") || insights.topPainPoints.includes("Everyone is context-switching all day");
+  if (data.units >= 150 && data.units <= 500 && relevantPain) {
+    return { priority: "FIT_CALL", reason: `Snapshot signals a Fit Call to qualify ${insights.likelyFocus.title}.` };
   }
-  if (insights.tier === "medium") {
-    return { priority: "WARM", reason: `There is enough repeated work here to justify a 24-hour follow-up focused on ${insights.primaryAngle}.` };
-  }
-  return { priority: "LOW", reason: "Send the report, then follow up with the workflow angle that looks most concrete." };
+  return { priority: "NURTURE", reason: "Snapshot captured an operating signal. Confirm owner, data readiness, and willingness to pursue a paid Audit before offering a Fit Call." };
 }

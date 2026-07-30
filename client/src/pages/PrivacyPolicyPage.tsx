@@ -2,14 +2,13 @@ import { Link } from "wouter";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import { SeoHead } from "@/components/SeoHead";
-import { openCalendly } from "@/lib/calendly";
 
 export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen text-white relative overflow-hidden">
       <SeoHead
         title="Privacy Policy"
-        description="Review how Veyra Group collects, uses, and protects information across the website, operations audits, and our automation services."
+        description="Review how Veyra Group collects, uses, and protects information across the website, the Free PMS Operations Snapshot, Fit Calls, and paid consulting services."
         canonicalPath="/privacy"
       />
       <div className="absolute inset-0 pointer-events-none">
@@ -33,12 +32,8 @@ export default function PrivacyPolicyPage() {
             >
               ← Back to site
             </Link>
-            <Button
-              onClick={openCalendly}
-              size="sm"
-              className="rounded-full bg-emerald-500 text-white font-semibold px-4 py-2 h-auto hover:bg-emerald-400 transition"
-            >
-              Get the Free Operations Audit
+            <Button asChild size="sm" className="rounded-full bg-emerald-500 text-white font-semibold px-4 py-2 h-auto hover:bg-emerald-400 transition">
+              <Link href="/audit">Take the Free Snapshot</Link>
             </Button>
           </div>
         </div>
@@ -55,10 +50,10 @@ export default function PrivacyPolicyPage() {
             <p className="text-gray-400 leading-relaxed">
               Veyra Group ("Veyra," "we," "us," or "our") operates the website{" "}
               <a href="https://veyragroup.ai" className="text-emerald-400 hover:underline">veyragroup.ai</a>{" "}
-              and provides done-for-you workflow automation services for property management
-              businesses. This Privacy Policy explains how we collect, use, share, and protect
-              your information when you use our website, request a operations audit, or use our
-              services.
+              and provides property-management operations consulting and scoped implementation
+              services. This Privacy Policy explains how we collect, use, share, and protect
+              your information when you use our website, request a Snapshot or Fit Call, or use
+              our services.
             </p>
           </section>
 
@@ -72,7 +67,8 @@ export default function PrivacyPolicyPage() {
                 <h3 className="text-white/80 font-medium mb-1">Information you provide directly</h3>
                 <p>
                   Your name, email address, phone number, company details, and any workflow
-                  information you share when you request an audit, onboard, or contact us for
+                  information you share when you request a Snapshot, book a Fit Call, engage us,
+                  or contact us for
                   support.
                 </p>
               </div>
@@ -80,9 +76,8 @@ export default function PrivacyPolicyPage() {
               <div>
                 <h3 className="text-white/80 font-medium mb-1">Account and authentication data</h3>
                 <p>
-                  If you create an account to access a Veyra dashboard or service, we collect the
-                  login and profile information you provide so we can give you access and operate
-                  the service for you.
+                  If an engagement includes access to a Veyra portal or shared workspace, we collect
+                  the login and profile information needed to provide that access.
                 </p>
               </div>
 
@@ -102,10 +97,10 @@ export default function PrivacyPolicyPage() {
             <div className="text-gray-400 leading-relaxed mt-3 space-y-2">
               <p>We use the information we collect to:</p>
               <p>
-                Provide, operate, and improve our services; schedule and deliver operations audits
-                and the resulting reports; configure, run, and support the managed services we operate
-                for you; communicate with you by email or text message about your account, your
-                audits, or our services; respond to your requests, questions, or support needs;
+                Provide, operate, and improve our services; deliver PMS Operations Snapshots,
+                schedule Fit Calls, and perform paid Audit or implementation work that has been
+                agreed in writing; communicate with you by email or text message about your
+                inquiries or engagement; respond to your requests, questions, or support needs;
                 comply with legal obligations; and protect the security of our services and users.
               </p>
             </div>
@@ -120,8 +115,8 @@ export default function PrivacyPolicyPage() {
                 following limited circumstances:
               </p>
               <p>
-                With trusted service providers who help us operate our services — such as website
-                hosting, email delivery, scheduling, text-messaging, and analytics providers —
+                With trusted service providers who help us operate our services, such as website
+                hosting, email delivery, scheduling, text-messaging, and analytics providers,
                 solely to the extent necessary for them to perform their functions; when required
                 by law, regulation, legal process, or governmental request; and to protect the
                 rights, safety, or property of Veyra, our users, or the public.
@@ -226,16 +221,15 @@ export default function PrivacyPolicyPage() {
             <h2 className="text-xl font-semibold text-white">11. SMS / Text Messaging</h2>
             <div className="text-gray-400 leading-relaxed mt-3 space-y-3">
               <p>
-                With your consent, Veyra Group may send you text (SMS) messages related to our
-                services — including operations audit scheduling, account and onboarding updates,
-                service notifications, and responses to your support requests.
+                With your consent, Veyra Group may send you text (SMS) messages related to a
+                Snapshot, Fit Call, paid engagement, or response to a support request.
               </p>
               <p>
                 <span className="text-white/80 font-medium">Consent:</span>{" "}
                 We only send text messages to individuals who have voluntarily opted in by
                 submitting the consent form at{" "}
                 <a href="/sms" className="text-emerald-400 hover:underline">veyragroup.ai/sms</a>{" "}
-                — entering their mobile number and checking a separate, optional consent box.
+                by entering their mobile number and checking a separate, optional consent box.
                 Opting in is entirely optional and is not a condition of purchasing, using, or
                 continuing any product or service, and messaging consent is kept separate from
                 this Privacy Policy, our Terms of Service, and any other agreement.

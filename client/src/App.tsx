@@ -6,6 +6,7 @@ const NotFound = lazy(() => import("@/pages/not-found"));
 const Home = lazy(() => import("@/pages/home"));
 const CalculatorPage = lazy(() => import("@/pages/CalculatorPage"));
 const BookPage = lazy(() => import("@/pages/BookPage"));
+const PmsOperationsAuditPage = lazy(() => import("@/pages/PmsOperationsAuditPage"));
 const ReportPage = lazy(() => import("@/pages/ReportPage"));
 const PropertyManagementAutomationROIPage = lazy(() => import("@/pages/PropertyManagementAutomationROIPage"));
 const PropertyManagementAIPage = lazy(() => import("@/pages/PropertyManagementAIPage"));
@@ -51,7 +52,7 @@ function ScrollManager() {
     }
 
     // If we arrived with an anchor (e.g. /#features), keep the hash and let the
-    // target page scroll to that section — don't strip it or jump to the top.
+    // target page scroll to that section. Don't strip it or jump to the top.
     if (window.location.hash && window.location.hash.length > 1) {
       return;
     }
@@ -72,6 +73,7 @@ function Router() {
           {() => <RedirectPage to="/audit" />}
         </Route>
         <Route path="/book" component={BookPage} />
+        <Route path="/pms-operations-audit" component={PmsOperationsAuditPage} />
         <Route path="/audit" component={CalculatorPage} />
         <Route path="/report" component={ReportPage} />
         <Route path="/calculator">
