@@ -8,7 +8,6 @@ import { Menu, X } from "lucide-react";
 const navLinks = [
   { href: "/audit", label: "Free Snapshot" },
   { href: "/pms-operations-audit", label: "PMS Audit" },
-  { href: "/guides", label: "Guides" },
 ];
 
 export function Navbar() {
