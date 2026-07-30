@@ -127,7 +127,7 @@ export default function GuidesPage() {
           <div className="max-w-4xl mx-auto px-6 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white">Know the workflow that keeps stalling? Start with a preliminary view.</h2>
             <p className="text-gray-400 mt-4">
-              The free Snapshot identifies a likely discussion area from your self-reported inputs. A Fit Call determines whether a paid Audit is warranted.
+              The free Snapshot identifies a starting point from your self-reported inputs. A Fit Call determines whether a paid Audit is warranted.
             </p>
             <Button
               asChild

@@ -85,8 +85,8 @@ async function sendReportEmail(data: AuditLeadData, insights: AuditInsights, rep
     `Your preliminary PMS Operations Snapshot for ${data.company} is ready.`,
     `View your Snapshot: ${reportUrl}`,
     ``,
-    `Likely discussion area: ${insights.likelyFocus.title}.`,
-    `This free Snapshot is preliminary and does not estimate savings or recommend a build.`,
+    `Where to start: ${insights.likelyFocus.title}.`,
+    `Preliminary and based on what you reported. A 15-minute Fit Call is where it gets tested.`,
     ``,
     insights.likelyFocus.description,
     ``,
@@ -133,7 +133,7 @@ async function sendOwnerNotification(
 <h3>Contact</h3>
 <ul><li><strong>Name:</strong> ${escapeHtml(data.name)}</li><li><strong>Company:</strong> ${escapeHtml(data.company)}</li><li><strong>Email:</strong> ${escapeHtml(data.email)}</li></ul>
 <h3>Snapshot inputs</h3>
-<ul><li><strong>Units / Team:</strong> ${data.units} / ${data.teamSize}</li><li><strong>PM software:</strong> ${escapeHtml(data.pmSoftware)}</li><li><strong>Likely discussion area:</strong> ${escapeHtml(insights.likelyFocus.title)}</li><li><strong>Snapshot:</strong> <a href="${escapeHtml(extras.reportUrl)}">web Snapshot</a></li></ul>
+<ul><li><strong>Units / Team:</strong> ${data.units} / ${data.teamSize}</li><li><strong>PM software:</strong> ${escapeHtml(data.pmSoftware)}</li><li><strong>Where to start:</strong> ${escapeHtml(insights.likelyFocus.title)}</li><li><strong>Snapshot:</strong> <a href="${escapeHtml(extras.reportUrl)}">web Snapshot</a></li></ul>
 <h3>Attribution</h3><p>${escapeHtml(attribution)}</p>
 <h3>Delivery</h3><ul><li><strong>CRM sync:</strong> ${escapeHtml(extras.crmStatus)}</li><li><strong>Report email:</strong> ${escapeHtml(extras.reportEmailStatus)}</li></ul>
 <h3>Next Action</h3><p>${escapeHtml(followUp.reason)}</p>`,

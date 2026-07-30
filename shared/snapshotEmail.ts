@@ -51,12 +51,12 @@ export function buildSnapshotEmailHtml(f: SnapshotEmailFields): string {
         Your preliminary PMS Operations Snapshot for <strong style="color:#111827;">${f.safeCompany}</strong> is ready.
         <a href="${f.safeReportUrl}" style="color:#0F7A55;text-decoration:underline;">View your Snapshot</a>${f.hasPdfAttachment ? ". A PDF copy is attached" : ""}.
       </p>
-      <div style="font-size:10px;color:#6B7280;text-transform:uppercase;letter-spacing:1.2px;margin:0 0 8px 0;">Likely discussion area</div>
-      <div style="background-color:#ffffff;border:1px solid #E5E7EB;border-radius:10px;padding:18px;margin:0 0 20px 0;">
+      <div style="font-size:10px;color:#6B7280;text-transform:uppercase;letter-spacing:1.2px;margin:0 0 8px 0;">Where to start</div>
+      <div style="background-color:#ffffff;border:1px solid #E5E7EB;border-radius:10px;padding:18px;margin:0 0 16px 0;">
         <p style="font-size:15px;font-weight:700;color:#111827;line-height:1.6;margin:0 0 8px 0;">${f.safeFocusTitle}</p>
-        <p style="font-size:14px;color:#6B7280;line-height:1.7;margin:0;">This free Snapshot is preliminary and based on self-reported inputs. It does not estimate savings or recommend a build.</p>
+        <p style="font-size:14px;color:#374151;line-height:1.7;margin:0;">${f.safeFocusDescription}</p>
       </div>
-      <p style="font-size:15px;color:#374151;line-height:1.7;margin:0 0 24px 0;">${f.safeFocusDescription}</p>
+      <p style="font-size:13px;color:#6B7280;line-height:1.6;margin:0 0 24px 0;">Preliminary and based on what you reported. A 15-minute Fit Call is where it gets tested.</p>
       <div style="text-align:center;margin:0 0 22px 0;">
         <a href="${f.safeBookingUrl}" style="display:inline-block;background-color:#0F7A55;color:#ffffff;padding:14px 34px;text-decoration:none;border-radius:999px;font-weight:700;font-size:15px;">Book a 15-minute Fit Call</a>
       </div>
@@ -69,7 +69,7 @@ export function buildSnapshotEmailHtml(f: SnapshotEmailFields): string {
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td style="font-size:11px;color:#6B7280;">veyragroup.ai | (220) 244-4213</td>
-          <td align="right" style="font-size:11px;color:#6B7280;">Preliminary Snapshot | no savings or outcome estimate</td>
+          <td align="right" style="font-size:11px;color:#6B7280;">Free PMS Operations Snapshot</td>
         </tr>
       </table>
     </div>

@@ -188,7 +188,7 @@ const STATIC_PAGES: SeoPage[] = [
     path: "/audit",
     title: "Free PMS Operations Snapshot",
     description:
-      "Get a preliminary PMS Operations Snapshot to identify a likely workflow discussion area before deciding whether a Fit Call is useful.",
+      "Get a preliminary PMS Operations Snapshot to see where your workflow is most likely stalling, then decide whether a Fit Call is useful.",
     type: "website",
   },
   {
@@ -671,7 +671,7 @@ function getStaticSnapshot(pathname: string): SnapshotConfig | null {
           {
             title: "What the Snapshot provides",
             bullets: [
-              "A likely workflow discussion area based on self-reported inputs.",
+              "Where to start, based on what you reported.",
               "The operating facts a Fit Call would check next.",
               "A clear distinction between the free Snapshot and a paid PMS Operations Audit.",
             ],
