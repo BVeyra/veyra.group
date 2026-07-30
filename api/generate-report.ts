@@ -8,6 +8,7 @@ import {
   type AuditLeadData,
 } from "../shared/auditEngine.js";
 import { isValidLeadEmail, normalizeLeadPayload } from "../shared/auditValidation.js";
+import { buildSnapshotEmailHtml } from "../shared/snapshotEmail.js";
 import { buildPDFDocument } from "../shared/auditPdf.js";
 import { PublicReportAbuseControls, verifiedClientIp, verifyPublicReportTurnstile } from "../shared/publicReportSecurity.js";
 import { issueReportToken } from "../server/reportToken.js";
@@ -72,32 +73,11 @@ async function sendReportEmail(data: AuditLeadData, insights: AuditInsights, rep
     console.error("PDF generation failed, sending email without attachment:", pdfErr);
   }
 
-  const html = `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:600px;margin:0 auto;background-color:#0a0a0a;">
-    <div style="padding:28px 32px 20px;border-bottom:1px solid #1a1a1a;">
-      <span style="font-size:16px;font-weight:800;letter-spacing:-0.3px;">
-        <span style="color:#f3f6f4;">Veyra</span><span style="color:#8b938f;font-weight:500;margin-left:6px;">Group</span>
-      </span>
-    </div>
-    <div style="padding:32px;">
-      <p style="font-size:16px;font-weight:600;color:#ffffff;margin:0 0 20px 0;">${safeName},</p>
-      <p style="font-size:15px;color:#9ca3af;line-height:1.7;margin:0 0 20px 0;">
-        Your preliminary PMS Operations Snapshot for <strong style="color:#ffffff;">${safeCompany}</strong> is ready.
-        <a href="${safeReportUrl}" style="color:#5aa98a;text-decoration:underline;">View your Snapshot</a>${pdfBase64 ? ". A PDF copy is attached" : ""}.
-      </p>
-      <div style="background:#121212;border:1px solid #1a1a1a;border-radius:14px;padding:18px;margin:0 0 20px 0;">
-        <div style="font-size:11px;color:#5aa98a;text-transform:uppercase;letter-spacing:1.4px;margin-bottom:8px;">Likely discussion area</div>
-        <p style="font-size:15px;color:#ffffff;line-height:1.7;margin:0 0 8px 0;"><strong>${safeFocusTitle}</strong></p>
-        <p style="font-size:14px;color:#9ca3af;line-height:1.7;margin:0;">This free Snapshot is preliminary and based on self-reported inputs. It does not estimate savings or recommend a build.</p>
-      </div>
-      <p style="font-size:15px;color:#9ca3af;line-height:1.7;margin:0 0 20px 0;">${safeFocusDescription}</p>
-      <div style="text-align:center;margin:0 0 24px 0;">
-        <a href="${safeBookingUrl}" style="display:inline-block;background-color:#0f7a55;color:#ffffff;padding:14px 34px;text-decoration:none;border-radius:999px;font-weight:700;font-size:15px;">Book a 15-minute Fit Call</a>
-      </div>
-      <p style="text-align:center;font-size:14px;color:#9ca3af;line-height:1.6;margin:0 0 24px 0;">
-        Prefer to talk now? Call <a href="tel:+12202444213" style="color:#5aa98a;text-decoration:none;font-weight:600;">(220) 244-4213</a>
-      </p>
-    </div>
-  </div>`;
+  const html = buildSnapshotEmailHtml({
+    safeName, safeCompany, safeReportUrl, safeBookingUrl,
+    safeFocusTitle, safeFocusDescription,
+    hasPdfAttachment: Boolean(pdfBase64),
+  });
 
   const text = [
     `${data.name},`,
